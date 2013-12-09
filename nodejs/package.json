@@ -1,0 +1,12 @@
+﻿{
+	"name"			: "hue-control",
+	"version"		: "0.0.0",
+	"main"			: "server.js",
+	"dependencies"	: {
+		"express"		: "*",
+		"mongoose"  	: "*",
+		"node-hue-api"	: "*",
+		"socket.io"		: "*",
+		"serialport"	: "*"
+	}
+}

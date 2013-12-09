@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="de" ng-app="hueApp">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Socket.IO Test</title>
+	
+	<script src="/js/angular.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/js/app.js"></script>
+	
+</head>
+<body ng-controller="MainCtrl">
+
+<h1>Lights</h1>
+
+<div ng-repeat="(id, light) in state.lights">
+	<h2>{{id}} - {{light.name}}</h2>
+	
+	<div ng-show="light.state.reachable">
+		on: <input type="checkbox" ng-model="light.state.on" ng-change="lights.state(id, 'on', light.state.on)" />
+		
+		<span ng-repeat="val in ['bri', 'hue', 'sat', 'ct']">
+			{{val}} <input type="number" ng-model="light.state[val]" ng-change="lights.state(id, val, light.state[val])" />
+		</span>
+		
+		effect <select ng-model="light.state.effect" ng-change="lights.state(id, 'effect', light.state.effect)">
+			<option>none</option>
+			<option>colorloop</option>
+		</select>
+	</div>
+	<div ng-show="!light.state.reachable">
+		currently unreachable
+	</div>
+</div>
+
+<h1>Scenes</h1>
+
+
+<div ng-repeat="scene in state.scenes">
+	<h2>{{scene._id}} - {{scene.name}}</h2>
+	
+	<!-- anwenden, aktualisieren, löschen, neue Lampe -->
+	
+	<div ng-repeat="light in scene.lights">
+		<h4>{{light.light}} - {{state.lights[light.light].name}}</h4>
+		
+		on: <input type="checkbox" ng-model="light.state.on" />
+		
+		<span ng-repeat="val in ['bri', 'hue', 'sat', 'ct']">
+			{{val}} <input type="number" ng-model="light.state[val]" />
+		</span>
+		
+		effect <select ng-model="light.state.effect">
+			<option>none</option>
+			<option>colorloop</option>
+		</select>
+	</div>
+</div>
+
+
+<!-- neue Szene -->
+
+</body>
+</html>
