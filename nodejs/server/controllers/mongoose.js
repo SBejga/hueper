@@ -5,10 +5,6 @@
 // import models (globally available through mongoose module)
 //
 
-require('../models/scene');
-require('../models/config');
-
-
 var Scene = mongoose.model('Scene');
 var Config = mongoose.model('Config');
 
