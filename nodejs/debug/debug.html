@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<title>Socket.IO Test</title>
+	<title>Debug-Ansicht</title>
 
     <style>
         body {
@@ -30,6 +30,35 @@
 
 <p><code>{{state.socket | json}}</code></p>
 
+<p ng-show="!state.socket.connected && !state.socket.wasConnected">Baue Socket.IO-Verbindung auf...</p>
+<p ng-show="!state.socket.connected && state.socket.wasConnected">Socket.IO-Verbindung unterbrochen!</p>
+
+<!-- user -->
+
+<h1>User</h1>
+
+<p>in <code>state.user</code></p>
+
+<p><code>{{state.user | json}}</code></p>
+
+<form ng-submit="user.login()" ng-show="!state.user.login && state.user.loginPromptReceived">
+
+    <p><b>Nicht eingeloggt!</b></p>
+
+    <p>
+        Passwort:
+        <input type="text" ng-model="user.password" />
+        <input type="submit" value="Login" />
+
+        <span ng-show="state.user.loginWaiting">Überprüfe Passwort...</span>
+        <span ng-show="state.user.loginError">Passwort falsch!</span>
+    </p>
+</form>
+
+<p ng-show="state.user.loginRequired && state.user.login">
+    <button ng-click="user.logout()">Logout</button>
+</p>
+
 <!-- connect -->
 
 <h1>Verbindungen des NodeJS</h1>
@@ -46,8 +75,6 @@
 
 <div ng-repeat="(id, light) in state.lights">
     <h2>{{id}} - {{light.name}}</h2>
-
-    <pre>{{light | json}}</pre>
 
     <div ng-show="light.state.reachable">
         on: <input type="checkbox" ng-model="light.state.on" ng-change="lights.state(id, 'on', light.state.on)" /><br />
@@ -92,6 +119,13 @@
     </div>
 </div>
 -->
+
+
+<!-- complete state -->
+
+<h1>Kompletter state</h1>
+
+<p><pre>{{state | json}}</pre></p>
 
 </body>
 </html>

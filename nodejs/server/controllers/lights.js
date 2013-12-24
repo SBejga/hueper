@@ -10,7 +10,7 @@ var socketListeners = function(socket) {
 
     socket.on('light.state', function(data) {
         app.controllers.hue.setLightState(data);
-        app.controllers.socket.refreshState(socket.broadcast, ['lights.' + data.id + '.state']);
+        app.controllers.socket.refreshState(socket.broadcast.to('login'), ['lights.' + data.id + '.state']);
     });
 
 };

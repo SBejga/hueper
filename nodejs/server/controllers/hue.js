@@ -122,15 +122,18 @@ var registerToBridge = function() {
 
 };
 
+/**
+ * Connect to Hue bridge and check if configurated user is still valid
+ */
 var connectToBridge = function() {
     api = new hue.HueApi(host, app.config.hueUser);
 
-    // check if user is valid
     api.connect()
         .then(function(data) {
 
             // valid user
             if(typeof(data.linkbutton) !== 'undefined') {
+                app.state.connect.hueRegistered = true;
                 refreshState(true);
             }
             // invalid user -> try to register
@@ -155,7 +158,9 @@ var refreshState = function(refreshConnect) {
 	api.getFullState()
 		.then(function(data) {
 			var areas = [];
-			
+
+            cleanHueState(data);
+
 			if(!helpers.equals(data.lights, app.state.lights)) {
 				areas.push('lights');
 				app.state.lights = data.lights;
@@ -180,6 +185,24 @@ var refreshState = function(refreshConnect) {
 		.done();
 };
 
+/**
+ * remove unused values from obtained Hue bridge state
+ * @param state
+ */
+var cleanHueState = function(state) {
+
+    var i;
+
+    // remove xy and pointsymbol from lights
+    for(i in state.lights) {
+        if(state.lights.hasOwnProperty(i)) {
+            delete state.lights[i].state.xy;
+            delete state.lights[i].pointsymbol;
+        }
+    }
+
+};
+
 
 
 //
@@ -189,7 +212,9 @@ var refreshState = function(refreshConnect) {
 var setLightState = function(data) {
 	
 	for(var i in data.state) {
-		app.state.lights[data.id].state[i] = data.state[i];
+        if(data.state.hasOwnProperty(i)) {
+            app.state.lights[data.id].state[i] = data.state[i];
+        }
 	}
 	
 	api.setLightState(data.id, data.state);
