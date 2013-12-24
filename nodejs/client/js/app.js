@@ -1,4 +1,5 @@
-﻿var module = angular.module('hueApp', []);
+﻿var module = angular.module('hueApp', []),
+    scope;
 
 module.factory('socket', function ($rootScope) {
     var socket = io.connect('/');
@@ -26,10 +27,17 @@ module.factory('socket', function ($rootScope) {
 
 module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
 
+    // TODO remove
+    scope = $scope;
+
     //
     // local data model
     //
     $scope.state = {
+        socket: {
+            connected: false,
+            wasConnected: false
+        },
         lights: {},
         groups: {},
         scenes: []
@@ -39,6 +47,17 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
     // event handlers
     //
 
+    // socket connection and errors
+
+    socket.on('connect', function() {
+        $scope.state.socket.connected = true;
+        $scope.state.socket.wasConnected = true;
+    });
+
+    socket.on('disconnect', function() {
+        $scope.state.socket.connected = false;
+    });
+
     // refresh state
 
     socket.on('state', function(data) {
@@ -46,7 +65,11 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
 
         for(i in data) {
             if(i === '') {
-                $scope.state = data[i];
+                for(j in data[i]) {
+                    if(data[i].hasOwnProperty(j)) {
+                        $scope.state[j] = data[i][j];
+                    }
+                }
             }
             else {
                 path = i.split('.');
@@ -85,6 +108,7 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
     // scene control
     // TODO dummy
 
+    /*
     $scope.scenes = {
 
         save: function() {
@@ -110,5 +134,5 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
         }
 
     };
-    
+    */
 }]);

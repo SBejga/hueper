@@ -4,7 +4,17 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<title>Socket.IO Test</title>
-	
+
+    <style>
+        body {
+            font-family:Sans-serif;
+        }
+
+        h1 {
+            border-bottom:1px solid #333;
+        }
+    </style>
+
 	<script src="/js/angular.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/js/app.js"></script>
@@ -12,54 +22,76 @@
 </head>
 <body ng-controller="MainCtrl">
 
-<h1>Lights</h1>
+<!-- socket -->
+
+<h1>Socket.IO-Status</h1>
+
+<p>in <code>state.socket</code></p>
+
+<p><code>{{state.socket | json}}</code></p>
+
+<!-- connect -->
+
+<h1>Verbindungen des NodeJS</h1>
+
+<p>Status aller Verbindungen/Logins in <code>state.connect</code></p>
+
+<p><code>{{state.connect | json}}</code></p>
+
+<!-- lights -->
+
+<h1>Lichter einzeln steuern</h1>
+
+<p>Status in <code>state.lights</code></p>
 
 <div ng-repeat="(id, light) in state.lights">
-	<h2>{{id}} - {{light.name}}</h2>
-	
-	<div ng-show="light.state.reachable">
-		on: <input type="checkbox" ng-model="light.state.on" ng-change="lights.state(id, 'on', light.state.on)" />
-		
-		<span ng-repeat="val in ['bri', 'hue', 'sat', 'ct']">
-			{{val}} <input type="number" ng-model="light.state[val]" ng-change="lights.state(id, val, light.state[val])" />
-		</span>
-		
-		effect <select ng-model="light.state.effect" ng-change="lights.state(id, 'effect', light.state.effect)">
-			<option>none</option>
-			<option>colorloop</option>
-		</select>
-	</div>
-	<div ng-show="!light.state.reachable">
-		currently unreachable
-	</div>
+    <h2>{{id}} - {{light.name}}</h2>
+
+    <pre>{{light | json}}</pre>
+
+    <div ng-show="light.state.reachable">
+        on: <input type="checkbox" ng-model="light.state.on" ng-change="lights.state(id, 'on', light.state.on)" /><br />
+
+        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-500)'}">
+            {{name}} <code>[{{val}}]</code> <input type="number" ng-model="light.state[val]" ng-change="lights.state(id, val, light.state[val])" /><br />
+        </span>
+
+        effect <select ng-model="light.state.effect" ng-change="lights.state(id, 'effect', light.state.effect)">
+            <option>none</option>
+            <option>colorloop</option>
+        </select>
+    </div>
+
+    <div ng-show="!light.state.reachable">
+        Lampe ausgeschaltet oder nicht in Reichweite
+    </div>
+
 </div>
 
+<!--
 <h1>Scenes</h1>
 
 
 <div ng-repeat="scene in state.scenes">
-	<h2>{{scene._id}} - {{scene.name}}</h2>
-	
-	<!-- anwenden, aktualisieren, löschen, neue Lampe -->
-	
-	<div ng-repeat="light in scene.lights">
-		<h4>{{light.light}} - {{state.lights[light.light].name}}</h4>
-		
-		on: <input type="checkbox" ng-model="light.state.on" />
-		
-		<span ng-repeat="val in ['bri', 'hue', 'sat', 'ct']">
-			{{val}} <input type="number" ng-model="light.state[val]" />
-		</span>
-		
-		effect <select ng-model="light.state.effect">
-			<option>none</option>
-			<option>colorloop</option>
-		</select>
-	</div>
+    <h2>{{scene._id}} - {{scene.name}}</h2>
+
+
+    <div ng-repeat="light in scene.lights">
+        <h4>{{light.light}} - {{state.lights[light.light].name}}</h4>
+
+        on: <input type="checkbox" ng-model="light.state.on" />
+
+        <span ng-repeat="val in ['bri', 'hue', 'sat', 'ct']">
+            {{val}} <input type="number" ng-model="light.state[val]" />
+        </span>
+
+        effect <select ng-model="light.state.effect">
+            <option>none</option>
+            <option>colorloop</option>
+        </select>
+    </div>
 </div>
-
-
-<!-- neue Szene -->
+-->
 
 </body>
 </html>
