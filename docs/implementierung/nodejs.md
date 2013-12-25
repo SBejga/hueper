@@ -55,7 +55,17 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   name
         -   modelid
         -   swversion
-    -   **groups**
+    -   **groups**: Liste der Gruppen, ID als Schlüssel
+        -   name
+        -   lights: Array aller zur Gruppe gehörigen Lampen, IDs als Strings
+        -   action: Letzter der Gruppe zugewiesener Status
+            -   on
+            -   bri
+            -   hue
+            -   sat
+            -   ct
+            -   effect
+            -   colormode
     -   **scenes**
     -   **config**: Konfiguration der Hue-Bridge
         Gefiltertes Original-Output der Hue Bridge, Details zu den Werten unter http://developers.meethue.com/4_configurationapi.html#42_get_configuration
@@ -88,12 +98,18 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
 -   **controllers**
     -   **hue**: Baut Verbindung zur Hue Bridge auf, meldet sich dort an und stellt die node-hue-api bereit
         -   **getApi()**: Liefert die node-hue-api
-        -   **setLightState(id, state)**: Status einer Lampe ändern
-    -   **lights**: Steuerung der Lampen
+        -   **setLightState(id, state, broadcast)**: Status einer Lampe ändern
+        -   **setGroupLightState(id, state, broadcast)**: Status einer Gruppe ändern
     -   **mongoose**: Baut Verbindung zur MongoDB auf und liest die Daten in den app.state-Cache
     -   **socket**: Handling von Socket.IO-Verbindungen und Benutzer-Login
         -   **refreshState(socket, areas)**: An bestimmte Clients bestimmte Teile des app.state-Objekts senden
+        -   **deleteFromState(socket, areas)**: Bestimmte Teile des app.state-Objekts bei bestimmten Clients löschen
         -   **addSocketListener(listener)**: Hook für andere Controller, um bestimmte Socket.IO-Nachrichten abzufangen
+        -   **broadcast(data)**: Nachricht an alle eingeloggten Benutzer schicken
+        -   **broadcastSocket(socket, data)**: Nachricht an alle eingeloggten Benutzer außer den des Sockets schicken
+        -   **getBroadcastSocket(socket)**: Alle Sockets von eingeloggten Benutzern außer dem übergebenen erhalten
+    -   **lights**: Steuerung der Lampen
+    -   **groups**: Steuerung der Gruppen
 
 
 ## Controller hinzufügen

@@ -1,8 +1,4 @@
-﻿/*
- * Light controller
- */
-
-var app;
+﻿var app;
 
 var socketListeners = function(socket) {
 
@@ -39,12 +35,12 @@ var socketListeners = function(socket) {
         // change single light
         else {
             app.controllers.hue.setLightState(data.id, data.state);
-            app.controllers.socket.refreshState(socket.broadcast.to('login'), ['lights.' + data.id + '.state']);
+            app.controllers.socket.refreshState(app.controllers.socket.getBroadcastSocket(socket), ['lights.' + data.id + '.state']);
         }
     });
 
     // search for new lights
-    socket.on('light.search', function(data) {
+    socket.on('light.search', function() {
         console.log('Search for new lights initiated');
         app.controllers.hue.getApi().searchForNewLights();
     });
@@ -54,7 +50,7 @@ var socketListeners = function(socket) {
         console.log('renaming light ' + data.id + ' to ' + data.name);
         app.controllers.hue.getApi().setLightName(data.id, data.name);
         app.state.lights[data.id].name = data.name;
-        app.controllers.socket.refreshState(socket.broadcast.to('login'), ['lights.' + data.id + '.name']);
+        app.controllers.socket.refreshState(app.controllers.socket.getBroadcastSocket(socket), ['lights.' + data.id + '.name']);
     });
 
 };

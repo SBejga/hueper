@@ -91,7 +91,7 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
         }
     });
 
-    // refresh state
+    // state management
 
     socket.on('state', function(data) {
         var i, j, statePart, path;
@@ -119,9 +119,47 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
         }
     });
 
+    socket.on('state.delete', function(data) {
+        var i, j, el, statePart, path;
+
+        for(i = 0; i < data.length; i++) {
+            el = data[i];
+
+            path = el.split('.');
+            statePart = $scope.state;
+
+            for(j = 0; j < path.length-1; j++) {
+                statePart = statePart[path[j]];
+            }
+
+            delete statePart[path[path.length-1]];
+        }
+    });
+
     //
     // methods
     //
+
+    // user and login control
+
+    $scope.user = {
+
+        password: '',
+
+        login: function() {
+            $scope.state.user.loginWaiting = true;
+            $scope.state.user.loginError = false;
+            socket.emit('login', {
+                password: $scope.user.password
+            });
+        },
+
+        logout: function() {
+            localStorage.removeItem('huePassword');
+            window.location.reload();
+        }
+
+    };
 
     // light control
 
@@ -181,23 +219,113 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
     
     };
 
-    // user and login control
+    // group control
 
-    $scope.user = {
+    $scope.groups = {
 
-        password: '',
+        // placeholder for form data
+        forms: {
 
-        login: function() {
-            $scope.state.user.loginWaiting = true;
-            $scope.state.user.loginError = false;
-            socket.emit('login', {
-                password: $scope.user.password
+            // create group form
+            create: {
+                name: '',
+                lights: []
+            }
+        },
+
+        /**
+         * change state for group
+         * @param id
+         * @param {array} state
+         */
+        state: function(id, state) {
+            socket.emit('group.state', {
+                id: id,
+                state: state
             });
         },
 
-        logout: function() {
-            localStorage.removeItem('huePassword');
-            window.location.reload();
+        /**
+         * Create new group and reset create form
+         * @param name
+         * @param {array} lights IDs as integers!
+         */
+        create: function(name, lights) {
+
+            socket.emit('group.create', {
+                name: name,
+                lights: lights
+            });
+
+            // reset form
+            $scope.groups.forms.create.name = '';
+            $scope.groups.forms.create.lights = [];
+        },
+
+        /**
+         * update group
+         * @param id
+         * @param name
+         * @param {array} lights IDs as strings!
+         */
+        update: function(id, name, lights) {
+            socket.emit('group.update', {
+                id: id,
+                name: name,
+                lights: lights
+            });
+        },
+
+        /**
+         * delete group
+         * @param id
+         */
+        remove: function(id) {
+            socket.emit('group.remove', id);
+            delete $scope.state.groups[id];
+        }
+
+    };
+
+    // helper functions
+    // checkbox list to array conversion
+
+    $scope.helpers = {
+
+        /**
+         * toggle add/remove element to array
+         * @param arr
+         * @param el
+         * @param {boolean} numeric convert element to integer
+         */
+        toggleList: function(arr, el, numeric) {
+
+            if(numeric) {
+                el = parseInt(el);
+            }
+
+            if(arr.indexOf(el) === -1) {
+                arr.push(el);
+            }
+            else {
+                arr.splice(arr.indexOf(el), 1);
+            }
+        },
+
+        /**
+         * Check if array contains element
+         * @param arr
+         * @param el
+         * @param {boolean} numeric convert element to integer
+         * @returns {boolean}
+         */
+        listChecked: function(arr, el, numeric) {
+
+            if(numeric) {
+                el = parseInt(el);
+            }
+
+            return (arr.indexOf(el) !== -1);
         }
 
     };

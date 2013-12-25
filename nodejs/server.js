@@ -58,6 +58,7 @@ app.controllers.hue = require('./server/controllers/hue')(app);
 // functional
 
 app.controllers.lights = require('./server/controllers/lights')(app);
+app.controllers.groups = require('./server/controllers/groups')(app);
 
 //
 // Debug REPL console

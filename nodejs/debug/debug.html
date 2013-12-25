@@ -106,6 +106,57 @@
     <button ng-click="lights.stateAll({on: false})">Alle aus</button>
 </p>
 
+<h1>Gruppen</h1>
+
+<div ng-repeat="(id, group) in state.groups">
+    <h2>{{id}} - {{group.name}}</h2>
+
+    <p>
+        <b>Lampen</b>:
+
+        <span ng-repeat="light in group.lights">
+            {{light}}-{{state.lights[light].name}}
+        </span>
+
+        <br />
+
+        Letzte Aktion: <code>{{group.action}}</code>
+
+        <br />
+
+        <form ng-submit="groups.update(id, group.name, group.lights)">
+            <input type="text" ng-model="group.name" required />
+
+            <span ng-repeat="(lid, light) in state.lights">
+                <input type="checkbox" ng-checked="helpers.listChecked(state.groups[id].lights, lid)" ng-click="helpers.toggleList(state.groups[id].lights, lid)" /> {{lid}}
+            </span>
+
+            <input type="submit" value="speichern" />
+        </form>
+
+        <button ng-click="groups.remove(id)">Gruppe löschen</button>
+
+        <button ng-click="groups.state(id, {'on': true})">Gruppe an</button>
+        <button ng-click="groups.state(id, {'on': false})">Gruppe aus</button>
+
+    </p>
+
+</div>
+
+<h2>Gruppe erstellen</h2>
+
+<form ng-submit="groups.create(groups.forms.create.name, groups.forms.create.lights)">
+    <input type="text" ng-model="groups.forms.create.name" required />
+
+    <span ng-repeat="(id, light) in state.lights">
+        <input type="checkbox" ng-checked="helpers.listChecked(groups.forms.create.lights, id, true)" ng-click="helpers.toggleList(groups.forms.create.lights, id, true)" /> {{id}}
+    </span>
+
+    <input type="submit" value="erstellen" ng-disabled="!groups.forms.create.lights.length" />
+
+    {{groups.forms.create}}
+</form>
+
 <!--
 <h1>Scenes</h1>
 

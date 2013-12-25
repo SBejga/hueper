@@ -110,9 +110,6 @@ var acceptSocket = function(socket) {
     refreshState(socket);
 };
 
-var addSocketListener = function(listener) {
-    socketListeners.push(listener);
-};
 
 /**
  * Send specified parts of the application state to specified clients
@@ -146,6 +143,17 @@ var refreshState = function(socket, area) {
 	channel.emit('state', message);
 };
 
+/**
+ * Remove specified parts of the client-side application state
+ * @param socket specified socket to send state to, all sockets if false
+ * @param area array of paths in app.state object that are to be deleted
+ */
+var deleteFromState = function(socket, area) {
+    var channel = socket || io.sockets.in('login');
+
+    channel.emit('state.delete', area);
+};
+
 
 module.exports = function(globalApp) {
 
@@ -156,6 +164,39 @@ module.exports = function(globalApp) {
 
     return {
         refreshState: refreshState,
-        addSocketListener: addSocketListener
+        deleteFromState: deleteFromState,
+
+        /**
+         * add listener that is applied to all newly logged in sockets
+         * @param {function} listener
+         */
+        addSocketListener: function(listener) {
+            socketListeners.push(listener);
+        },
+
+        /**
+         * Send broadcast to all logged in users
+         * @param data
+         */
+        broadcast: function(data) {
+            io.sockets.in('login').emit(data);
+        },
+
+        /**
+         * Send broadcast to all logged in users except the parameter
+         */
+        broadcastSocket: function(socket, data) {
+            socket.broadcast.to('login').emit(data);
+        },
+
+        /**
+         * get all sockets for logged in users except the parameter
+         * @param socket
+         * @returns {socket}
+         */
+        getBroadcastSocket: function(socket) {
+            return socket.broadcast.to('login');
+        }
+
     };
 };

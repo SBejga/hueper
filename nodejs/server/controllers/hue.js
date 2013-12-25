@@ -227,6 +227,15 @@ var cleanHueState = function(state) {
         }
     }
 
+    // remove xy from groups.action
+    for(i in state.groups) {
+        if(state.groups.hasOwnProperty(i)) {
+            if(state.groups[i].action) {
+                delete state.groups[i].action.xy;
+            }
+        }
+    }
+
     // prevent config from always being recognized as changed
     // remove UTC and last used of current user
     delete state.config.UTC;
@@ -240,8 +249,16 @@ var cleanHueState = function(state) {
 // Exported functions
 //
 
-var setLightState = function(id, state) {
+/**
+ * modify state of single light
+ * @param id
+ * @param state
+ * @param {boolean} broadcast broadcast changes to all users
+ */
+var setLightState = function(id, state, broadcast) {
     var i;
+
+    api.setLightState(id, state);
 
 	for(i in state) {
         if(state.hasOwnProperty(i)) {
@@ -249,7 +266,46 @@ var setLightState = function(id, state) {
         }
 	}
 
-	api.setLightState(id, state);
+    if(broadcast) {
+        app.controllers.socket.refreshState(false, ['lights.' + id + '.state']);
+    }
+};
+
+/**
+ * modify group light state
+ * @param id
+ * @param state
+ * @param {boolean} broadcast broadcast changes to all users
+ */
+var setGroupLightState = function(id, state, broadcast) {
+    var areas = ['groups.' + id + '.action'],
+        i, j;
+
+    if(typeof(app.state.groups[id]) === 'undefined') {
+        return;
+    }
+
+    api.setGroupLightState(id, state);
+
+    for(j in state) {
+        if(state.hasOwnProperty(j)) {
+            app.state.groups[id].action[j] = state[j];
+        }
+    }
+
+    for(i = 0; i < app.state.groups[id].lights.length; i++) {
+        for(j in state) {
+            if(state.hasOwnProperty(j)) {
+                app.state.lights[app.state.groups[id].lights[i]].state[j] = state[j];
+            }
+        }
+
+        areas.push('lights.' + app.state.groups[id].lights[i] + '.state');
+    }
+
+    if(broadcast) {
+        app.controllers.socket.refreshState(false, areas);
+    }
 };
 
 
@@ -263,6 +319,8 @@ module.exports = function(globalApp) {
         getApi: function() {
             return api;
         },
-		setLightState: setLightState
+        errorHandler: errorHandler,
+		setLightState: setLightState,
+        setGroupLightState: setGroupLightState
 	};
 };

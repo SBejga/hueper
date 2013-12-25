@@ -52,7 +52,17 @@
                 (wurde der Benutzer über das Update benachrichtigt?)
         -   linkbutton
         -   portalservices
-    -   groups
+    -   **groups**: Liste der Gruppen, ID als Schlüssel
+        -   name
+        -   lights: Array aller zur Gruppe gehörigen Lampen, IDs als Strings
+        -   action: Letzter der Gruppe zugewiesener Status
+            -   on
+            -   bri
+            -   hue
+            -   sat
+            -   ct
+            -   effect
+            -   colormode
     -   scenes
 -   **lights**: Steuerung der Lampen
     -   **state(id, state)**: Status einer Lampe verändern
@@ -60,7 +70,30 @@
     -   **stateAll(state)**: Status aller Lampen verändern
     -   **search()**: Suche nach neuen Lampen anstoßen
     -   **setName(id, name)**: Name einer Lampe ändern
+-   **groups**: Steuerung der Gruppen
+    -   **forms**: Platzhalter für Formulare
+        -   **create**: Formular zum Erstellen einer Gruppe
+            -   name
+            -   lights: Array
+    -   **state(id, state)**: Status einer Gruppe verändern
+    -   **create(name, lights)**: Gruppe erstellen und Formular zurücksetzen; IDs in lights als Integers!
+    -   **update(id, name, lights)**: Gruppe bearbeiten; IDs in lights als Strings!
+    -   **remove(id)**: Gruppe löschen
 -   **user**: User- und Login-Steuerung
     -   **password**: Ins Login-Formular eingegebenes Passwort
     -   **login()**
     -   **logout()**
+-   **helpers**: Hilfs-Funktionen
+    -   **toggleList(arr, el, numeric)**: Element in ein Array einfügen/entfernen; z.B. zum Erstellen eines Arrays aus mehreren Checkboxen
+    -   **listChecked(arr, el, numeric)**: Überprüfen, ob ein Element in einem Array vorhanden ist
+
+
+## Besondere Konstrukte
+
+Mehrere Checkboxen zum Erstellen eines Arrays nutzen:
+
+```html
+<span ng-repeat="(id, light) in state.lights">
+    <input type="checkbox" ng-checked="helpers.listChecked(groups.forms.create.lights, id, true)" ng-click="helpers.toggleList(groups.forms.create.lights, id, true)" /> {{id}}
+</span>
+```

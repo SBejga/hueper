@@ -13,6 +13,8 @@
 -   **state**: Übermitteln von geänderten Bereichen des app.state-Objekts
     `{ <Pfad in state>: <Objekt>, ... }`
     Für den Abgleich auf der Wurzel-Ebene des app.state-Objekts bleibt der Pfad leer
+-   **state.delete**: Bereiche des app.state-Objekts löschen
+    `[ <Pfad in state>, ... ]`
 
 ## Nachrichten vom Client (nach Login)
 
@@ -21,10 +23,24 @@
 -   **light.search**: Nach neuen Lampen suchen (true)
 -   **light.name**: Lampe umbenennen
     `{ id: ..., name: ... }`
+-   **group.state**: Status einer Gruppe verändern
+    `{ id: ..., state: { ... } }`
+-   **group.create**: Gruppe erstellen
+    `{ name: ..., lights: [ 1, ...] }`
+-   **group.update**: Gruppe bearbeiten
+    `{ id: ..., name: ..., lights: [ "1", ... ] }`
+-   **group.remove**: Gruppe löschen
+    `id`
 
 ## Broadcasts an eingeloggte User
 
 ```js
-app.server.io.sockets.in('login').emit(...);
-socket.broadcast.to('login').emit(...);
+app.controllers.socket.broadcast(data);
+app.controllers.socket.broadcastSocket(socket, data);
+```
+
+Alle eingeloggten Sockets außer einem erhalten:
+
+```js
+app.controllers.socket.getBroadcastSocket(socket)
 ```
