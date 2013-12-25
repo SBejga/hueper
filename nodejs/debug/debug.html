@@ -69,21 +69,26 @@
 
 <!-- lights -->
 
-<h1>Lichter einzeln steuern</h1>
+<h1>Lichter</h1>
 
 <p>Status in <code>state.lights</code></p>
 
 <div ng-repeat="(id, light) in state.lights">
     <h2>{{id}} - {{light.name}}</h2>
 
+    <form ng-submit="lights.setName(id, light.name)">
+        <input type="text" ng-model="light.name" />
+        <input type="submit" value="umbenennen" />
+    </form>
+
     <div ng-show="light.state.reachable">
-        on: <input type="checkbox" ng-model="light.state.on" ng-change="lights.state(id, 'on', light.state.on)" /><br />
+        on: <input type="checkbox" ng-model="light.state.on" ng-change="lights.state(id, {'on': light.state.on})" /><br />
 
         <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-500)'}">
-            {{name}} <code>[{{val}}]</code> <input type="number" ng-model="light.state[val]" ng-change="lights.state(id, val, light.state[val])" /><br />
+            {{name}} <code>[{{val}}]</code> <input type="number" ng-model="light.state[val]" ng-change="lights.stateAttribute(id, val, light.state[val])" /><br />
         </span>
 
-        effect <select ng-model="light.state.effect" ng-change="lights.state(id, 'effect', light.state.effect)">
+        effect <select ng-model="light.state.effect" ng-change="lights.state(id, {'effect': light.state.effect})">
             <option>none</option>
             <option>colorloop</option>
         </select>
@@ -94,6 +99,12 @@
     </div>
 
 </div>
+
+<p>
+    <button ng-click="lights.search()">Nach neuen Lampen suchen</button>
+    <button ng-click="lights.stateAll({on: true})">Alle an</button>
+    <button ng-click="lights.stateAll({on: false})">Alle aus</button>
+</p>
 
 <!--
 <h1>Scenes</h1>

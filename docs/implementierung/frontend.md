@@ -28,10 +28,38 @@
         -   name
         -   modelid
         -   swversion
+    -   **config**: Konfiguration der Hue-Bridge
+        Gefiltertes Original-Output der Hue Bridge, Details zu den Werten unter http://developers.meethue.com/4_configurationapi.html#42_get_configuration
+        -   name
+        -   mac
+        -   dhcp
+        -   ipaddress
+        -   netmask
+        -   gateway
+        -   proxyaddress
+        -   proxyport
+        -   whitelist: Registrierte User, Name als Schlüssel
+            -   name
+            -   create data
+            -   last use date (nicht beim NodeJS-User)
+        -   swversion
+        -   swupdate
+            -   updatestate
+                (0: kein Update, 1: verfügbar, 2: heruntergeladen und anwendbar, 3: Installation)
+            -   url
+            -   text
+            -   notify
+                (wurde der Benutzer über das Update benachrichtigt?)
+        -   linkbutton
+        -   portalservices
     -   groups
     -   scenes
 -   **lights**: Steuerung der Lampen
-    -   **state(id, key, value)**: Einzelnen Wert einer Lampe verändern
+    -   **state(id, state)**: Status einer Lampe verändern
+    -   **stateAttribute(id, key, val)**: Einzelnes Status-Attribut einer Lampe verändern
+    -   **stateAll(state)**: Status aller Lampen verändern
+    -   **search()**: Suche nach neuen Lampen anstoßen
+    -   **setName(id, name)**: Name einer Lampe ändern
 -   **user**: User- und Login-Steuerung
     -   **password**: Ins Login-Formular eingegebenes Passwort
     -   **login()**

@@ -127,15 +127,56 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
 
     $scope.lights = {
 
-        state: function(id, key, value) {
-            var data = {
+        /**
+         * Change state attributes of a light
+         * @param {integer} id 0 for all lights
+         * @param {object} state
+         */
+        state: function(id, state) {
+            socket.emit('light.state', {
                 id: id,
-                state: {}
-            };
-            
-            data.state[key] = value;
-            
-            socket.emit('light.state', data);
+                state: state
+            });
+        },
+
+        /**
+         * Change single state attribute of a light
+         * @param id
+         * @param key
+         * @param val
+         */
+        stateAttribute: function(id, key, val) {
+            var state = {};
+            state[key] = val;
+
+            $scope.lights.state(id, state);
+        },
+
+        /**
+         * Change state attributes of all lights
+         * @param {object} state
+         */
+        stateAll: function(state) {
+            $scope.lights.state(0, state);
+        },
+
+        /**
+         * Search for new lights
+         */
+        search: function() {
+            socket.emit('light.search', true);
+        },
+
+        /**
+         * Rename a light
+         * @param id
+         * @param name
+         */
+        setName: function(id, name) {
+            socket.emit('light.name', {
+                id: id,
+                name: name
+            });
         }
     
     };

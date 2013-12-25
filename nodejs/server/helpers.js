@@ -27,7 +27,7 @@ var objectSize = function(o) {
  * @param {object} b
  * @return {boolean}
  */
-var equals = function(a,b) {
+var equals = function(a, b) {
 	if(typeof(a) !== typeof(b)) {
 		return false;
 	}
@@ -51,4 +51,29 @@ var equals = function(a,b) {
 	return true;
 };
 
+/**
+ * Compares two objects only based on a set of root-level properties
+ * @param a
+ * @param b
+ * @param {array} props
+ * @returns {boolean}
+ */
+var equalsProperties = function(a, b, props) {
+    var len = props.length,
+        i;
+
+    if(typeof(a) !== 'object' || typeof(props) !== 'object' || typeof(a) !== typeof(b)) {
+        return false;
+    }
+
+    for(i = 0; i < len; i++) {
+        if(a[i] !== b[i]) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
 module.exports.equals = equals;
+module.exports.equalsProperties = equalsProperties;

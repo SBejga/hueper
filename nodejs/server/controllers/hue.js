@@ -157,18 +157,44 @@ var refreshState = function(refreshConnect) {
 	
 	api.getFullState()
 		.then(function(data) {
-			var areas = [];
+			var areas = [],
+                i;
 
+            // remove unused properties
             cleanHueState(data);
 
-			if(!helpers.equals(data.lights, app.state.lights)) {
-				areas.push('lights');
-				app.state.lights = data.lights;
-			}
+
+            // look for changes
+
+            for(i in data.lights) {
+                if(data.lights.hasOwnProperty(i)) {
+
+                    // new or changed light
+                    if(!helpers.equalsProperties(data.lights[i], app.state.lights[i], ['type', 'name', 'modelid', 'swversion'])) {
+                        areas.push('lights.' + i);
+                        app.state.lights[i] = data.lights[i];
+                    }
+
+                    // light state changed
+                    else if(!helpers.equals(data.lights[i].state, app.state.lights[i].state)) {
+                        areas.push('lights.' + i + '.state');
+                        app.state.lights[i].state = data.lights[i].state;
+                    }
+
+                }
+            }
+
 			if(!helpers.equals(data.groups, app.state.groups)) {
 				areas.push('groups');
 				app.state.groups = data.groups;
 			}
+
+            if(!helpers.equals(data.config, app.state.config)) {
+                areas.push('config');
+                app.state.config = data.config;
+            }
+
+            // also push connected state when bridge has connected
 			if(refreshConnect) {
 				areas.push('connect');
 			}
@@ -201,6 +227,11 @@ var cleanHueState = function(state) {
         }
     }
 
+    // prevent config from always being recognized as changed
+    // remove UTC and last used of current user
+    delete state.config.UTC;
+    delete state.config.whitelist[app.config.hueUser]['last use date'];
+
 };
 
 
@@ -209,15 +240,16 @@ var cleanHueState = function(state) {
 // Exported functions
 //
 
-var setLightState = function(data) {
-	
-	for(var i in data.state) {
-        if(data.state.hasOwnProperty(i)) {
-            app.state.lights[data.id].state[i] = data.state[i];
+var setLightState = function(id, state) {
+    var i;
+
+	for(i in state) {
+        if(state.hasOwnProperty(i)) {
+            app.state.lights[id].state[i] = state[i];
         }
 	}
-	
-	api.setLightState(data.id, data.state);
+
+	api.setLightState(id, state);
 };
 
 

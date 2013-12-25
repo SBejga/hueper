@@ -58,3 +58,19 @@ app.controllers.hue = require('./server/controllers/hue')(app);
 // functional
 
 app.controllers.lights = require('./server/controllers/lights')(app);
+
+//
+// Debug REPL console
+//
+
+var webrepl = require('node-web-repl');
+
+global.app = app;
+
+// setup your app as normal
+webrepl.createServer({
+    username: 'admin',
+    password: 'admin',
+    port: 11911,
+    host: '127.0.0.1'
+});

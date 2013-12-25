@@ -2,7 +2,7 @@
 
 ## Module / Dependencies
 
-Installation über `npm install` im Projekt-Root
+Installation über `npm install` im Projekt-Root, aktualisieren über `npm update`
 
 -   **express**: Web-Server
     http://expressjs.com/
@@ -14,6 +14,8 @@ Installation über `npm install` im Projekt-Root
     http://socket.io/
 -   **serialport**: Kommunkation mit dem Arduino
     https://github.com/voodootikigod/node-serialport
+-   **node-web-repl**: Realtime-Remote-Debugging
+    https://npmjs.org/package/node-web-repl
 
 ## Struktur
 
@@ -29,6 +31,8 @@ Installation über `npm install` im Projekt-Root
 ## Globales app-Objekt
 
 -   **config**: Aus der MongoDB ausgelesene Konfiguration (*Config*-Model)
+    -   **hueUser**: Username zur Anmeldung an der Hue-Bridge (noch nicht registriert, wenn Eintrag fehlt)
+    -   **password**: Applikations-Passwort (kein Passwort, wenn Eintrag fehlt)
 -   **state**: Aktueller Status der Anwendung
     -   **connect**: Verbindung zu externen Komponenten (boolean)
         -   **mongodb**: Verbindung mit der MongoDB
@@ -53,6 +57,30 @@ Installation über `npm install` im Projekt-Root
         -   swversion
     -   **groups**
     -   **scenes**
+    -   **config**: Konfiguration der Hue-Bridge
+        Gefiltertes Original-Output der Hue Bridge, Details zu den Werten unter http://developers.meethue.com/4_configurationapi.html#42_get_configuration
+        -   name
+        -   mac
+        -   dhcp
+        -   ipaddress
+        -   netmask
+        -   gateway
+        -   proxyaddress
+        -   proxyport
+        -   whitelist: Registrierte User, Name als Schlüssel
+            -   name
+            -   create data
+            -   last use date (nicht beim NodeJS-User)
+        -   swversion
+        -   swupdate
+            -   updatestate
+                (0: kein Update, 1: verfügbar, 2: heruntergeladen und anwendbar, 3: Installation)
+            -   url
+            -   text
+            -   notify
+                (wurde der Benutzer über das Update benachrichtigt?)
+        -   linkbutton
+        -   portalservices
 -   **server**
     -   **express**: Express-Server
     -   **http**: HTTP-Server zum Verbinden von Express und Socket.IO
@@ -60,7 +88,7 @@ Installation über `npm install` im Projekt-Root
 -   **controllers**
     -   **hue**: Baut Verbindung zur Hue Bridge auf, meldet sich dort an und stellt die node-hue-api bereit
         -   **getApi()**: Liefert die node-hue-api
-        -   **setLightState(data)**: Status einer Lampe ändern (id-Property im Objekt)
+        -   **setLightState(id, state)**: Status einer Lampe ändern
     -   **lights**: Steuerung der Lampen
     -   **mongoose**: Baut Verbindung zur MongoDB auf und liest die Daten in den app.state-Cache
     -   **socket**: Handling von Socket.IO-Verbindungen und Benutzer-Login

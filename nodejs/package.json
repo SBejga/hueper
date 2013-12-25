@@ -7,6 +7,7 @@
 		"mongoose"  	: "*",
 		"node-hue-api"	: "*",
 		"socket.io"		: "*",
-		"serialport"	: "*"
+		"serialport"	: "*",
+        "node-web-repl" : "*"
 	}
 }

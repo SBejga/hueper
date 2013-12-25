@@ -16,8 +16,11 @@
 
 ## Nachrichten vom Client (nach Login)
 
--   **light.state**: Ändern eines Wertes einer Lampe
+-   **light.state**: Ändern von Werten einer Lampe / allen Lampen (id 0)
     `{ id: ..., state: { ... } }`
+-   **light.search**: Nach neuen Lampen suchen (true)
+-   **light.name**: Lampe umbenennen
+    `{ id: ..., name: ... }`
 
 ## Broadcasts an eingeloggte User
 
