@@ -4,13 +4,13 @@ var socketListeners = function(socket) {
 
     // change group state
     socket.on('group.state', function(data) {
-        console.log('change group state: ', data);
+        console.log('[groups] Change group state: ', data);
         app.controllers.hue.setGroupLightState(data.id, data.state, true);
     });
 
     // create group
     socket.on('group.create', function(data) {
-        console.log('create group: ', data);
+        console.log('[groups] Create group: ', data);
 
         app.controllers.hue.getApi().createGroup(data.name, data.lights)
             .then(function(result) {
@@ -33,7 +33,7 @@ var socketListeners = function(socket) {
 
     // update group
     socket.on('group.update', function(data) {
-        console.log('update group: ', data);
+        console.log('[groups] Update group: ', data);
 
         if(typeof(app.state.groups[data.id]) === 'undefined') {
             console.log('group does not exist!');
@@ -66,7 +66,7 @@ var socketListeners = function(socket) {
 
     // remove group
     socket.on('group.remove', function(id) {
-        console.log('remove group ' + id);
+        console.log('[groups] Remove group ' + id);
 
         app.controllers.hue.getApi().deleteGroup(id);
         delete app.state.groups[id];

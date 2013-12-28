@@ -15,9 +15,21 @@
     Für den Abgleich auf der Wurzel-Ebene des app.state-Objekts bleibt der Pfad leer
 -   **state.delete**: Bereiche des app.state-Objekts löschen
     `[ <Pfad in state>, ... ]`
+-   **config.password**: Antwort bei der Passwort-Änderung
+    `false` bei Fehlschlag, `{ password: ... }` sonst
 
 ## Nachrichten vom Client (nach Login)
 
+-   **config.deleteUser**: Benutzer von der Bridge löschen
+    `{ id: ... }`
+-   **config.pressLinkButton**: Link-Button der Bridge programmatisch drücken
+    `true`
+-   **config.password**: Passwort ändern
+    `{ oldPassword: ..., newPassword: ... }`
+-   **config.change**: Anwendungs-Konfiguration ändern
+    `{ <Name>: <Wert>, ... }`
+-   **config.firmware**: Firmware-Update starten
+    `true`
 -   **light.state**: Ändern von Werten einer Lampe / allen Lampen (id 0)
     `{ id: ..., state: { ... } }`
 -   **light.search**: Nach neuen Lampen suchen (true)

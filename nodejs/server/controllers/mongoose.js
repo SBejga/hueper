@@ -5,8 +5,8 @@
 // import models (globally available through mongoose module)
 //
 
-var Scene = mongoose.model('Scene');
-var Config = mongoose.model('Config');
+var Scene = mongoose.model('Scene'),
+    Config = mongoose.model('Config');
 
 
 module.exports = function(app) {
@@ -19,7 +19,7 @@ module.exports = function(app) {
 
 
     var setConnectedState = function(state) {
-        console.log('MongoDB ' + (state ? '' : 'dis') + 'connected');
+        console.log('[mongoose] MongoDB ' + (state ? '' : 'dis') + 'connected');
         app.state.connect.mongodb = state;
         app.controllers.socket.refreshState(false, ['connect']);
     };
@@ -53,6 +53,8 @@ module.exports = function(app) {
 
 	db.once('open', function() {
 
+        console.log('[mongoose] Loading MongoDB content into cache');
+
         // config (app.config)
 
         Config.find(function(err, entries) {
@@ -62,9 +64,17 @@ module.exports = function(app) {
                 c = entries[i];
 
                 if(c.name) {
-                    app.config[c.name] = c.value;
+                    if(c.hidden) {
+                        app.config[c.name] = c.value;
+                    }
+                    else {
+                        app.state.appConfig[c.name] = c.value;
+                    }
                 }
             }
+
+            // load default configuration into MongoDB if not already present
+            require('../config/application')(app);
         });
 
         // scenes (app.state.scenes)

@@ -12,6 +12,8 @@
     -   **socket**
         -   **connected**: besteht eine Socket.IO-Verbindung?
         -   **wasConnected**: true, wenn einmal eine Socket.IO-Verbindung aufgebaut war; zum Erkennen von Verbindungsabbrüchen
+    -   **appConfig**: Anwendungs-Konfiguration
+        -   **transition**: Überblendzeit der Lampen (in 100ms-Intervallen)
     -   **lights**: Status der Lampen; Objekt mit Lichtern als Elemente, ID als Schlüssel
         Gefiltertes Original-Output der Hue Bridge, Details zu den Werten unter http://developers.meethue.com/1_lightsapi.html#14_get_light_attributes_and_state
         -   state
@@ -64,6 +66,12 @@
             -   effect
             -   colormode
     -   scenes
+-   **config**: Konfiguration der Hue-Bridge
+    -   **deleteUser(id)**: User der Bridge löschen
+    -   **pressLinkButton()**: Link-Button an der Bridge programmatisch drücken
+    -   **changePassword(oldPassword, newPassword)**: Passwort der Anwendung ändern
+    -   **change(data)**: Anwendungs-Konfiguration ändern
+    -   **updateFirmware()**:  Firmware-Update starten
 -   **lights**: Steuerung der Lampen
     -   **state(id, state)**: Status einer Lampe verändern
     -   **stateAttribute(id, key, val)**: Einzelnes Status-Attribut einer Lampe verändern

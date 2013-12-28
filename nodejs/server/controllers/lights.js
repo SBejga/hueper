@@ -7,7 +7,7 @@ var socketListeners = function(socket) {
         var areas = [],
             i, j;
 
-        console.log('change light state for ' + data.id, data.state);
+        console.log('[lights] Change light state for ' + data.id, data.state);
 
         // change all lights
         if(data.id == 0) {
@@ -41,13 +41,13 @@ var socketListeners = function(socket) {
 
     // search for new lights
     socket.on('light.search', function() {
-        console.log('Search for new lights initiated');
+        console.log('[lights] Search for new lights initiated');
         app.controllers.hue.getApi().searchForNewLights();
     });
 
     // rename light
     socket.on('light.name', function(data) {
-        console.log('renaming light ' + data.id + ' to ' + data.name);
+        console.log('[lights] Renaming light ' + data.id + ' to ' + data.name);
         app.controllers.hue.getApi().setLightName(data.id, data.name);
         app.state.lights[data.id].name = data.name;
         app.controllers.socket.refreshState(app.controllers.socket.getBroadcastSocket(socket), ['lights.' + data.id + '.name']);

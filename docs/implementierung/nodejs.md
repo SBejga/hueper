@@ -30,7 +30,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
 
 ## Globales app-Objekt
 
--   **config**: Aus der MongoDB ausgelesene Konfiguration (*Config*-Model)
+-   **config**: Interne Konfiguration
     -   **hueUser**: Username zur Anmeldung an der Hue-Bridge (noch nicht registriert, wenn Eintrag fehlt)
     -   **password**: Applikations-Passwort (kein Passwort, wenn Eintrag fehlt)
 -   **state**: Aktueller Status der Anwendung
@@ -39,6 +39,8 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **hue**: Verbindung mit der Hue Bridge
         -   **hueRegistered**: In der Hue Bridge registriert
         -   **arduino**: Verbindung mit dem Arduino
+    -   **appConfig**: Aus der MongoDB ausgelesene Konfiguration (*Config*-Model)
+        -   **transition**: Überblendzeit der Lampen (in 100ms-Intervallen)
     -   **lights**: Status der Lampen; Objekt mit Lichtern als Elemente, ID als Schlüssel
         Gefiltertes Original-Output der Hue Bridge, Details zu den Werten unter http://developers.meethue.com/1_lightsapi.html#14_get_light_attributes_and_state
         -   state
@@ -100,6 +102,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **getApi()**: Liefert die node-hue-api
         -   **setLightState(id, state, broadcast)**: Status einer Lampe ändern
         -   **setGroupLightState(id, state, broadcast)**: Status einer Gruppe ändern
+        -   **customApiCall(path, body, callback)**: Erlaubt benutzerdefinierten Aufruf der Hue REST-API
     -   **mongoose**: Baut Verbindung zur MongoDB auf und liest die Daten in den app.state-Cache
     -   **socket**: Handling von Socket.IO-Verbindungen und Benutzer-Login
         -   **refreshState(socket, areas)**: An bestimmte Clients bestimmte Teile des app.state-Objekts senden
@@ -110,6 +113,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **getBroadcastSocket(socket)**: Alle Sockets von eingeloggten Benutzern außer dem übergebenen erhalten
     -   **lights**: Steuerung der Lampen
     -   **groups**: Steuerung der Gruppen
+    -   **configuration**: Konfiguration der Hue Bridge und der Anwendung
 
 
 ## Controller hinzufügen

@@ -5,15 +5,17 @@
 
 var app,
     host,
-	api;
+	api = new hue.HueApi();
 
 /**
  * Error Handler for the Hue API connection
  * schedules new search
  */
 var errorHandler = function(err) {
-	
-	console.log('Hue error', err);
+
+    // TODO filter out specific errors
+
+	console.log('[hue] Hue error, resetting connection', err);
 	console.log('retry in 10 seconds');
 
 	app.state.connect.hue = false;
@@ -34,7 +36,7 @@ var findBridge = function() {
 		
 		// switch to network scan if that doesn't work
 		if(err || !data || !data.length) {
-			console.log('Hue Bridge not found with Internet API, switching to network scan');
+			console.log('[hue] Hue Bridge not found with Internet API, switching to network scan');
 			
 			hue.searchForBridges(2000)
 				.then(bridgeLocated)
@@ -57,12 +59,12 @@ var findBridge = function() {
 var bridgeLocated = function(data) {
 	
 	if(!data.length) {
-		console.log('No Hue Bridge found, retry in 10 seconds');
+		console.log('[hue] No Hue Bridge found, retry in 10 seconds');
 		setTimeout(findBridge, 10000);
 		return;
 	}
 	
-	console.log('Hue Bridge found:', data);
+	console.log('[hue] Hue Bridge found:', data);
 
     host = data[0].ipaddress;
 
@@ -86,7 +88,7 @@ var registerToBridge = function() {
 
     if(app.state.connect.hue && !app.state.connect.hueRegistered) {
 
-        console.log('Registering new user on the Hue bridge');
+        console.log('[hue] Registering new user on the Hue bridge');
 
         api = new hue.HueApi();
 
@@ -94,17 +96,17 @@ var registerToBridge = function() {
 
             // registration error (link button not pressed)
             if(err) {
-                console.log('Hue register error:', err);
+                console.log('[hue] Hue register error:', err);
                 setTimeout(registerToBridge, 2000);
             }
 
             // registration successful
             else {
-                console.log('Hue registration successful:', user);
+                console.log('[hue] Hue registration successful:', user);
 
                 // first registration
                 if(typeof(app.config.hueUser) === 'undefined') {
-                    new Config({ name: 'hueUser', value: user }).save();
+                    new Config({ name: 'hueUser', value: user, hidden: true }).save();
                 }
                 else {
                     Config.update({ name: 'hueUser' }, { value: user }).exec();
@@ -153,7 +155,7 @@ var connectToBridge = function() {
  */
 var refreshState = function(refreshConnect) {
 	
-	console.log('refreshing hue state');
+	console.log('[hue] Refreshing hue state');
 	
 	api.getFullState()
 		.then(function(data) {
@@ -201,7 +203,7 @@ var refreshState = function(refreshConnect) {
 			
 			
 			if(areas.length) {
-				console.log('hue state changed, emitting to sockets');
+				console.log('[hue] Hue state changed, emitting to sockets');
 				app.controllers.socket.refreshState(false, areas);
 			}
 			
@@ -258,10 +260,16 @@ var cleanHueState = function(state) {
 var setLightState = function(id, state, broadcast) {
     var i;
 
+    // insert default transition time
+    // don't insert when turning off as then the brightness would change to 1 (bug?)
+    if(typeof(state.transitiontime) === 'undefined' && state.on !== false) {
+        state.transitiontime = app.state.appConfig.transition;
+    }
+
     api.setLightState(id, state);
 
 	for(i in state) {
-        if(state.hasOwnProperty(i)) {
+        if(state.hasOwnProperty(i) && i !== 'transitiontime') {
             app.state.lights[id].state[i] = state[i];
         }
 	}
@@ -285,17 +293,32 @@ var setGroupLightState = function(id, state, broadcast) {
         return;
     }
 
+    // insert default transition time
+    // don't insert when turning off as then the brightness would change to 1 (bug?)
+    if(typeof(state.transitiontime) === 'undefined' && state.on !== false) {
+        state.transitiontime = app.state.appConfig.transition;
+    }
+
     api.setGroupLightState(id, state);
 
+
+    // change group state
+
+    if(typeof(app.state.groups[id].action) === 'undefined') {
+        app.state.groups[id].action = {};
+    }
+
     for(j in state) {
-        if(state.hasOwnProperty(j)) {
+        if(state.hasOwnProperty(j) && j !== 'transitiontime') {
             app.state.groups[id].action[j] = state[j];
         }
     }
 
+    // change lights state
+
     for(i = 0; i < app.state.groups[id].lights.length; i++) {
         for(j in state) {
-            if(state.hasOwnProperty(j)) {
+            if(state.hasOwnProperty(j) && j !== 'transitiontime') {
                 app.state.lights[app.state.groups[id].lights[i]].state[j] = state[j];
             }
         }
@@ -306,6 +329,57 @@ var setGroupLightState = function(id, state, broadcast) {
     if(broadcast) {
         app.controllers.socket.refreshState(false, areas);
     }
+};
+
+/**
+ * Custom call to Hue bridge REST API
+ * @param {string} path path after username, beginning with /
+ * @param {string} method HTTP method
+ * @param {object} body [optional]
+ * @param {function} callback [optional]
+ * @returns {boolean} false when Hue API not available
+ */
+var customApiCall = function(path, method, body, callback) {
+    var http = require('http'),
+        options,
+        request;
+
+    if(!api) {
+        return false;
+    }
+
+    console.log('[hue] Custom Hue API call:', path, body);
+
+    if(!method) {
+        method = body ? 'POST' : 'GET';
+    }
+
+    if(typeof(body) === 'object') {
+        body = JSON.stringify(body);
+    }
+
+    options = {
+        host: api.host,
+        path: '/api/' + app.config.hueUser + path,
+        method: method
+    };
+
+    if(body) {
+        options.headers = {
+            'Content-Type': 'application/json',
+            'Content-Length': body.length
+        };
+    }
+
+    request = http.request(options, callback);
+
+    if(body) {
+        request.write(body);
+    }
+
+    request.end();
+
+    return true;
 };
 
 
@@ -321,6 +395,7 @@ module.exports = function(globalApp) {
         },
         errorHandler: errorHandler,
 		setLightState: setLightState,
-        setGroupLightState: setGroupLightState
+        setGroupLightState: setGroupLightState,
+        customApiCall: customApiCall
 	};
 };

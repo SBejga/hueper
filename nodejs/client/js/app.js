@@ -80,6 +80,7 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
         }
     });
 
+    // login attempt answer
     socket.on('login', function(login) {
         $scope.state.user.login = login;
         $scope.state.user.loginError = !login;
@@ -136,6 +137,31 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
         }
     });
 
+    // configuration
+
+    // password change answer
+    socket.on('config.password', function(data) {
+        var form = $scope.config.forms.password;
+
+        // error
+        if(data === false) {
+            form.error = true;
+        }
+        else {
+            form.error = false;
+            form.success = true;
+            form.oldPassword = '';
+            form.newPassword = '';
+
+            if(data.password === null) {
+                localStorage.removeItem('huePassword');
+            }
+            else {
+                localStorage.huePassword = data.password;
+            }
+        }
+    });
+
     //
     // methods
     //
@@ -160,6 +186,73 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
         }
 
     };
+
+    // bridge configuration control
+
+    $scope.config = {
+
+        // container for form data
+        forms: {
+            // change password
+            password: {
+                oldPassword: '',
+                newPassword: '',
+                error: false,
+                success: false
+            }
+        },
+
+        /**
+         * Delete user from Hue bridge
+         * @param {string} id
+         */
+        deleteUser: function(id) {
+            socket.emit('config.deleteUser', {
+                id: id
+            });
+            delete $scope.state.config.whitelist[id];
+        },
+
+        /**
+         * programmatically press link button on the Hue bridge
+         */
+        pressLinkButton: function() {
+            socket.emit('config.pressLinkButton', true);
+            $scope.state.config.linkbutton = true;
+        },
+
+        /**
+         * change application password
+         * @param {string} oldPassword
+         * @param {string} newPassword
+         */
+        changePassword: function(oldPassword, newPassword) {
+            socket.emit('config.password', {
+                oldPassword: oldPassword,
+                newPassword: newPassword
+            });
+            $scope.config.forms.password.error = false;
+            $scope.config.forms.password.success = false;
+        },
+
+        /**
+         * change application configuration
+         * @param {object} data
+         */
+        change: function(data) {
+            socket.emit('config.change', data);
+        },
+
+        /**
+         * Apply Hue bridge firmware update
+         */
+        updateFirmware: function() {
+            socket.emit('config.firmware', true);
+            $scope.state.config.swupdate.updatestate = 3;
+        }
+
+    };
+
 
     // light control
 

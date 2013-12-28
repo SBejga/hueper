@@ -4,7 +4,8 @@ var Schema		= mongoose.Schema;
 var ConfigSchema = new Schema({
 
     name:   String,
-    value:  Schema.Types.Mixed
+    value:  Schema.Types.Mixed,
+    hidden: Boolean
 
 });
 

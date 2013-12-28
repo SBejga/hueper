@@ -9,14 +9,16 @@ var app = {
 
 	state: {
 		connect: {
-			mongodb: false,
-			hue: false,
+            mongodb: false,
+            hue: false,
             hueRegistered: false,
-			arduino: false
-		},
-		lights: {},
-		groups: {},
-		scenes: {}
+            arduino: false
+        },
+        appConfig: {},
+        config: {},
+        lights: {},
+        groups: {},
+        scenes: {}
 	},
 	
 	server: {},
@@ -57,12 +59,15 @@ app.controllers.hue = require('./server/controllers/hue')(app);
 
 // functional
 
+app.controllers.configuration = require('./server/controllers/configuration')(app);
 app.controllers.lights = require('./server/controllers/lights')(app);
 app.controllers.groups = require('./server/controllers/groups')(app);
 
 //
 // Debug REPL console
 //
+
+// TODO move to dev environment
 
 var webrepl = require('node-web-repl');
 

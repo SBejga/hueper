@@ -30,11 +30,10 @@ var setupSocketHandlers = function() {
 
 	io.sockets.on('connection', function(socket) {
 
-        // TODO remove
-        app.config.password = 'admin';
+        console.log('[socket] connection from ' + socket.id + ' (' + socket.handshake.address.address + ')');
 
         // no login required
-        if(typeof(app.config.password) === 'undefined') {
+        if(app.config.password === null) {
             socket.emit('login.required', false);
             acceptSocket(socket);
         }
@@ -76,6 +75,8 @@ var setupSocketHandlers = function() {
  */
 var acceptSocket = function(socket) {
     var i;
+
+    console.log('[socket] login from ' + socket.id + ' (' + socket.handshake.address.address + ')');
 
     // join login room to receive broadcasts
     socket.join('login');
