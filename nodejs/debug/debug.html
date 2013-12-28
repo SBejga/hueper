@@ -145,6 +145,10 @@
 <div ng-repeat="(id, light) in state.lights">
     <h2>{{id}} - {{light.name}}</h2>
 
+    <p>
+        Favoriten: <button ng-repeat="(fid, f) in state.favorites" ng-click="lights.state(id, f.state)">{{f.name}}</button>
+    </p>
+
     <form ng-submit="lights.setName(id, light.name)">
         <input type="text" ng-model="light.name" />
         <input type="submit" value="umbenennen" />
@@ -224,6 +228,61 @@
     <input type="submit" value="erstellen" ng-disabled="!groups.forms.create.lights.length" />
 
     {{groups.forms.create}}
+</form>
+
+<!-- favorites -->
+
+<h1>Favoriten</h1>
+
+<div ng-repeat="(id, f) in state.favorites">
+    <h2>{{id}} - {{f.name}}</h2>
+
+    <p>
+        <button ng-click="lights.state(0, f.state)">alle Lampen</button>
+        <button ng-click="favorites.remove(id)">Favorit löschen</button>
+    </p>
+
+    <form ng-submit="favorites.update(f)">
+        Name: <input type="text" ng-model="f.name" required />
+        <br />
+
+        on: <input type="checkbox" ng-model="f.state.isOn" /><br />
+
+        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-500)'}">
+            {{name}} <code>[{{val}}]</code> <input type="number" ng-model="f.state[val]" /><br />
+        </span>
+
+        effect <select ng-model="f.state.effect">
+            <option>none</option>
+            <option>colorloop</option>
+        </select>
+
+        <br />
+        <input type="submit" value="speichern" />
+    </form>
+</div>
+
+<h2>Neuen Favorit erstellen</h2>
+
+<p>Auch partielle Status-Änderungen durch Favoriten möglich: nicht alles ausfüllen</p>
+
+<form ng-submit="favorites.create(favorites.forms.create)">
+    Name: <input type="text" ng-model="favorites.forms.create.name" required />
+    <br />
+
+    on: <input type="checkbox" ng-model="favorites.forms.create.state.isOn" /><br />
+
+        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-500)'}">
+            {{name}} <code>[{{val}}]</code> <input type="number" ng-model="favorites.forms.create.state[val]" /><br />
+        </span>
+
+    effect <select ng-model="favorites.forms.create.state.effect">
+        <option>none</option>
+        <option>colorloop</option>
+    </select>
+
+    <br />
+    <input type="submit" value="speichern" />
 </form>
 
 <!--

@@ -75,5 +75,20 @@ var equalsProperties = function(a, b, props) {
     return true;
 };
 
+/**
+ * Removes all root-level properties from an object that start with an underscore
+ * @param o
+ */
+var cleanMongooseProperties = function(o) {
+    var i;
+
+    for(i in o) {
+        if(o.hasOwnProperty(i) && i.indexOf('_') === 0) {
+            delete o[i];
+        }
+    }
+};
+
 module.exports.equals = equals;
 module.exports.equalsProperties = equalsProperties;
+module.exports.cleanMongooseProperties = cleanMongooseProperties;

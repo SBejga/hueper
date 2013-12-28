@@ -18,6 +18,7 @@ var app = {
         config: {},
         lights: {},
         groups: {},
+        favorites: {},
         scenes: {}
 	},
 	
@@ -62,6 +63,7 @@ app.controllers.hue = require('./server/controllers/hue')(app);
 app.controllers.configuration = require('./server/controllers/configuration')(app);
 app.controllers.lights = require('./server/controllers/lights')(app);
 app.controllers.groups = require('./server/controllers/groups')(app);
+app.controllers.favorites = require('./server/controllers/favorites')(app);
 
 //
 // Debug REPL console

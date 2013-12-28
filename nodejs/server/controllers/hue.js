@@ -1,5 +1,5 @@
 ﻿var hue		    = require('node-hue-api'),
-	helpers	    = require('./../helpers'),
+	helpers	    = require('../helpers'),
     mongoose	= require('mongoose'),
     Config		= mongoose.model('Config');
 
@@ -245,6 +245,22 @@ var cleanHueState = function(state) {
 
 };
 
+var cleanClientState = function(state) {
+
+    // rename isOn to on (mongoose forbids use of "on" as attribute)
+    if(typeof(state.isOn) !== 'undefined') {
+        state.on = state.isOn;
+        delete state.isOn;
+    }
+
+    // insert default transition time
+    // don't insert when turning off as then the brightness would change to 1 (bug?)
+    if(typeof(state.transitiontime) === 'undefined' && state.on !== false) {
+        state.transitiontime = app.state.appConfig.transition;
+    }
+
+};
+
 
 
 //
@@ -260,11 +276,7 @@ var cleanHueState = function(state) {
 var setLightState = function(id, state, broadcast) {
     var i;
 
-    // insert default transition time
-    // don't insert when turning off as then the brightness would change to 1 (bug?)
-    if(typeof(state.transitiontime) === 'undefined' && state.on !== false) {
-        state.transitiontime = app.state.appConfig.transition;
-    }
+    cleanClientState(state);
 
     api.setLightState(id, state);
 
@@ -293,11 +305,7 @@ var setGroupLightState = function(id, state, broadcast) {
         return;
     }
 
-    // insert default transition time
-    // don't insert when turning off as then the brightness would change to 1 (bug?)
-    if(typeof(state.transitiontime) === 'undefined' && state.on !== false) {
-        state.transitiontime = app.state.appConfig.transition;
-    }
+    cleanClientState(state);
 
     api.setGroupLightState(id, state);
 

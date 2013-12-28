@@ -380,6 +380,39 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
 
     };
 
+    // favorite control
+
+    $scope.favorites = {
+
+        // placeholder for form data
+        forms: {
+            create: {
+                name: '',
+                state: {
+                    isOn: true
+                }
+            }
+        },
+
+        create: function(favorite) {
+            socket.emit('favorite.create', favorite);
+            $scope.favorites.forms.create.name = '';
+            $scope.favorites.forms.create.state = {
+                isOn: true
+            };
+        },
+
+        update: function(favorite) {
+            socket.emit('favorite.update', favorite);
+        },
+
+        remove: function(id) {
+            socket.emit('favorite.delete', id);
+            delete $scope.state.favorites[id];
+        }
+
+    };
+
     // helper functions
     // checkbox list to array conversion
 

@@ -65,7 +65,20 @@
             -   ct
             -   effect
             -   colormode
+    -   **favorites**: Liste der Lampeneinstellungs-Favoriten, ID als Schlüssel
+        -   name
+        -   state
+            -   isOn
+            -   bri
+            -   hue
+            -   sat
+            -   ct
+            -   effect
     -   scenes
+-   **user**: User- und Login-Steuerung
+    -   **password**: Ins Login-Formular eingegebenes Passwort
+    -   **login()**
+    -   **logout()**
 -   **config**: Konfiguration der Hue-Bridge
     -   **deleteUser(id)**: User der Bridge löschen
     -   **pressLinkButton()**: Link-Button an der Bridge programmatisch drücken
@@ -87,13 +100,18 @@
     -   **create(name, lights)**: Gruppe erstellen und Formular zurücksetzen; IDs in lights als Integers!
     -   **update(id, name, lights)**: Gruppe bearbeiten; IDs in lights als Strings!
     -   **remove(id)**: Gruppe löschen
--   **user**: User- und Login-Steuerung
-    -   **password**: Ins Login-Formular eingegebenes Passwort
-    -   **login()**
-    -   **logout()**
+-   **favorites**: Lampeneinstellungs-Favoriten
+    -   **forms**: Platzhalter für Formulare
+        -   **create**: Formular zum Erstellen eines Favoriten
+            -   name
+            -   state: wie state.favorites.state
+    -   **create(favorite)**: Favorit erstellen
+    -   **update(favorite)**: Favorit bearbeiten
+    -   **remove(id)**: Favorit löschen
 -   **helpers**: Hilfs-Funktionen
     -   **toggleList(arr, el, numeric)**: Element in ein Array einfügen/entfernen; z.B. zum Erstellen eines Arrays aus mehreren Checkboxen
     -   **listChecked(arr, el, numeric)**: Überprüfen, ob ein Element in einem Array vorhanden ist
+    -   **cleanMongooseProperties(o)**: Entfernt System-Properties aus Mongoose-Objekten (z.B. _id), um sie updaten zu können
 
 
 ## Besondere Konstrukte

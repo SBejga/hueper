@@ -43,6 +43,12 @@
     `{ id: ..., name: ..., lights: [ "1", ... ] }`
 -   **group.remove**: Gruppe löschen
     `id`
+-   **favorite.create**: Favorit erstellen
+    `{ name: ..., state: { ... } }`
+-   **favorite.update**: Favorit bearbeiten
+    `{ name: ..., state: { ... } }`
+-   **favorite.delete**: Favorit löschen
+    `<ID>`
 
 ## Broadcasts an eingeloggte User
 

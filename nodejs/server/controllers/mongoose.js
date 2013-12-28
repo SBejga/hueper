@@ -5,8 +5,9 @@
 // import models (globally available through mongoose module)
 //
 
-var Scene = mongoose.model('Scene'),
-    Config = mongoose.model('Config');
+var Config = mongoose.model('Config'),
+    Scene = mongoose.model('Scene'),
+    Favorite = mongoose.model('Favorite');
 
 
 module.exports = function(app) {
@@ -55,7 +56,7 @@ module.exports = function(app) {
 
         console.log('[mongoose] Loading MongoDB content into cache');
 
-        // config (app.config)
+        // config (app.config, app.state.appConfig)
 
         Config.find(function(err, entries) {
             var i, c;
@@ -75,6 +76,12 @@ module.exports = function(app) {
 
             // load default configuration into MongoDB if not already present
             require('../config/application')(app);
+        });
+
+        // favorites (app.state.favorites)
+
+        Favorite.getAsMap(function(map) {
+            app.state.favorites = map;
         });
 
         // scenes (app.state.scenes)

@@ -5,7 +5,8 @@ module.exports = function(app) {
 
     // import mongoose models
 
-    require('../models/scene');
     require('../models/config');
+    require('../models/favorite');
+    require('../models/scene');
 
 };
