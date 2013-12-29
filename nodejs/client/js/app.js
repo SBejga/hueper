@@ -47,9 +47,13 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
             wasConnected: false
         },
 
+        connect: {},
+        config: {},
+        appConfig: {},
         lights: {},
         groups: {},
-        scenes: []
+        favorites: {},
+        scenes: {}
     };
 
     //
@@ -280,6 +284,14 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
                     $scope.state.lights[id].state[i] = state[i];
                 }
             }
+
+            // change colormode
+            if(typeof(state.ct) !== 'undefined') {
+                $scope.state.lights[id].colormode = 'ct';
+            }
+            else if(typeof(state.hs) !== 'undefined') {
+                $scope.state.lights[id].colormode = 'hs';
+            }
         },
 
         /**
@@ -310,6 +322,14 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
                         if(state.hasOwnProperty(j) && j !== 'transitiontime') {
                             $scope.state.lights[i].state[j] = state[j];
                         }
+                    }
+
+                    // change colormode
+                    if(typeof(state.ct) !== 'undefined') {
+                        $scope.state.lights[i].colormode = 'ct';
+                    }
+                    else if(typeof(state.hs) !== 'undefined') {
+                        $scope.state.lights[i].colormode = 'hs';
                     }
                 }
             }
@@ -394,6 +414,14 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
                         $scope.state.lights[$scope.state.groups[id].lights[i]].state[j] = state[j];
                     }
                 }
+
+                // change colormode
+                if(typeof(state.ct) !== 'undefined') {
+                    $scope.state.lights[$scope.state.groups[id].lights[i]].colormode = 'ct';
+                }
+                else if(typeof(state.hs) !== 'undefined') {
+                    $scope.state.lights[$scope.state.groups[id].lights[i]].colormode = 'hs';
+                }
             }
         },
 
@@ -462,6 +490,149 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
         remove: function(id) {
             socket.emit('favorite.delete', id);
             delete $scope.state.favorites[id];
+        }
+
+    };
+
+    // scene control
+
+    $scope.scenes = {
+
+        // placeholder for form data
+        forms: {
+            create: {
+                name: '',
+                lights: []
+            }
+        },
+
+        create: function(scene) {
+            socket.emit('scene.create', scene);
+            $scope.scenes.forms.create.name = '';
+            $scope.scenes.forms.create.lights = [];
+        },
+
+        update: function(scene) {
+            socket.emit('scene.update', scene);
+        },
+
+        remove: function(id) {
+            socket.emit('scene.delete', id);
+            delete $scope.state.scenes[id];
+        },
+
+        /**
+         * Apply scene and change light state accordingly
+         * @param id
+         */
+        apply: function(id) {
+            var scene = $scope.state.scenes[id],
+                i, j, k;
+
+            if(typeof($scope.state.scenes[id]) === 'undefined') {
+                return;
+            }
+
+            socket.emit('scene.apply', id);
+
+            for(i = 0; i < scene.lights.length; i++) {
+
+                // filter out nonexistant or unreachable lights
+                if(typeof($scope.state.lights[scene.lights[i].light]) === 'undefined'
+                        || !$scope.state.lights[scene.lights[i].light].state.reachable) {
+                    continue;
+                }
+
+                for(j in scene.lights[i].state) {
+                    if(scene.lights[i].state.hasOwnProperty(j)) {
+
+                        // rename isOn to on
+                        k = (j === 'isOn') ? 'on' : j;
+
+                        $scope.state.lights[scene.lights[i].light].state[k] = scene.lights[i].state[j];
+                    }
+                }
+
+                // change colormode
+                if(typeof(scene.lights[i].state.ct) !== 'undefined') {
+                    $scope.state.lights[scene.lights[i].light].colormode = 'ct';
+                }
+                else if(typeof(scene.lights[i].state.hs) !== 'undefined') {
+                    $scope.state.lights[scene.lights[i].light].colormode = 'hs';
+                }
+
+            }
+
+        },
+
+        /**
+         * Add light to scene
+         * @param scene
+         * @param id
+         */
+        addLight: function(scene, id) {
+            var i;
+
+            // check if scene already contains this light
+            for(i in scene.lights) {
+                if(scene.lights.hasOwnProperty(i) && scene.lights[i].light == id) {
+                    return;
+                }
+            }
+
+            scene.lights.push({
+                light: id,
+                state: {
+                    isOn: true
+                }
+            });
+        },
+
+        /**
+         * Remove light from scene
+         * @param scene
+         * @param id
+         */
+        removeLight: function(scene, id) {
+            var i;
+
+            // check if scene already contains this light
+            for(i in scene.lights) {
+                if(scene.lights.hasOwnProperty(i) && scene.lights[i].light == id) {
+                    scene.lights.splice(i, 1);
+                    return;
+                }
+            }
+        },
+
+        /**
+         * Filter global state.lights object to the lights not contained in the parameter scene.lights array
+         * @param {array} lights { light: ..., state: { ... } }
+         * @returns {object}
+         */
+        filterUnused: function(lights) {
+            var i,
+                result = {};
+
+            var contained = function(id) {
+                var i;
+
+                for(i = 0; i < lights.length; i++) {
+                    if(lights[i].light == id) {
+                        return true;
+                    }
+                }
+
+                return false;
+            };
+
+            for(i in $scope.state.lights) {
+                if($scope.state.lights.hasOwnProperty(i) && !contained(i)) {
+                    result[i] = $scope.state.lights[i];
+                }
+            }
+
+            return result;
         }
 
     };

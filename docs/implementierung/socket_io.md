@@ -51,6 +51,14 @@
     `{ name: ..., state: { ... } }`
 -   **favorite.delete**: Favorit löschen
     `<ID>`
+-   **scene.create**: Szene erstellen
+    `{ name: ..., lights: [ { light: ..., state: { ... } ] }`
+-   **scene.update**: Szene bearbeiten
+    `{ _id: ..., name: ..., lights: [ { light: ..., state: { ... } ] }`
+-   **scene.delete**: Szene löschen
+    `<ID>`
+-   **scene.apply**: Szene anwenden
+    `<ID>`
 
 ## Broadcasts an eingeloggte User
 

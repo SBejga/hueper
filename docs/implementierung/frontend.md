@@ -66,6 +66,7 @@
             -   effect
             -   colormode
     -   **favorites**: Liste der Lampeneinstellungs-Favoriten, ID als Schlüssel
+        -   _id
         -   name
         -   state
             -   isOn
@@ -74,7 +75,18 @@
             -   sat
             -   ct
             -   effect
-    -   scenes
+    -   **scenes**: Liste der Szenen, ID als Schlüssel
+        -   _id
+        -   name
+        -   lights: Array aus allen enthaltenen Lichtern
+            -   light: Licht-ID
+            -   state
+                -   isOn
+                -   bri
+                -   hue
+                -   sat
+                -   ct
+                -   effect
 -   **user**: User- und Login-Steuerung
     -   **password**: Ins Login-Formular eingegebenes Passwort
     -   **login()**
@@ -108,6 +120,18 @@
     -   **create(favorite)**: Favorit erstellen
     -   **update(favorite)**: Favorit bearbeiten
     -   **remove(id)**: Favorit löschen
+-   **scenes**: Szenen
+    -   **forms**: Platzhalter für Formulare
+        -   **create**: Formular zum Erstellen einer Szene
+            -   name
+            -   lights: Array
+    -   **create(scene)**: Szene erstellen
+    -   **update(scene)**: Szene bearbeiten
+    -   **remove(id)**: Szene löschen
+    -   **apply(id)**: Szene anwenden
+    -   **addLight(scene, id)**: Lampe zur Szene hinzufügen
+    -   **removeLight(scene, id)**: Lampe aus einer Szene entfernen
+    -   **filterUnused(lights)**: Lampen filtern - alle, die nicht im Parameter-Array enthalten sind
 -   **helpers**: Hilfs-Funktionen
     -   **toggleList(arr, el, numeric)**: Element in ein Array einfügen/entfernen; z.B. zum Erstellen eines Arrays aus mehreren Checkboxen
     -   **listChecked(arr, el, numeric)**: Überprüfen, ob ein Element in einem Array vorhanden ist

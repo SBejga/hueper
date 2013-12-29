@@ -69,6 +69,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
             -   effect
             -   colormode
     -   **favorites**: Liste der Lampeneinstellungs-Favoriten, ID als Schlüssel
+        -   _id
         -   name
         -   state
             -   isOn
@@ -77,7 +78,18 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
             -   sat
             -   ct
             -   effect
-    -   **scenes**
+    -   **scenes**: Liste der Szenen, ID als Schlüssel
+        -   _id
+        -   name
+        -   lights: Array aus allen enthaltenen Lichtern
+            -   light: Licht-ID
+            -   state
+                -   isOn
+                -   bri
+                -   hue
+                -   sat
+                -   ct
+                -   effect
     -   **config**: Konfiguration der Hue-Bridge
         Gefiltertes Original-Output der Hue Bridge, Details zu den Werten unter http://developers.meethue.com/4_configurationapi.html#42_get_configuration
         -   name
@@ -126,6 +138,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
     -   **groups**: Steuerung der Gruppen
     -   **configuration**: Konfiguration der Hue Bridge und der Anwendung
     -   **favorites**: Verwaltung der Lampeneinstellungs-Favoriten
+    -   **scenes**: Verwaltung der Szenen
 
 
 ## Controller hinzufügen

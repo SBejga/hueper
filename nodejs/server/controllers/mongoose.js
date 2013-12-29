@@ -8,8 +8,8 @@
 //
 
 var Config = mongoose.model('Config'),
-    Scene = mongoose.model('Scene'),
-    Favorite = mongoose.model('Favorite');
+    Favorite = mongoose.model('Favorite'),
+    Scene = mongoose.model('Scene');
 
 
 module.exports = function(app) {
@@ -103,14 +103,17 @@ module.exports = function(app) {
         // scenes (app.state.scenes)
 
         remainingEvents++;
-		Scene.find(function(err, scenes) {
-			app.state.scenes = scenes;
+		Scene.getAsMap(function(map) {
+			app.state.scenes = map;
 
             connectionFinished();
 		});
 
 	});
 
+    /**
+     * execute connection listeners when all remaining data load events have finished
+     */
     var connectionFinished = function() {
         var i;
 

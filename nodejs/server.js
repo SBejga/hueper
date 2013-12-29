@@ -64,6 +64,7 @@ app.controllers.configuration = require('./server/controllers/configuration')(ap
 app.controllers.lights = require('./server/controllers/lights')(app);
 app.controllers.groups = require('./server/controllers/groups')(app);
 app.controllers.favorites = require('./server/controllers/favorites')(app);
+app.controllers.scenes = require('./server/controllers/scenes')(app);
 
 //
 // Debug REPL console

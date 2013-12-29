@@ -267,7 +267,7 @@ var cleanClientState = function(state) {
 
     // insert default transition time
     // don't insert when turning off as then the brightness would change to 1 (bug?)
-    if(typeof(state.transitiontime) === 'undefined') {
+    if(typeof(state.transitiontime) === 'undefined' && state.on !== false) {
         state.transitiontime = app.state.appConfig.transition;
     }
 
@@ -318,6 +318,14 @@ var setLightState = function(id, state, broadcast) {
         }
     }
 
+    // change colormode
+    if(typeof(state.ct) !== 'undefined') {
+        app.state.lights[id].colormode = 'ct';
+    }
+    else if(typeof(state.hs) !== 'undefined') {
+        app.state.lights[id].colormode = 'hs';
+    }
+
     broadcastChanges(broadcast, ['lights.' + id + '.state']);
 };
 
@@ -340,6 +348,14 @@ var setLightStateAll = function(state, broadcast) {
                 if(state.hasOwnProperty(j) && j !== 'transitiontime') {
                     app.state.lights[i].state[j] = state[j];
                 }
+            }
+
+            // change colormode
+            if(typeof(state.ct) !== 'undefined') {
+                app.state.lights[i].colormode = 'ct';
+            }
+            else if(typeof(state.hs) !== 'undefined') {
+                app.state.lights[i].colormode = 'hs';
             }
 
             areas.push('lights.' + i + '.state');
@@ -386,6 +402,14 @@ var setGroupLightState = function(id, state, broadcast) {
             if(state.hasOwnProperty(j) && j !== 'transitiontime') {
                 app.state.lights[app.state.groups[id].lights[i]].state[j] = state[j];
             }
+        }
+
+        // change colormode
+        if(typeof(state.ct) !== 'undefined') {
+            app.state.lights[app.state.groups[id].lights[i]].colormode = 'ct';
+        }
+        else if(typeof(state.hs) !== 'undefined') {
+            app.state.lights[app.state.groups[id].lights[i]].colormode = 'hs';
         }
 
         areas.push('lights.' + app.state.groups[id].lights[i] + '.state');

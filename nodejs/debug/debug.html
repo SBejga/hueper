@@ -289,6 +289,83 @@
     <input type="submit" value="speichern" />
 </form>
 
+<!-- scenes -->
+
+<h1>Szenen</h1>
+
+<div ng-repeat="(id, s) in state.scenes">
+    <h2>{{id}} - {{s.name}}</h2>
+
+    <p>
+        <button ng-click="scenes.apply(id)">anwenden</button>
+        <button ng-click="scenes.remove(id)">Szene löschen</button>
+    </p>
+
+    Name: <input type="text" ng-model="s.name" required />
+    <br />
+
+    <div ng-repeat="l in s.lights">
+
+        <p>
+            <b>Lampe: {{l.light}} - {{state.lights[l.light].name}}</b>
+            <button ng-click="scenes.removeLight(s, l.light)">entfernen</button>
+        </p>
+
+        Favoriten: <button ng-repeat="(fid, f) in state.favorites" ng-click="l.state = f.state">{{f.name}}</button><br />
+
+        on: <input type="checkbox" ng-model="l.state.isOn" /><br />
+
+        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-500)'}">
+            {{name}} <code>[{{val}}]</code> <input type="number" ng-model="l.state[val]" /><br />
+        </span>
+
+        effect <select ng-model="l.state.effect">
+            <option>none</option>
+            <option>colorloop</option>
+        </select>
+    </div>
+
+    <button ng-repeat="(id, light) in scenes.filterUnused(s.lights)" ng-click="scenes.addLight(s, id)">+ {{id}}/{{light.name}}</button>
+
+    <br />
+    <button ng-click="scenes.update(s)">speichern</button>
+
+
+</div>
+
+
+<h2>Neue Szene erstellen</h2>
+
+
+    Name: <input type="text" ng-model="scenes.forms.create.name" required />
+    <br />
+
+    <div ng-repeat="l in scenes.forms.create.lights">
+
+        <p>
+            <b>Lampe: {{l.light}} - {{state.lights[l.light].name}}</b>
+            <button ng-click="scenes.removeLight(scenes.forms.create, l.light)">entfernen</button>
+        </p>
+
+        Favoriten: <button ng-repeat="(fid, f) in state.favorites" ng-click="l.state = f.state">{{f.name}}</button><br />
+
+        on: <input type="checkbox" ng-model="l.state.isOn" /><br />
+
+        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-500)'}">
+            {{name}} <code>[{{val}}]</code> <input type="number" ng-model="l.state[val]" /><br />
+        </span>
+
+        effect <select ng-model="l.state.effect">
+            <option>none</option>
+            <option>colorloop</option>
+        </select>
+    </div>
+
+    <button ng-repeat="(id, light) in scenes.filterUnused(scenes.forms.create.lights)" ng-click="scenes.addLight(scenes.forms.create, id)">+ {{id}}/{{light.name}}</button>
+
+    <br />
+    <button ng-click="scenes.create(scenes.forms.create)">speichern</button>
+
 <!-- complete state -->
 
 <h1>Kompletter state</h1>
