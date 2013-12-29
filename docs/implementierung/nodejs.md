@@ -110,9 +110,11 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
     -   **hue**: Baut Verbindung zur Hue Bridge auf, meldet sich dort an und stellt die node-hue-api bereit
         -   **getApi()**: Liefert die node-hue-api
         -   **setLightState(id, state, broadcast)**: Status einer Lampe ändern
+        -   **setLightStateAll(state, broadcast)**: Status aller Lampen ändern
         -   **setGroupLightState(id, state, broadcast)**: Status einer Gruppe ändern
         -   **customApiCall(path, body, callback)**: Erlaubt benutzerdefinierten Aufruf der Hue REST-API
     -   **mongoose**: Baut Verbindung zur MongoDB auf und liest die Daten in den app.state-Cache
+        -   **addConnectionListener(listener)**: Ermöglicht anderen Controllern, auf eine erstmalig aufgebaute MongoDB-Verbindung zu warten
     -   **socket**: Handling von Socket.IO-Verbindungen und Benutzer-Login
         -   **refreshState(socket, areas)**: An bestimmte Clients bestimmte Teile des app.state-Objekts senden
         -   **deleteFromState(socket, areas)**: Bestimmte Teile des app.state-Objekts bei bestimmten Clients löschen

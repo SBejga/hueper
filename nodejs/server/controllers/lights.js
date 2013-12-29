@@ -4,39 +4,23 @@ var socketListeners = function(socket) {
 
     // change light state
     socket.on('light.state', function(data) {
-        var areas = [],
-            i, j;
-
         console.log('[lights] Change light state for ' + data.id, data.state);
 
-        // change all lights
-        if(data.id == 0) {
+        app.controllers.hue.setLightState(
+            data.id,
+            data.state,
+            app.controllers.socket.getBroadcastSocket(socket)
+        );
+    });
 
-            // in hue api all lights are controlled through default group 0
-            app.controllers.hue.getApi().setGroupLightState(0, data.state);
+    // change state of all lights
+    socket.on('light.stateAll', function(data) {
+        console.log('[lights] Change state of all lights: ', data);
 
-            for(i in app.state.lights) {
-                if(app.state.lights.hasOwnProperty(i)) {
-
-                    for(j in data.state) {
-                        if(data.state.hasOwnProperty(j)) {
-                            app.state.lights[i].state[j] = data.state[j];
-                        }
-                    }
-
-                    areas.push('lights.' + i + '.state');
-                }
-            }
-
-            app.controllers.socket.refreshState(false, areas);
-
-        }
-
-        // change single light
-        else {
-            app.controllers.hue.setLightState(data.id, data.state);
-            app.controllers.socket.refreshState(app.controllers.socket.getBroadcastSocket(socket), ['lights.' + data.id + '.state']);
-        }
+        app.controllers.hue.setLightStateAll(
+            data,
+            app.controllers.socket.getBroadcastSocket(socket)
+        );
     });
 
     // search for new lights
@@ -49,8 +33,13 @@ var socketListeners = function(socket) {
     socket.on('light.name', function(data) {
         console.log('[lights] Renaming light ' + data.id + ' to ' + data.name);
         app.controllers.hue.getApi().setLightName(data.id, data.name);
+
         app.state.lights[data.id].name = data.name;
-        app.controllers.socket.refreshState(app.controllers.socket.getBroadcastSocket(socket), ['lights.' + data.id + '.name']);
+
+        app.controllers.socket.refreshState(
+            app.controllers.socket.getBroadcastSocket(socket),
+            ['lights.' + data.id + '.name']
+        );
     });
 
 };

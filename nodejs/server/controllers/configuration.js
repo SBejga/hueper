@@ -14,7 +14,10 @@ var socketListeners = function(socket) {
         app.controllers.hue.getApi().deleteUser(data.id);
 
         delete app.state.config.whitelist[data.id];
-        app.controllers.socket.deleteFromState(app.controllers.socket.getBroadcastSocket(socket), ['config.whitelist.' + data.id]);
+        app.controllers.socket.deleteFromState(
+            app.controllers.socket.getBroadcastSocket(socket),
+            ['config.whitelist.' + data.id]
+        );
     });
 
     // press link button
@@ -23,7 +26,10 @@ var socketListeners = function(socket) {
         app.controllers.hue.getApi().pressLinkButton();
 
         app.state.config.linkbutton = true;
-        app.controllers.socket.refreshState(app.controllers.socket.getBroadcastSocket(socket), ['config.linkbutton']);
+        app.controllers.socket.refreshState(
+            app.controllers.socket.getBroadcastSocket(socket),
+            ['config.linkbutton']
+        );
     });
 
     // apply firmware update
@@ -41,9 +47,16 @@ var socketListeners = function(socket) {
             console.log('[configuration] Applying Hue bridge firmware update');
 
             app.state.config.swupdate.updatestate = 3;
-            app.controllers.hue.customApiCall('/config', 'PUT', { swupdate: { updatestate: 3 } });
+            app.controllers.hue.customApiCall(
+                '/config',
+                'PUT',
+                { swupdate: { updatestate: 3 } }
+            );
 
-            app.controllers.socket.refreshState(app.controllers.socket.getBroadcastSocket(socket), ['config.swupdate.updatestate']);
+            app.controllers.socket.refreshState(
+                app.controllers.socket.getBroadcastSocket(socket),
+                ['config.swupdate.updatestate']
+            );
         }
 
     });
@@ -69,7 +82,10 @@ var socketListeners = function(socket) {
             }
 
             app.config.password = data.newPassword;
-            Config.update({ name: 'password' }, { value: data.newPassword }).exec();
+            Config.update(
+                { name: 'password' },
+                { value: data.newPassword }
+            ).exec();
 
             socket.emit('config.password', {
                 password: data.newPassword
@@ -87,11 +103,17 @@ var socketListeners = function(socket) {
         for(i in data) {
             if(data.hasOwnProperty(i) && typeof(app.state.appConfig[i]) !== 'undefined') {
                 app.state.appConfig[i] = data[i];
-                Config.update({ name: i }, { value: data[i] }).exec();
+                Config.update(
+                    { name: i },
+                    { value: data[i] }
+                ).exec();
             }
         }
 
-        app.controllers.socket.refreshState(app.controllers.socket.getBroadcastSocket(socket), ['appConfig']);
+        app.controllers.socket.refreshState(
+            app.controllers.socket.getBroadcastSocket(socket),
+            ['appConfig']
+        );
     });
 
 };

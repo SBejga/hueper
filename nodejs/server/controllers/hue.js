@@ -70,13 +70,18 @@ var bridgeLocated = function(data) {
 
     app.state.connect.hue = true;
 
-    // first start - register to bridge
-	if(typeof(app.config.hueUser) === 'undefined') {
-        registerToBridge();
-    }
-	else {
-        connectToBridge();
-    }
+    // sign in to bridge when MongoDB connection is established
+    app.controllers.mongoose.addConnectionListener(function() {
+
+        // first start - register to bridge
+        if(typeof(app.config.hueUser) === 'undefined') {
+            registerToBridge();
+        }
+        else {
+            connectToBridge();
+        }
+
+    });
 
 };
 
@@ -106,10 +111,17 @@ var registerToBridge = function() {
 
                 // first registration
                 if(typeof(app.config.hueUser) === 'undefined') {
-                    new Config({ name: 'hueUser', value: user, hidden: true }).save();
+                    new Config({
+                        name: 'hueUser',
+                        value: user,
+                        hidden: true
+                    }).save();
                 }
                 else {
-                    Config.update({ name: 'hueUser' }, { value: user }).exec();
+                    Config.update(
+                        { name: 'hueUser' },
+                        { value: user }
+                    ).exec();
                 }
 
                 app.config.hueUser = user;
@@ -255,12 +267,28 @@ var cleanClientState = function(state) {
 
     // insert default transition time
     // don't insert when turning off as then the brightness would change to 1 (bug?)
-    if(typeof(state.transitiontime) === 'undefined' && state.on !== false) {
+    if(typeof(state.transitiontime) === 'undefined') {
         state.transitiontime = app.state.appConfig.transition;
     }
 
 };
 
+/**
+ * Broadcast light state changes
+ * @param broadcast socket to broadcast to, true for all sockets, false for no broadcast
+ * @param areas
+ */
+var broadcastChanges = function(broadcast, areas) {
+    if(broadcast) {
+
+        // to broadcast to all users, change socket to false
+        if(broadcast === true) {
+            broadcast = false;
+        }
+
+        app.controllers.socket.refreshState(broadcast, areas);
+    }
+};
 
 
 //
@@ -271,31 +299,61 @@ var cleanClientState = function(state) {
  * modify state of single light
  * @param id
  * @param state
- * @param {boolean} broadcast broadcast changes to all users
+ * @param broadcast socket to broadcast changes to, true for all sockets
  */
 var setLightState = function(id, state, broadcast) {
     var i;
+
+    if(typeof(app.state.lights[id]) === 'undefined') {
+        return;
+    }
 
     cleanClientState(state);
 
     api.setLightState(id, state);
 
-	for(i in state) {
+    for(i in state) {
         if(state.hasOwnProperty(i) && i !== 'transitiontime') {
             app.state.lights[id].state[i] = state[i];
         }
-	}
-
-    if(broadcast) {
-        app.controllers.socket.refreshState(false, ['lights.' + id + '.state']);
     }
+
+    broadcastChanges(broadcast, ['lights.' + id + '.state']);
+};
+
+/**
+ * modify state of all lights
+ * @param state
+ * @param broadcast socket to broadcast changes to, true for all sockets
+ */
+var setLightStateAll = function(state, broadcast) {
+    var areas = [],
+        i, j;
+
+    cleanClientState(state);
+
+    api.setGroupLightState(0, state);
+
+    for(i in app.state.lights) {
+        if(app.state.lights.hasOwnProperty(i) && app.state.lights[i].state.reachable) {
+            for(j in state) {
+                if(state.hasOwnProperty(j) && j !== 'transitiontime') {
+                    app.state.lights[i].state[j] = state[j];
+                }
+            }
+
+            areas.push('lights.' + i + '.state');
+        }
+    }
+
+    broadcastChanges(broadcast, areas);
 };
 
 /**
  * modify group light state
  * @param id
  * @param state
- * @param {boolean} broadcast broadcast changes to all users
+ * @param broadcast socket to broadcast changes to, true for all sockets
  */
 var setGroupLightState = function(id, state, broadcast) {
     var areas = ['groups.' + id + '.action'],
@@ -308,7 +366,6 @@ var setGroupLightState = function(id, state, broadcast) {
     cleanClientState(state);
 
     api.setGroupLightState(id, state);
-
 
     // change group state
 
@@ -334,9 +391,7 @@ var setGroupLightState = function(id, state, broadcast) {
         areas.push('lights.' + app.state.groups[id].lights[i] + '.state');
     }
 
-    if(broadcast) {
-        app.controllers.socket.refreshState(false, areas);
-    }
+    broadcastChanges(broadcast, areas);
 };
 
 /**
@@ -395,14 +450,16 @@ module.exports = function(globalApp) {
 	
 	app = globalApp;
 
-	findBridge();
-	
+    findBridge();
+
+
 	return {
         getApi: function() {
             return api;
         },
         errorHandler: errorHandler,
 		setLightState: setLightState,
+        setLightStateAll: setLightStateAll,
         setGroupLightState: setGroupLightState,
         customApiCall: customApiCall
 	};

@@ -97,8 +97,8 @@
             -   name
             -   lights: Array
     -   **state(id, state)**: Status einer Gruppe verändern
-    -   **create(name, lights)**: Gruppe erstellen und Formular zurücksetzen; IDs in lights als Integers!
-    -   **update(id, name, lights)**: Gruppe bearbeiten; IDs in lights als Strings!
+    -   **create(group)**: Gruppe erstellen und Formular zurücksetzen; IDs in lights als Integers!
+    -   **update(id, group)**: Gruppe bearbeiten; IDs in lights als Strings!
     -   **remove(id)**: Gruppe löschen
 -   **favorites**: Lampeneinstellungs-Favoriten
     -   **forms**: Platzhalter für Formulare
@@ -111,7 +111,6 @@
 -   **helpers**: Hilfs-Funktionen
     -   **toggleList(arr, el, numeric)**: Element in ein Array einfügen/entfernen; z.B. zum Erstellen eines Arrays aus mehreren Checkboxen
     -   **listChecked(arr, el, numeric)**: Überprüfen, ob ein Element in einem Array vorhanden ist
-    -   **cleanMongooseProperties(o)**: Entfernt System-Properties aus Mongoose-Objekten (z.B. _id), um sie updaten zu können
 
 
 ## Besondere Konstrukte

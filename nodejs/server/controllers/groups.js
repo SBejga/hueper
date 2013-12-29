@@ -5,7 +5,12 @@ var socketListeners = function(socket) {
     // change group state
     socket.on('group.state', function(data) {
         console.log('[groups] Change group state: ', data);
-        app.controllers.hue.setGroupLightState(data.id, data.state, true);
+
+        app.controllers.hue.setGroupLightState(
+            data.id,
+            data.state,
+            app.controllers.socket.getBroadcastSocket(socket)
+        );
     });
 
     // create group
@@ -25,7 +30,10 @@ var socketListeners = function(socket) {
                 }
 
                 app.state.groups[result.id] = data;
-                app.controllers.socket.refreshState(false, ['groups.' + result.id]);
+                app.controllers.socket.refreshState(
+                    false,
+                    ['groups.' + result.id]
+                );
             })
             .fail(app.controllers.hue.errorHandler)
             .done();
@@ -54,7 +62,10 @@ var socketListeners = function(socket) {
                             lights: data.lights
                         };
 
-                        app.controllers.socket.refreshState(app.controllers.socket.getBroadcastSocket(socket), ['groups.' + data.id]);
+                        app.controllers.socket.refreshState(
+                            app.controllers.socket.getBroadcastSocket(socket),
+                            ['groups.' + data.id]
+                        );
                     })
                     .fail(app.controllers.hue.errorHandler)
                     .done();
@@ -70,7 +81,10 @@ var socketListeners = function(socket) {
 
         app.controllers.hue.getApi().deleteGroup(id);
         delete app.state.groups[id];
-        app.controllers.socket.deleteFromState(app.controllers.socket.getBroadcastSocket(socket), ['groups.' + id]);
+        app.controllers.socket.deleteFromState(
+            app.controllers.socket.getBroadcastSocket(socket),
+            ['groups.' + id]
+        );
     });
 
 };

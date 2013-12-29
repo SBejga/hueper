@@ -17,7 +17,10 @@ var socketListeners = function(socket) {
 
             var id = favorite['_id'];
             app.state.favorites[id] = favorite;
-            app.controllers.socket.refreshState(false, ['favorites.' + id]);
+            app.controllers.socket.refreshState(
+                false,
+                ['favorites.' + id]
+            );
         });
     });
 
@@ -34,12 +37,19 @@ var socketListeners = function(socket) {
                 console.log('[favorites] Mongoose error: ', err);
 
                 // revert client to original state
-                app.controllers.socket.refreshState(socket, ['favorites.' + id]);
+                app.controllers.socket.refreshState(
+                    socket,
+                    ['favorites.' + id]
+                );
+
                 return;
             }
 
             app.state.favorites[id] = favorite;
-            app.controllers.socket.refreshState(app.controllers.socket.getBroadcastSocket(socket), ['favorites.' + id]);
+            app.controllers.socket.refreshState(
+                app.controllers.socket.getBroadcastSocket(socket),
+                ['favorites.' + id]
+            );
         });
 
     });
@@ -51,7 +61,10 @@ var socketListeners = function(socket) {
         Favorite.findByIdAndRemove(id).exec();
 
         delete app.state.favorites[id];
-        app.controllers.socket.deleteFromState(app.controllers.socket.getBroadcastSocket(socket), ['favorites.' + id]);
+        app.controllers.socket.deleteFromState(
+            app.controllers.socket.getBroadcastSocket(socket),
+            ['favorites.' + id]
+        );
     });
 
 };

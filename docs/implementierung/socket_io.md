@@ -30,12 +30,14 @@
     `{ <Name>: <Wert>, ... }`
 -   **config.firmware**: Firmware-Update starten
     `true`
--   **light.state**: Ändern von Werten einer Lampe / allen Lampen (id 0)
+-   **light.state**: Ändern von Werten einer Lampe
     `{ id: ..., state: { ... } }`
+-   **light.stateAll**: Ändern von Werten aller Lampen
+    `<State>`
 -   **light.search**: Nach neuen Lampen suchen (true)
 -   **light.name**: Lampe umbenennen
     `{ id: ..., name: ... }`
--   **group.state**: Status einer Gruppe verändern
+-   **group.state**: Status einer Gruppe verändern (alle Lampen ID 0)
     `{ id: ..., state: { ... } }`
 -   **group.create**: Gruppe erstellen
     `{ name: ..., lights: [ 1, ...] }`

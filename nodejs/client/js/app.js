@@ -264,10 +264,22 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
          * @param {object} state
          */
         state: function(id, state) {
+            var i;
+
+            if(typeof($scope.state.lights[id]) === 'undefined') {
+                return;
+            }
+
             socket.emit('light.state', {
                 id: id,
                 state: state
             });
+
+            for(i in state) {
+                if(state.hasOwnProperty(i) && i !== 'transitiontime') {
+                    $scope.state.lights[id].state[i] = state[i];
+                }
+            }
         },
 
         /**
@@ -288,7 +300,19 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
          * @param {object} state
          */
         stateAll: function(state) {
-            $scope.lights.state(0, state);
+            var i, j;
+
+            socket.emit('light.stateAll', state);
+
+            for(i in $scope.state.lights) {
+                if($scope.state.lights.hasOwnProperty(i) && $scope.state.lights[i].state.reachable) {
+                    for(j in state) {
+                        if(state.hasOwnProperty(j) && j !== 'transitiontime') {
+                            $scope.state.lights[i].state[j] = state[j];
+                        }
+                    }
+                }
+            }
         },
 
         /**
@@ -304,10 +328,17 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
          * @param name
          */
         setName: function(id, name) {
+
+            if(typeof($scope.state.lights[id]) == 'undefined') {
+                return;
+            }
+
             socket.emit('light.name', {
                 id: id,
                 name: name
             });
+
+            $scope.state.lights[id].name = name;
         }
     
     };
@@ -332,23 +363,46 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
          * @param {array} state
          */
         state: function(id, state) {
+            var i, j;
+
+            if(typeof($scope.state.groups[id]) == 'undefined') {
+                return;
+            }
+
             socket.emit('group.state', {
                 id: id,
                 state: state
             });
+
+            // change group state
+
+            if(typeof($scope.state.groups[id].action) === 'undefined') {
+                $scope.state.groups[id].action = {};
+            }
+
+            for(j in state) {
+                if(state.hasOwnProperty(j) && j !== 'transitiontime') {
+                    $scope.state.groups[id].action[j] = state[j];
+                }
+            }
+
+            // change lights state
+
+            for(i = 0; i < $scope.state.groups[id].lights.length; i++) {
+                for(j in state) {
+                    if(state.hasOwnProperty(j) && j !== 'transitiontime') {
+                        $scope.state.lights[$scope.state.groups[id].lights[i]].state[j] = state[j];
+                    }
+                }
+            }
         },
 
         /**
          * Create new group and reset create form
-         * @param name
-         * @param {array} lights IDs as integers!
+         * @param {object} group light IDs as integers!
          */
-        create: function(name, lights) {
-
-            socket.emit('group.create', {
-                name: name,
-                lights: lights
-            });
+        create: function(group) {
+            socket.emit('group.create', group);
 
             // reset form
             $scope.groups.forms.create.name = '';
@@ -358,14 +412,13 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
         /**
          * update group
          * @param id
-         * @param name
-         * @param {array} lights IDs as strings!
+         * @param {object} group light IDs as strings!
          */
-        update: function(id, name, lights) {
+        update: function(id, group) {
             socket.emit('group.update', {
                 id: id,
-                name: name,
-                lights: lights
+                name: group.name,
+                lights: group.lights
             });
         },
 

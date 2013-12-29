@@ -197,7 +197,11 @@
 
         <br />
 
-        <form ng-submit="groups.update(id, group.name, group.lights)">
+        Favoriten: <button ng-repeat="(fid, f) in state.favorites" ng-click="groups.state(id, f.state)">{{f.name}}</button>
+
+        <br />
+
+        <form ng-submit="groups.update(id, group)">
             <input type="text" ng-model="group.name" required />
 
             <span ng-repeat="(lid, light) in state.lights">
@@ -218,7 +222,7 @@
 
 <h2>Gruppe erstellen</h2>
 
-<form ng-submit="groups.create(groups.forms.create.name, groups.forms.create.lights)">
+<form ng-submit="groups.create(groups.forms.create)">
     <input type="text" ng-model="groups.forms.create.name" required />
 
     <span ng-repeat="(id, light) in state.lights">
@@ -238,7 +242,7 @@
     <h2>{{id}} - {{f.name}}</h2>
 
     <p>
-        <button ng-click="lights.state(0, f.state)">alle Lampen</button>
+        <button ng-click="lights.stateAll(f.state)">alle Lampen</button>
         <button ng-click="favorites.remove(id)">Favorit löschen</button>
     </p>
 
@@ -284,32 +288,6 @@
     <br />
     <input type="submit" value="speichern" />
 </form>
-
-<!--
-<h1>Scenes</h1>
-
-
-<div ng-repeat="scene in state.scenes">
-    <h2>{{scene._id}} - {{scene.name}}</h2>
-
-
-    <div ng-repeat="light in scene.lights">
-        <h4>{{light.light}} - {{state.lights[light.light].name}}</h4>
-
-        on: <input type="checkbox" ng-model="light.state.on" />
-
-        <span ng-repeat="val in ['bri', 'hue', 'sat', 'ct']">
-            {{val}} <input type="number" ng-model="light.state[val]" />
-        </span>
-
-        effect <select ng-model="light.state.effect">
-            <option>none</option>
-            <option>colorloop</option>
-        </select>
-    </div>
-</div>
--->
-
 
 <!-- complete state -->
 

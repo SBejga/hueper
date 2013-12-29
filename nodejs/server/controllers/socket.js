@@ -5,26 +5,8 @@ var socketListeners = [];
 	
 var app, io;
 
-/*
-var	sceneCallback = function(err) {
-
-	// TODO error handling
-	
-	if(err) {
-	
-	}
-	else {
-		Scene.find(function(err, scenes) {
-			io.sockets.in('login').emit('scenes.update', scenes);
-		});
-	}
-	
-};
-*/
-
 /**
  * Socket connection listener
- * User login handler
  */
 var setupSocketHandlers = function() {
 
@@ -32,41 +14,56 @@ var setupSocketHandlers = function() {
 
         console.log('[socket] connection from ' + socket.id + ' (' + socket.handshake.address.address + ')');
 
-        // no login required
-        if(app.config.password === null) {
-            socket.emit('login.required', false);
-            acceptSocket(socket);
-        }
-        else {
+        app.controllers.mongoose.addConnectionListener(function() {
+            handleLogin(socket);
+        });
 
-            socket.on('login', function(data) {
-
-                // only proceed if not already logged in
-                socket.get('login', function(err, login) {
-
-                    if(login === null) {
-                        if(data.password === app.config.password) {
-
-                            socket.set('login', true, function() {
-                                socket.emit('login', true);
-                                acceptSocket(socket);
-                            });
-
-                        }
-                        else {
-                            socket.emit('login', false);
-                        }
-                    }
-
-                });
-
-            });
-
-            socket.emit('login.required', true);
-        }
+        // send connect state to socket to display MongoDB connection problems
+        refreshState(socket, ['connect']);
 
 	});
 
+};
+
+/**
+ * MongoDB connection established; send login.required information to user
+ * and handle login event
+ * @param socket
+ */
+var handleLogin = function(socket) {
+
+    // no login required
+    if(app.config.password === null) {
+        socket.emit('login.required', false);
+        acceptSocket(socket);
+    }
+    else {
+
+        socket.on('login', function(data) {
+
+            // only proceed if not already logged in
+            socket.get('login', function(err, login) {
+
+                if(login === null) {
+                    if(data.password === app.config.password) {
+
+                        socket.set('login', true, function() {
+                            socket.emit('login', true);
+                            acceptSocket(socket);
+                        });
+
+                    }
+                    else {
+                        socket.emit('login', false);
+                    }
+                }
+
+            });
+
+        });
+
+        socket.emit('login.required', true);
+    }
 };
 
 /**
@@ -86,23 +83,6 @@ var acceptSocket = function(socket) {
     for(i = 0; i < socketListeners.length; i++) {
         socketListeners[i](socket);
     }
-
-    /*
-     // scene administration
-
-     socket.on('scene.create', function(data) {
-     Scene.create(data, sceneCallback);
-     });
-
-     socket.on('scene.update', function(data) {
-     Scene.update({_id: data._id}, data, sceneCallback);
-     });
-
-     socket.on('scene.remove', function(data) {
-     Scene.remove({_id: data}, sceneCallback);
-     });
-
-     */
 
     //
     // actions after connecting to socket

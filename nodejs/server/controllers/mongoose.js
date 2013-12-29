@@ -1,5 +1,7 @@
-﻿var	mongoose	= require('mongoose'),
-	db			= mongoose.connection;
+﻿var	mongoose = require('mongoose'),
+	db = mongoose.connection,
+    connectionListeners = [],
+    wasConnected = false;
 
 //
 // import models (globally available through mongoose module)
@@ -12,6 +14,9 @@ var Config = mongoose.model('Config'),
 
 module.exports = function(app) {
 
+    // synchronize asynchronous load events to determine when all have finished
+    var remainingEvents = 0;
+
     //
     // Connection management
     //
@@ -22,7 +27,12 @@ module.exports = function(app) {
     var setConnectedState = function(state) {
         console.log('[mongoose] MongoDB ' + (state ? '' : 'dis') + 'connected');
         app.state.connect.mongodb = state;
-        app.controllers.socket.refreshState(false, ['connect']);
+
+        // send to all sockets, including not logged in users
+        app.controllers.socket.refreshState(
+            app.server.io.sockets,
+            ['connect']
+        );
     };
 
     db.on('connected', function() {
@@ -49,7 +59,7 @@ module.exports = function(app) {
 
 
     //
-    // load models into cache
+    // load models into cache and execute connection listeners
     //
 
 	db.once('open', function() {
@@ -58,6 +68,7 @@ module.exports = function(app) {
 
         // config (app.config, app.state.appConfig)
 
+        remainingEvents++;
         Config.find(function(err, entries) {
             var i, c;
 
@@ -76,20 +87,68 @@ module.exports = function(app) {
 
             // load default configuration into MongoDB if not already present
             require('../config/application')(app);
+
+            connectionFinished();
         });
 
         // favorites (app.state.favorites)
 
+        remainingEvents++;
         Favorite.getAsMap(function(map) {
             app.state.favorites = map;
+
+            connectionFinished();
         });
 
         // scenes (app.state.scenes)
 
+        remainingEvents++;
 		Scene.find(function(err, scenes) {
 			app.state.scenes = scenes;
+
+            connectionFinished();
 		});
 
 	});
+
+    var connectionFinished = function() {
+        var i;
+
+        // only execute when all remaining events have finished
+        remainingEvents--;
+
+        if(remainingEvents > 0) {
+            return;
+        }
+
+        console.log('[mongoose] MongoDB connection completed, executing listeners');
+
+        wasConnected = true;
+
+        for(i = 0; i < connectionListeners.length; i++) {
+            connectionListeners[i]();
+        }
+
+    };
+
+
+    return {
+
+        /**
+         * Add listener that gets executed on first MongoDB connection
+         * @param listener
+         */
+        addConnectionListener: function(listener) {
+
+            // execute listener immediately when MongoDB was already connected
+            if(wasConnected) {
+                listener();
+            }
+            else {
+                connectionListeners.push(listener);
+            }
+
+        }
+    }
 
 };
