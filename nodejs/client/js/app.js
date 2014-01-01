@@ -286,12 +286,7 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
             }
 
             // change colormode
-            if(typeof(state.ct) !== 'undefined') {
-                $scope.state.lights[id].colormode = 'ct';
-            }
-            else if(typeof(state.hs) !== 'undefined') {
-                $scope.state.lights[id].colormode = 'hs';
-            }
+            $scope.helpers.setColorMode(state, $scope.state.lights[id].state);
         },
 
         /**
@@ -325,12 +320,7 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
                     }
 
                     // change colormode
-                    if(typeof(state.ct) !== 'undefined') {
-                        $scope.state.lights[i].colormode = 'ct';
-                    }
-                    else if(typeof(state.hs) !== 'undefined') {
-                        $scope.state.lights[i].colormode = 'hs';
-                    }
+                    $scope.helpers.setColorMode(state, $scope.state.lights[i].state);
                 }
             }
         },
@@ -406,6 +396,9 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
                 }
             }
 
+            // change group action colormode
+            $scope.helpers.setColorMode(state, $scope.state.groups[id].action);
+
             // change lights state
 
             for(i = 0; i < $scope.state.groups[id].lights.length; i++) {
@@ -415,13 +408,8 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
                     }
                 }
 
-                // change colormode
-                if(typeof(state.ct) !== 'undefined') {
-                    $scope.state.lights[$scope.state.groups[id].lights[i]].colormode = 'ct';
-                }
-                else if(typeof(state.hs) !== 'undefined') {
-                    $scope.state.lights[$scope.state.groups[id].lights[i]].colormode = 'hs';
-                }
+                // change light colormode
+                $scope.helpers.setColorMode(state, $scope.state.lights[$scope.state.groups[id].lights[i]].state);
             }
         },
 
@@ -676,38 +664,34 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
             }
 
             return (arr.indexOf(el) !== -1);
-        }
-
-    };
-
-    // scene control
-    // TODO dummy
-
-    /*
-    $scope.scenes = {
-
-        save: function() {
-
-            socket.emit('scene.save', {
-                name: "meine Scene",
-                lights: [
-                    {
-                        light: 1,
-                        state: {
-                            on: true,
-                            bri: 85,
-                            hue: 1,
-                            sat: 255
-                        }
-                    }
-                ]
-            });
         },
 
-        remove: function(id) {
-            socket.emit('scene.remove', id);
+        setColorMode: function(state, lightState) {
+
+            // ct: remove hue/sat
+            if(typeof(state.ct) !== 'undefined') {
+                lightState.colormode = 'ct';
+
+                delete lightState.hue;
+                delete lightState.sat;
+            }
+            // hue/sat: remove ct
+            else if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined') {
+                lightState.colormode = 'hs';
+
+                delete lightState.ct;
+
+                // fill in dummies for missing values
+                if(typeof(lightState.hue) === 'undefined') {
+                    lightState.hue = 0;
+                }
+                if(typeof(lightState.sat) === 'undefined') {
+                    lightState.sat = 254;
+                }
+            }
+
         }
 
     };
-    */
+
 }]);

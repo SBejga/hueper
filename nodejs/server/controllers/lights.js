@@ -26,13 +26,19 @@ var socketListeners = function(socket) {
     // search for new lights
     socket.on('light.search', function() {
         console.log('[lights] Search for new lights initiated');
-        app.controllers.hue.getApi().searchForNewLights();
+
+        app.controllers.hue.makeApiCall(function(api) {
+            api.searchForNewLights();
+        });
     });
 
     // rename light
     socket.on('light.name', function(data) {
         console.log('[lights] Renaming light ' + data.id + ' to ' + data.name);
-        app.controllers.hue.getApi().setLightName(data.id, data.name);
+
+        app.controllers.hue.makeApiCall(function(api) {
+            api.setLightName(data.id, data.name);
+        });
 
         app.state.lights[data.id].name = data.name;
 

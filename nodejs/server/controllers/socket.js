@@ -19,7 +19,9 @@ var setupSocketHandlers = function() {
         });
 
         // send connect state to socket to display MongoDB connection problems
-        refreshState(socket, ['connect']);
+        if(!app.state.connect.mongodb) {
+            refreshState(socket, ['connect']);
+        }
 
 	});
 

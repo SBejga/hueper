@@ -157,7 +157,7 @@
     <div ng-show="light.state.reachable">
         on: <input type="checkbox" ng-model="light.state.on" ng-change="lights.state(id, {'on': light.state.on})" /><br />
 
-        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-500)'}">
+        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
             {{name}} <code>[{{val}}]</code> <input type="number" ng-model="light.state[val]" ng-change="lights.stateAttribute(id, val, light.state[val])" /><br />
         </span>
 
@@ -252,7 +252,7 @@
 
         on: <input type="checkbox" ng-model="f.state.isOn" /><br />
 
-        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-500)'}">
+        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
             {{name}} <code>[{{val}}]</code> <input type="number" ng-model="f.state[val]" /><br />
         </span>
 
@@ -276,7 +276,7 @@
 
     on: <input type="checkbox" ng-model="favorites.forms.create.state.isOn" /><br />
 
-        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-500)'}">
+        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
             {{name}} <code>[{{val}}]</code> <input type="number" ng-model="favorites.forms.create.state[val]" /><br />
         </span>
 
@@ -315,7 +315,7 @@
 
         on: <input type="checkbox" ng-model="l.state.isOn" /><br />
 
-        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-500)'}">
+        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
             {{name}} <code>[{{val}}]</code> <input type="number" ng-model="l.state[val]" /><br />
         </span>
 
@@ -351,7 +351,7 @@
 
         on: <input type="checkbox" ng-model="l.state.isOn" /><br />
 
-        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-500)'}">
+        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
             {{name}} <code>[{{val}}]</code> <input type="number" ng-model="l.state[val]" /><br />
         </span>
 

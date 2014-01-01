@@ -124,13 +124,15 @@ module.exports = function(app) {
             return;
         }
 
-        console.log('[mongoose] MongoDB connection completed, executing listeners');
+        console.log('[mongoose] MongoDB connection completed, executing ' + connectionListeners.length + ' listeners');
 
         wasConnected = true;
 
         for(i = 0; i < connectionListeners.length; i++) {
             connectionListeners[i]();
         }
+
+        connectionListeners = [];
 
     };
 
