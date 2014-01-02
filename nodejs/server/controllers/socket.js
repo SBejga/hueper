@@ -12,7 +12,12 @@ var setupSocketHandlers = function() {
 
 	io.sockets.on('connection', function(socket) {
 
-        console.log('[socket] connection from ' + socket.id + ' (' + socket.handshake.address.address + ')');
+        if(socket.handshake && socket.handshake.address && socket.handshake.address.address) {
+            console.log('[socket] connection from ' + socket.id + ' (' + socket.handshake.address.address + ')');
+        }
+        else {
+            console.log('[socket] connection from ' + socket.id);
+        }
 
         app.controllers.mongoose.addConnectionListener(function() {
             handleLogin(socket);
@@ -75,7 +80,13 @@ var handleLogin = function(socket) {
 var acceptSocket = function(socket) {
     var i;
 
-    console.log('[socket] login from ' + socket.id + ' (' + socket.handshake.address.address + ')');
+    if(socket.handshake && socket.handshake.address && socket.handshake.address.address) {
+        console.log('[socket] login from ' + socket.id + ' (' + socket.handshake.address.address + ')');
+    }
+    else {
+        console.log('[socket] login from ' + socket.id);
+    }
+
 
     // join login room to receive broadcasts
     socket.join('login');
