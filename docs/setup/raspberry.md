@@ -77,14 +77,9 @@ Von nun an werden Tastatur und Bildschirm nicht mehr benötigt, da der Raspberry
 
 Der SSH-Server ist über den eingestellten Hostnamen auf Port 22 erreichbar.
 
-### Software-Updates einspielen
-
-    sudo apt-get update
-    sudo apt-get upgrade
-
 ### USB-WLAN-Stick einrichten
 
--   Folgenden Inhalt zur Datei */etc/wpa_supplicant/wpa_supplicant.conf* hinzufügen (als root):
+Folgenden Inhalt zur Datei */etc/wpa_supplicant/wpa_supplicant.conf* hinzufügen (als root):
 
     network={
     ssid="<SSID>"
@@ -99,11 +94,43 @@ Der SSH-Server ist über den eingestellten Hostnamen auf Port 22 erreichbar.
 -   Mit `ifconfig` überprüfen, ob eine Verbindung besteht (eine IP ist beim wlan0-Adapter eingetragen)
 
 
+### USB-Soundkarte einrichten
+
+Die Datei *home/pi/.asoundrc* mit folgendem Inhalt anlegen:
+
+    pcm.!default {
+        type hw
+        card 1
+    }
+
+    ctl.!default {
+        type hw
+        card 1
+    }
+
+Die Aufnahme-Lautstärke kann über das Programm `alsamixer` geändert werden. Um die Einstellungen dauerhaft zu speichern, folgenden Befehl eingeben:
+
+    sudo alsactl store 1
+
+
+__________________
+**Die nachfolgenden Schritte können automatisiert werden**
+
+Dazu einfach die *raspberry/setup.sh* auf den Raspberry laden, mit `chmod +x setup.sh` ausführbar machen und mit `sudo ./setup.sh` starten
+__________________
+
+
+### Software-Updates einspielen
+
+    sudo apt-get update
+    sudo apt-get -y upgrade
+
+
 ## Einrichten des Projekts
 
 ### Dependencies installieren
 
-    sudo apt-get install git build-essential
+    sudo apt-get -y install git build-essential
 
 ### NodeJS-Server und MongoDB
 
@@ -123,19 +150,17 @@ Folgende Befehle in die Kommandozeile eingeben, dabei die richtige NodeJS-Versio
     wget http://nodejs.org/dist/v0.10.22/node-v0.10.22-linux-arm-pi.tar.gz
     tar xvzf node-v0.10.22-linux-arm-pi.tar.gz
     sudo cp -r node-v0.10.22-linux-arm-pi/* /opt/node
-    rm -r node-v0.10.22-linux-arm-pi
+    rm -f -r node-v0.10.22-linux-arm-pi
 
     sudo mkdir /opt/mongo
     git clone https://github.com/brice-morin/ArduPi.git
     sudo cp -r ArduPi/mongodb-rpi/mongo/* /opt/mongo
-    rm -r ArduPi
+    rm -f -r ArduPi
+    sudo chmod +x /opt/mongo/bin/*
     sudo mkdir /data/db
     sudo chown $USER /data/db
 
-
-Falls beim Löschen der Ordner eine Warnung wegen schreibgeschützten Dateien erscheint, mit `J!` bestätigen.
-
-In der */etc/profile* folgenden Inhalt **vor** den *export*-Befehl einfügen:
+In der */etc/profile* folgenden Inhalt **vor** den *export PATH*-Befehl einfügen:
 
     NODE_JS_HOME="/opt/node"
     PATH="$PATH:$NODE_JS_HOME/bin:/opt/mongo/bin/"
@@ -147,8 +172,7 @@ In der */etc/profile* folgenden Inhalt **vor** den *export*-Befehl einfügen:
 
 Ordner für Logfiles anlegen:
 
-    cd  ~
-    mkdir log
+    sudo mkdir /var/log/hue
 
 Die Datei */etc/init.d/mongod* mit folgendem Inhalt anlegen:
 
@@ -166,22 +190,45 @@ Die Datei */etc/init.d/mongod* mit folgendem Inhalt anlegen:
 
     NAME="MongoDB"
     EXE=/opt/mongo/bin/mongod
+    PARAM="--dbpath /data/db"
     USER=pi
-    OUT=/home/pi/log/mongod.log
+    OUT=/var/log/hue/mongod.log
+    LOCK=/data/db/mongod.lock
+    PIDFILE=/var/run/mongod.pid
+
+    if [ "$(whoami)" != "root" ]; then
+        echo "This script must be run with root privileges!"
+        echo "Try sudo $0"
+        exit 1
+    fi
 
     case "$1" in
 
     start)
-        echo "starting $NAME: $EXE"
-        sudo -u $USER $EXE >> $OUT 2>>$OUT &
+
+        if [ -s $LOCK ]; then
+            echo "repairing MongoDB state"
+            rm $LOCK
+            sudo -u $USER $EXE $PARAM --repair >> $OUT 2>>$OUT
+        fi
+
+        echo "starting $NAME: $EXE $PARAM"
+        sudo -u $USER $EXE $PARAM >> $OUT 2>>$OUT &
+        echo $! > $PIDFILE
         ;;
 
     stop)
-        killall $EXE
+        echo "stopping $NAME"
+        kill $(cat $PIDFILE)
+        ;;
+
+    restart)
+        $0 stop
+        $0 start
         ;;
 
     *)
-        echo "usage: $0 (start|stop)"
+        echo "usage: $0 (start|stop|restart)"
     esac
 
     exit 0
@@ -207,52 +254,66 @@ Starten mit
 
     node ~/hueper/nodejs/server.js
 
-Autostart: */etc/init.d/nodejs* mit folgendem Inhalt erstellen:
+Autostart: */etc/init.d/nodejs-hue* mit folgendem Inhalt erstellen:
 
     #!/bin/bash
 
     ### BEGIN INIT INFO
-    # Provides: NodeJS
+    # Provides: NodeJS Hue
     # Required-Start: $remote_fs $syslog
     # Required-Stop: $remote_fs $syslog
     # Default-Start: 2 3 4 5
     # Default-Stop: 0 1 6
-    # Short-Description: NodeJS Autostart
-    # Description: NodeJS Autostart
+    # Short-Description: NodeJS Hue Autostart
+    # Description: NodeJS Hue Autostart
     ### END INIT INFO
 
     NAME="NodeJS"
     EXE=/opt/node/bin/node
     PARAM=/home/pi/hueper/nodejs/server.js
     USER=pi
-    OUT=/home/pi/log/nodejs.log
+    OUT=/var/log/hue/nodejs.log
+    PIDFILE=/var/run/nodejs-hue.pid
+
+    if [ "$(whoami)" != "root" ]; then
+        echo "This script must be run with root privileges!"
+        echo "Try sudo $0"
+        exit 1
+    fi
 
     case "$1" in
 
     start)
-    	echo "starting $NAME: $EXE $PARAM"
-    	sudo -u $USER $EXE $PARAM >> $OUT 2>>$OUT &
-    	;;
+        echo "starting $NAME: $EXE $PARAM"
+        sudo -u $USER $EXE $PARAM >> $OUT 2>>$OUT &
+        echo $! > $PIDFILE
+        ;;
 
     stop)
-    	killall $EXE
-    	;;
+        echo "stopping $NAME"
+        kill $(cat $PIDFILE)
+        ;;
+
+    restart)
+        $0 stop
+        $0 start
+        ;;
 
     *)
-    	echo "usage: $0 (start|stop)"
+        echo "usage: $0 (start|stop|restart)"
     esac
 
     exit 0
 
 Ausführbar machen und in den Systemstart einbinden:
 
-    sudo chmod 755 /etc/init.d/nodejs
-    sudo update-rc.d nodejs defaults
+    sudo chmod 755 /etc/init.d/nodejs-hue
+    sudo update-rc.d nodejs-hue defaults
 
 Starten/stoppen
 
-    sudo /etc/init.d/nodejs start
-    sudo /etc/init.d/nodejs stop
+    sudo /etc/init.d/nodejs-hue start
+    sudo /etc/init.d/nodejs-hue stop
 
 
 ## Quellen
@@ -261,3 +322,4 @@ Starten/stoppen
 -   WLAN Setup: http://pingbin.com/2012/12/setup-wifi-raspberry-pi/
 -   NodeJS Setup: http://blog.rueedlinger.ch/2013/03/raspberry-pi-and-nodejs-basic-setup/
 -   MongoDB Setup: https://github.com/brice-morin/ArduPi/tree/master/mongodb-rpi
+-   Externe Soundkarte: http://asliceofraspberrypi.blogspot.de/2013/02/adding-audio-input-device.html
