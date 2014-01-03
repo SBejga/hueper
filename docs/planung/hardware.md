@@ -74,6 +74,31 @@ http://www.exp-tech.de/Shields/Adafruit-PN532-NFC-RFID-Controller-Shield-for-Ard
  
 ## Zubehör
 
+### Aktiver USB Hub
+
+Zum Verbinden mehrerer USB-Geräte mit dem Raspberry Pi sowie zu deren Stromversorgung, da die Versorgungsleistung des Raspberry Pi wahrscheinlich nicht ausreicht
+
+http://www.reichelt.de/USB-Hubs/LOGILINK-UA0085/3/index.html?&ACTION=3&LA=446&ARTICLE=139191&GROUPID=6103&artnr=LOGILINK+UA0085
+
+6,95€
+
+### USB Soundkarte
+
+um den Raspberry Pi für die Sprachsteuerung um einen Mikrofoneingang zu erweitern
+
+http://www.reichelt.de/Soundkarten/LOGILINK-UA0053/3/index.html?&ACTION=3&LA=446&ARTICLE=132569&GROUPID=6186&artnr=LOGILINK+UA0053
+
+4,95€
+
+### Mikrofon
+
+für die Sprachsteuerung
+
+http://www.alternate.de/Speedlink/FAMA_Notebook_Microphone,_Mikrofon/html/product/1105006/?
+
+5,99
+
+
 ### USB WLAN-Stick
 
 zum Verbinden des Raspberry Pi mit einem WLAN-Router
@@ -130,8 +155,8 @@ http://www.exp-tech.de/Zubehoer/Steckverbinder/Arduino-Stackable-Header-Kit-R3.h
 
 zum Nutzen des NFC/RFID-Shields
 
-http://www.exp-tech.de/Shields/Wireless/RFID/RFID1356-ISO-RFID-Tag-for-MOD-RFID1356.html
+http://www.reichelt.de/Zutrittskontrollsysteme/GRAND-MF-1-S50/3/index.html?&ACTION=3&LA=446&ARTICLE=124820&GROUPID=3510&artnr=GRAND+MF+1+S50&SEARCH=mifare
 
-2,38€
+0,95€
 
-**Gesamtsumme**:   369,13€   (zzgl. Versand)
+**Gesamtsumme**:   385,59€   (zzgl. Versand)
