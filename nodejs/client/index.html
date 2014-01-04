@@ -1,22 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="de" ng-app="hueApp">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>SmartLights</title>
-    <link rel="stylesheet" href="./css/jquery.mobile-1.4.0.min.css"/>
-    <link type="text/css" rel="stylesheet" href="css/layout.css"/>
-    <script src="./js/jquery-2.0.3.min.js"></script>
-    <script src="./js/jquery.mobile-1.4.0.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/jquery.mobile-1.4.0.css"/>
+    <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
+
+    <!-- JavaScript -->
+    <script src="./js/jquery-1.10.2.js"></script>
+    <script src="./js/jquery.mobile-1.4.0.js"></script>
+
+    <script src="./js/angular-1.0.8.js"></script>
+
+    <script src="./js/jquery-mobile-angular-adapter-modified.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/app.js"></script>
 
 
 </head>
 
-<body>
+<body ng-controller="MainCtrl">
 
 
-<div data-role="page" >
+<div data-role="page">
 
     <div data-role="header">
         <h1>SmartLights</h1>
@@ -24,11 +35,16 @@
 
     <div data-role="content">
 
+
         <a href="#" class="ui-btn ui-icon-singlelamp ui-btn-icon-left">Lampen & Gruppen</a>
         <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-left">Zeitschaltuhr</a>
         <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-left">Sensoren</a>
         <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-left">Party-Modus</a>
         <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-left">Einstellungen</a>
+
+        <ul data-role="listview">
+            <li ng-repeat="l in state.lights">{{l.name}}</li>
+    </ul>
 
     </div>
 
