@@ -120,7 +120,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
     -   **io**: Socket-IO
 -   **controllers**
     -   **hue**: Baut Verbindung zur Hue Bridge auf, meldet sich dort an und stellt die node-hue-api bereit
-        -   **getApi()**: Liefert die node-hue-api
+        -   **makeApiCall(callback)**: Funktion des node-hue-api-Moduls ausführen, wenn/sobald eine Verbindung zur Bridge besteht
         -   **setLightState(id, state, broadcast)**: Status einer Lampe ändern
         -   **setLightStateAll(state, broadcast)**: Status aller Lampen ändern
         -   **setGroupLightState(id, state, broadcast)**: Status einer Gruppe ändern

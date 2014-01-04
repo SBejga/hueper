@@ -11,7 +11,9 @@ var socketListeners = function(socket) {
     // delete user
     socket.on('config.deleteUser', function(data) {
         console.log('[configuration] Delete user: ', data.id);
-        app.controllers.hue.getApi().deleteUser(data.id);
+        app.controllers.hue.makeApiCall(function(api) {
+            api.deleteUser(data.id);
+        });
 
         delete app.state.config.whitelist[data.id];
         app.controllers.socket.deleteFromState(
@@ -23,7 +25,9 @@ var socketListeners = function(socket) {
     // press link button
     socket.on('config.pressLinkButton', function() {
         console.log('[configuration] Press link button');
-        app.controllers.hue.getApi().pressLinkButton();
+        app.controllers.hue.makeApiCall(function(api) {
+            api.pressLinkButton();
+        });
 
         app.state.config.linkbutton = true;
         app.controllers.socket.refreshState(
