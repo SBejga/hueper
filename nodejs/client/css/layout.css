@@ -1,3 +1,10 @@
-#startseite {
+#background {
     background-color: #34313b;
+}
+
+
+.ui-icon-singlelamp:after{
+    background-image:url("./../images/birne.png");
+    width: 30px;
+    height: 30px;
 }
