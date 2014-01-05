@@ -51,20 +51,20 @@ require('./server/config/mongoose')(app);
 // Controllers
 //
 
-// general
+var controllers = [
 
-app.controllers.mongoose = require('./server/controllers/mongoose')(app);
-app.controllers.socket = require('./server/controllers/socket')(app);
-app.controllers.hue = require('./server/controllers/hue')(app);
+    // general controllers
+    'mongoose', 'socket', 'hue', 'arduino',
 
+    // functional controllers
+    'configuration', 'lights', 'groups', 'favorites', 'scenes', 'arduino_button'
 
-// functional
+];
 
-app.controllers.configuration = require('./server/controllers/configuration')(app);
-app.controllers.lights = require('./server/controllers/lights')(app);
-app.controllers.groups = require('./server/controllers/groups')(app);
-app.controllers.favorites = require('./server/controllers/favorites')(app);
-app.controllers.scenes = require('./server/controllers/scenes')(app);
+controllers.forEach(function(controller) {
+    app.controllers[controller] = require('./server/controllers/' + controller)(app);
+});
+
 
 //
 // Debug REPL console

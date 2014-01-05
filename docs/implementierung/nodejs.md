@@ -134,11 +134,14 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **broadcast(data)**: Nachricht an alle eingeloggten Benutzer schicken
         -   **broadcastSocket(socket, data)**: Nachricht an alle eingeloggten Benutzer außer den des Sockets schicken
         -   **getBroadcastSocket(socket)**: Alle Sockets von eingeloggten Benutzern außer dem übergebenen erhalten
+    -   **arduino**: Verbindungsaufbau zum Arduino
+        -   **addListener(listener)**:
     -   **lights**: Steuerung der Lampen
     -   **groups**: Steuerung der Gruppen
     -   **configuration**: Konfiguration der Hue Bridge und der Anwendung
     -   **favorites**: Verwaltung der Lampeneinstellungs-Favoriten
     -   **scenes**: Verwaltung der Szenen
+    -   **arduino_button**: Fährt den Raspberry Pi herunter, wenn der Button am Arduino gedrückt wurde
 
 
 ## Controller hinzufügen

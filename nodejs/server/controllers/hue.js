@@ -523,7 +523,12 @@ var customApiCall = function(path, method, body, callback) {
 var makeApiCall = function(callback) {
 
     if(app.state.connect.hue && app.state.connect.hueRegistered) {
-        callback(api);
+        try {
+            callback(api);
+        }
+        catch(e) {
+            errorHandler(e);
+        }
     }
     else {
         waitingApiCalls.push(callback);
@@ -540,7 +545,12 @@ var executeWaitingApiCalls = function() {
     console.log('[hue] Executing ' + waitingApiCalls.length + ' waiting Hue API calls');
 
     for(i = 0; i < waitingApiCalls.length; i++) {
-        waitingApiCalls[i](api);
+        try {
+            waitingApiCalls[i](api);
+        }
+        catch(e) {
+            errorHandler(e);
+        }
     }
 
     waitingApiCalls = [];
