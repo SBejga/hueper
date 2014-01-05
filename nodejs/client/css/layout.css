@@ -1,5 +1,12 @@
-#background {
+.background {
     background-color: #34313b;
+}
+
+
+.header{
+    text-align: center;
+    color: #e6e6e6;
+
 }
 
 
@@ -7,4 +14,9 @@
     background-image:url("./../images/birne.png");
     width: 30px;
     height: 30px;
+
+
 }
+
+
+
