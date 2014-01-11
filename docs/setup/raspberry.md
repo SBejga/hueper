@@ -77,7 +77,7 @@ Von nun an werden Tastatur und Bildschirm nicht mehr benötigt, da der Raspberry
 
 Der SSH-Server ist über den eingestellten Hostnamen auf Port 22 erreichbar.
 
-### USB-WLAN-Stick einrichten
+### USB-WLAN-Stick einrichten (optional)
 
 Folgenden Inhalt zur Datei */etc/wpa_supplicant/wpa_supplicant.conf* hinzufügen (als root):
 
@@ -93,6 +93,23 @@ Folgenden Inhalt zur Datei */etc/wpa_supplicant/wpa_supplicant.conf* hinzufügen
 -   Raspberry neustarten (`sudo reboot`), dabei das LAN-Kabel abziehen
 -   Mit `ifconfig` überprüfen, ob eine Verbindung besteht (eine IP ist beim wlan0-Adapter eingetragen)
 
+#### Verwenden des Raspberry Pi als WLAN-Brücke zur Hue-Bridge (optional)
+
+Der Raspberry Pi kann so eingerichtet werden, dass er seine WLAN-Verbindnug an Geräte weitergibt, die an seiner LAN-Buchse angeschlossen sind. Ist es z.B. aufgrund der Entfernung zu den Lampen nicht möglich, die Hue-Bridge direkt an den Router anzuschließen, kann sie einfach an den Raspberry Pi angeschlossen werden.
+
+Die ursprüngliche Netzwerk-Konfiguration kann mit `sudo cp /etc/network/interfaces /etc/network/interfaces.bak` gesichert werden, um sie bei Bedarf wiederherstellen zu können
+
+Die Installation erfolgt über das Script *raspberry/wifi-bridge.sh* (Quelle: hackhappy.org, nachträglich modifiziert). Nachdem es auf den Pi geladen wurde, muss es mit `chmod +x wifi-bridge.sh` ausführbar gemacht und dann mit `sudo ./wifi-bridge.sh` installiert werden.
+
+Funktionsweise:
+
+-   Das Script installiert einen DHCP-Server (*isc-dhcp-server*), der der Hue-Bridge beim Verbindungsaufbau eine IP zuweist
+-   Die *iptables*-Firewall wird so konfiguriert, dass Pakete zwischen Ethernet- und WLAN-Port weitergeleitet werden können
+
+Nachteile:
+
+-   Aufgrund des eigenen Adressbereichs kann die Hue-Bridge nur noch vom Raspberry Pi aus erreicht werden. Das bedeutet, dass die Hue-App und andere Drittsoftware keinen Zugriff mehr auf die Bridge erhalten
+-   Der LAN-Port kann nicht mehr zum Verbinden ins Internet benutzt werden. Dazu muss der DHCP-Server gestoppt und die Netzwerk-Konfiguration geändert werden
 
 ### USB-Soundkarte einrichten
 
@@ -320,6 +337,7 @@ Starten/stoppen
 
 -   Raspberry Pi Quick Start Guide: http://www.raspberrypi.org/wp-content/uploads/2012/04/quick-start-guide-v2_1.pdf
 -   WLAN Setup: http://pingbin.com/2012/12/setup-wifi-raspberry-pi/
+-   WLAN-Bridge: http://hackhappy.org/uncategorized/how-to-use-a-raspberry-pi-to-create-a-wireless-to-wired-network-bridge/
 -   NodeJS Setup: http://blog.rueedlinger.ch/2013/03/raspberry-pi-and-nodejs-basic-setup/
 -   MongoDB Setup: https://github.com/brice-morin/ArduPi/tree/master/mongodb-rpi
 -   Externe Soundkarte: http://asliceofraspberrypi.blogspot.de/2013/02/adding-audio-input-device.html
