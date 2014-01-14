@@ -2,6 +2,9 @@
 
     listeners = [],
     connection,
+    connectionTimeout,
+    connectionTryInterval = 10000,
+    connectionTryAdd = 10000,
     lastMessageTime,
     app;
 
@@ -24,8 +27,8 @@ var findArduino = function() {
         }
 
         if(!foundArduino) {
-            console.log('[arduino] Arduino not found, retry in 10 seconds');
-            setTimeout(findArduino, 10000);
+            console.log('[arduino] Arduino not found');
+            retryConnection();
         }
 
     });
@@ -43,7 +46,22 @@ var connectToArduino = function(port) {
         parser: serialport.parsers.readline('\n')
     });
 
+    // catch hanging connection
+    connectionTimeout = setTimeout(function() {
+
+        // causes abort on Linux when Arduino is disconnected
+        //connection.close();
+
+        console.log('[arduino] Arduino connection failed');
+        retryConnection();
+
+    }, 30000);
+
+
     connection.on('open', function() {
+        clearTimeout(connectionTimeout);
+        connectionTryInterval = 10000;
+
         app.state.connect.arduino = true;
         app.controllers.socket.refreshState(false, ['connect.arduino']);
 
@@ -80,14 +98,25 @@ var connectToArduino = function(port) {
  */
 var checkHeartBeat = function() {
     if(app.state.connect.arduino && new Date().getTime() - lastMessageTime > 10000) {
-        console.log('[arduino] Arduino connection lost, retry in 10 seconds');
+        console.log('[arduino] Arduino connection lost');
 
-        connection.close();
+        // causes abort on Linux when Arduino is disconnected
+        //connection.close();
+
         app.state.connect.arduino = false;
         app.controllers.socket.refreshState(false, ['connect.arduino']);
 
-        setTimeout(findArduino, 10000);
+        retryConnection();
     }
+};
+
+/**
+ * Retry connecting to Arduino and increase amount of next timeout
+ */
+var retryConnection = function() {
+    console.log('[arduino] Retry connection in ' + (connectionTryInterval/1000) + ' seconds');
+    setTimeout(findArduino, connectionTryInterval);
+    connectionTryInterval += connectionTryAdd;
 };
 
 

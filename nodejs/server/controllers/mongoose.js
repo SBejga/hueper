@@ -136,6 +136,46 @@ module.exports = function(app) {
 
     };
 
+    /**
+     * Mongoose error handler to apply as parameter to exec() functions
+     * @param socket the original client that sent the request
+     * @param {string} statePath the path of the application state that is to be changed
+     * @param oldValue the original value which is restored in case of an error
+     * @param {string} errorType the error message type
+     * @param {boolean} broadcast revert for all sockets
+     * @returns {Function}
+     */
+    var handleError = function(socket, statePath, oldValue, errorType, broadcast) {
+        return function(err) {
+            if(err) {
+                var path, statePart, j;
+
+                console.log('[mongoose] Error in '  + errorType + ':', err);
+
+                // send error notification to original client
+                app.controllers.socket.sendNotification(socket, errorType, true);
+
+                if(statePath !== false) {
+                    path = statePath.split('.');
+                    statePart = app.state;
+
+                    // restore old value in applícation state
+                    statePart[path[path.length-1]] = oldValue;
+
+                    for(j = 0; j < path.length-1; j++) {
+                        statePart = statePart[path[j]];
+                    }
+
+                    // broadcast error to all users or only original user
+                    app.controllers.socket.refreshState(
+                        (broadcast ? false: socket),
+                        [statePath]
+                    );
+                }
+            }
+        };
+    };
+
 
     return {
 
@@ -153,7 +193,10 @@ module.exports = function(app) {
                 connectionListeners.push(listener);
             }
 
-        }
+        },
+
+        handleError: handleError
+
     }
 
 };

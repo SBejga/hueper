@@ -25,7 +25,7 @@ module.factory('socket', function ($rootScope) {
     };
 });
 
-module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
+module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, socket, $timeout) {
 
     // TODO remove
     scope = $scope;
@@ -44,7 +44,8 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
 
         socket: {
             connected: false,
-            wasConnected: false
+            wasConnected: false,
+            connectionFailed: false
         },
 
         connect: {},
@@ -55,6 +56,13 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
         favorites: {},
         scenes: {}
     };
+
+    $scope.notifications = [];
+
+    $scope.clientConfig = {
+        notificationTimeout: 5000
+    };
+
 
     //
     // event handlers
@@ -71,6 +79,10 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
         $scope.state.socket.connected = false;
     });
 
+    socket.on('connect_failed', function() {
+        $scope.state.socket.connectionFailed = true;
+    });
+
     // user login control
 
     socket.on('login.required', function(required) {
@@ -82,6 +94,15 @@ module.controller('MainCtrl', ['$scope', 'socket', function($scope, socket) {
             $scope.user.password = localStorage.huePassword;
             $scope.user.login();
         }
+    });
+
+    // notification / error message handler
+    socket.on('notification', function(notification) {
+        $scope.notifications.push(notification);
+
+        $timeout(function() {
+            $scope.notifications.shift();
+        }, $scope.clientConfig.notificationTimeout);
     });
 
     // login attempt answer

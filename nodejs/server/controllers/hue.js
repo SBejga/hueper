@@ -5,7 +5,10 @@
 
 var app,
     host,
-	api,
+    api,
+    connectionTryInterval = 10000,
+    connectionTryAdd = 10000,
+    refreshTimeout,
     waitingApiCalls = [];
 
 /**
@@ -17,14 +20,14 @@ var errorHandler = function(err) {
     // TODO filter out specific errors
 
 	console.log('[hue] Hue error, resetting connection', err);
-	console.log('retry in 10 seconds');
+	console.log('retry in ' + (connectionTryInterval/1000) + ' seconds');
 
 	app.state.connect.hue = false;
     app.state.connect.hueRegistered = false;
 	
 	app.controllers.socket.refreshState(false, ['connect']);
 	
-	setTimeout(findBridge, 10000);
+	setTimeout(findBridge, connectionTryInterval);
 };
 
 /**
@@ -60,8 +63,9 @@ var findBridge = function() {
 var bridgeLocated = function(data) {
 	
 	if(!data.length) {
-		console.log('[hue] No Hue Bridge found, retry in 10 seconds');
-		setTimeout(findBridge, 10000);
+		console.log('[hue] No Hue Bridge found, retry in ' + (connectionTryInterval/1000) + ' seconds');
+		setTimeout(findBridge, connectionTryInterval);
+        connectionTryInterval += connectionTryAdd;
 		return;
 	}
 	
@@ -103,7 +107,7 @@ var registerToBridge = function() {
             // registration error (link button not pressed)
             if(err) {
                 console.log('[hue] Hue register error:', err);
-                setTimeout(registerToBridge, 2000);
+                setTimeout(registerToBridge, 5000);
             }
 
             // registration successful
@@ -124,6 +128,8 @@ var registerToBridge = function() {
                         { value: user }
                     ).exec();
                 }
+
+                connectionTryInterval = 10000;
 
                 app.config.hueUser = user;
                 app.state.connect.hueRegistered = true;
@@ -170,7 +176,7 @@ var connectToBridge = function() {
 var refreshState = function(refreshConnect) {
 	
 	console.log('[hue] Refreshing hue state');
-	
+
 	api.getFullState()
 		.then(function(data) {
 			var areas = [],
@@ -217,11 +223,11 @@ var refreshState = function(refreshConnect) {
 			
 			
 			if(areas.length) {
-				console.log('[hue] Hue state changed, emitting to sockets');
+				console.log('[hue] Hue state changed, emitting to sockets:', areas);
 				app.controllers.socket.refreshState(false, areas);
 			}
 			
-			setTimeout(refreshState, 10000);
+			refreshTimeout = setTimeout(refreshState, 10000);
 		})
 		.fail(errorHandler)
 		.done();
@@ -523,6 +529,12 @@ var customApiCall = function(path, method, body, callback) {
 var makeApiCall = function(callback) {
 
     if(app.state.connect.hue && app.state.connect.hueRegistered) {
+
+        // reset refresh timeout on incoming API calls to prevent receiving transitioning values
+        clearTimeout(refreshTimeout);
+        refreshTimeout = setTimeout(refreshState, 10000);
+
+
         try {
             callback(api);
         }

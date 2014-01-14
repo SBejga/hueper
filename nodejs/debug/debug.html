@@ -32,6 +32,7 @@
 
 <p ng-show="!state.socket.connected && !state.socket.wasConnected">Baue Socket.IO-Verbindung auf...</p>
 <p ng-show="!state.socket.connected && state.socket.wasConnected">Socket.IO-Verbindung unterbrochen!</p>
+<p ng-show="state.socket.connectionFailed">Socket.IO konnte keine Verbindung aufbauen!</p>
 
 <!-- user -->
 
@@ -58,6 +59,17 @@
 <p ng-show="state.user.loginRequired && state.user.login">
     <button ng-click="user.logout()">Logout</button>
 </p>
+
+<!-- notifications -->
+
+<h1>Benachrichtigungen / Fehlermeldungen</h1>
+
+<p>Werden für {{clientConfig.notificationTimeout}} ms angezeigt (ändern in $scope.clientConfig.notificationTimeout)</p>
+
+<div ng-repeat="n in notifications">
+    <span ng-if="n.error"><b>Fehler</b>: {{n.error}}</span>
+    <span ng-if="n.notification"><b>Notification</b>: {{n.notification}}</span>
+</div>
 
 <!-- connect -->
 

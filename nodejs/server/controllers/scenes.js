@@ -11,7 +11,12 @@ var socketListeners = function(socket) {
 
         new Scene(data).save(function(err, scene) {
             if(err) {
-                console.log('[scenes] Mongoose error: ', err);
+                (app.controllers.mongoose.handleError(
+                    socket,
+                    false,
+                    false,
+                    'scenes.create'
+                ))(err);
                 return;
             }
 
@@ -33,15 +38,14 @@ var socketListeners = function(socket) {
         console.log('[scenes] Update scene ' + id);
 
         Scene.findByIdAndUpdate(id, data, function(err, scene) {
+
             if(err) {
-                console.log('[scenes] Mongoose error: ', err);
-
-                // revert client to original state
-                app.controllers.socket.refreshState(
+                (app.controllers.mongoose.handleError(
                     socket,
-                    ['scenes.' + id]
-                );
-
+                    'scenes.' + id,
+                    app.state.scenes[id],
+                    'scenes.update'
+                ))(err);
                 return;
             }
 
@@ -87,7 +91,7 @@ var socketListeners = function(socket) {
                 continue;
             }
 
-            app.controllers.hue.setLightState(scene.lights[i].light, scene.lights[i].state);
+            app.controllers.hue.setLightState(scene.lights[i].light, scene.lights[i].state, false);
 
         }
 
