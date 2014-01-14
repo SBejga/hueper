@@ -127,6 +127,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **customApiCall(path, body, callback)**: Erlaubt benutzerdefinierten Aufruf der Hue REST-API
     -   **mongoose**: Baut Verbindung zur MongoDB auf und liest die Daten in den app.state-Cache
         -   **addConnectionListener(listener)**: Ermöglicht anderen Controllern, auf eine erstmalig aufgebaute MongoDB-Verbindung zu warten
+        -   **handleError(socket, statePath, oldValue, errorType, broadcast)**: Fehlerbehandlung mit Rücksetzen des State und Senden per Socket
     -   **socket**: Handling von Socket.IO-Verbindungen und Benutzer-Login
         -   **refreshState(socket, areas)**: An bestimmte Clients bestimmte Teile des app.state-Objekts senden
         -   **deleteFromState(socket, areas)**: Bestimmte Teile des app.state-Objekts bei bestimmten Clients löschen
@@ -134,11 +135,13 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **broadcast(data)**: Nachricht an alle eingeloggten Benutzer schicken
         -   **broadcastSocket(socket, data)**: Nachricht an alle eingeloggten Benutzer außer den des Sockets schicken
         -   **getBroadcastSocket(socket)**: Alle Sockets von eingeloggten Benutzern außer dem übergebenen erhalten
+        -   **sendNotification(socket, notification, isError)**: Benachrichtigung oder Fehlermeldung schicken
     -   **arduino**: Verbindungsaufbau zum Arduino
         -   **addListener(listener)**:
     -   **lights**: Steuerung der Lampen
     -   **groups**: Steuerung der Gruppen
-    -   **configuration**: Konfiguration der Hue Bridge und der Anwendung
+    -   **app_configuration**: Konfiguration der Anwendung
+    -   **hue_configuration**: Konfiguration der Hue Bridge
     -   **favorites**: Verwaltung der Lampeneinstellungs-Favoriten
     -   **scenes**: Verwaltung der Szenen
     -   **arduino_button**: Fährt den Raspberry Pi herunter, wenn der Button am Arduino gedrückt wurde
@@ -146,11 +149,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
 
 ## Controller hinzufügen
 
-Controller werden in der server.js hinzugefügt und global zugänglich gemacht
-
-```js
-app.controllers.xxx = require('./server/controllers/xxx')(app);
-```
+Controller werden in der server.js in das controller-Array eingefügt und global zugänglich gemacht.
 
 Um mit einem Controller Socket.IO-Events abzufangen, muss er dem Socket-Controller eine Listener-Funktion übergeben. Diese wird auf Sockets angewandt, nachdem sich der Benutzer erfolgreich eingeloggt hat.
 

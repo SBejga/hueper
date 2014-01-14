@@ -12,6 +12,7 @@
     -   **socket**
         -   **connected**: besteht eine Socket.IO-Verbindung?
         -   **wasConnected**: true, wenn einmal eine Socket.IO-Verbindung aufgebaut war; zum Erkennen von Verbindungsabbrüchen
+        -   **connectionFailed**: der Verbindungsaufbau ist fehlgeschlagen
     -   **appConfig**: Anwendungs-Konfiguration
         -   **transition**: Überblendzeit der Lampen (in 100ms-Intervallen)
     -   **lights**: Status der Lampen; Objekt mit Lichtern als Elemente, ID als Schlüssel
@@ -87,6 +88,9 @@
                 -   sat
                 -   ct
                 -   effect
+-   **notifications**: Array mit allen Benachrichtigungsobjekten (im Format {error: ...} oder {notification: ...})
+-   **clientConfig**: Frontend-Konfiguration
+    -   **notificationTimeout**: Anzeigedauer für Notifications, danach werden sie entfernt
 -   **user**: User- und Login-Steuerung
     -   **password**: Ins Login-Formular eingegebenes Passwort
     -   **login()**

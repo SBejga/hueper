@@ -148,6 +148,26 @@ var deleteFromState = function(socket, area) {
     channel.emit('state.delete', area);
 };
 
+/**
+ * Send notification or error message
+ * @param socket
+ * @param notification message
+ * @param isError
+ */
+var sendNotification = function(socket, notification, isError) {
+    var channel = socket || io.sockets.in('login'),
+        message = {};
+
+    if(isError) {
+        message.error = notification;
+    }
+    else {
+        message.notification = notification;
+    }
+
+    channel.emit('notification', message);
+};
+
 
 module.exports = function(globalApp) {
 
@@ -190,7 +210,9 @@ module.exports = function(globalApp) {
          */
         getBroadcastSocket: function(socket) {
             return socket.broadcast.to('login');
-        }
+        },
+
+        sendNotification: sendNotification
 
     };
 };

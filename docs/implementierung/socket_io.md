@@ -17,6 +17,15 @@
     `[ <Pfad in state>, ... ]`
 -   **config.password**: Antwort bei der Passwort-Änderung
     `false` bei Fehlschlag, `{ password: ... }` sonst
+-   **notification**: Benachrichtigung oder Fehlermeldung
+    `{ error: ... }` für Fehlermeldungen, `{ notification: ... }` für Benachrichtigungen
+    Mögliche Fehlermeldungen:
+    -   config.save
+    -   config.password
+    -   favorites.create
+    -   favorites.update
+    -   scenes.create
+    -   scenes.update
 
 ## Nachrichten vom Client (nach Login)
 

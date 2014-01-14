@@ -11,7 +11,12 @@ var socketListeners = function(socket) {
 
         new Favorite(data).save(function(err, favorite) {
             if(err) {
-                console.log('[favorites] Mongoose error: ', err);
+                (app.controllers.mongoose.handleError(
+                    socket,
+                    false,
+                    false,
+                    'favorites.create'
+                ))(err);
                 return;
             }
 
@@ -34,14 +39,12 @@ var socketListeners = function(socket) {
 
         Favorite.findByIdAndUpdate(id, data, function(err, favorite) {
             if(err) {
-                console.log('[favorites] Mongoose error: ', err);
-
-                // revert client to original state
-                app.controllers.socket.refreshState(
+                (app.controllers.mongoose.handleError(
                     socket,
-                    ['favorites.' + id]
-                );
-
+                    'favorites.' + id,
+                    app.state.favorites[id],
+                    'favorites.update'
+                ))(err);
                 return;
             }
 
