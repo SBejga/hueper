@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="de" ng-app="hueApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SmartLights</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/jquery.mobile.structure-1.4.0.css"/>
+    <link rel="stylesheet" href="./css/firsttry.css"/>
+
+    <!--
+    <link rel="stylesheet" href="./css/jquery.mobile-1.4.0.css"/>
+    -->
+    <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
+
+    <!-- JavaScript -->
+    <script src="./js/jquery-1.10.2.js"></script>
+    <script src="./js/jquery.mobile-1.4.0.js"></script>
+
+    <script src="./js/angular-1.0.8.js"></script>
+
+    <script src="./js/jquery-mobile-angular-adapter-modified.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/app.js"></script>
+
+</head>
+
+<body ng-controller="MainCtrl">
+
+<div data-role="page" class="background" data-theme="b">
+
+    <div class="header">
+        <h1>Lampen & Gruppen</h1>
+    </div>
+
+    <div data-role="content">
+
+        <div data-role="navbar">
+            <ul>
+                <li><a href="lampsandgroups.html" data-ajax="false"><img src="./images/birne.png">Lampen & Gruppen</a></li>
+                <li><a href="" data-ajax="false"><img src="./images/birne.png">Zeitschaltuhr</a></li>
+                <li><a href="" data-ajax="false"><img src="./images/birne.png">Sensoren</a></li>
+                <li><a href="" data-ajax="false"><img src="./images/birne.png">Party Modus</a></li>
+                <li><a href="properties.html" data-ajax="false"><img src="./images/birne.png">Einstellungen</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h2>Lampen</h2>
+
+            <div data-theme="a" ng-repeat="l in state.lights" class="ui-btn-inline">
+                <a href="lamp.html" data-ajax="false" class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top" style="width: 70px">{{l.name}}</a>
+            </div>
+
+            <br>
+                alle anzeigen
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="index.html" data-ajax="false">Start</a></li>
+                <li><a href="" data-ajax="false">Impressum</a></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

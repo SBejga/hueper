@@ -8,7 +8,6 @@
     <title>SmartLights</title>
 
     <!-- CSS -->
-
     <link rel="stylesheet" href="./css/jquery.mobile.structure-1.4.0.css"/>
     <link rel="stylesheet" href="./css/firsttry.css"/>
 
@@ -27,12 +26,10 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/app.js"></script>
 
-
 </head>
 
 <body ng-controller="MainCtrl">
 
-<!-- Main Menu-->
 <div data-role="page" id="mainmenu" class="background" data-theme="a">
 
     <div class="header">
@@ -41,111 +38,26 @@
 
     <div data-role="content">
 
-
-        <a href="#lampsandgroups" class="ui-btn ui-icon-singlelamp ui-btn-icon-left">Lampen & Gruppen</a>
-        <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-left">Zeitschaltuhr</a>
-        <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-left">Sensoren</a>
-        <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-left">Party-Modus</a>
-        <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-left">Einstellungen</a>
-
+        <a href="lampsandgroups.html" class="ui-btn ui-icon-singlelamp ui-btn-icon-left">Lampen & Gruppen</a>
+        <a href="" class="ui-btn ui-icon-delete ui-btn-icon-left">Zeitschaltuhr</a>
+        <a href="" class="ui-btn ui-icon-delete ui-btn-icon-left">Sensoren</a>
+        <a href="" class="ui-btn ui-icon-delete ui-btn-icon-left">Party-Modus</a>
+        <a href="properties.html" class="ui-btn ui-icon-delete ui-btn-icon-left">Einstellungen</a>
 
         <br>
-        <br>
-        <br>
-
 
         <ul data-role="listview">
             <li ng-repeat="l in state.lights">{{l.name}}</li>
-    </ul>
+        </ul>
 
     </div>
 
+    <!-- Footer -->
     <div data-role="footer" data-position="fixed">
         <h4>Impressum</h4>
     </div>
 
 </div>
-
-
-<!-- Lamps & Groups Menu-->
-<div data-role="page" id="lampsandgroups" class="background" data-theme="b">
-
-    <div class="header">
-        <h1>Lampen & Gruppen</h1>
-    </div>
-
-    <div data-role="content">
-
-        <div class="ui-corner-all custom-corners">
-
-            <!--Tab Menu -->
-            <div data-role="tabs" id="tabs">
-                <div data-role="navbar">
-                    <ul>
-                        <li><a href="#lampsandgroups"><img src="./images/birne.png">Lampen & Gruppen</a></li>
-                        <li><a href="#zeitschaltuhr" data-theme="a"><img src="./images/birne.png">Zeitschaltuhr</a></li>
-                        <li><a href="#sensoren"><img src="./images/birne.png">Sensoren</a></li>
-                        <li><a href="#partymodus" data-theme="a"><img src="./images/birne.png">Party Modus</a></li>
-                        <li><a href="#einstellungen"><img src="./images/birne.png">Einstellungen</a></li>
-                    </ul>
-                </div>
-            </div>
-
-
-            <div>
-
-                <h2>Lampen</h2>
-
-                <div data-role="controlgroup" data-type="horizontal" style="min-width: 100px">
-
-                        <a href="#" class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top" ng-repeat="l in state.lights">{{l.name}}</a>
-                </div>
-
-
-                alle anzeigen
-
-            </div>
-
-
-            <div>
-
-                <h2>Gruppen</h2>
-
-                <div data-role="controlgroup" data-type="horizontal" style="min-width: 100px">
-
-                    <a href="#" class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top" ng-repeat="l in state.lights">{{l.name}}</a>
-                </div>
-
-
-                alle anzeigen
-
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-    <!-- Footer -->
-    <div data-role="footer" data-position="fixed" data-theme="a">
-        <div data-role="navbar">
-            <ul>
-                <li><a href="#mainmenu">Start</a></li>
-                <li><a href="#">Impressum</a></li>
-            </ul>
-        </div>
-    </div>
-
-</div>
-
-
-
-
-
-
-
-
 
 </body>
 </html>
