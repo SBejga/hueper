@@ -155,7 +155,7 @@
 <p>Status in <code>state.lights</code></p>
 
 <div ng-repeat="(id, light) in state.lights">
-    <h2>{{id}} - {{light.name}}</h2>
+       <h2>{{id}} - {{light.name}}</h2>
 
     <p>
         Favoriten: <button ng-repeat="(fid, f) in state.favorites" ng-click="lights.state(id, f.state)">{{f.name}}</button>

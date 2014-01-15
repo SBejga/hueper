@@ -370,6 +370,19 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
             });
 
             $scope.state.lights[id].name = name;
+        },
+
+        /**
+         *
+         *
+         * @param id of the specified light
+         */
+
+        getgroups: function(id){
+
+
+
+
         }
     
     };

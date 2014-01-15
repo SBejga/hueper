@@ -40,11 +40,11 @@
 
         <div data-role="navbar">
             <ul>
-                <li><a href="lampsandgroups.html" data-ajax="false"><img src="./images/birne.png">Lampen & Gruppen</a></li>
-                <li><a href="" data-ajax="false"><img src="./images/birne.png">Zeitschaltuhr</a></li>
-                <li><a href="" data-ajax="false"><img src="./images/birne.png">Sensoren</a></li>
-                <li><a href="" data-ajax="false"><img src="./images/birne.png">Party Modus</a></li>
-                <li><a href="properties.html" data-ajax="false"><img src="./images/birne.png">Einstellungen</a></li>
+                <li class="ui-select"><a href="lampsandgroups.html"><img src="./images/birne.png">Lampen & Gruppen</a></li>
+                <li><a href="" data-theme="a"><img src="./images/birne.png">Zeitschaltuhr</a></li>
+                <li><a href="" data-theme="a"><img src="./images/birne.png">Sensoren</a></li>
+                <li><a href="" data-theme="a"><img src="./images/birne.png">Party Modus</a></li>
+                <li><a href="properties.html" data-theme="a"><img src="./images/birne.png">Einstellungen</a></li>
             </ul>
         </div>
 
@@ -52,7 +52,7 @@
             <h2>Lampen</h2>
 
             <div data-theme="a" ng-repeat="l in state.lights" class="ui-btn-inline">
-                <a href="lamp.html" data-ajax="false" class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top" style="width: 70px">{{l.name}}</a>
+                <a href="lamp.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top" style="width: 70px">{{l.name}}</a>
             </div>
 
             <br>
@@ -65,8 +65,8 @@
     <div data-role="footer" data-position="fixed">
         <div data-role="navbar">
             <ul>
-                <li><a href="index.html" data-ajax="false">Start</a></li>
-                <li><a href="" data-ajax="false">Impressum</a></li>
+                <li><a href="index.html">Start</a></li>
+                <li><a href="">Impressum</a></li>
             </ul>
         </div>
     </div>
