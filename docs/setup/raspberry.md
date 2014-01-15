@@ -147,7 +147,7 @@ __________________
 
 ### Dependencies installieren
 
-    sudo apt-get -y install git build-essential
+    sudo apt-get -y install git python build-essential
 
 ### NodeJS-Server und MongoDB
 
@@ -177,7 +177,14 @@ Folgende Befehle in die Kommandozeile eingeben, dabei die richtige NodeJS-Versio
     sudo mkdir /data/db
     sudo chown $USER /data/db
 
-In der */etc/profile* folgenden Inhalt **vor** den *export PATH*-Befehl einfügen:
+
+Um den NodeJS für alle Benutzer auf der Kommandozeile sichtbar zu machen, müssen Symlinks zu den Verzeichnissen /usr/bin und /usr/lib angelegt werden:
+
+    sudo ln -s /opt/node/bin/node /usr/bin/node
+    sudo ln -s /opt/node/bin/npm /usr/bin/npm
+    sudo ln -s /opt/node/lib /usr/lib/node
+
+Zusätzlich kann in der */etc/profile* folgenden Inhalt vor den *export PATH*-Befehl eingefügt werden. Dadurch wird die MongoDB auch in den PATH eingefügt:
 
     NODE_JS_HOME="/opt/node"
     PATH="$PATH:$NODE_JS_HOME/bin:/opt/mongo/bin/"
@@ -190,6 +197,7 @@ In der */etc/profile* folgenden Inhalt **vor** den *export PATH*-Befehl einfüge
 Ordner für Logfiles anlegen:
 
     sudo mkdir /var/log/hue
+    sudo chown pi /var/log/hue
 
 Die Datei */etc/init.d/mongod* mit folgendem Inhalt anlegen:
 
@@ -271,7 +279,13 @@ Starten mit
 
     node ~/hueper/nodejs/server.js
 
-Autostart: */etc/init.d/nodejs-hue* mit folgendem Inhalt erstellen:
+### Autostart der Anwendung
+
+#### Möglichkeit 1: Direkt NodeJS starten
+
+NodeJS als Server-Software hat den Nachteil, dass sich das Programm bei einem auftretenden Fehler sofort schließt. Deshalb ist es in Produktions-Umgebungen nicht sinnvoll, nur den NodeJS zu starten.
+
+*/etc/init.d/nodejs-hue* mit folgendem Inhalt erstellen:
 
     #!/bin/bash
 
@@ -332,6 +346,72 @@ Starten/stoppen
     sudo /etc/init.d/nodejs-hue start
     sudo /etc/init.d/nodejs-hue stop
 
+#### Möglichkeit 2: Forever (wird im setup.sh-Skript ausgeführt)
+
+Forever ist ein Programm, das NodeJS-Scripts startet und überwacht. Wird der NodeJS-Prozess durch einen Fehler beendet, startet Forever automatisch einen neuen Prozess.
+
+Installation:
+
+    sudo /opt/node/bin/npm install -g forever
+
+*/etc/init.d/forever-hue* mit folgendem Inhalt erstellen:
+
+    #!/bin/bash
+
+    ### BEGIN INIT INFO
+    # Provides: Forever NodeJS Hue
+    # Required-Start: $remote_fs $syslog
+    # Required-Stop: $remote_fs $syslog
+    # Default-Start: 2 3 4 5
+    # Default-Stop: 0 1 6
+    # Short-Description: Forever NodeJS Hue Autostart
+    # Description: Forever NodeJS Hue Autostart
+    ### END INIT INFO
+
+    NAME="Forever NodeJS"
+    EXE=/usr/bin/forever
+    SCRIPT=/home/pi/hueper/nodejs/server.js
+    USER=pi
+    OUT=/var/log/hue/forever.log
+
+    if [ "$(whoami)" != "root" ]; then
+        echo "This script must be run with root privileges!"
+        echo "Try sudo $0"
+        exit 1
+    fi
+
+    case "$1" in
+
+    start)
+        echo "starting $NAME: $EXE $PARAM"
+        sudo -u $USER $EXE start -a -l $OUT $SCRIPT
+        ;;
+
+    stop)
+        echo "stopping $NAME"
+        sudo -u $USER $EXE stop $SCRIPT
+        ;;
+
+    restart)
+        $0 stop
+        $0 start
+        ;;
+
+    *)
+        echo "usage: $0 (start|stop|restart)"
+    esac
+
+    exit 0
+
+Ausführbar machen und in den Systemstart einbinden:
+
+    sudo chmod 755 /etc/init.d/forever-hue
+    sudo update-rc.d forever-hue defaults
+
+Starten/stoppen
+
+    sudo /etc/init.d/forever-hue start
+    sudo /etc/init.d/forever-hue stop
 
 ## Quellen
 
@@ -341,3 +421,6 @@ Starten/stoppen
 -   NodeJS Setup: http://blog.rueedlinger.ch/2013/03/raspberry-pi-and-nodejs-basic-setup/
 -   MongoDB Setup: https://github.com/brice-morin/ArduPi/tree/master/mongodb-rpi
 -   Externe Soundkarte: http://asliceofraspberrypi.blogspot.de/2013/02/adding-audio-input-device.html
+-   Forever Setup:
+    https://github.com/nodejitsu/forever
+    http://stackoverflow.com/questions/4976658/on-ec2-sudo-node-command-not-found-but-node-without-sudo-is-ok#answer-5062718
