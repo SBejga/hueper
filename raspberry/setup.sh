@@ -11,12 +11,13 @@ fi
 
 cd /home/pi
 mkdir /var/log/hue
+chown pi /var/log/hue
 
 # System update and dependency installation
 
 apt-get update
 apt-get -y upgrade
-apt-get -y install git build-essential
+apt-get -y install git python build-essential
 
 
 # NodeJS setup
@@ -26,6 +27,14 @@ wget http://nodejs.org/dist/v0.10.22/node-v0.10.22-linux-arm-pi.tar.gz
 tar xvzf node-v0.10.22-linux-arm-pi.tar.gz
 cp -r node-v0.10.22-linux-arm-pi/* /opt/node
 rm -f -r node-v0.10.22-linux-arm-pi
+
+# Create symlinks for PATH and root access
+ln -s /opt/node/bin/node /usr/bin/node
+ln -s /opt/node/bin/npm /usr/bin/npm
+ln -s /opt/node/lib /usr/lib/node
+
+# Forever setup
+/opt/node/bin/npm install -g forever
 
 
 # MongoDB setup
@@ -62,6 +71,7 @@ EXE=/opt/mongo/bin/mongod
 PARAM="--dbpath /data/db"
 USER=pi
 OUT=/var/log/hue/mongod.log
+ERR=/var/log/hue/mongod.error.log
 LOCK=/data/db/mongod.lock
 PIDFILE=/var/run/mongod.pid
 
@@ -78,11 +88,11 @@ start)
     if [ -s $LOCK ]; then
         echo "repairing MongoDB state"
         rm $LOCK
-        sudo -u $USER $EXE $PARAM --repair >> $OUT 2>>$OUT
+        sudo -u $USER $EXE $PARAM --repair >> $OUT 2>>$ERR
     fi
 
     echo "starting $NAME: $EXE $PARAM"
-    sudo -u $USER $EXE $PARAM >> $OUT 2>>$OUT &
+    sudo -u $USER $EXE $PARAM >> $OUT 2>>$ERR &
     echo $! > $PIDFILE
     ;;
 
@@ -109,29 +119,28 @@ update-rc.d mongod defaults
 
 # Project setup
 
-git clone https://github.com/SBejga/hueper.git
+sudo -u pi git clone https://github.com/SBejga/hueper.git
 cd hueper/nodejs
-/opt/node/bin/npm install
+sudo -u pi /opt/node/bin/npm install
 cd /home/pi
 
 echo '#!/bin/bash
 
 ### BEGIN INIT INFO
-# Provides: NodeJS Hue
+# Provides: Forever NodeJS Hue
 # Required-Start: $remote_fs $syslog
 # Required-Stop: $remote_fs $syslog
 # Default-Start: 2 3 4 5
 # Default-Stop: 0 1 6
-# Short-Description: NodeJS Hue Autostart
-# Description: NodeJS Hue Autostart
+# Short-Description: Forever NodeJS Hue Autostart
+# Description: Forever NodeJS Hue Autostart
 ### END INIT INFO
 
-NAME="NodeJS"
-EXE=/opt/node/bin/node
-PARAM=/home/pi/hueper/nodejs/server.js
+NAME="Forever NodeJS"
+EXE=/usr/bin/forever
+SCRIPT=/home/pi/hueper/nodejs/server.js
 USER=pi
-OUT=/var/log/hue/nodejs.log
-PIDFILE=/var/run/nodejs-hue.pid
+OUT=/var/log/hue/forever.log
 
 if [ "$(whoami)" != "root" ]; then
     echo "This script must be run with root privileges!"
@@ -143,13 +152,12 @@ case "$1" in
 
 start)
     echo "starting $NAME: $EXE $PARAM"
-    sudo -u $USER $EXE $PARAM >> $OUT 2>>$OUT &
-    echo $! > $PIDFILE
+    sudo -u $USER $EXE start -a -l $OUT $SCRIPT
     ;;
 
 stop)
     echo "stopping $NAME"
-    kill $(cat $PIDFILE)
+    sudo -u $USER $EXE stop $SCRIPT
     ;;
 
 restart)
@@ -162,10 +170,10 @@ restart)
 esac
 
 exit 0
-' > /etc/init.d/nodejs-hue
+' > /etc/init.d/forever-hue
 
-chmod 755 /etc/init.d/nodejs-hue
-update-rc.d nodejs-hue defaults
+chmod 755 /etc/init.d/forever-hue
+update-rc.d forever-hue defaults
 
 
 # finished
