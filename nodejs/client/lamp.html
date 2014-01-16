@@ -8,13 +8,10 @@
     <title>SmartLights</title>
 
     <!-- CSS -->
+    <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
+
     <link rel="stylesheet" href="./css/jquery.mobile.structure-1.4.0.css"/>
     <link rel="stylesheet" href="./css/firsttry.css"/>
-
-    <!--
-    <link rel="stylesheet" href="./css/jquery.mobile-1.4.0.css"/>
-    -->
-    <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
 
     <!-- JavaScript -->
     <script src="./js/jquery-1.10.2.js"></script>
@@ -30,80 +27,83 @@
 
 <body ng-controller="MainCtrl">
 
-<div data-role="page" class="background" data-theme="b">
+<div data-role="page">
+<div class="wrapper">
 
     <div class="header">
-        <h1>Lampenmenü</h1>
-
-        <div data-role="navbar">
-            <ul>
-                <li class="ui-select"><a href="lampsandgroups.html"><img src="./images/birne.png">Lampen & Gruppen</a></li>
-                <li><a href="" data-theme="a"><img src="./images/birne.png">Zeitschaltuhr</a></li>
-                <li><a href="" data-theme="a"><img src="./images/birne.png">Sensoren</a></li>
-                <li><a href="" data-theme="a"><img src="./images/birne.png">Party Modus</a></li>
-                <li><a href="properties.html" data-theme="a"><img src="./images/birne.png">Einstellungen</a></li>
-            </ul>
-        </div>
-    </div>
-
+        <h2>Lampenmenü</h2>
+    </div><!-- /header -->
 
     <div data-role="content">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="lampsandgroups.html"><img src="./images/birne.png"></a></li>
+                <li><a href=""><img src="./images/birne.png"></a></li>
+                <li><a href=""><img src="./images/birne.png"></a></li>
+                <li><a href=""><img src="./images/birne.png"></a></li>
+                <li><a href="properties.html" data-theme="a"><img src="./images/birne.png"></a></li>
+            </ul>
+        </div><!-- /navbar -->
 
-        <div class="inline">
-            <h2>Lampenname: {{state.lights[1].name}}</h2>
-        </div>
+        <br>
 
-        <form ng-submit="lights.setName(id, light.name)" >
-            <input type="text" ng-model="state.lights[1].name" />
-            <input type="submit" value="umbenennen" />
+        <span class="ui-btn-inline"><input type="text" value="Lampenname"></span>
+        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext"></button>
+        <br>
+        <span class="ui-btn-inline"><input type="text" value="Gruppenname"></span>
+        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext"></button>
+        <br>
+        <span class="ui-btn-inline"><input type="text" value="Gruppenname"></span>
+        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext"></button>
+        <br>
+        <br>
+        <br>
+
+        <!-- Farbauswahl -->
+
+        <form>
+            <label for="slider-1">Farbskala:</label>
+            <input name="farbskala" data-mini="true" id="slider-1" min="0" max="65535" value="44005" type="range">
+        </form>
+
+        <form>
+            <label for="slider-2">Helligkeit:</label>
+            <input name="helligkeit" data-mini="true" id="slider-2" min="0" max="254" value="100" type="range">
+        </form>
+
+        <form>
+            <label for="slider-3">Sättigung:</label>
+            <input name="saettigung" data-mini="true" id="slider-3" min="0" max="254" value="150" type="range">
+        </form>
+
+        <form>
+            <label for="slider-4">Farbtemperatur:</label>
+            <input name="farbtemperatur" data-mini="true" id="slider-4" min="153" max="497" value="250" type="range">
+        </form>
+
+        <br>
+
+        <form>
+            <label>
+                <input name="checkbox-0 " type="checkbox">Farbe als Favorit speichern
+            </label>
         </form>
 
 
-
-        <h3>Gruppen: </h3>
-
-
-
-        <div class="inline" ng-repeat="groupID in lights.getGroups(1)">
-            <h4>Gruppennname: {{state.groups[groupID].name}}</h4>
-        </div>
-
-
-
-
-        <ul data-role="listview">
-            <li ng-repeat="g in state.groups">{{g.name}}</li>
-
-        </ul>
+        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-star ui-btn-icon-notext"></button>
         <br>
         <br>
-
-        {{state.groups[1].lights}}
-
+        <button class="ui-btn">Änderungen übernehmen</button>
 
 
 
+    </div><!-- /content -->
+</div><!-- /wrapper -->
 
-
-
-
-
-
-
-    </div><!-- Ende Content-->
-
-
-    <!-- Footer -->
-    <div data-role="footer" data-position="fixed">
-        <div data-role="navbar">
-            <ul>
-                <li><a href="index.html">Start</a></li>
-                <li><a href="">Impressum</a></li>
-            </ul>
-        </div>
-    </div>
+    <div data-role="footer" data-position="fixed" style="text-align: center">
+        <h4>Impressum</h4>
+    </div><!-- /footer -->
 
 </div>
-
 </body>
 </html>
