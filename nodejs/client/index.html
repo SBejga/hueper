@@ -8,13 +8,10 @@
     <title>SmartLights</title>
 
     <!-- CSS -->
+    <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
+
     <link rel="stylesheet" href="./css/jquery.mobile.structure-1.4.0.css"/>
     <link rel="stylesheet" href="./css/firsttry.css"/>
-
-    <!--
-    <link rel="stylesheet" href="./css/jquery.mobile-1.4.0.css"/>
-    -->
-    <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
 
     <!-- JavaScript -->
     <script src="./js/jquery-1.10.2.js"></script>
@@ -30,11 +27,12 @@
 
 <body ng-controller="MainCtrl">
 
-<div data-role="page" id="mainmenu" class="background" data-theme="a">
+<div data-role="page">
+<div class="wrapper">
 
     <div class="header">
-        <h1>SmartLights</h1>
-    </div>
+        <h2>SmartLights</h2>
+    </div><!-- /header -->
 
     <div data-role="content">
 
@@ -44,20 +42,14 @@
         <a href="" class="ui-btn ui-icon-delete ui-btn-icon-left">Party-Modus</a>
         <a href="properties.html" class="ui-btn ui-icon-delete ui-btn-icon-left">Einstellungen</a>
 
-        <br>
+    </div><!-- /content -->
+</div><!-- /wrapper -->
 
-        <ul data-role="listview">
-            <li ng-repeat="l in state.lights">{{l.name}}</li>
-        </ul>
 
-    </div>
-
-    <!-- Footer -->
-    <div data-role="footer" data-position="fixed">
-        <h4>Impressum</h4>
-    </div>
+<div data-role="footer" data-position="fixed">
+    <h4>Impressum</h4>
+</div><!-- /footer -->
 
 </div>
-
 </body>
 </html>
