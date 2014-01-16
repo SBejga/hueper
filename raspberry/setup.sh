@@ -34,7 +34,7 @@ ln -s /opt/node/bin/npm /usr/bin/npm
 ln -s /opt/node/lib /usr/lib/node
 
 # Forever setup
-/opt/node/bin/npm install -g forever
+/usr/bin/npm install -g forever
 
 
 # MongoDB setup
@@ -121,7 +121,7 @@ update-rc.d mongod defaults
 
 sudo -u pi git clone https://github.com/SBejga/hueper.git
 cd hueper/nodejs
-sudo -u pi /opt/node/bin/npm install
+sudo -u pi /usr/bin/npm install
 cd /home/pi
 
 echo '#!/bin/bash
