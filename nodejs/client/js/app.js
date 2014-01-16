@@ -378,13 +378,18 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
          * @param id of the specified light
          */
 
-        getgroups: function(id){
+        getGroups: function(id){
 
+            var groupsOfLamp = [];
 
+            angular.forEach($scope.state.groups, function(value, key){
+                if(value.lights.indexOf(id) > -1){
+                    groupsOfLamp.push(key);
+                }
+            });
 
-
+            return groupsOfLamp;
         }
-    
     };
 
     // group control

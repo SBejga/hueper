@@ -1,13 +1,26 @@
-.background {
+
+
+.wrapper {
+    position: relative;
     background-color: #34313b;
+    width:1200px;
+    margin: auto;
 }
 
 
 .header{
+    position:relative;
     text-align: center;
     color: #e6e6e6;
+    font-size: 15px;
+    width: 500px;
+    margin: auto;
 
 }
+
+
+
+
 
 
 .ui-icon-singlelamp:after{
@@ -18,5 +31,33 @@
 
 }
 
+.tabmenu_text{
+}
+/* small screen */
+@media screen and (max-width:1200px) {
+    .wrapper {
+        position: relative;
+        width:90%;
+        background-color: #00aaff;
+        margin: auto;
+    }
+}
 
+
+
+
+
+/* Smartphones */
+@media screen and (max-width:700px) {
+
+    .wrapper {
+        position: relative;
+        width:600px;
+        background-color: #00aaff;
+        margin: auto;
+    }
+
+
+
+}
 

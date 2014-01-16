@@ -7,14 +7,13 @@
 
     <title>SmartLights</title>
 
+
     <!-- CSS -->
+    <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
+
     <link rel="stylesheet" href="./css/jquery.mobile.structure-1.4.0.css"/>
     <link rel="stylesheet" href="./css/firsttry.css"/>
 
-    <!--
-    <link rel="stylesheet" href="./css/jquery.mobile-1.4.0.css"/>
-    -->
-    <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
 
     <!-- JavaScript -->
     <script src="./js/jquery-1.10.2.js"></script>
@@ -30,7 +29,8 @@
 
 <body ng-controller="MainCtrl">
 
-<div data-role="page" class="background" data-theme="b">
+<div data-role="page" data-theme="b">
+<div class="wrapper">
 
     <div class="header">
         <h1>Lampen & Gruppen</h1>
@@ -40,11 +40,11 @@
 
         <div data-role="navbar">
             <ul>
-                <li class="ui-select"><a href="lampsandgroups.html"><img src="./images/birne.png">Lampen & Gruppen</a></li>
-                <li><a href="" data-theme="a"><img src="./images/birne.png">Zeitschaltuhr</a></li>
-                <li><a href="" data-theme="a"><img src="./images/birne.png">Sensoren</a></li>
-                <li><a href="" data-theme="a"><img src="./images/birne.png">Party Modus</a></li>
-                <li><a href="properties.html" data-theme="a"><img src="./images/birne.png">Einstellungen</a></li>
+                <li><a href="lampsandgroups.html"><img src="./images/birne.png"></a></li>
+                <li><a href="lamp.html" data-theme="a"><img src="./images/birne.png"></a></li>
+                <li><a href="" data-theme="a"><img src="./images/birne.png"></a></li>
+                <li><a href="" data-theme="a"><img src="./images/birne.png"></a></li>
+                <li><a href="properties.html" data-theme="a"><img src="./images/birne.png"></a></li>
             </ul>
         </div>
 
@@ -60,6 +60,7 @@
 
         </div>
     </div>
+</div>
 
     <!-- Footer -->
     <div data-role="footer" data-position="fixed">

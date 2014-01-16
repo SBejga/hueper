@@ -39,9 +39,9 @@
             <ul>
                 <li class="ui-select"><a href="lampsandgroups.html"><img src="./images/birne.png">Lampen & Gruppen</a></li>
                 <li><a href="" data-theme="a"><img src="./images/birne.png">Zeitschaltuhr</a></li>
-                <li><a href=""><img src="./images/birne.png">Sensoren</a></li>
+                <li><a href="" data-theme="a"><img src="./images/birne.png">Sensoren</a></li>
                 <li><a href="" data-theme="a"><img src="./images/birne.png">Party Modus</a></li>
-                <li><a href="properties.html"><img src="./images/birne.png">Einstellungen</a></li>
+                <li><a href="properties.html" data-theme="a"><img src="./images/birne.png">Einstellungen</a></li>
             </ul>
         </div>
     </div>
@@ -59,7 +59,27 @@
         </form>
 
 
+
         <h3>Gruppen: </h3>
+
+
+
+        <div class="inline" ng-repeat="groupID in lights.getGroups(1)">
+            <h4>Gruppennname: {{state.groups[groupID].name}}</h4>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
