@@ -27,52 +27,63 @@
 
 </head>
 
+
 <body ng-controller="MainCtrl">
 
-<div data-role="page" data-theme="b">
+<div data-role="page">
 <div class="wrapper">
 
     <div class="header">
-        <h1>Lampen & Gruppen</h1>
-    </div>
+        <h2>Lampen & Gruppen</h2>
+    </div><!-- /header -->
 
     <div data-role="content">
-
         <div data-role="navbar">
             <ul>
                 <li><a href="lampsandgroups.html"><img src="./images/birne.png"></a></li>
-                <li><a href="lamp.html" data-theme="a"><img src="./images/birne.png"></a></li>
-                <li><a href="" data-theme="a"><img src="./images/birne.png"></a></li>
-                <li><a href="" data-theme="a"><img src="./images/birne.png"></a></li>
+                <li><a href=""><img src="./images/birne.png"></a></li>
+                <li><a href=""><img src="./images/birne.png"></a></li>
+                <li><a href=""><img src="./images/birne.png"></a></li>
                 <li><a href="properties.html" data-theme="a"><img src="./images/birne.png"></a></li>
             </ul>
+        </div><!-- /navbar -->
+
+
+        <span class="ui-btn-inline"><h3>Lampen</h3></span>
+        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext" style=""></button>
+        <br>
+        <div class="ui-btn-inline horizontal_button_view">
+            <a href="lamp.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">Beispiellampe</a>
+        </div>
+        <br>
+        <div ng-repeat="l in state.lights" class="ui-btn-inline horizontal_button_view">
+            <a href="lamp.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{l.name}}</a>
         </div>
 
-        <div>
-            <h2>Lampen</h2>
+        <br>
+        <br>
 
-            <div data-theme="a" ng-repeat="l in state.lights" class="ui-btn-inline">
-                <a href="lamp.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top" style="width: 70px">{{l.name}}</a>
-            </div>
 
-            <br>
-                alle anzeigen
-
+        <span class="ui-btn-inline"><h3>Gruppen</h3></span>
+        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext"></button>
+        <br>
+        <div class="ui-btn-inline horizontal_button_view">
+            <a href="group.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">Beispielgruppe</a>
         </div>
-    </div>
+        <div ng-repeat="g in state.groups" class="ui-btn-inline horizontal_button_view">
+            <a href="group.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{g.name}}</a>
+        </div>
+
+
+
+    </div><!-- /content -->
+
+</div><!-- /wrapper -->
+
+<div data-role="footer" data-position="fixed" style="text-align: center">
+    Impressum
+</div><!-- /footer -->
+
 </div>
-
-    <!-- Footer -->
-    <div data-role="footer" data-position="fixed">
-        <div data-role="navbar">
-            <ul>
-                <li><a href="index.html">Start</a></li>
-                <li><a href="">Impressum</a></li>
-            </ul>
-        </div>
-    </div>
-
-</div>
-
 </body>
 </html>

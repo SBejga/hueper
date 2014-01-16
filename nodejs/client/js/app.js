@@ -387,7 +387,6 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
                     groupsOfLamp.push(key);
                 }
             });
-
             return groupsOfLamp;
         }
     };

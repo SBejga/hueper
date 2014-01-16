@@ -2,8 +2,7 @@
 
 .wrapper {
     position: relative;
-    background-color: #34313b;
-    width:1200px;
+    width:1000px;
     margin: auto;
 }
 
@@ -11,9 +10,7 @@
 .header{
     position:relative;
     text-align: center;
-    color: #e6e6e6;
     font-size: 15px;
-    width: 500px;
     margin: auto;
 
 }
@@ -31,14 +28,20 @@
 
 }
 
-.tabmenu_text{
+.horizontal_button_view{
+    width: 30.9%;
+
 }
+
+
+
+
+
 /* small screen */
-@media screen and (max-width:1200px) {
+@media screen and (max-width:1100px) {
     .wrapper {
         position: relative;
         width:90%;
-        background-color: #00aaff;
         margin: auto;
     }
 }
@@ -47,13 +50,12 @@
 
 
 
-/* Smartphones */
-@media screen and (max-width:700px) {
+/* Smartphone */
+@media screen and (max-width:500px) {
 
     .wrapper {
         position: relative;
-        width:600px;
-        background-color: #00aaff;
+        width:90%;
         margin: auto;
     }
 
