@@ -124,10 +124,13 @@ module.exports = function(globalApp) {
 
     app = globalApp;
 
-    findArduino();
+    app.events.once('ready', function() {
+        findArduino();
 
-    // periodically check if Arduino is still there
-    setInterval(checkHeartBeat, 10000);
+        // periodically check if Arduino is still there
+        setInterval(checkHeartBeat, 10000);
+    });
+
 
     return {
 

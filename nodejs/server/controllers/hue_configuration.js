@@ -69,6 +69,8 @@ module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.controllers.socket.addSocketListener(socketListeners);
+    app.events.once('ready', function() {
+        app.controllers.socket.addSocketListener(socketListeners);
+    });
 
 };

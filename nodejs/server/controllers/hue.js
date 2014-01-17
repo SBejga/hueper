@@ -573,7 +573,10 @@ module.exports = function(globalApp) {
 	
 	app = globalApp;
 
-    findBridge();
+    app.events.once('ready', function() {
+        findBridge();
+    });
+
 
     return {
         makeApiCall: makeApiCall,

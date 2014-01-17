@@ -1,4 +1,4 @@
-﻿console.log("Starting HueControl on Port 8080");
+﻿console.log('[SERVER] Starting HueControl on Port 8080');
 
 //
 // global application object
@@ -26,6 +26,13 @@ var app = {
 	
 	controllers: {}
 };
+
+//
+// set up global event infrastructure
+//
+var EventEmitter = require('events').EventEmitter;
+app.events = new EventEmitter();
+app.events.setMaxListeners(0);
 
 //
 // Start Express server with Socket.IO
@@ -83,3 +90,8 @@ webrepl.createServer({
     port: 11911,
     host: '127.0.0.1'
 });
+
+
+// fire ready event
+console.log('[SERVER] All controllers loaded, emitting ready event');
+app.events.emit('ready');

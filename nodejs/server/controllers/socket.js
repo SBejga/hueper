@@ -174,7 +174,10 @@ module.exports = function(globalApp) {
     app = globalApp;
     io	= app.server.io;
 
-    setupSocketHandlers();
+    app.events.once('ready', function() {
+        setupSocketHandlers();
+    });
+
 
     return {
         refreshState: refreshState,

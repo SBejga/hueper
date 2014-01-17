@@ -1,4 +1,7 @@
-module.exports = function(app) {
+var app;
+
+
+var init = function() {
 
     /*
      * Commodity function to properly shut down the Raspberry Pi
@@ -17,6 +20,17 @@ module.exports = function(app) {
                 console.log('[arduino_button] Shutdown error:', e);
             }
         }
+    });
+
+};
+
+
+module.exports = function(globalApp) {
+
+    app = globalApp;
+
+    app.events.once('ready', function() {
+        init();
     });
 
 };
