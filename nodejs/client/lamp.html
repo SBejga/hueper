@@ -11,6 +11,7 @@
     <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
 
     <link rel="stylesheet" href="./css/jquery.mobile.structure-1.4.0.css"/>
+    <link rel="stylesheet" href="./css/jquery.mobile.icons-1.4.0.css"/>
     <link rel="stylesheet" href="./css/firsttry.css"/>
 
     <!-- JavaScript -->
@@ -32,29 +33,26 @@
 
     <div class="header">
         <h2>Lampenmenü</h2>
-    </div><!-- /header -->
 
-    <div data-role="content">
         <div data-role="navbar">
             <ul>
-                <li><a href="lampsandgroups.html"><img src="./images/birne.png"></a></li>
-                <li><a href=""><img src="./images/birne.png"></a></li>
-                <li><a href=""><img src="./images/birne.png"></a></li>
-                <li><a href=""><img src="./images/birne.png"></a></li>
-                <li><a href="properties.html" data-theme="a"><img src="./images/birne.png"></a></li>
+                <li><a href="lampsandgroups.html" style="background-color: #959611; border-color: #dcde0a; border-bottom-color: #959611;"><img src="css/images/birne.png"></a></li>
+                <li><a href="" style="border-bottom-color: #dcde0a"><img src="css/images/birne.png"></a></li>
+                <li><a href="" style="border-bottom-color: #dcde0a"><img src="css/images/birne.png"></a></li>
+                <li><a href="" style="border-bottom-color: #dcde0a"><img src="css/images/birne.png"></a></li>
+                <li><a href="properties.html" style="margin-right: 0px; border-bottom-color: #dcde0a"><img src="css/images/birne.png"></a></li>
             </ul>
         </div><!-- /navbar -->
+    </div><!-- /header -->
 
-        <br>
+    <div data-role="content" style="background-color: #959611; border-color: #dcde0a; border-top-color: #959611;">
 
-        <span class="ui-btn-inline"><input type="text" value="Lampenname"></span>
-        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext"></button>
-        <br>
-        <span class="ui-btn-inline"><input type="text" value="Gruppenname"></span>
-        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext"></button>
-        <br>
-        <span class="ui-btn-inline"><input type="text" value="Gruppenname"></span>
-        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext"></button>
+
+        <input type="text" value="Lampenname" style="text-align: center">
+        <button class="ui-btn ui-icon-delete ui-btn-icon-right">Gruppenname</button>
+        <button class="ui-btn ui-icon-delete ui-btn-icon-right">Gruppenname</button>
+
+
         <br>
         <br>
         <br>
@@ -94,8 +92,6 @@
         <br>
         <br>
         <button class="ui-btn">Änderungen übernehmen</button>
-
-
 
     </div><!-- /content -->
 </div><!-- /wrapper -->

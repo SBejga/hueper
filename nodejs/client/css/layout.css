@@ -21,7 +21,7 @@
 
 
 .ui-icon-singlelamp:after{
-    background-image:url("./../images/birne.png");
+    background-image:url("images/birne.png");
     width: 30px;
     height: 30px;
 

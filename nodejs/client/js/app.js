@@ -382,6 +382,7 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
 
             var groupsOfLamp = [];
 
+            id = id.toString();
             angular.forEach($scope.state.groups, function(value, key){
                 if(value.lights.indexOf(id) > -1){
                     groupsOfLamp.push(key);
