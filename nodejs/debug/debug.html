@@ -158,6 +158,10 @@
        <h2>{{id}} - {{light.name}}</h2>
 
     <p>
+        Gruppen: <span ng-repeat="group in lights.getGroups(id)">{{group}} </span>
+    </p>
+
+    <p>
         Favoriten: <button ng-repeat="(fid, f) in state.favorites" ng-click="lights.state(id, f.state)">{{f.name}}</button>
     </p>
 

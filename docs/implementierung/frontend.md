@@ -1,6 +1,40 @@
 # Dokumentation Frontend
 
-## AngularJS Scope
+## AngularJS
+
+### Services
+
+#### socket
+
+Wrapper for the Socket.IO API
+
+-   **on(event, callback)**
+-   **emit(event, data)**
+
+
+### Filter
+
+#### filterObj
+
+Filtert ein Objekt, das als assoziatives Array aufgebaut ist (IDs der Elemente sind die Objekt-Schlüssel)
+
+Parameter
+
+-   filter
+    -   String: Vorkommen des Strings werden rekursiv in allen Properties der Child-Objekte gesucht
+    -   Objekt: Die Schlüssel stellen die Pfade innerhalb der Child-Objekte dar, die jeweils rekursiv nach den Werten durchsucht werden
+-   strict: Es werden nur exakte Treffer gezählt (vollständig und case sensitive). Standardmäßig werden auch Teilausdrücke gefunden und die Suche ist case insensitive.
+
+Beispiele
+
+-   filterObj:'search'
+-   filterObj:'search':true
+-   filterObj:{'user.name': 'Michael', 'title': 'test'}
+
+
+### Controller
+
+#### MainCtrl
 
 -   **state**: Status und Daten der Anwendung
     -   **user**: Login-Status
@@ -107,6 +141,7 @@
     -   **stateAll(state)**: Status aller Lampen verändern
     -   **search()**: Suche nach neuen Lampen anstoßen
     -   **setName(id, name)**: Name einer Lampe ändern
+    -   **getGroups(id)**: Gruppen-IDs einer Lampe erhalten
 -   **groups**: Steuerung der Gruppen
     -   **forms**: Platzhalter für Formulare
         -   **create**: Formular zum Erstellen einer Gruppe

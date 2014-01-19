@@ -149,18 +149,41 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
 
 ## Controller hinzufügen
 
-Controller werden in der server.js in das controller-Array eingefügt und global zugänglich gemacht.
+Controller werden in der server.js in das controller-Array eingefügt und global zugänglich gemacht. Die `module.exports` ist jeweils eine Funktion, die das globale `app`-Objekt als Parameter übergeben bekommt. Sie startet die autonomen Funktionen des Controllers, wenn in `app.events` das *ready*-Event gefeuert wird. Anderen Controllern kann sie Funktionen zurückgeben, indem die `module.exports` ein Objekt zurückgibt.
 
-Um mit einem Controller Socket.IO-Events abzufangen, muss er dem Socket-Controller eine Listener-Funktion übergeben. Diese wird auf Sockets angewandt, nachdem sich der Benutzer erfolgreich eingeloggt hat.
+Grundgerüst eines Controllers, der auf bestimmte Socket.IO-Nachrichten eingeloggter Clients wartet:
 
 ```js
-var socketListeners = function(socket) {
-    socket.on('xxx', function(data) {
-        // ...
-    });
+var app;
+
+var init = function() {
+    // independent functionality by this controller
+
+    app.controllers.socket.addSocketListener(socketListeners);
 };
 
-module.exports = function(app) {
-    app.controllers.socket.addSocketListener(socketListeners);
+var socketListeners = function(socket) {
+
+     // create favorite
+     socket.on('action', function(data) {
+         // ...
+     });
+};
+
+var exposedFunction = function(param) {
+    // this function will be available to other controllers
+};
+
+module.exports = function(globalApp) {
+
+    app = globalApp;
+
+    app.events.once('ready', function() {
+        init();
+    });
+
+    return {
+        exposedFunction: exposedFunction
+    };
 };
 ```
