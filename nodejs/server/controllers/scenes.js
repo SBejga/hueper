@@ -3,73 +3,23 @@
     Scene =  mongoose.model('Scene'),
     app;
 
+
+var init = function() {
+
+    helpers.initCrudTemplate(
+        app,
+        Scene,
+        'scenes',
+        'scene',
+        'scene'
+    );
+
+    app.controllers.socket.addSocketListener(socketListeners);
+
+};
+
+
 var socketListeners = function(socket) {
-
-    // create scene
-    socket.on('scene.create', function(data) {
-        console.log('[scenes] Create new scene: ', data);
-
-        new Scene(data).save(function(err, scene) {
-            if(err) {
-                (app.controllers.mongoose.handleError(
-                    socket,
-                    false,
-                    false,
-                    'scenes.create'
-                ))(err);
-                return;
-            }
-
-            var id = scene['_id'];
-            app.state.scenes[id] = scene;
-            app.controllers.socket.refreshState(
-                false,
-                ['scenes.' + id]
-            );
-        });
-    });
-
-    // update scene
-    socket.on('scene.update', function(data) {
-        var id = data['_id'];
-
-        helpers.cleanMongooseProperties(data);
-
-        console.log('[scenes] Update scene ' + id);
-
-        Scene.findByIdAndUpdate(id, data, function(err, scene) {
-
-            if(err) {
-                (app.controllers.mongoose.handleError(
-                    socket,
-                    'scenes.' + id,
-                    app.state.scenes[id],
-                    'scenes.update'
-                ))(err);
-                return;
-            }
-
-            app.state.scenes[id] = scene;
-            app.controllers.socket.refreshState(
-                app.controllers.socket.getBroadcastSocket(socket),
-                ['scenes.' + id]
-            );
-        });
-
-    });
-
-    // delete scene
-    socket.on('scene.delete', function(id) {
-        console.log('[scenes] Delete scene ' + id);
-
-        Scene.findByIdAndRemove(id).exec();
-
-        delete app.state.scenes[id];
-        app.controllers.socket.deleteFromState(
-            app.controllers.socket.getBroadcastSocket(socket),
-            ['scenes.' + id]
-        );
-    });
 
     // apply scene
     socket.on('scene.apply', function(id) {
@@ -104,12 +54,13 @@ var socketListeners = function(socket) {
 
 };
 
+
 module.exports = function(globalApp) {
 
     app = globalApp;
 
     app.events.once('ready', function() {
-        app.controllers.socket.addSocketListener(socketListeners);
+        init();
     });
 
 };

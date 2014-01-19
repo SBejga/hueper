@@ -68,6 +68,12 @@
     `<ID>`
 -   **scene.apply**: Szene anwenden
     `<ID>`
+-   **automation.create**: Automatisierung erstellen
+    `{ name: ..., triggers: [...], conditions: [...], allConditionsNeeded: ..., actions: [...], active: ... }`
+-   **automation.update**: Automatisierung bearbeiten
+    `{ _id: ..., name: ..., triggers: [...], conditions: [...], allConditionsNeeded: ..., actions: [...], active: ... }`
+-   **automation.delete**: Automatisierung löschen
+    `<ID>`
 
 ## Broadcasts an eingeloggte User
 

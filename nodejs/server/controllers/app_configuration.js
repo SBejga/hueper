@@ -2,6 +2,40 @@
     Config      = mongoose.model('Config'),
     app;
 
+
+var init = function() {
+
+    // cache configuration in global app object
+    app.controllers.mongoose.addQueryListener(function(callback) {
+
+        Config.find(function(err, entries) {
+            var i, c;
+
+            for(i = 0; i < entries.length; i++) {
+                c = entries[i];
+
+                if(c.name) {
+                    if(c.hidden) {
+                        app.config[c.name] = c.value;
+                    }
+                    else {
+                        app.state.appConfig[c.name] = c.value;
+                    }
+                }
+            }
+
+            // load default configuration into MongoDB if not already present
+            require('../config/application')(app);
+
+
+            callback();
+        });
+
+    });
+
+    app.controllers.socket.addSocketListener(socketListeners);
+};
+
 var socketListeners = function(socket) {
 
     // change application password
@@ -80,7 +114,7 @@ module.exports = function(globalApp) {
     app = globalApp;
 
     app.events.once('ready', function() {
-        app.controllers.socket.addSocketListener(socketListeners);
+        init();
     });
 
 };

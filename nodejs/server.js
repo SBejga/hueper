@@ -64,7 +64,7 @@ var controllers = [
     'mongoose', 'socket', 'hue', 'arduino',
 
     // functional controllers
-    'app_configuration', 'hue_configuration', 'lights', 'groups', 'favorites', 'scenes', 'arduino_button'
+    'app_configuration', 'hue_configuration', 'lights', 'groups', 'favorites', 'scenes', 'automation', 'arduino_button'
 
 ];
 

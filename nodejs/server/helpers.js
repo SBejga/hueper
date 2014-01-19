@@ -89,6 +89,114 @@ var cleanMongooseProperties = function(o) {
     }
 };
 
+/**
+ * Initialize basic functionality for CRUD controller
+ * - load data from MongoDB into application state object
+ * - add Socket.IO listeners
+ * - create, update and delete in MongoDB and handle errors
+ * @param app global app object
+ * @param Model Mongoose data model which has to implement the getAsMap() function
+ * @param name Name in app.state
+ * @param socketPrefix prefix for Socket.IO messages
+ *          used messages: <prefix>.create, <prefix>.update, <prefix>.delete
+ * @param errorPrefix prefix for Socket.IO error notifications
+ *          used notifications: <prefix>.create, <prefix>.update
+ */
+var initCrudTemplate = function(app, Model, name, socketPrefix, errorPrefix) {
+
+    //
+    // Fetch and cache data
+    //
+
+    app.controllers.mongoose.addQueryListener(function(callback) {
+        console.log('[' + name + ' / helpers] Fetch ' + name + ' from database');
+
+        Model.getAsMap(function(map) {
+            app.state[name] = map;
+
+            // fire callback for Mongoose remaining events counter
+            callback();
+        });
+
+    });
+
+    //
+    // Add socket listeners
+    //
+
+    app.controllers.socket.addSocketListener(function(socket) {
+
+        // create entry
+        socket.on(socketPrefix + '.create', function(data) {
+            console.log('[' + name + ' / helpers] Create new ' + name + ': ', data);
+
+            new Model(data).save(function(err, entry) {
+                if(err) {
+                    (app.controllers.mongoose.handleError(
+                        socket,
+                        false,
+                        false,
+                        errorPrefix + '.create'
+                    ))(err);
+                    return;
+                }
+
+                var id = entry['_id'];
+                app.state[name][id] = entry;
+                app.controllers.socket.refreshState(
+                    false,
+                    [name + '.' + id]
+                );
+            });
+        });
+
+        // update entry
+        socket.on(socketPrefix + '.update', function(data) {
+            var id = data['_id'];
+
+            cleanMongooseProperties(data);
+
+            console.log('[' + name + ' / helpers] Update ' + name + ': ', data);
+
+            Model.findByIdAndUpdate(id, data, function(err, entry) {
+                if(err) {
+                    (app.controllers.mongoose.handleError(
+                        socket,
+                        name + '.' + id,
+                        app.state[name][id],
+                        errorPrefix + '.update'
+                    ))(err);
+                    return;
+                }
+
+                app.state[name][id] = entry;
+                app.controllers.socket.refreshState(
+                    app.controllers.socket.getBroadcastSocket(socket),
+                    [name + '.' + id]
+                );
+            });
+
+        });
+
+        // delete entry
+        socket.on(socketPrefix + '.delete', function(id) {
+            console.log('[' + name  + ' / helpers] Delete ' + name + ': ', id);
+
+            Model.findByIdAndRemove(id).exec();
+
+            delete app.state[name][id];
+            app.controllers.socket.deleteFromState(
+                app.controllers.socket.getBroadcastSocket(socket),
+                [name + '.' + id]
+            );
+        });
+
+    });
+
+};
+
+
 module.exports.equals = equals;
 module.exports.equalsProperties = equalsProperties;
 module.exports.cleanMongooseProperties = cleanMongooseProperties;
+module.exports.initCrudTemplate = initCrudTemplate;

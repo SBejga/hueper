@@ -114,6 +114,13 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
                 (wurde der Benutzer über das Update benachrichtigt?)
         -   linkbutton
         -   portalservices
+    -   **automation**: Automatisierung
+        -   name
+        -   triggers: Array: type, value
+        -   conditions: Array: type, value
+        -   allConditionsNeeded
+        -   actions: Array: type, value, delay
+        -   active
 -   **server**
     -   **express**: Express-Server
     -   **http**: HTTP-Server zum Verbinden von Express und Socket.IO
@@ -126,6 +133,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **setGroupLightState(id, state, broadcast)**: Status einer Gruppe ändern
         -   **customApiCall(path, body, callback)**: Erlaubt benutzerdefinierten Aufruf der Hue REST-API
     -   **mongoose**: Baut Verbindung zur MongoDB auf und liest die Daten in den app.state-Cache
+        -   **addQueryListener(listener)**: Listener, um Daten-Container einmalig zu befüllen. Werden vor den Connection-Listenern ausgeführt. Bekommen eine Callback-Funktion als Parameter übergeben, die sie am Ende aufrufen müssen
         -   **addConnectionListener(listener)**: Ermöglicht anderen Controllern, auf eine erstmalig aufgebaute MongoDB-Verbindung zu warten
         -   **handleError(socket, statePath, oldValue, errorType, broadcast)**: Fehlerbehandlung mit Rücksetzen des State und Senden per Socket
     -   **socket**: Handling von Socket.IO-Verbindungen und Benutzer-Login
@@ -144,6 +152,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
     -   **hue_configuration**: Konfiguration der Hue Bridge
     -   **favorites**: Verwaltung der Lampeneinstellungs-Favoriten
     -   **scenes**: Verwaltung der Szenen
+    -   **automation**: Automatisierung (Zeitgesteuerte Ereignisse, Sensoren)
     -   **arduino_button**: Fährt den Raspberry Pi herunter, wenn der Button am Arduino gedrückt wurde
 
 
@@ -187,3 +196,26 @@ module.exports = function(globalApp) {
     };
 };
 ```
+
+## Basis CRUD-Funktionalität
+
+```js
+helpers.initCrudTemplate(
+    app,
+    Scene,
+    'scenes',
+    'scene',
+    'scene'
+);
+```
+
+Die Funktion `initCrudTemplate` führt folgende Aktionen aus:
+
+-   Die Liste der Scenes (2. Parameter) wird in `app.state.scenes` (3. Parameter) gespeichert
+-   Es werden Listener für Socket.IO registriert (4. Parameter)
+    -   scene.create
+    -   scene.update
+    -   scene.remove
+-   Error-Handling wird hinzugefügt (5. Parameter)
+    -   scene.create
+    -   scene.update

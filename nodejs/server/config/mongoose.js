@@ -8,5 +8,6 @@ module.exports = function(app) {
     require('../models/config');
     require('../models/favorite');
     require('../models/scene');
+    require('../models/automation');
 
 };
