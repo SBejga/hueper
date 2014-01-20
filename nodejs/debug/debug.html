@@ -382,6 +382,323 @@
     <br />
     <button ng-click="scenes.create(scenes.forms.create)">speichern</button>
 
+<!-- automation -->
+
+<h1>Automatisierung</h1>
+
+
+<div ng-repeat="a in state.automation">
+    <h2>{{a._id}} - {{a.name}}</h2>
+
+    <button ng-click="automation.remove(a._id)">entfernen</button>
+
+    <br /><br />
+
+    Name: <input type="text" ng-model="a.name" required />
+    <br />
+    <input type="checkbox" ng-model="a.active" /> aktiv
+    <br />
+
+    <h4>Trigger</h4>
+
+    <div ng-repeat="t in a.triggers">
+
+        Typ:
+        <select ng-model="t.type" ng-change="t.value = undefined">
+            <option>light</option>
+            <option>motion</option>
+            <option>rfid</option>
+        </select>
+
+        <button ng-click="helpers.removeFromArray(a.triggers, $index)">X</button>
+
+        <div ng-switch="t.type">
+            <div ng-switch-when="light">
+                <select ng-model="t.value.relation">
+                    <option>&lt;</option>
+                    <option>&gt;</option>
+                </select>
+                <input type="text" ng-model="t.value.threshold" />
+            </div>
+            <!-- motion does not have a value -->
+            <div ng-switch-when="rfid">
+                <input type="text" ng-model="t.value" />
+            </div>
+        </div>
+
+    </div>
+
+    <button ng-click="a.triggers.push({type: 'light'})">+</button>
+
+    <br /><br />
+
+    <h4>Bedingungen</h4>
+
+    <div ng-repeat="t in a.conditions">
+
+        Typ:
+        <select ng-model="t.type" ng-change="t.value = undefined">
+            <option>light</option>
+            <option>motion</option>
+            <option>rfid</option>
+        </select>
+
+        <button ng-click="helpers.removeFromArray(a.conditions, $index)">X</button>
+
+        <div ng-switch="t.type">
+            <div ng-switch-when="light">
+                <select ng-model="t.value.relation">
+                    <option>&lt;</option>
+                    <option>&gt;</option>
+                </select>
+                <input type="text" ng-model="t.value.threshold" />
+            </div>
+            <div ng-switch-when="motion">
+                <select ng-model="t.value.relation">
+                    <option>&lt;</option>
+                    <option>&gt;</option>
+                </select>
+                <input type="text" ng-model="t.value.threshold" />
+            </div>
+            <div ng-switch-when="rfid">
+                <input type="text" ng-model="t.value" />
+                <select ng-model="t.value.relation">
+                    <option>&lt;</option>
+                    <option>&gt;</option>
+                </select>
+                <input type="text" ng-model="t.value.time" />
+            </div>
+        </div>
+
+
+    </div>
+
+    <button ng-click="a.conditions.push({type: 'light'})">+</button>
+
+    <br /><br />
+
+    <input type="checkbox" ng-model="a.allConditionsNeeded" /> alle Bedingungen müssen erfüllt sein
+
+    <br /><br />
+
+    <h4>Aktionen</h4>
+
+    <div ng-repeat="t in a.actions">
+
+        Typ:
+        <select ng-model="t.type" ng-change="t.value = undefined">
+            <option>light</option>
+            <option>group</option>
+            <option>scene</option>
+        </select>
+
+        <button ng-click="helpers.removeFromArray(a.actions, $index)">X</button>
+
+        <div ng-switch="t.type">
+            <div ng-switch-when="light">
+                <select ng-model="t.value.id" ng-options="id for (id , l) in state.lights"></select>
+                <br />
+                on: <input type="checkbox" ng-model="t.value.state.on" /><br />
+
+                <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
+                    {{name}} <code>[{{val}}]</code> <input type="number" ng-model="t.value.state[val]" /><br />
+                </span>
+
+                effect
+                <select ng-model="t.value.state.effect">
+                    <option>none</option>
+                    <option>colorloop</option>
+                </select>
+            </div>
+            <div ng-switch-when="group">
+                <select ng-model="t.value.id">
+                    <option value="0">alle Lampen</option>
+                    <option ng-repeat="(id , g) in state.groups" value="{{id}}">{{g.name}}</option>
+                </select>
+                <br />
+                on: <input type="checkbox" ng-model="t.value.state.on" /><br />
+
+                <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
+                    {{name}} <code>[{{val}}]</code> <input type="number" ng-model="t.value.state[val]" /><br />
+                </span>
+
+                effect
+                <select ng-model="t.value.state.effect">
+                    <option>none</option>
+                    <option>colorloop</option>
+                </select>
+            </div>
+            <div ng-switch-when="scene">
+                <select ng-model="t.value.id" ng-options="id as s.name for (id , s) in state.scenes"></select>
+                Übergang: <input type="number" ng-model="t.value.transition" />
+            </div>
+        </div>
+
+    </div>
+
+    <button ng-click="a.actions.push({type: 'light'})">+</button>
+
+    <br /><br />
+
+    <button ng-click="automation.update(a)">speichern</button>
+</div>
+
+
+
+
+
+
+<h2>Neue Automatisierung</h2>
+<div>
+    Name: <input type="text" ng-model="automation.forms.create.name" required />
+    <br />
+    <input type="checkbox" ng-model="automation.forms.create.active" /> aktiv
+    <br />
+
+    <h4>Trigger</h4>
+
+    <div ng-repeat="t in automation.forms.create.triggers">
+
+        Typ:
+        <select ng-model="t.type" ng-change="t.value = undefined">
+            <option>light</option>
+            <option>motion</option>
+            <option>rfid</option>
+        </select>
+
+        <button ng-click="helpers.removeFromArray(automation.forms.create.triggers, $index)">X</button>
+
+        <div ng-switch="t.type">
+            <div ng-switch-when="light">
+                <select ng-model="t.value.relation">
+                    <option>&lt;</option>
+                    <option>&gt;</option>
+                </select>
+                <input type="text" ng-model="t.value.threshold" />
+            </div>
+            <!-- motion does not have a value -->
+            <div ng-switch-when="rfid">
+                <input type="text" ng-model="t.value" />
+            </div>
+        </div>
+
+    </div>
+
+    <button ng-click="automation.forms.create.triggers.push({type: 'light'})">+</button>
+
+    <br /><br />
+
+    <h4>Bedingungen</h4>
+
+    <div ng-repeat="t in automation.forms.create.conditions">
+
+        Typ:
+        <select ng-model="t.type" ng-change="t.value = undefined">
+            <option>light</option>
+            <option>motion</option>
+            <option>rfid</option>
+        </select>
+
+        <button ng-click="helpers.removeFromArray(automation.forms.create.conditions, $index)">X</button>
+
+        <div ng-switch="t.type">
+            <div ng-switch-when="light">
+                <select ng-model="t.value.relation">
+                    <option>&lt;</option>
+                    <option>&gt;</option>
+                </select>
+                <input type="text" ng-model="t.value.threshold" />
+            </div>
+            <div ng-switch-when="motion">
+                <select ng-model="t.value.relation">
+                    <option>&lt;</option>
+                    <option>&gt;</option>
+                </select>
+                <input type="text" ng-model="t.value.threshold" />
+            </div>
+            <div ng-switch-when="rfid">
+                <input type="text" ng-model="t.value" />
+                <select ng-model="t.value.relation">
+                    <option>&lt;</option>
+                    <option>&gt;</option>
+                </select>
+                <input type="text" ng-model="t.value.time" />
+            </div>
+        </div>
+
+
+    </div>
+
+    <button ng-click="automation.forms.create.conditions.push({type: 'light'})">+</button>
+
+    <br /><br />
+
+    <input type="checkbox" ng-model="automation.forms.create.allConditionsNeeded" /> alle Bedingungen müssen erfüllt sein
+
+    <br /><br />
+
+    <h4>Aktionen</h4>
+
+    <div ng-repeat="t in automation.forms.create.actions">
+
+        Typ:
+        <select ng-model="t.type" ng-change="t.value = undefined">
+            <option>light</option>
+            <option>group</option>
+            <option>scene</option>
+        </select>
+
+        <button ng-click="helpers.removeFromArray(automation.forms.create.actions, $index)">X</button>
+
+        <div ng-switch="t.type">
+            <div ng-switch-when="light">
+                <select ng-model="t.value.id" ng-options="id for (id , l) in state.lights"></select>
+                <br />
+                on: <input type="checkbox" ng-model="t.value.state.on" /><br />
+
+                <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
+                    {{name}} <code>[{{val}}]</code> <input type="number" ng-model="t.value.state[val]" /><br />
+                </span>
+
+                effect
+                <select ng-model="t.value.state.effect">
+                    <option>none</option>
+                    <option>colorloop</option>
+                </select>
+            </div>
+            <div ng-switch-when="group">
+                <select ng-model="t.value.id">
+                    <option value="0">alle Lampen</option>
+                    <option ng-repeat="(id , g) in state.groups" value="{{id}}">{{g.name}}</option>
+                </select>
+                <br />
+                on: <input type="checkbox" ng-model="t.value.state.on" /><br />
+
+                <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
+                    {{name}} <code>[{{val}}]</code> <input type="number" ng-model="t.value.state[val]" /><br />
+                </span>
+
+                effect
+                <select ng-model="t.value.state.effect">
+                    <option>none</option>
+                    <option>colorloop</option>
+                </select>
+            </div>
+            <div ng-switch-when="scene">
+                <select ng-model="t.value.id" ng-options="id as s.name for (id , s) in state.scenes"></select>
+                Übergang: <input type="number" ng-model="t.value.transition" />
+            </div>
+        </div>
+
+    </div>
+
+    <button ng-click="automation.forms.create.actions.push({type: 'light'})">+</button>
+
+    <br /><br />
+
+    <button ng-click="automation.create(automation.forms.create)">speichern</button>
+</div>
+
 <!-- complete state -->
 
 <h1>Kompletter state</h1>

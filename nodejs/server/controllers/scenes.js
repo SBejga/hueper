@@ -23,36 +23,55 @@ var socketListeners = function(socket) {
 
     // apply scene
     socket.on('scene.apply', function(id) {
-        var scene, i;
+        applyScene(id, undefined, socket);
+    });
 
-        if(typeof(app.state.scenes[id]) === 'undefined') {
-            return;
+};
+
+/**
+ * apply scene
+ * @param id
+ * @param transition
+ * @param socket false for broadcast
+ */
+var applyScene = function(id, transition, socket) {
+    var scene, i;
+
+    if(typeof(app.state.scenes[id]) === 'undefined') {
+        return;
+    }
+
+    if(typeof(transition) === 'undefined') {
+        transition = app.state.appConfig.transition;
+    }
+
+    scene = helpers.copy(app.state.scenes[id]);
+
+    console.log('[scenes] Apply scene ' + id);
+
+    for(i = 0; i < scene.lights.length; i++) {
+
+        // filter out nonexistant or unreachable lights
+        if(typeof(app.state.lights[scene.lights[i].light]) === 'undefined'
+            || !app.state.lights[scene.lights[i].light].state.reachable) {
+            continue;
         }
 
-        scene = app.state.scenes[id];
+        scene.lights[i].state.transitiontime = transition;
 
-        console.log('[scenes] Apply scene ' + id);
+        app.controllers.hue.setLightState(scene.lights[i].light, scene.lights[i].state, !socket);
 
-        for(i = 0; i < scene.lights.length; i++) {
+    }
 
-            // filter out nonexistant or unreachable lights
-            if(typeof(app.state.lights[scene.lights[i].light]) === 'undefined'
-                || !app.state.lights[scene.lights[i].light].state.reachable) {
-                continue;
-            }
-
-            app.controllers.hue.setLightState(scene.lights[i].light, scene.lights[i].state, false);
-
-        }
-
+    if(socket) {
         app.controllers.socket.refreshState(
             app.controllers.socket.getBroadcastSocket(socket),
             ['lights']
         );
-
-    });
+    }
 
 };
+
 
 
 module.exports = function(globalApp) {
@@ -62,5 +81,10 @@ module.exports = function(globalApp) {
     app.events.once('ready', function() {
         init();
     });
+
+
+    return {
+        applyScene: applyScene
+    };
 
 };

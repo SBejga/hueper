@@ -89,6 +89,10 @@ var cleanMongooseProperties = function(o) {
     }
 };
 
+var copy = function(el) {
+    return JSON.parse(JSON.stringify(el));
+};
+
 /**
  * Initialize basic functionality for CRUD controller
  * - load data from MongoDB into application state object
@@ -200,3 +204,4 @@ module.exports.equals = equals;
 module.exports.equalsProperties = equalsProperties;
 module.exports.cleanMongooseProperties = cleanMongooseProperties;
 module.exports.initCrudTemplate = initCrudTemplate;
+module.exports.copy = copy;

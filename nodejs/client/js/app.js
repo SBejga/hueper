@@ -780,6 +780,47 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
 
     };
 
+    // automation control
+
+    $scope.automation = {
+
+        // placeholder for form data
+        forms: {
+            create: {
+                name: '',
+                triggers: [],
+                conditions: [],
+                allConditionsNeeded: true,
+                actions: [],
+                active: true
+            }
+        },
+
+        create: function(automation) {
+            socket.emit('automation.create', automation);
+
+            $scope.automation.forms.create = {
+                name: '',
+                triggers: [],
+                conditions: [],
+                allConditionsNeeded: true,
+                actions: [],
+                active: true
+            };
+        },
+
+        update: function(automation) {
+            socket.emit('automation.update', automation);
+        },
+
+        remove: function(id) {
+            socket.emit('automation.delete', id);
+            delete $scope.state.automation[id];
+        }
+
+    };
+
+
     // helper functions
     // checkbox list to array conversion
 
@@ -845,6 +886,10 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
                 }
             }
 
+        },
+
+        removeFromArray: function(arr, index) {
+            arr.splice(index, 1);
         }
 
     };
