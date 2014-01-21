@@ -169,6 +169,7 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
         appConfig: {},
         lights: {},
         groups: {},
+        sensors: {},
         favorites: {},
         scenes: {}
     };
@@ -422,6 +423,11 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
                 }
             }
 
+            // turn on when changing other properties
+            if(typeof(state.on) === 'undefined') {
+                $scope.state.lights[id].state.on = true;
+            }
+
             // change colormode
             $scope.helpers.setColorMode(state, $scope.state.lights[id].state);
         },
@@ -454,6 +460,11 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
                         if(state.hasOwnProperty(j) && j !== 'transitiontime') {
                             $scope.state.lights[i].state[j] = state[j];
                         }
+                    }
+
+                    // turn on when changing other properties
+                    if(typeof(state.on) === 'undefined') {
+                        $scope.state.lights[i].state.on = true;
                     }
 
                     // change colormode
@@ -561,6 +572,11 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
                     if(state.hasOwnProperty(j) && j !== 'transitiontime') {
                         $scope.state.lights[$scope.state.groups[id].lights[i]].state[j] = state[j];
                     }
+                }
+
+                // turn light on when changing other properties
+                if(typeof(state.on) === 'undefined') {
+                    $scope.state.lights[$scope.state.groups[id].lights[i]].state.on = true;
                 }
 
                 // change light colormode
@@ -696,6 +712,11 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
                     }
                 }
 
+                // turn light on when changing other properties
+                if(typeof(scene.lights[i].state.on) === 'undefined') {
+                    $scope.state.lights[scene.lights[i].light].state.on = true;
+                }
+
                 // change colormode
                 if(typeof(scene.lights[i].state.ct) !== 'undefined') {
                     $scope.state.lights[scene.lights[i].light].colormode = 'ct';
@@ -816,6 +837,20 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
         remove: function(id) {
             socket.emit('automation.delete', id);
             delete $scope.state.automation[id];
+        },
+
+        resetConditionValue: function(t) {
+            if(t.type === 'weekdays') {
+                t.value = [];
+            }
+            else if(t.type === 'state') {
+                t.value = {
+                    state: {}
+                };
+            }
+            else {
+                t.value = undefined;
+            }
         }
 
     };
@@ -833,6 +868,10 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
          * @param {boolean} numeric convert element to integer
          */
         toggleList: function(arr, el, numeric) {
+
+            if(arr === undefined) {
+                arr = [];
+            }
 
             if(numeric) {
                 el = parseInt(el);
@@ -854,6 +893,10 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
          * @returns {boolean}
          */
         listChecked: function(arr, el, numeric) {
+
+            if(arr === undefined) {
+                arr = [];
+            }
 
             if(numeric) {
                 el = parseInt(el);

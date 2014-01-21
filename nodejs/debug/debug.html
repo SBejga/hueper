@@ -407,7 +407,12 @@
         <select ng-model="t.type" ng-change="t.value = undefined">
             <option>light</option>
             <option>motion</option>
-            <option>rfid</option>
+            <option>speech</option>
+            <option>schedule</option>
+            <option>periodical</option>
+            <option>custom</option>
+
+            <!-- TODO add rfid, wlan -->
         </select>
 
         <button ng-click="helpers.removeFromArray(a.triggers, $index)">X</button>
@@ -418,12 +423,24 @@
                     <option>&lt;</option>
                     <option>&gt;</option>
                 </select>
-                <input type="text" ng-model="t.value.threshold" />
+                <input type="number" ng-model="t.value.threshold" placeholder="Schwelle (0-100)" />
             </div>
             <!-- motion does not have a value -->
-            <div ng-switch-when="rfid">
-                <input type="text" ng-model="t.value" />
+            <div ng-switch-when="speech">
+                <input type="text" ng-model="t.value" placeholder="Sprachbefehl" />
             </div>
+            <div ng-switch-when="schedule">
+                <input type="number" ng-model="t.value.hour" placeholder="Stunde" />
+                <input type="number" ng-model="t.value.minute" placeholder="Minute" />
+            </div>
+            <div ng-switch-when="periodical">
+                <input type="number" ng-model="t.value" placeholder="Minuten" />
+            </div>
+            <div ng-switch-when="custom">
+                <input type="text" ng-model="t.value" placeholder="Eigenes Kommando" />
+            </div>
+
+            <!-- TODO add wlan, rfid -->
         </div>
 
     </div>
@@ -437,10 +454,15 @@
     <div ng-repeat="t in a.conditions">
 
         Typ:
-        <select ng-model="t.type" ng-change="t.value = undefined">
+        <select ng-model="t.type" ng-change="automation.resetConditionValue(t)">
             <option>light</option>
             <option>motion</option>
-            <option>rfid</option>
+            <option>time</option>
+            <option>weekdays</option>
+            <option>connections</option>
+            <option>state</option>
+
+            <!-- TODO add wlan, rfid -->
         </select>
 
         <button ng-click="helpers.removeFromArray(a.conditions, $index)">X</button>
@@ -451,23 +473,72 @@
                     <option>&lt;</option>
                     <option>&gt;</option>
                 </select>
-                <input type="text" ng-model="t.value.threshold" />
+                <input type="number" ng-model="t.value.threshold" placeholder="Schwelle (0-100)" />
             </div>
             <div ng-switch-when="motion">
                 <select ng-model="t.value.relation">
                     <option>&lt;</option>
                     <option>&gt;</option>
                 </select>
-                <input type="text" ng-model="t.value.threshold" />
+                <input type="number" ng-model="t.value.time" placeholder="Sekunden" />
             </div>
-            <div ng-switch-when="rfid">
-                <input type="text" ng-model="t.value" />
+            <div ng-switch-when="time">
                 <select ng-model="t.value.relation">
                     <option>&lt;</option>
                     <option>&gt;</option>
                 </select>
-                <input type="text" ng-model="t.value.time" />
+                <input type="number" ng-model="t.value.hour" placeholder="Stunde" />
+                <input type="number" ng-model="t.value.minute" placeholder="Minute" />
             </div>
+            <div ng-switch-when="weekdays">
+                <span ng-repeat="(id, day) in {1: 'Montag', 2: 'Dienstag', 3: 'Mittwoch', 4: 'Donnerstag', 5: 'Freitag', 6: 'Samstag', 0: 'Sonntag'}">
+                    <input type="checkbox" ng-checked="helpers.listChecked(t.value, id, true)" ng-click="helpers.toggleList(t.value, id, true)" /> {{day}}
+                </span>
+            </div>
+            <div ng-switch-when="connections">
+                <input type="checkbox" ng-model="t.value" /> Verbindungen vorhanden
+            </div>
+            <div ng-switch-when="state">
+                <select ng-model="t.value.type">
+                    <option>light</option>
+                    <option>all</option>
+                    <option>active</option>
+                    <option>group</option>
+                    <option>scene</option>
+                </select>
+
+                <div ng-switch="t.value.type">
+                    <div ng-switch-when="light">
+                        <select ng-model="t.value.id" ng-options="id as l.name for (id , l) in state.lights"></select>
+                    </div>
+                    <div ng-switch-when="group">
+                        <select ng-model="t.value.id" ng-options="id as g.name for (id , g) in state.groups"></select>
+                    </div>
+                    <div ng-switch-when="scene">
+                        <select ng-model="t.value.id" ng-options="id as s.name for (id , s) in state.scenes"></select>
+                    </div>
+                </div>
+
+                <div ng-if="t.value.type != 'scene'">
+                    on: <input type="checkbox" ng-model="t.value.state.on" /><br />
+
+                    <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
+                        {{name}} <code>[{{val}}]</code> <input type="number" ng-model="t.value.state[val]" /><br />
+                    </span>
+
+                    effect
+                    <select ng-model="t.value.state.effect">
+                        <option>none</option>
+                        <option>colorloop</option>
+                    </select>
+                </div>
+                <br />
+
+                <input type="checkbox" ng-model="t.value.invert"> invertieren
+
+            </div>
+
+            <!-- TODO add wlan, rfid -->
         </div>
 
 
@@ -486,17 +557,19 @@
     <div ng-repeat="t in a.actions">
 
         Typ:
-        <select ng-model="t.type" ng-change="t.value = undefined">
+        <select ng-model="t.type" ng-change="t.value = { state: {} }">
             <option>light</option>
             <option>group</option>
             <option>scene</option>
+            <option>custom</option>
+            <option>cancelDelay</option>
         </select>
 
         <button ng-click="helpers.removeFromArray(a.actions, $index)">X</button>
 
         <div ng-switch="t.type">
             <div ng-switch-when="light">
-                <select ng-model="t.value.id" ng-options="id for (id , l) in state.lights"></select>
+                <select ng-model="t.value.id" ng-options="id as l.name for (id , l) in state.lights"></select>
                 <br />
                 on: <input type="checkbox" ng-model="t.value.state.on" /><br />
 
@@ -532,11 +605,17 @@
                 <select ng-model="t.value.id" ng-options="id as s.name for (id , s) in state.scenes"></select>
                 Übergang: <input type="number" ng-model="t.value.transition" />
             </div>
+            <div ng-switch-when="custom">
+                <input type="text" ng-model="t.value" placeholder="Eigener Befehl" />
+            </div>
         </div>
 
+        <br />
+
+        Verzögerung: <input type="number" ng-model="t.delay" placeholder="Sekunden" />
     </div>
 
-    <button ng-click="a.actions.push({type: 'light'})">+</button>
+    <button ng-click="a.actions.push({type: 'light', value: { state: {} }})">+</button>
 
     <br /><br />
 
@@ -563,7 +642,12 @@
         <select ng-model="t.type" ng-change="t.value = undefined">
             <option>light</option>
             <option>motion</option>
-            <option>rfid</option>
+            <option>speech</option>
+            <option>schedule</option>
+            <option>periodical</option>
+            <option>custom</option>
+
+            <!-- TODO add rfid, wlan -->
         </select>
 
         <button ng-click="helpers.removeFromArray(automation.forms.create.triggers, $index)">X</button>
@@ -574,12 +658,24 @@
                     <option>&lt;</option>
                     <option>&gt;</option>
                 </select>
-                <input type="text" ng-model="t.value.threshold" />
+                <input type="number" ng-model="t.value.threshold" placeholder="Schwelle (0-100)" />
             </div>
             <!-- motion does not have a value -->
-            <div ng-switch-when="rfid">
-                <input type="text" ng-model="t.value" />
+            <div ng-switch-when="speech">
+                <input type="text" ng-model="t.value" placeholder="Sprachbefehl" />
             </div>
+            <div ng-switch-when="schedule">
+                <input type="number" ng-model="t.value.hour" placeholder="Stunde" />
+                <input type="number" ng-model="t.value.minute" placeholder="Minute" />
+            </div>
+            <div ng-switch-when="periodical">
+                <input type="number" ng-model="t.value" placeholder="Minuten" />
+            </div>
+            <div ng-switch-when="custom">
+                <input type="text" ng-model="t.value" placeholder="Eigenes Kommando" />
+            </div>
+
+            <!-- TODO add wlan, rfid -->
         </div>
 
     </div>
@@ -593,10 +689,15 @@
     <div ng-repeat="t in automation.forms.create.conditions">
 
         Typ:
-        <select ng-model="t.type" ng-change="t.value = undefined">
+        <select ng-model="t.type" ng-change="automation.resetConditionValue(t)">
             <option>light</option>
             <option>motion</option>
-            <option>rfid</option>
+            <option>time</option>
+            <option>weekdays</option>
+            <option>connections</option>
+            <option>state</option>
+
+            <!-- TODO add wlan, rfid -->
         </select>
 
         <button ng-click="helpers.removeFromArray(automation.forms.create.conditions, $index)">X</button>
@@ -607,23 +708,72 @@
                     <option>&lt;</option>
                     <option>&gt;</option>
                 </select>
-                <input type="text" ng-model="t.value.threshold" />
+                <input type="number" ng-model="t.value.threshold" placeholder="Schwelle (0-100)" />
             </div>
             <div ng-switch-when="motion">
                 <select ng-model="t.value.relation">
                     <option>&lt;</option>
                     <option>&gt;</option>
                 </select>
-                <input type="text" ng-model="t.value.threshold" />
+                <input type="number" ng-model="t.value.time" placeholder="Sekunden" />
             </div>
-            <div ng-switch-when="rfid">
-                <input type="text" ng-model="t.value" />
+            <div ng-switch-when="time">
                 <select ng-model="t.value.relation">
                     <option>&lt;</option>
                     <option>&gt;</option>
                 </select>
-                <input type="text" ng-model="t.value.time" />
+                <input type="number" ng-model="t.value.hour" placeholder="Stunde" />
+                <input type="number" ng-model="t.value.minute" placeholder="Minute" />
             </div>
+            <div ng-switch-when="weekdays">
+                <span ng-repeat="(id, day) in {1: 'Montag', 2: 'Dienstag', 3: 'Mittwoch', 4: 'Donnerstag', 5: 'Freitag', 6: 'Samstag', 0: 'Sonntag'}">
+                    <input type="checkbox" ng-checked="helpers.listChecked(t.value, id, true)" ng-click="helpers.toggleList(t.value, id, true)" /> {{day}}
+                </span>
+            </div>
+            <div ng-switch-when="connections">
+                <input type="checkbox" ng-model="t.value" /> Verbindungen vorhanden
+            </div>
+            <div ng-switch-when="state">
+                <select ng-model="t.value.type">
+                    <option>light</option>
+                    <option>all</option>
+                    <option>active</option>
+                    <option>group</option>
+                    <option>scene</option>
+                </select>
+
+                <div ng-switch="t.value.type">
+                    <div ng-switch-when="light">
+                        <select ng-model="t.value.id" ng-options="id as l.name for (id , l) in state.lights"></select>
+                    </div>
+                    <div ng-switch-when="group">
+                        <select ng-model="t.value.id" ng-options="id as g.name for (id , g) in state.groups"></select>
+                    </div>
+                    <div ng-switch-when="scene">
+                        <select ng-model="t.value.id" ng-options="id as s.name for (id , s) in state.scenes"></select>
+                    </div>
+                </div>
+
+                <div ng-if="t.value.type != 'scene'">
+                    on: <input type="checkbox" ng-model="t.value.state.on" /><br />
+
+                    <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
+                        {{name}} <code>[{{val}}]</code> <input type="number" ng-model="t.value.state[val]" /><br />
+                    </span>
+
+                    effect
+                    <select ng-model="t.value.state.effect">
+                        <option>none</option>
+                        <option>colorloop</option>
+                    </select>
+                </div>
+                <br />
+
+                <input type="checkbox" ng-model="t.value.invert"> invertieren
+
+            </div>
+
+            <!-- TODO add wlan, rfid -->
         </div>
 
 
@@ -642,17 +792,19 @@
     <div ng-repeat="t in automation.forms.create.actions">
 
         Typ:
-        <select ng-model="t.type" ng-change="t.value = undefined">
+        <select ng-model="t.type" ng-change="t.value = { state: {} }">
             <option>light</option>
             <option>group</option>
             <option>scene</option>
+            <option>custom</option>
+            <option>cancelDelay</option>
         </select>
 
         <button ng-click="helpers.removeFromArray(automation.forms.create.actions, $index)">X</button>
 
         <div ng-switch="t.type">
             <div ng-switch-when="light">
-                <select ng-model="t.value.id" ng-options="id for (id , l) in state.lights"></select>
+                <select ng-model="t.value.id" ng-options="id as l.name for (id , l) in state.lights"></select>
                 <br />
                 on: <input type="checkbox" ng-model="t.value.state.on" /><br />
 
@@ -688,11 +840,17 @@
                 <select ng-model="t.value.id" ng-options="id as s.name for (id , s) in state.scenes"></select>
                 Übergang: <input type="number" ng-model="t.value.transition" />
             </div>
+            <div ng-switch-when="custom">
+                <input type="text" ng-model="t.value" placeholder="Eigener Befehl" />
+            </div>
         </div>
 
+        <br />
+
+        Verzögerung: <input type="number" ng-model="t.delay" placeholder="Sekunden" />
     </div>
 
-    <button ng-click="automation.forms.create.actions.push({type: 'light'})">+</button>
+    <button ng-click="automation.forms.create.actions.push({type: 'light', value: { state: {} }})">+</button>
 
     <br /><br />
 

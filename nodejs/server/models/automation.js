@@ -27,7 +27,8 @@ var AutomationSchema = new Schema({
             type:   String,
             enum:   ['light', 'group', 'scene', 'custom', 'cancelDelay']
         },
-        value:  Schema.Types.Mixed
+        value:  Schema.Types.Mixed,
+        delay:  Number
     }],
 
     active: Boolean

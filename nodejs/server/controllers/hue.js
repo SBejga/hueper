@@ -294,6 +294,11 @@ var cleanClientState = function(state) {
         delete state.isOn;
     }
 
+    // turn light on when changing other properties
+    if(typeof(state.on) === 'undefined') {
+        state.on = true;
+    }
+
     // insert default transition time
     // don't insert when turning off as then the brightness would change to 1 (bug?)
     if(typeof(state.transitiontime) === 'undefined' && state.on !== false) {

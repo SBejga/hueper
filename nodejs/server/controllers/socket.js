@@ -215,6 +215,10 @@ module.exports = function(globalApp) {
             return socket.broadcast.to('login');
         },
 
+        getConnectedUserCount: function() {
+            return app.server.io.sockets.clients('login').length;
+        },
+
         sendNotification: sendNotification
 
     };

@@ -59,13 +59,19 @@ var applyScene = function(id, transition, socket) {
 
         scene.lights[i].state.transitiontime = transition;
 
-        app.controllers.hue.setLightState(scene.lights[i].light, scene.lights[i].state, !socket);
+        app.controllers.hue.setLightState(scene.lights[i].light, scene.lights[i].state, false);
 
     }
 
     if(socket) {
         app.controllers.socket.refreshState(
             app.controllers.socket.getBroadcastSocket(socket),
+            ['lights']
+        );
+    }
+    else {
+        app.controllers.socket.refreshState(
+            false,
             ['lights']
         );
     }

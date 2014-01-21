@@ -18,6 +18,7 @@ var app = {
         config: {},
         lights: {},
         groups: {},
+        sensors: {},
         favorites: {},
         scenes: {}
 	},
@@ -65,7 +66,7 @@ var controllers = [
 
     // functional controllers
     'app_configuration', 'hue_configuration', 'lights', 'groups', 'favorites', 'scenes', 'automation', 'arduino_button',
-    'arduino_motion'
+    'arduino_sensors'
 
 ];
 
