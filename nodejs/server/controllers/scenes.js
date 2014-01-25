@@ -41,7 +41,7 @@ var applyScene = function(id, transition, socket) {
         return;
     }
 
-    if(typeof(transition) === 'undefined') {
+    if(typeof(transition) === 'undefined' || transition === null || transition === false) {
         transition = app.state.appConfig.transition;
     }
 

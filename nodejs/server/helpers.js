@@ -200,6 +200,7 @@ var initCrudTemplate = function(app, Model, name, socketPrefix, errorPrefix) {
 };
 
 
+module.exports.objectSize = objectSize;
 module.exports.equals = equals;
 module.exports.equalsProperties = equalsProperties;
 module.exports.cleanMongooseProperties = cleanMongooseProperties;

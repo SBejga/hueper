@@ -26,6 +26,8 @@
     -   favorites.update
     -   scenes.create
     -   scenes.update
+    -   automation.create
+    -   automation.update
 
 ## Nachrichten vom Client (nach Login)
 

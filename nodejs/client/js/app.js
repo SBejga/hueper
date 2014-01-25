@@ -839,6 +839,10 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
             delete $scope.state.automation[id];
         },
 
+        resetTriggerValue: function(t) {
+            t.value = undefined;
+        },
+
         resetConditionValue: function(t) {
             if(t.type === 'weekdays') {
                 t.value = [];
@@ -850,6 +854,18 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
             }
             else {
                 t.value = undefined;
+            }
+        },
+
+        resetActionValue: function(t) {
+            if(t.type === 'custom') {
+                t.value = '';
+            }
+            else if(t.type === 'cancelDelay') {
+                t.value = undefined;
+            }
+            else {
+                t.value = { state: {} }
             }
         }
 

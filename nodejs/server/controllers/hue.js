@@ -188,21 +188,29 @@ var refreshState = function(refreshConnect) {
 
             // look for changes
 
-            for(i in data.lights) {
-                if(data.lights.hasOwnProperty(i)) {
+            // lamp count changed: do complete refresh
+            if(helpers.objectSize(data.lights) !== helpers.objectSize(app.state.lights)) {
+                app.state.lights = data.lights;
+                areas.push('lights');
+            }
+            // check state change for each lamp
+            else {
+                for(i in data.lights) {
+                    if(data.lights.hasOwnProperty(i)) {
 
-                    // new or changed light
-                    if(!helpers.equalsProperties(data.lights[i], app.state.lights[i], ['type', 'name', 'modelid', 'swversion'])) {
-                        areas.push('lights.' + i);
-                        app.state.lights[i] = data.lights[i];
+                        // new or changed light
+                        if(!helpers.equalsProperties(data.lights[i], app.state.lights[i], ['type', 'name', 'modelid', 'swversion'])) {
+                            areas.push('lights.' + i);
+                            app.state.lights[i] = data.lights[i];
+                        }
+
+                        // light state changed
+                        else if(!helpers.equals(data.lights[i].state, app.state.lights[i].state)) {
+                            areas.push('lights.' + i + '.state');
+                            app.state.lights[i].state = data.lights[i].state;
+                        }
+
                     }
-
-                    // light state changed
-                    else if(!helpers.equals(data.lights[i].state, app.state.lights[i].state)) {
-                        areas.push('lights.' + i + '.state');
-                        app.state.lights[i].state = data.lights[i].state;
-                    }
-
                 }
             }
 
@@ -279,10 +287,17 @@ var cleanHueState = function(state) {
         }
     }
 
-    // prevent config from always being recognized as changed
-    // remove UTC and last used of current user
+    // clean configuration to prevent it from always being recognized as changed
+
+    // remove UTC
     delete state.config.UTC;
-    delete state.config.whitelist[app.config.hueUser]['last use date'];
+
+    // remove time from last use date
+    for (i in state.config.whitelist) {
+        if(state.config.whitelist.hasOwnProperty(i)) {
+            state.config.whitelist[i]['last use date'] = state.config.whitelist[i]['last use date'].substring(0, 10);
+        }
+    }
 
 };
 

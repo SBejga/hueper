@@ -36,92 +36,7 @@ Beispiele
 
 #### MainCtrl
 
--   **state**: Status und Daten der Anwendung
-    -   **user**: Login-Status
-        -   **loginPromptReceived**: Wurde per Socket bereits übermittelt, ob ein Login erforderlich ist?
-        -   **loginRequired**: true, wenn ein Login erforderlich ist
-        -   **loginWaiting**: true, nachdem user.login() aufgerufen wurde, bis die Antwort zurückkommt
-        -   **login**: ist der Benutzer eingeloggt?
-        -   **loginError**: true, wenn der Login mit einem falschen Passwort versucht wurde
-    -   **socket**
-        -   **connected**: besteht eine Socket.IO-Verbindung?
-        -   **wasConnected**: true, wenn einmal eine Socket.IO-Verbindung aufgebaut war; zum Erkennen von Verbindungsabbrüchen
-        -   **connectionFailed**: der Verbindungsaufbau ist fehlgeschlagen
-    -   **appConfig**: Anwendungs-Konfiguration
-        -   **transition**: Überblendzeit der Lampen (in 100ms-Intervallen)
-    -   **lights**: Status der Lampen; Objekt mit Lichtern als Elemente, ID als Schlüssel
-        Gefiltertes Original-Output der Hue Bridge, Details zu den Werten unter http://developers.meethue.com/1_lightsapi.html#14_get_light_attributes_and_state
-        -   state
-            -   on
-            -   bri
-            -   hue
-            -   sat
-            -   ct
-            -   alert
-            -   effect
-            -   colormode
-            -   reachable
-        -   type
-        -   name
-        -   modelid
-        -   swversion
-    -   **config**: Konfiguration der Hue-Bridge
-        Gefiltertes Original-Output der Hue Bridge, Details zu den Werten unter http://developers.meethue.com/4_configurationapi.html#42_get_configuration
-        -   name
-        -   mac
-        -   dhcp
-        -   ipaddress
-        -   netmask
-        -   gateway
-        -   proxyaddress
-        -   proxyport
-        -   whitelist: Registrierte User, Name als Schlüssel
-            -   name
-            -   create data
-            -   last use date (nicht beim NodeJS-User)
-        -   swversion
-        -   swupdate
-            -   updatestate
-                (0: kein Update, 1: verfügbar, 2: heruntergeladen und anwendbar, 3: Installation)
-            -   url
-            -   text
-            -   notify
-                (wurde der Benutzer über das Update benachrichtigt?)
-        -   linkbutton
-        -   portalservices
-    -   **groups**: Liste der Gruppen, ID als Schlüssel
-        -   name
-        -   lights: Array aller zur Gruppe gehörigen Lampen, IDs als Strings
-        -   action: Letzter der Gruppe zugewiesener Status
-            -   on
-            -   bri
-            -   hue
-            -   sat
-            -   ct
-            -   effect
-            -   colormode
-    -   **favorites**: Liste der Lampeneinstellungs-Favoriten, ID als Schlüssel
-        -   _id
-        -   name
-        -   state
-            -   isOn
-            -   bri
-            -   hue
-            -   sat
-            -   ct
-            -   effect
-    -   **scenes**: Liste der Szenen, ID als Schlüssel
-        -   _id
-        -   name
-        -   lights: Array aus allen enthaltenen Lichtern
-            -   light: Licht-ID
-            -   state
-                -   isOn
-                -   bri
-                -   hue
-                -   sat
-                -   ct
-                -   effect
+-   **state**: Status und Daten der Anwendung. **Identisch mit dem serverseitigen app.state. Dort dokumentiert!**
 -   **notifications**: Array mit allen Benachrichtigungsobjekten (im Format {error: ...} oder {notification: ...})
 -   **clientConfig**: Frontend-Konfiguration
     -   **notificationTimeout**: Anzeigedauer für Notifications, danach werden sie entfernt
@@ -171,9 +86,25 @@ Beispiele
     -   **addLight(scene, id)**: Lampe zur Szene hinzufügen
     -   **removeLight(scene, id)**: Lampe aus einer Szene entfernen
     -   **filterUnused(lights)**: Lampen filtern - alle, die nicht im Parameter-Array enthalten sind
+-   **automation**: Automatisierung
+    -   **forms**: Platzhalter für Formulare
+        -   **create**: Automatisierung erstellen
+            -   name
+            -   triggers
+            -   conditions
+            -   allConditionsNeeded
+            -   actions
+            active
+    -   **create(automation)**: Automatisierung anlegen
+    -   **update(automation)**: Automatisierung bearbeiten
+    -   **remove(id)**: Automatisierung entfernen
+    -   **resetTriggerValue(t)**: Trigger-Wert je nach ausgewähltem Typ zurücksetzen
+    -   **resetConditionValue(t)**: Condition-Wert je nach ausgewähltem Typ zurücksetzen
+    -   **resetActionValue(t)**: Action-Wert je nach ausgewähltem Typ zurücksetzen
 -   **helpers**: Hilfs-Funktionen
     -   **toggleList(arr, el, numeric)**: Element in ein Array einfügen/entfernen; z.B. zum Erstellen eines Arrays aus mehreren Checkboxen
     -   **listChecked(arr, el, numeric)**: Überprüfen, ob ein Element in einem Array vorhanden ist
+    -   **removeFromArray(arr, index)**: Element aus einem Array entfernen
 
 
 ## Besondere Konstrukte

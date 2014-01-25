@@ -398,13 +398,16 @@
     <br />
     <input type="checkbox" ng-model="a.active" /> aktiv
     <br />
+    <input type="checkbox" ng-model="a.single" /> nach Ausführung löschen
+    <br />
+
 
     <h4>Trigger</h4>
 
     <div ng-repeat="t in a.triggers">
 
         Typ:
-        <select ng-model="t.type" ng-change="t.value = undefined">
+        <select ng-model="t.type" ng-change="automation.resetTriggerValue(t)">
             <option>light</option>
             <option>motion</option>
             <option>speech</option>
@@ -557,7 +560,7 @@
     <div ng-repeat="t in a.actions">
 
         Typ:
-        <select ng-model="t.type" ng-change="t.value = { state: {} }">
+        <select ng-model="t.type" ng-change="automation.resetActionValue(t)">
             <option>light</option>
             <option>group</option>
             <option>scene</option>
@@ -584,10 +587,7 @@
                 </select>
             </div>
             <div ng-switch-when="group">
-                <select ng-model="t.value.id">
-                    <option value="0">alle Lampen</option>
-                    <option ng-repeat="(id , g) in state.groups" value="{{id}}">{{g.name}}</option>
-                </select>
+                <select ng-model="t.value.id" ng-options="id as g.name for (id , g) in state.groups"></select>
                 <br />
                 on: <input type="checkbox" ng-model="t.value.state.on" /><br />
 
@@ -633,13 +633,15 @@
     <br />
     <input type="checkbox" ng-model="automation.forms.create.active" /> aktiv
     <br />
+    <input type="checkbox" ng-model="automation.forms.create.single" /> nach Ausführung löschen
+    <br />
 
     <h4>Trigger</h4>
 
     <div ng-repeat="t in automation.forms.create.triggers">
 
         Typ:
-        <select ng-model="t.type" ng-change="t.value = undefined">
+        <select ng-model="t.type" ng-change="automation.resetTriggerValue(t)">
             <option>light</option>
             <option>motion</option>
             <option>speech</option>
@@ -792,7 +794,7 @@
     <div ng-repeat="t in automation.forms.create.actions">
 
         Typ:
-        <select ng-model="t.type" ng-change="t.value = { state: {} }">
+        <select ng-model="t.type" ng-change="automation.resetActionValue(t)">
             <option>light</option>
             <option>group</option>
             <option>scene</option>
@@ -819,10 +821,7 @@
                 </select>
             </div>
             <div ng-switch-when="group">
-                <select ng-model="t.value.id">
-                    <option value="0">alle Lampen</option>
-                    <option ng-repeat="(id , g) in state.groups" value="{{id}}">{{g.name}}</option>
-                </select>
+                <select ng-model="t.value.id" ng-options="id as g.name for (id , g) in state.groups"></select>
                 <br />
                 on: <input type="checkbox" ng-model="t.value.state.on" /><br />
 

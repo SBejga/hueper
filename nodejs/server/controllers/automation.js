@@ -16,10 +16,15 @@ var init = function() {
         'automation'
     );
 
+
     // time event for schedule and periodical triggers
-    setInterval(function() {
+    setTimeout(function() {
         fireEvent('time');
-    }, 60000);
+
+        setInterval(function() {
+            fireEvent('time');
+        }, 10000);
+    }, (60 - new Date().getSeconds()) * 1000);
 
 };
 
@@ -41,6 +46,14 @@ var fireEvent = function(event, value) {
                 app.state.automation[i].actions.forEach(function(action) {
                     performAction(action);
                 });
+
+                // remove entry after execution
+                if(app.state.automation[i].single) {
+                    Automation.findByIdAndRemove(i).exec();
+                    delete app.state.automation[i];
+                    app.controllers.socket.deleteFromState(false, ['automation.'+i]);
+                }
+
             }
         }
     }
@@ -129,7 +142,7 @@ var evaluateSingleTrigger = function(trigger, event, value) {
              * command string
              */
             case 'speech':
-                return (triger.type === 'speech' && trigger.value.indexOf(value) > -1);
+                return (trigger.type === 'speech' && trigger.value && value.indexOf(trigger.value) > -1);
 
                 break;
 
@@ -146,7 +159,7 @@ var evaluateSingleTrigger = function(trigger, event, value) {
                 }
                 else if(trigger.type === 'schedule') {
                     var date = new Date();
-                    return (date.getHours() === trigger.value.hours && date.getMinutes() === trigger.value.minutes);
+                    return (date.getHours() === trigger.value.hour && date.getMinutes() === trigger.value.minute);
                 }
 
                 return false;
@@ -178,8 +191,14 @@ var evaluateSingleTrigger = function(trigger, event, value) {
  * @return {bool} conditions are true
  */
 var evaluateConditions = function(automation) {
-    var i = automation.conditions.length,
+    var i,
         cond;
+
+    if(!automation.conditions || !automation.conditions.length) {
+        return true;
+    }
+
+    i = automation.conditions.length;
 
     while(i--) {
         cond = evaluateSingleCondition(automation.conditions[i]);
@@ -193,7 +212,7 @@ var evaluateConditions = function(automation) {
         }
     }
 
-    return (automation.allConditionsNeeded ? true : false);
+    return true;
 };
 
 /**
@@ -287,11 +306,20 @@ var evaluateSingleCondition = function(condition) {
              */
             case 'state':
 
-                var hasState = false;
+                var hasState = true;
 
                 var compareLightState = function(lightId, state) {
                     var light = app.state.lights[lightId],
                         i;
+
+                    // prevent strange Mongoose magic
+                    state = JSON.parse(JSON.stringify(state));
+
+                    // convert scene isOn to bridge on propertry
+                    if(state.isOn !== undefined) {
+                        state['on'] = state.isOn;
+                        delete state.isOn;
+                    }
 
                     // reject unknown or unreachable lights
                     if(typeof(light) === 'undefined' || !light.state.reachable) {
@@ -427,7 +455,14 @@ var performAction = function(action) {
         case 'light':
 
             actionFn = function() {
-                app.controllers.hue.setLightState(action.value.id, action.value.state, true);
+                // all lights
+                if(!action.value.id || action.value.id == '0') {
+                    app.controllers.hue.setLightStateAll(action.value.state, true);
+                }
+                // single light
+                else {
+                    app.controllers.hue.setLightState(action.value.id, action.value.state, true);
+                }
             };
 
             break;
@@ -454,7 +489,7 @@ var performAction = function(action) {
         case 'custom':
 
             actionFn = function() {
-                fireEvent(action.value);
+                fireEvent('custom', action.value);
             };
 
             break;
@@ -480,8 +515,9 @@ var performAction = function(action) {
     }
     else {
         timeout = setTimeout(function() {
-            delayedActions.shift();
+            console.log('[automation] Executing delayed action:', action);
             actionFn();
+            delayedActions.shift();
         }, action.delay*1000);
         delayedActions.push(timeout);
     }

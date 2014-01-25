@@ -30,7 +30,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
 
 ## Globales app-Objekt
 
--   **config**: Interne Konfiguration
+-   **config**: Interne Konfiguration *(Controller app_configuration)*
     -   **hueUser**: Username zur Anmeldung an der Hue-Bridge (noch nicht registriert, wenn Eintrag fehlt)
     -   **password**: Applikations-Passwort (kein Passwort, wenn Eintrag fehlt)
 -   **state**: Aktueller Status der Anwendung
@@ -39,9 +39,9 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **hue**: Verbindung mit der Hue Bridge
         -   **hueRegistered**: In der Hue Bridge registriert
         -   **arduino**: Verbindung mit dem Arduino
-    -   **appConfig**: Aus der MongoDB ausgelesene Konfiguration (*Config*-Model)
+    -   **appConfig**: Aus der MongoDB ausgelesene Konfiguration (*Config*-Model) *(Controller app_configuration)*
         -   **transition**: Überblendzeit der Lampen (in 100ms-Intervallen)
-    -   **lights**: Status der Lampen; Objekt mit Lichtern als Elemente, ID als Schlüssel
+    -   **lights**: Status der Lampen; Objekt mit Lichtern als Elemente, ID als Schlüssel *(Controller hue und lights)*
         Gefiltertes Original-Output der Hue Bridge, Details zu den Werten unter http://developers.meethue.com/1_lightsapi.html#14_get_light_attributes_and_state
         -   state
             -   on
@@ -57,7 +57,8 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   name
         -   modelid
         -   swversion
-    -   **groups**: Liste der Gruppen, ID als Schlüssel
+    -   **groups**: Liste der Gruppen, ID als Schlüssel *(Controller hue und groups)*
+        Gefiltertes Original-Output der Hue-Bridge
         -   name
         -   lights: Array aller zur Gruppe gehörigen Lampen, IDs als Strings
         -   action: Letzter der Gruppe zugewiesener Status
@@ -68,29 +69,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
             -   ct
             -   effect
             -   colormode
-    -   **favorites**: Liste der Lampeneinstellungs-Favoriten, ID als Schlüssel
-        -   _id
-        -   name
-        -   state
-            -   isOn
-            -   bri
-            -   hue
-            -   sat
-            -   ct
-            -   effect
-    -   **scenes**: Liste der Szenen, ID als Schlüssel
-        -   _id
-        -   name
-        -   lights: Array aus allen enthaltenen Lichtern
-            -   light: Licht-ID
-            -   state
-                -   isOn
-                -   bri
-                -   hue
-                -   sat
-                -   ct
-                -   effect
-    -   **config**: Konfiguration der Hue-Bridge
+    -   **config**: Konfiguration der Hue-Bridge *(Controller hue_configuration)*
         Gefiltertes Original-Output der Hue Bridge, Details zu den Werten unter http://developers.meethue.com/4_configurationapi.html#42_get_configuration
         -   name
         -   mac
@@ -114,28 +93,68 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
                 (wurde der Benutzer über das Update benachrichtigt?)
         -   linkbutton
         -   portalservices
-    -   **automation**: Automatisierung
+    -   **favorites**: Liste der Lampeneinstellungs-Favoriten, ID als Schlüssel *(Controller favorites)*
+        -   _id
+        -   name
+        -   state
+            -   isOn
+            -   bri
+            -   hue
+            -   sat
+            -   ct
+            -   effect
+    -   **scenes**: Liste der Szenen, ID als Schlüssel *(Controller scenes)*
+        -   _id
+        -   name
+        -   lights: Array aus allen enthaltenen Lichtern
+            -   light: Licht-ID
+            -   state
+                -   isOn
+                -   bri
+                -   hue
+                -   sat
+                -   ct
+                -   effect
+    -   **automation**: Automatisierung *(Controller automation)*
+        Die Werte für Trigger, Conditions und Actions sind getrennt dokumentiert!
         -   name
         -   triggers: Array: type, value
         -   conditions: Array: type, value
         -   allConditionsNeeded
         -   actions: Array: type, value, delay
         -   active
+    -   **sensors**: Sensor-Werte *(Controller arduino_sensors)**
+        -   **light**: Licht-Sensor (0-100)
 -   **server**
     -   **express**: Express-Server
     -   **http**: HTTP-Server zum Verbinden von Express und Socket.IO
     -   **io**: Socket-IO
 -   **controllers**
+    -   **app_configuration**: Konfiguration der Anwendung
+    -   **arduino**: Verbindungsaufbau zum Arduino
+        -   **addListener(listener)**: Listener für Arduino-Nachrichten hinzufügen
+    -   **arduino_button**: Fährt den Raspberry Pi herunter, wenn der Button am Arduino gedrückt wurde
+    -   **arduino_sensors**: Sensor-Verwaltung des Arduino
+        -   **getLastMotion()**: Zeitpunkt der letzten registrierten Bewegung
+        -   **getSecondsSinceLastMotion()**: Anzahl Sekunden seit der letzten registrierten Bewegung
+    -   **automation**: Automatisierung (Zeitgesteuerte Ereignisse, Sensoren)
+        -   **fireEvent(type, value)**: Ereignis auslösen
+    -   **favorites**: Verwaltung der Lampeneinstellungs-Favoriten
+    -   **groups**: Steuerung der Gruppen
     -   **hue**: Baut Verbindung zur Hue Bridge auf, meldet sich dort an und stellt die node-hue-api bereit
         -   **makeApiCall(callback)**: Funktion des node-hue-api-Moduls ausführen, wenn/sobald eine Verbindung zur Bridge besteht
         -   **setLightState(id, state, broadcast)**: Status einer Lampe ändern
         -   **setLightStateAll(state, broadcast)**: Status aller Lampen ändern
         -   **setGroupLightState(id, state, broadcast)**: Status einer Gruppe ändern
-        -   **customApiCall(path, body, callback)**: Erlaubt benutzerdefinierten Aufruf der Hue REST-API
+        -   **customApiCall(path, method, body, callback)**: Erlaubt benutzerdefinierten Aufruf der Hue REST-API
+    -   **hue_configuration**: Konfiguration der Hue Bridge
+    -   **lights**: Steuerung der Lampen
     -   **mongoose**: Baut Verbindung zur MongoDB auf und liest die Daten in den app.state-Cache
         -   **addQueryListener(listener)**: Listener, um Daten-Container einmalig zu befüllen. Werden vor den Connection-Listenern ausgeführt. Bekommen eine Callback-Funktion als Parameter übergeben, die sie am Ende aufrufen müssen
         -   **addConnectionListener(listener)**: Ermöglicht anderen Controllern, auf eine erstmalig aufgebaute MongoDB-Verbindung zu warten
         -   **handleError(socket, statePath, oldValue, errorType, broadcast)**: Fehlerbehandlung mit Rücksetzen des State und Senden per Socket
+    -   **scenes**: Verwaltung der Szenen
+        -   **applyScene(id, transition, socket)**: Szene anwenden
     -   **socket**: Handling von Socket.IO-Verbindungen und Benutzer-Login
         -   **refreshState(socket, areas)**: An bestimmte Clients bestimmte Teile des app.state-Objekts senden
         -   **deleteFromState(socket, areas)**: Bestimmte Teile des app.state-Objekts bei bestimmten Clients löschen
@@ -143,17 +162,8 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **broadcast(data)**: Nachricht an alle eingeloggten Benutzer schicken
         -   **broadcastSocket(socket, data)**: Nachricht an alle eingeloggten Benutzer außer den des Sockets schicken
         -   **getBroadcastSocket(socket)**: Alle Sockets von eingeloggten Benutzern außer dem übergebenen erhalten
+        -   **getConnectedUserCount()**: Anzahl der aktuell verbundenen eingeloggten Benutzer
         -   **sendNotification(socket, notification, isError)**: Benachrichtigung oder Fehlermeldung schicken
-    -   **arduino**: Verbindungsaufbau zum Arduino
-        -   **addListener(listener)**:
-    -   **lights**: Steuerung der Lampen
-    -   **groups**: Steuerung der Gruppen
-    -   **app_configuration**: Konfiguration der Anwendung
-    -   **hue_configuration**: Konfiguration der Hue Bridge
-    -   **favorites**: Verwaltung der Lampeneinstellungs-Favoriten
-    -   **scenes**: Verwaltung der Szenen
-    -   **automation**: Automatisierung (Zeitgesteuerte Ereignisse, Sensoren)
-    -   **arduino_button**: Fährt den Raspberry Pi herunter, wenn der Button am Arduino gedrückt wurde
 
 
 ## Controller hinzufügen
@@ -216,6 +226,6 @@ Die Funktion `initCrudTemplate` führt folgende Aktionen aus:
     -   scene.create
     -   scene.update
     -   scene.remove
--   Error-Handling wird hinzugefügt (5. Parameter)
+-   Error-Notifications werden hinzugefügt (5. Parameter)
     -   scene.create
     -   scene.update

@@ -116,12 +116,16 @@ var refreshState = function(socket, area) {
 		i, j, path, messagePart;
 	
 	// refresh complete state
-	if(!area || !area.length) {
+	if(area === undefined || area === false || area === null) {
 		channel.emit('state', {
 			'': app.state
 		});
 		return;
 	}
+    // convert String to array
+    else if(Object.prototype.toString.call(area) !== '[object Array]') {
+        area = [area];
+    }
 	
 	for(i = 0; i < area.length; i++) {
 		path = area[i].split('.');
@@ -144,6 +148,11 @@ var refreshState = function(socket, area) {
  */
 var deleteFromState = function(socket, area) {
     var channel = socket || io.sockets.in('login');
+
+    // convert string to array
+    if(Object.prototype.toString.call(area) !== '[object Array]') {
+        area = [area];
+    }
 
     channel.emit('state.delete', area);
 };

@@ -10,7 +10,7 @@ Der Nachrichtenaustausch erfolgt per JSON. Jede Nachricht endet mit einem Zeilen
 
 **{ "light": \<int\> }**
 
-Periodische Aktualisierung (alle 5s) des Helligkeitssensor-Zustands. Der Wert bewegt sich im Bereich von 0-193.
+Periodische Aktualisierung (alle 10s) des Helligkeitssensor-Zustands. Der Wert bewegt sich im Bereich von 0-100.
 
 
 **{ "action": "beat", "strength": \<int\>, "factor": \<float\> }**

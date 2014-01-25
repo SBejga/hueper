@@ -31,7 +31,9 @@ var AutomationSchema = new Schema({
         delay:  Number
     }],
 
-    active: Boolean
+    active: Boolean,
+
+    single: Boolean
 });
 
 AutomationSchema.statics.getAsMap = function(callback) {

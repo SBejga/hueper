@@ -9,22 +9,21 @@
 #define MOTION_SENSOR 8
 #define BUTTON 6
 
-// amount of times the light sensor is measured during a refreshInterval
-#define LIGHT_RESOLUTION 5
+// amount of times the light sensor is measured during a lightInterval
+#define LIGHT_RESOLUTION 10
 
 // size of sound samples and sound sample frames
 #define SOUND_SAMPLE_RESOLUTION 4
 #define SOUND_FRAME_RESOLUTION 100
 
-// timer for refreshing the light sensor status
-unsigned long lastRefresh = 0;
-const unsigned long refreshInterval = 5000;
-
-// light sensor data and timer
-unsigned char lightValues[LIGHT_RESOLUTION] = {0};
+// light sensor data and options
+unsigned long lastLight = 0;
+const unsigned long lightInterval = 10000;
+const float lightValueDivisor = 7.8;  // light sensor returns values between 0 and ca. 780
+unsigned int lightValues[LIGHT_RESOLUTION] = {0};
 unsigned int lightValueSum = 0;
 unsigned char currentLightValueIndex = 0;
-const unsigned long lightSensorInterval = refreshInterval / LIGHT_RESOLUTION;
+const unsigned long lightSensorInterval = lightInterval / LIGHT_RESOLUTION;
 unsigned long lastLightSensor = 0;
 
 // sound sensor data and options
@@ -35,7 +34,7 @@ unsigned long soundSampleSum = 0;
 unsigned long soundFrameSum = 0;
 const unsigned char soundValueDivisor = 10;      // shrink the sensor values a bit
 unsigned long lastSoundSensor = 0;
-const unsigned long minBeatValue = 400 * SOUND_SAMPLE_RESOLUTION;  // minimal required sound strength for a beat
+const unsigned long minBeatValue = 1200 * SOUND_SAMPLE_RESOLUTION;  // minimal required sound strength for a beat
 const float beatThreshold = 4.75;  // base minimal factor for beat detection, changed by soundSampleSum and soundStrengthDivisor
 const unsigned int soundStrengthDivisor = 1875 * SOUND_SAMPLE_RESOLUTION;  // beat detection depends on overall sound strength
 const unsigned long beatInterval = 350;  // minimal time (ms) between two beats
@@ -105,7 +104,7 @@ void loop() {
     lightValueSum -= lightValues[currentLightValueIndex];
 
     // fit sensor value in 8bit variable
-    lightValues[currentLightValueIndex] = analogRead(LIGHT_SENSOR)/4;
+    lightValues[currentLightValueIndex] = analogRead(LIGHT_SENSOR)/lightValueDivisor;
 
     lightValueSum += lightValues[currentLightValueIndex];
 
@@ -123,12 +122,18 @@ void loop() {
   // periodical output of light sensor status
   //
 
-  if(currentTime - lastRefresh > refreshInterval) {
+  if(currentTime - lastLight > lightInterval) {
+    int avgLightValue = lightValueSum / LIGHT_RESOLUTION;
+    
+    if(avgLightValue > 100) {
+      avgLightValue = 100;
+    }
+    
     Serial.write("{\"light\":");
-    Serial.print((lightValueSum / LIGHT_RESOLUTION));
+    Serial.print(avgLightValue);
     Serial.write("}\n");
 
-    lastRefresh = currentTime;
+    lastLight = currentTime;
   }
 
 
