@@ -401,7 +401,6 @@
     <input type="checkbox" ng-model="a.single" /> nach Ausführung löschen
     <br />
 
-
     <h4>Trigger</h4>
 
     <div ng-repeat="t in a.triggers">
@@ -413,9 +412,10 @@
             <option>speech</option>
             <option>schedule</option>
             <option>periodical</option>
+            <option>rfid</option>
             <option>custom</option>
 
-            <!-- TODO add rfid, wlan -->
+            <!-- TODO add wlan -->
         </select>
 
         <button ng-click="helpers.removeFromArray(a.triggers, $index)">X</button>
@@ -439,11 +439,14 @@
             <div ng-switch-when="periodical">
                 <input type="number" ng-model="t.value" placeholder="Minuten" />
             </div>
+            <div ng-switch-when="rfid">
+                <select ng-model="t.value" ng-options="tag.tag as tag.name for (id , tag) in state.rfid"></select>
+            </div>
             <div ng-switch-when="custom">
                 <input type="text" ng-model="t.value" placeholder="Eigenes Kommando" />
             </div>
 
-            <!-- TODO add wlan, rfid -->
+            <!-- TODO add wlan -->
         </div>
 
     </div>
@@ -463,9 +466,10 @@
             <option>time</option>
             <option>weekdays</option>
             <option>connections</option>
+            <option>rfid</option>
             <option>state</option>
 
-            <!-- TODO add wlan, rfid -->
+            <!-- TODO add wlan -->
         </select>
 
         <button ng-click="helpers.removeFromArray(a.conditions, $index)">X</button>
@@ -500,6 +504,14 @@
             </div>
             <div ng-switch-when="connections">
                 <input type="checkbox" ng-model="t.value" /> Verbindungen vorhanden
+            </div>
+            <div ng-switch-when="rfid">
+                <select ng-model="t.value.id" ng-options="tag.tag as tag.name for (id , tag) in state.rfid"></select>
+                <select ng-model="t.value.relation">
+                    <option>&lt;</option>
+                    <option>&gt;</option>
+                </select>
+                <input type="number" ng-model="t.value.time" placeholder="Sekunden" />
             </div>
             <div ng-switch-when="state">
                 <select ng-model="t.value.type">
@@ -541,7 +553,7 @@
 
             </div>
 
-            <!-- TODO add wlan, rfid -->
+            <!-- TODO add wlan -->
         </div>
 
 
@@ -647,9 +659,10 @@
             <option>speech</option>
             <option>schedule</option>
             <option>periodical</option>
+            <option>rfid</option>
             <option>custom</option>
 
-            <!-- TODO add rfid, wlan -->
+            <!-- TODO add wlan -->
         </select>
 
         <button ng-click="helpers.removeFromArray(automation.forms.create.triggers, $index)">X</button>
@@ -673,11 +686,14 @@
             <div ng-switch-when="periodical">
                 <input type="number" ng-model="t.value" placeholder="Minuten" />
             </div>
+            <div ng-switch-when="rfid">
+                <select ng-model="t.value" ng-options="tag.tag as tag.name for (id , tag) in state.rfid"></select>
+            </div>
             <div ng-switch-when="custom">
                 <input type="text" ng-model="t.value" placeholder="Eigenes Kommando" />
             </div>
 
-            <!-- TODO add wlan, rfid -->
+            <!-- TODO add wlan -->
         </div>
 
     </div>
@@ -697,9 +713,10 @@
             <option>time</option>
             <option>weekdays</option>
             <option>connections</option>
+            <option>rfid</option>
             <option>state</option>
 
-            <!-- TODO add wlan, rfid -->
+            <!-- TODO add wlan -->
         </select>
 
         <button ng-click="helpers.removeFromArray(automation.forms.create.conditions, $index)">X</button>
@@ -734,6 +751,14 @@
             </div>
             <div ng-switch-when="connections">
                 <input type="checkbox" ng-model="t.value" /> Verbindungen vorhanden
+            </div>
+            <div ng-switch-when="rfid">
+                <select ng-model="t.value.id" ng-options="tag.tag as tag.name for (id , tag) in state.rfid"></select>
+                <select ng-model="t.value.relation">
+                    <option>&lt;</option>
+                    <option>&gt;</option>
+                </select>
+                <input type="number" ng-model="t.value.time" placeholder="Sekunden" />
             </div>
             <div ng-switch-when="state">
                 <select ng-model="t.value.type">
@@ -775,7 +800,7 @@
 
             </div>
 
-            <!-- TODO add wlan, rfid -->
+            <!-- TODO add wlan -->
         </div>
 
 
@@ -855,6 +880,42 @@
 
     <button ng-click="automation.create(automation.forms.create)">speichern</button>
 </div>
+
+
+<!-- RFID -->
+
+<h1>RFID-Tags</h1>
+
+<h2>Bekannte Tags</h2>
+
+<div ng-repeat="(id, tag) in state.rfid">
+    <h3>{{id}} - {{tag.name}}</h3>
+
+    <form ng-submit="rfid.update(tag)">
+        Name: <input type="text" ng-model="tag.name" />
+        <br />
+        Tag-ID: {{tag.tag}}
+        <br />
+        letze Benutzung: {{tag.lastUsed}}
+        <br />
+
+        <input type="submit" value="speichern" /> <button ng-click="rfid.remove(id)">entfernen</button>
+    </form>
+
+</div>
+
+
+<h2>Unbekannte Tags</h2>
+
+<div ng-repeat="id in state.rfidUnknown">
+    <h3>{{id}}</h3>
+
+    <form ng-init="tag = { tag: id }" ng-submit="rfid.create(tag)">
+        Name: <input type="text" ng-model="tag.name" />
+        <input type="submit" value="speichern" />
+    </form>
+</div>
+
 
 <!-- complete state -->
 

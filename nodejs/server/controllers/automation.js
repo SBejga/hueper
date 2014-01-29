@@ -23,7 +23,7 @@ var init = function() {
 
         setInterval(function() {
             fireEvent('time');
-        }, 10000);
+        }, 60000);
     }, (60 - new Date().getSeconds()) * 1000);
 
 };
@@ -425,13 +425,31 @@ var evaluateSingleCondition = function(condition) {
 
                 break;
 
+            /*
+             * last time a RFID/NFC tag was used
+             */
+            case 'rfid':
+                // if value.id is falsy, the last use of any tag is returned
+                var rfidSeconds = app.controllers.rfid.getSecondsSinceLastUse(condition.value.id);
 
-            // TODO add rfid, wlan
+                // the other way around because we have seconds instead of timestamps here!
+                if(condition.value.relation === '<') {
+                    return (rfidSeconds >= condition.value.time);
+                }
+                else {
+                    return (rfidSeconds < condition.value.time);
+                }
+
+                break;
+
+
+            // TODO add  wlan
 
 
         }
     }
     catch(e) {
+        console.log('[automation] Condition error', e);
         console.log('[automation] Invalid condition!', condition);
         return false;
     }

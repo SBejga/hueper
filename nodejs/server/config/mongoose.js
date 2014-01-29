@@ -9,5 +9,6 @@ module.exports = function(app) {
     require('../models/favorite');
     require('../models/scene');
     require('../models/automation');
+    require('../models/rfid');
 
 };

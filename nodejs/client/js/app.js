@@ -871,6 +871,24 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
 
     };
 
+    // rfid/nfc tags
+
+    $scope.rfid = {
+
+        create: function(rfid) {
+            socket.emit('rfid.create', rfid);
+        },
+
+        update: function(rfid) {
+            socket.emit('rfid.update', rfid);
+        },
+
+        remove: function(id) {
+            socket.emit('rfid.delete', id);
+            delete $scope.state.rfid[id];
+        }
+
+    };
 
     // helper functions
     // checkbox list to array conversion

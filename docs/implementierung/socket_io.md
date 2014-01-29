@@ -76,6 +76,12 @@
     `{ _id: ..., name: ..., triggers: [...], conditions: [...], allConditionsNeeded: ..., actions: [...], active: ... }`
 -   **automation.delete**: Automatisierung löschen
     `<ID>`
+-   **rfid.create**: RFID-Tag erstellen
+
+-   **rfid.update**: RFID-Tag bearbeiten
+    `{ tag: ..., name: ..., lastUsed: ... }`
+-   **rfid.delete**: RFID-Tag löschen
+    `<ID>`
 
 ## Broadcasts an eingeloggte User
 

@@ -101,6 +101,10 @@ Beispiele
     -   **resetTriggerValue(t)**: Trigger-Wert je nach ausgewähltem Typ zurücksetzen
     -   **resetConditionValue(t)**: Condition-Wert je nach ausgewähltem Typ zurücksetzen
     -   **resetActionValue(t)**: Action-Wert je nach ausgewähltem Typ zurücksetzen
+-   **rfid**: RFID/NFC-Tags verwalten
+    -   **create(rfid)**: RFID-Tag anlegen
+    -   **update(rfid)**: RFID-Tag bearbeiten
+    -   **remove(rfid)**: RFID-Tag löschen
 -   **helpers**: Hilfs-Funktionen
     -   **toggleList(arr, el, numeric)**: Element in ein Array einfügen/entfernen; z.B. zum Erstellen eines Arrays aus mehreren Checkboxen
     -   **listChecked(arr, el, numeric)**: Überprüfen, ob ein Element in einem Array vorhanden ist

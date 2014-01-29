@@ -20,7 +20,10 @@ var app = {
         groups: {},
         sensors: {},
         favorites: {},
-        scenes: {}
+        scenes: {},
+        automation: {},
+        rfid: {},
+        rfidUnknown: []
 	},
 	
 	server: {},
@@ -66,7 +69,7 @@ var controllers = [
 
     // functional controllers
     'app_configuration', 'hue_configuration', 'lights', 'groups', 'favorites', 'scenes', 'automation', 'arduino_button',
-    'arduino_sensors'
+    'arduino_sensors', 'rfid'
 
 ];
 

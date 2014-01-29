@@ -123,6 +123,11 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   allConditionsNeeded
         -   actions: Array: type, value, delay
         -   active
+    -   **rfid**: Liste bekannter RFID-Tags, ID als Schlüssel *(Controller rfid)*
+        -   tag: RFID-Tag-ID
+        -   name
+        -   lastUsed
+    -   **rfidUnknown**: Array unbekannter RFID-Tag-IDs *(Controller rfid)*
     -   **sensors**: Sensor-Werte *(Controller arduino_sensors)**
         -   **light**: Licht-Sensor (0-100)
 -   **server**
@@ -153,6 +158,8 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **addQueryListener(listener)**: Listener, um Daten-Container einmalig zu befüllen. Werden vor den Connection-Listenern ausgeführt. Bekommen eine Callback-Funktion als Parameter übergeben, die sie am Ende aufrufen müssen
         -   **addConnectionListener(listener)**: Ermöglicht anderen Controllern, auf eine erstmalig aufgebaute MongoDB-Verbindung zu warten
         -   **handleError(socket, statePath, oldValue, errorType, broadcast)**: Fehlerbehandlung mit Rücksetzen des State und Senden per Socket
+    -   **rfid**: Verwaltung von RFID-Tags
+        -   **getSecondsSinceLastUse(tagId)**: Anzahl Sekunden seit der letzten Benutzung eines Tags auslesen
     -   **scenes**: Verwaltung der Szenen
         -   **applyScene(id, transition, socket)**: Szene anwenden
     -   **socket**: Handling von Socket.IO-Verbindungen und Benutzer-Login
