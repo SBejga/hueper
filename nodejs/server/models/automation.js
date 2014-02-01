@@ -7,7 +7,7 @@ var AutomationSchema = new Schema({
     triggers: [{
         type: {
             type:   String,
-            enum:   ['light', 'motion', 'rfid', 'wlan', 'speech', 'schedule', 'periodical', 'custom']
+            enum:   ['light', 'motion', 'rfid', 'device', 'speech', 'schedule', 'periodical', 'custom']
         },
         value:  Schema.Types.Mixed
     }],
@@ -15,7 +15,7 @@ var AutomationSchema = new Schema({
     conditions: [{
         type: {
             type:   String,
-            enum:   ['light', 'motion', 'rfid', 'wlan', 'time', 'weekdays', 'connections', 'state']
+            enum:   ['light', 'motion', 'rfid', 'device', 'time', 'weekdays', 'connections', 'state']
         },
         value:  Schema.Types.Mixed
     }],

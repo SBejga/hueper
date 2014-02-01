@@ -38,6 +38,8 @@ Beispiele
 
 -   **state**: Status und Daten der Anwendung. **Identisch mit dem serverseitigen app.state. Dort dokumentiert!**
 -   **notifications**: Array mit allen Benachrichtigungsobjekten (im Format {error: ...} oder {notification: ...})
+-   **client**
+    -   **address**: MAC-Adresse des Clients
 -   **clientConfig**: Frontend-Konfiguration
     -   **notificationTimeout**: Anzeigedauer für Notifications, danach werden sie entfernt
 -   **user**: User- und Login-Steuerung
@@ -104,7 +106,12 @@ Beispiele
 -   **rfid**: RFID/NFC-Tags verwalten
     -   **create(rfid)**: RFID-Tag anlegen
     -   **update(rfid)**: RFID-Tag bearbeiten
-    -   **remove(rfid)**: RFID-Tag löschen
+    -   **remove(id)**: RFID-Tag löschen
+-   **devices**: Netzwerk-Geräte verwalten
+    -   **create(device)**: Netzwerk-Gerät anlegen
+    -   **update(device)**: Netzwerk-Gerät bearbeiten
+    -   **remove(id)**: Netzwerk-Gerät löschen
+    -   **isOwnRegistered()**: Ermittelt, ob das eigene Gerät bereits registriert ist
 -   **helpers**: Hilfs-Funktionen
     -   **toggleList(arr, el, numeric)**: Element in ein Array einfügen/entfernen; z.B. zum Erstellen eines Arrays aus mehreren Checkboxen
     -   **listChecked(arr, el, numeric)**: Überprüfen, ob ein Element in einem Array vorhanden ist

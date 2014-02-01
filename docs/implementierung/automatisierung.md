@@ -42,9 +42,9 @@ Wird ausgelöst, wenn ein RFID/NFC-Tag über den Leser gehalten wird. Wird höch
 -   type: rfid
 -   value: Tag-ID
 
-#### WLAN-Gerät
+#### Netzwerk-Gerät
 
--   type: wlan
+-   type: device
 -   value
     -   action: login / logout
     -   address: MAC-Adresse des Geräts, false für irgendein eingespeichertes Gerät
@@ -108,15 +108,19 @@ Hört auf benutzerdefinierte Ereignisse, die durch Aktionen von anderen Einträg
     -   relation: < / > (< = länger her)
     -   time: Zeit in Sekunden
 
-#### WLAN-Gerät
+#### Netzwerk-Gerät
 
-Überprüft die Zeit, die seit dem letzten Lesen eines bestimmten RFID/NFC-Tags vergangen ist
+Überprüft, ob derzeit ein bestimmtes oder irgendein bekanntes Gerät im Netzwerk anwesend ist
 
--   type: wlan
+-   type: device
 -   value
     -   address: MAC-Adresse, false für irgendein eingespeichertes Gerät
-    -   relation: < / > (< = länger her)
-    -   time: Zeit in Sekunden
+    -   active: true für gerade anwesend, false für abwesend
+
+Alternativ kann auch die Zeit seit der letzten Aktivität überprüft werden. Dazu neben der MAC-Adresse folgende Einträge zu *value* hinzufügen
+
+-   relation: < / > (< = länger her)
+-   time: Zeit in **Minuten**
 
 #### Aktuelle Tageszeit
 

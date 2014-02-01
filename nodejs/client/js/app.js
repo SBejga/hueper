@@ -171,13 +171,21 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
         groups: {},
         sensors: {},
         favorites: {},
-        scenes: {}
+        scenes: {},
+        automation: {},
+        rfid: {},
+        rfidUnknown: [],
+        devices: {}
     };
 
     $scope.notifications = [];
 
     $scope.clientConfig = {
         notificationTimeout: 5000
+    };
+
+    $scope.client = {
+        address: false  // MAC address of the client's device
     };
 
 
@@ -303,6 +311,12 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
             }
         }
     });
+
+    // get client MAC address
+    socket.on('device.address', function(address) {
+        $scope.client.address = address;
+    });
+
 
     //
     // methods
@@ -889,6 +903,44 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
         }
 
     };
+
+    // network devices
+
+    $scope.devices = {
+
+        create: function(device) {
+            socket.emit('device.create', device);
+        },
+
+        update: function(device) {
+            socket.emit('device.update', device);
+        },
+
+        remove: function(id) {
+            socket.emit('device.delete', id);
+            delete $scope.state.devices[id];
+        },
+
+        isOwnRegistered: function() {
+            var i;
+
+            if(!$scope.client.address) {
+                return undefined;
+            }
+
+            for(i in $scope.state.devices) {
+                if($scope.state.devices.hasOwnProperty(i)) {
+                    if($scope.state.devices[i].address === $scope.client.address) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+    };
+
 
     // helper functions
     // checkbox list to array conversion

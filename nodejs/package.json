@@ -8,6 +8,9 @@
 		"node-hue-api"	: "*",
 		"socket.io"		: "*",
 		"serialport"	: "*",
-        "node-web-repl" : "*"
+        "arp-a"         : "*",
+        "ipv4-range"    : "*",
+        "ping"          : "*",
+        "network-address": "*"
 	}
 }

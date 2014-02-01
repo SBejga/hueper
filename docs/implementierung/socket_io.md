@@ -28,6 +28,8 @@
     -   scenes.update
     -   automation.create
     -   automation.update
+-   **device.address**: MAC-Adresse des Clients
+    `<MAC-Adresse>`
 
 ## Nachrichten vom Client (nach Login)
 
@@ -77,10 +79,16 @@
 -   **automation.delete**: Automatisierung löschen
     `<ID>`
 -   **rfid.create**: RFID-Tag erstellen
-
+    `{ tag: ..., name: ..., lastUsed: ... }`
 -   **rfid.update**: RFID-Tag bearbeiten
     `{ tag: ..., name: ..., lastUsed: ... }`
 -   **rfid.delete**: RFID-Tag löschen
+    `<ID>`
+-   **device.create**: Netzwerk-Gerät erstellen
+    `{ address: ..., name: ..., lastActivity: ... }`
+-   **device.update**: Netzwerk-Gerät bearbeiten
+    `{ address: ..., name: ..., lastActivity: ... }`
+-   **device.delete**: Netzwerk-Gerät löschen
     `<ID>`
 
 ## Broadcasts an eingeloggte User

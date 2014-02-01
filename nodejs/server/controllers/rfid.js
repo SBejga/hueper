@@ -1,4 +1,4 @@
-var helpers	    = require('../helpers'),
+var helpers	= require('../helpers'),
     mongoose =  require('mongoose'),
     Rfid =  mongoose.model('Rfid'),
     app;
@@ -63,8 +63,8 @@ var arduinoListener = function(message) {
         console.log('[rfid] Update last use date for tag ' + message.nfc + ' / ' + knownTag);
 
         app.state.rfid[knownTag].lastUsed = new Date();
-        Rfid.findByIdAndUpdate(i, { lastUsed: new Date() }).exec();
-        app.controllers.socket.refreshState(false, ['rfid.' + knownTag]);
+        Rfid.findByIdAndUpdate(knownTag, { lastUsed: new Date() }).exec();
+        app.controllers.socket.refreshState(false, ['rfid.' + knownTag + '.lastUsed']);
     }
     // add to unknown tag list
     else if(app.state.rfidUnknown.indexOf(message.nfc) === -1) {
@@ -79,7 +79,7 @@ var arduinoListener = function(message) {
 
 /**
  * @param tagId or any tag if left out falsy
- * @returns Seconds since a specified tag was used, false if the ID is unknown
+ * @returns Seconds since a specified tag was used, false if the ID is unknown or has not been used
  */
 var getSecondsSinceLastUse = function(tagId) {
     var i, lastUsed = false;

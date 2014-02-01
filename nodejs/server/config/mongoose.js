@@ -10,5 +10,6 @@ module.exports = function(app) {
     require('../models/scene');
     require('../models/automation');
     require('../models/rfid');
+    require('../models/device');
 
 };

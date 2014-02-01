@@ -413,9 +413,8 @@
             <option>schedule</option>
             <option>periodical</option>
             <option>rfid</option>
+            <option>device</option>
             <option>custom</option>
-
-            <!-- TODO add wlan -->
         </select>
 
         <button ng-click="helpers.removeFromArray(a.triggers, $index)">X</button>
@@ -442,11 +441,16 @@
             <div ng-switch-when="rfid">
                 <select ng-model="t.value" ng-options="tag.tag as tag.name for (id , tag) in state.rfid"></select>
             </div>
+            <div ng-switch-when="device">
+                <select ng-model="t.value.address" ng-options="device.address as device.name for (id , device) in state.devices"></select>
+                <select ng-model="t.value.action">
+                    <option>login</option>
+                    <option>logout</option>
+                </select>
+            </div>
             <div ng-switch-when="custom">
                 <input type="text" ng-model="t.value" placeholder="Eigenes Kommando" />
             </div>
-
-            <!-- TODO add wlan -->
         </div>
 
     </div>
@@ -467,9 +471,8 @@
             <option>weekdays</option>
             <option>connections</option>
             <option>rfid</option>
+            <option>device</option>
             <option>state</option>
-
-            <!-- TODO add wlan -->
         </select>
 
         <button ng-click="helpers.removeFromArray(a.conditions, $index)">X</button>
@@ -513,6 +516,20 @@
                 </select>
                 <input type="number" ng-model="t.value.time" placeholder="Sekunden" />
             </div>
+            <div ng-switch-when="device">
+                <select ng-model="t.value.address" ng-options="device.address as device.name for (id , device) in state.devices"></select>
+                <br />
+                gerade aktiv
+                <input type="checkbox" ng-model="t.value.active" />
+                (wird verwendet, wenn es einmal angeklickt war)
+                <br />
+                Alternativ:
+                <select ng-model="t.value.relation">
+                    <option>&lt;</option>
+                    <option>&gt;</option>
+                </select>
+                <input type="number" ng-model="t.value.time" placeholder="Minuten" />
+            </div>
             <div ng-switch-when="state">
                 <select ng-model="t.value.type">
                     <option>light</option>
@@ -553,7 +570,6 @@
 
             </div>
 
-            <!-- TODO add wlan -->
         </div>
 
 
@@ -660,9 +676,8 @@
             <option>schedule</option>
             <option>periodical</option>
             <option>rfid</option>
+            <option>device</option>
             <option>custom</option>
-
-            <!-- TODO add wlan -->
         </select>
 
         <button ng-click="helpers.removeFromArray(automation.forms.create.triggers, $index)">X</button>
@@ -689,11 +704,16 @@
             <div ng-switch-when="rfid">
                 <select ng-model="t.value" ng-options="tag.tag as tag.name for (id , tag) in state.rfid"></select>
             </div>
+            <div ng-switch-when="device">
+                <select ng-model="t.value.address" ng-options="device.address as device.name for (id , device) in state.devices"></select>
+                <select ng-model="t.value.action">
+                    <option>login</option>
+                    <option>logout</option>
+                </select>
+            </div>
             <div ng-switch-when="custom">
                 <input type="text" ng-model="t.value" placeholder="Eigenes Kommando" />
             </div>
-
-            <!-- TODO add wlan -->
         </div>
 
     </div>
@@ -714,9 +734,8 @@
             <option>weekdays</option>
             <option>connections</option>
             <option>rfid</option>
+            <option>device</option>
             <option>state</option>
-
-            <!-- TODO add wlan -->
         </select>
 
         <button ng-click="helpers.removeFromArray(automation.forms.create.conditions, $index)">X</button>
@@ -760,6 +779,20 @@
                 </select>
                 <input type="number" ng-model="t.value.time" placeholder="Sekunden" />
             </div>
+            <div ng-switch-when="device">
+                <select ng-model="t.value.address" ng-options="device.address as device.name for (id , device) in state.devices"></select>
+                <br />
+                gerade aktiv
+                <input type="checkbox" ng-model="t.value.active" />
+                (wird verwendet, wenn es einmal angeklickt war)
+                <br />
+                Alternativ:
+                <select ng-model="t.value.relation">
+                    <option>&lt;</option>
+                    <option>&gt;</option>
+                </select>
+                <input type="number" ng-model="t.value.time" placeholder="Minuten" />
+            </div>
             <div ng-switch-when="state">
                 <select ng-model="t.value.type">
                     <option>light</option>
@@ -800,7 +833,6 @@
 
             </div>
 
-            <!-- TODO add wlan -->
         </div>
 
 
@@ -914,6 +946,37 @@
         Name: <input type="text" ng-model="tag.name" />
         <input type="submit" value="speichern" />
     </form>
+</div>
+
+
+<!-- devices -->
+
+<h1>Netzwerk-Geräte</h1>
+
+<p>
+    Eigene MAC-Adresse: {{client.address}}
+</p>
+
+<form ng-if="devices.isOwnRegistered() === false" ng-init="device = { address: client.address }" ng-submit="devices.create(device)">
+    Name: <input type="text" ng-model="device.name" />
+    <input type="submit" value="speichern" />
+</form>
+
+<h2>Bekannte Geräte</h2>
+
+<div ng-repeat="(id, device) in state.devices">
+    <h3>{{id}} - {{device.name}}</h3>
+
+    <form ng-submit="devices.update(device)">
+        Name: <input type="text" ng-model="device.name" />
+        <br />
+        MAC-Adresse: {{device.address}}
+        <br />
+        letzte Aktivität: {{device.lastActivity}}
+
+        <input type="submit" value="speichern" /> <button ng-click="devices.remove(id)">entfernen</button>
+    </form>
+
 </div>
 
 

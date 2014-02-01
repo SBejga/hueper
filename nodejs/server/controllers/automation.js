@@ -129,11 +129,19 @@ var evaluateSingleTrigger = function(trigger, event, value) {
                 break;
 
             /*
-             * WLAN device
-             * {action: login/logout, address: ...}
+             * network device
+             * {action: login/logout, address: ... (optional)}
              */
-            case 'wlan':
-                return (trigger.type === 'wlan' && helpers.equals(trigger.value, value));
+            case 'device':
+                if(trigger.type !== 'device' || value.action !== trigger.value.action) {
+                    return false;
+                }
+
+                if(!trigger.value.address || value.address === trigger.value.address) {
+                    return true;
+                }
+
+                return false;
 
                 break;
 
@@ -442,9 +450,42 @@ var evaluateSingleCondition = function(condition) {
 
                 break;
 
+            /*
+             * network device currently active
+             * or last activity
+             */
+            case 'device':
 
-            // TODO add  wlan
+                // check current activity
+                if(condition.value.active !== undefined) {
 
+                    // single device
+                    if(condition.value.address) {
+                        return (!!app.controllers.devices.getStatus(condition.value.address) === condition.value.active);
+                    }
+                    // any device
+                    else {
+                        return (app.controllers.devices.isOneActive() === condition.value.active)
+                    }
+
+                }
+                // check time since last actitvity
+                else {
+
+                    // if value.id is falsy, the last use of any device is returned
+                    var deviceMinutes = app.controllers.devices.getMinutesSinceLastActivity(condition.value.address);
+
+                    // the other way around because we have minutes instead of timestamps here!
+                    if(condition.value.relation === '<') {
+                        return (deviceMinutes >= condition.value.time);
+                    }
+                    else {
+                        return (deviceMinutes < condition.value.time);
+                    }
+
+                }
+
+                break;
 
         }
     }

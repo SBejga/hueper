@@ -14,8 +14,15 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
     http://socket.io/
 -   **serialport**: Kommunkation mit dem Arduino
     https://github.com/voodootikigod/node-serialport
--   **node-web-repl**: Realtime-Remote-Debugging
-    https://npmjs.org/package/node-web-repl
+-   **arp-a**: Netzwerk-Geräte - ARP-Tabelle auslesen
+    https://github.com/mrose17/node-arp-a
+-   **ipv4-range**: Netzwerk-Geräte - IP-Bereich erzeugen
+    https://github.com/michaelrhodes/ipv4-range
+-   **ping**: Netzwerk-Geräte - Ping-Funktion
+    https://github.com/danielzzz/node-ping
+-   **network-address**: Netzwerk-Geräte - ermittelt die eigene IP
+    https://github.com/mafintosh/network-address
+
 
 ## Struktur
 
@@ -34,41 +41,16 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
     -   **hueUser**: Username zur Anmeldung an der Hue-Bridge (noch nicht registriert, wenn Eintrag fehlt)
     -   **password**: Applikations-Passwort (kein Passwort, wenn Eintrag fehlt)
 -   **state**: Aktueller Status der Anwendung
-    -   **connect**: Verbindung zu externen Komponenten (boolean)
-        -   **mongodb**: Verbindung mit der MongoDB
-        -   **hue**: Verbindung mit der Hue Bridge
-        -   **hueRegistered**: In der Hue Bridge registriert
-        -   **arduino**: Verbindung mit dem Arduino
     -   **appConfig**: Aus der MongoDB ausgelesene Konfiguration (*Config*-Model) *(Controller app_configuration)*
         -   **transition**: Überblendzeit der Lampen (in 100ms-Intervallen)
-    -   **lights**: Status der Lampen; Objekt mit Lichtern als Elemente, ID als Schlüssel *(Controller hue und lights)*
-        Gefiltertes Original-Output der Hue Bridge, Details zu den Werten unter http://developers.meethue.com/1_lightsapi.html#14_get_light_attributes_and_state
-        -   state
-            -   on
-            -   bri
-            -   hue
-            -   sat
-            -   ct
-            -   alert
-            -   effect
-            -   colormode
-            -   reachable
-        -   type
+    -   **automation**: Automatisierung *(Controller automation)*
+        Die Werte für Trigger, Conditions und Actions sind getrennt dokumentiert!
         -   name
-        -   modelid
-        -   swversion
-    -   **groups**: Liste der Gruppen, ID als Schlüssel *(Controller hue und groups)*
-        Gefiltertes Original-Output der Hue-Bridge
-        -   name
-        -   lights: Array aller zur Gruppe gehörigen Lampen, IDs als Strings
-        -   action: Letzter der Gruppe zugewiesener Status
-            -   on
-            -   bri
-            -   hue
-            -   sat
-            -   ct
-            -   effect
-            -   colormode
+        -   triggers: Array: type, value
+        -   conditions: Array: type, value
+        -   allConditionsNeeded
+        -   actions: Array: type, value, delay
+        -   active
     -   **config**: Konfiguration der Hue-Bridge *(Controller hue_configuration)*
         Gefiltertes Original-Output der Hue Bridge, Details zu den Werten unter http://developers.meethue.com/4_configurationapi.html#42_get_configuration
         -   name
@@ -93,6 +75,15 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
                 (wurde der Benutzer über das Update benachrichtigt?)
         -   linkbutton
         -   portalservices
+    -   **connect**: Verbindung zu externen Komponenten (boolean)
+        -   **mongodb**: Verbindung mit der MongoDB
+        -   **hue**: Verbindung mit der Hue Bridge
+        -   **hueRegistered**: In der Hue Bridge registriert
+        -   **arduino**: Verbindung mit dem Arduino
+    -   **devices**: Liste bekannter Netzwerk-Geräte, ID als Schlüssel *(Controller devices)*
+        -   address: MAC-Adresse
+        -   name
+        -   lastActivity
     -   **favorites**: Liste der Lampeneinstellungs-Favoriten, ID als Schlüssel *(Controller favorites)*
         -   _id
         -   name
@@ -103,6 +94,39 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
             -   sat
             -   ct
             -   effect
+    -   **groups**: Liste der Gruppen, ID als Schlüssel *(Controller hue und groups)*
+        Gefiltertes Original-Output der Hue-Bridge
+        -   name
+        -   lights: Array aller zur Gruppe gehörigen Lampen, IDs als Strings
+        -   action: Letzter der Gruppe zugewiesener Status
+            -   on
+            -   bri
+            -   hue
+            -   sat
+            -   ct
+            -   effect
+            -   colormode
+    -   **lights**: Status der Lampen; Objekt mit Lichtern als Elemente, ID als Schlüssel *(Controller hue und lights)*
+        Gefiltertes Original-Output der Hue Bridge, Details zu den Werten unter http://developers.meethue.com/1_lightsapi.html#14_get_light_attributes_and_state
+        -   state
+            -   on
+            -   bri
+            -   hue
+            -   sat
+            -   ct
+            -   alert
+            -   effect
+            -   colormode
+            -   reachable
+        -   type
+        -   name
+        -   modelid
+        -   swversion
+    -   **rfid**: Liste bekannter RFID-Tags, ID als Schlüssel *(Controller rfid)*
+        -   tag: RFID-Tag-ID
+        -   name
+        -   lastUsed
+    -   **rfidUnknown**: Array unbekannter RFID-Tag-IDs *(Controller rfid)*
     -   **scenes**: Liste der Szenen, ID als Schlüssel *(Controller scenes)*
         -   _id
         -   name
@@ -115,19 +139,6 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
                 -   sat
                 -   ct
                 -   effect
-    -   **automation**: Automatisierung *(Controller automation)*
-        Die Werte für Trigger, Conditions und Actions sind getrennt dokumentiert!
-        -   name
-        -   triggers: Array: type, value
-        -   conditions: Array: type, value
-        -   allConditionsNeeded
-        -   actions: Array: type, value, delay
-        -   active
-    -   **rfid**: Liste bekannter RFID-Tags, ID als Schlüssel *(Controller rfid)*
-        -   tag: RFID-Tag-ID
-        -   name
-        -   lastUsed
-    -   **rfidUnknown**: Array unbekannter RFID-Tag-IDs *(Controller rfid)*
     -   **sensors**: Sensor-Werte *(Controller arduino_sensors)**
         -   **light**: Licht-Sensor (0-100)
 -   **server**
@@ -144,6 +155,11 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **getSecondsSinceLastMotion()**: Anzahl Sekunden seit der letzten registrierten Bewegung
     -   **automation**: Automatisierung (Zeitgesteuerte Ereignisse, Sensoren)
         -   **fireEvent(type, value)**: Ereignis auslösen
+    -   **devices**: Verwaltung bekannter Geräte
+        -   **getStatus(address)**: Ermitteln, ob Gerät gerade aktiv ist
+        -   **isOneActive()**: Ermittelt, ob irgendein bekanntes Gerät gerade aktiv ist
+        -   **getMacAddress(ip)**: Ermittelt die zugehörige MAC-Adresse zu einer IP
+        -   **getMinutesSinceLastActivity(address)**: Anzahl Minuten seit der letzten Aktivität
     -   **favorites**: Verwaltung der Lampeneinstellungs-Favoriten
     -   **groups**: Steuerung der Gruppen
     -   **hue**: Baut Verbindung zur Hue Bridge auf, meldet sich dort an und stellt die node-hue-api bereit

@@ -23,7 +23,8 @@ var app = {
         scenes: {},
         automation: {},
         rfid: {},
-        rfidUnknown: []
+        rfidUnknown: [],
+        devices: {}
 	},
 	
 	server: {},
@@ -69,7 +70,7 @@ var controllers = [
 
     // functional controllers
     'app_configuration', 'hue_configuration', 'lights', 'groups', 'favorites', 'scenes', 'automation', 'arduino_button',
-    'arduino_sensors', 'rfid'
+    'arduino_sensors', 'rfid', 'devices'
 
 ];
 
@@ -77,24 +78,6 @@ controllers.forEach(function(controller) {
     app.controllers[controller] = require('./server/controllers/' + controller)(app);
 });
 
-
-//
-// Debug REPL console
-//
-
-// TODO move to dev environment
-
-var webrepl = require('node-web-repl');
-
-global.app = app;
-
-// setup your app as normal
-webrepl.createServer({
-    username: 'admin',
-    password: 'admin',
-    port: 11911,
-    host: '127.0.0.1'
-});
 
 
 // fire ready event

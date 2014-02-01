@@ -82,6 +82,9 @@ var acceptSocket = function(socket) {
 
     if(socket.handshake && socket.handshake.address && socket.handshake.address.address) {
         console.log('[socket] login from ' + socket.id + ' (' + socket.handshake.address.address + ')');
+
+        // sending the client his MAC address for device registration
+        socket.emit('device.address', app.controllers.devices.getMacAddress(socket.handshake.address.address));
     }
     else {
         console.log('[socket] login from ' + socket.id);
