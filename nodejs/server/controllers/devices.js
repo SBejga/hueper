@@ -1,7 +1,8 @@
 var address = require('network-address'),
     range   = require('ipv4-range'),
     ping    = require('ping'),
-    arp     = require('arp-a'),
+    child = require('child_process'),
+    fs = require('fs'),
 
     mongoose = require('mongoose'),
     Device  = mongoose.model('Device'),
@@ -102,13 +103,86 @@ var refreshPing = function() {
 var refreshArpTable = function() {
     console.log('[devices] Refreshing ARP table');
 
-    arp.table(function(err, entry) {
+    readArpTable(function(err, entry) {
         if(err || entry === null || entry.mac === '00:00:00:00:00:00') {
             return;
         }
-
         arpTable[entry.ip] = entry.mac;
     });
+};
+
+/**
+ * Reads the ARP table and executes callback for each entry
+ * Modified version, original from https://github.com/mrose17/node-arp-a
+ * @param cb
+ */
+var readArpTable = function(cb) {
+
+    if(process.platform.indexOf('linux') === 0) {
+        /* as noted in node-arp
+
+         parse this format
+
+         IP address HW type Flags HW address Mask Device
+         192.168.1.1 0x1 0x2 50:67:f0:8c:7a:3f * em1
+
+         */
+
+        fs.readFile('/proc/net/arp', function(err, data) {
+            var cols, i, lines;
+
+            if (err) return cb(err, null);
+
+            lines = data.toString().split('\n');
+            for (i = 0; i < lines.length; i++) {
+                if (i === 0) continue;
+
+                cols = lines[i].replace(/ [ ]*/g, ' ').split(' ');
+                if ((cols.length > 3) && (cols[0].length !== 0) && (cols[3].length !== 0)) {
+                    cb(null, { ip: cols[0], mac: cols[3] });
+                }
+            }
+
+            cb(null, null);
+        });
+
+    }
+
+    if(process.platform.indexOf('win') === 0) {
+        /*
+         [blankline]
+         Interface: 192.168.1.54 --- 0x12
+           Internet Address Physical Address Type
+           192.168.1.1 50-67-f0-8c-7a-3f dynamic
+         */
+
+        var arp, cols, i, lines, stderr, stdout;
+
+        stdout = '';
+        stderr = '';
+        arp = child.spawn('arp', [ '-a' ]);
+        arp.stdin.end();
+        arp.stdout.on('data', function(data) { stdout += data.toString() ; });
+        arp.stderr.on('data', function(data) { stderr += data.toString() ; });
+
+        arp.on('close', function(code) {
+            if (code !== 0) return cb(new Error('exit code ' + code + ', reason: ' + stderr), null);
+
+            lines = stdout.split('\r\n');
+            for (i = 0; i < lines.length; i++) {
+                if (i < 3) continue;
+
+                cols = lines[i].trim().replace(/ [ ]*/g, ' ').split(' ');
+
+                if ((cols.length === 3) && /^[\d\.]+$/.test(cols[0])) {
+                    cb(null, { ip: cols[0], mac: cols[1].replace(/-/g, ':') });
+                }
+            }
+
+            cb(null, null);
+        });
+    }
+
 };
 
 /**

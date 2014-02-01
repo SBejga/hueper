@@ -14,8 +14,6 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
     http://socket.io/
 -   **serialport**: Kommunkation mit dem Arduino
     https://github.com/voodootikigod/node-serialport
--   **arp-a**: Netzwerk-Geräte - ARP-Tabelle auslesen
-    https://github.com/mrose17/node-arp-a
 -   **ipv4-range**: Netzwerk-Geräte - IP-Bereich erzeugen
     https://github.com/michaelrhodes/ipv4-range
 -   **ping**: Netzwerk-Geräte - Ping-Funktion
