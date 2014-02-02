@@ -107,6 +107,7 @@ Beispiele
     -   **create(rfid)**: RFID-Tag anlegen
     -   **update(rfid)**: RFID-Tag bearbeiten
     -   **remove(id)**: RFID-Tag löschen
+    -   **reset()**: Liste der unbekannten RFID-Tags leeren
 -   **devices**: Netzwerk-Geräte verwalten
     -   **create(device)**: Netzwerk-Gerät anlegen
     -   **update(device)**: Netzwerk-Gerät bearbeiten

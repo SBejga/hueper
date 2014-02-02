@@ -124,7 +124,7 @@ var evaluateSingleTrigger = function(trigger, event, value) {
              * Tag-ID
              */
             case 'rfid':
-                return (trigger.type === 'rfid' && trigger.value === value);
+                return (trigger.type === 'rfid' && (!trigger.value || trigger.value === value));
 
                 break;
 

@@ -900,6 +900,11 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
         remove: function(id) {
             socket.emit('rfid.delete', id);
             delete $scope.state.rfid[id];
+        },
+
+        reset: function() {
+            socket.emit('rfid.reset');
+            $scope.state.rfidUnknown = [];
         }
 
     };

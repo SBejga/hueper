@@ -40,7 +40,7 @@ Wird ausgelöst, wenn der Arduino eine Bewegung erkennt. Wird höchstens alle 10
 Wird ausgelöst, wenn ein RFID/NFC-Tag über den Leser gehalten wird. Wird höchstens alle 5 Sekunden ausgelöst
 
 -   type: rfid
--   value: Tag-ID
+-   value: Tag-ID, false für irgendein Tag (auch unbekannte)
 
 #### Netzwerk-Gerät
 
