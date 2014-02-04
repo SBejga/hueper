@@ -6,7 +6,8 @@
 var EventEmitter = require('events').EventEmitter,
     util = require('util'),
     spawn = require('child_process').spawn,
-    http = require('http');
+    http = require('http'),
+    fs = require('fs');
 
 var Speakable = function Speakable(options) {
     EventEmitter.call(this);
