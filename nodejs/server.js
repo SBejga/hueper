@@ -24,7 +24,11 @@ var app = {
         automation: {},
         rfid: {},
         rfidUnknown: [],
-        devices: {}
+        devices: {},
+        speech: {
+            testMode: false,
+            recognized: false
+        }
 	},
 	
 	server: {},
@@ -70,7 +74,7 @@ var controllers = [
 
     // functional controllers
     'app_configuration', 'hue_configuration', 'lights', 'groups', 'favorites', 'scenes', 'automation', 'arduino_button',
-    'arduino_sensors', 'rfid', 'devices'
+    'arduino_sensors', 'rfid', 'devices', 'speech'
 
 ];
 

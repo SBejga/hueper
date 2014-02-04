@@ -19,10 +19,10 @@ var init = function() {
 
     // time event for schedule and periodical triggers
     setTimeout(function() {
-        fireEvent('time');
+        fireEvent('time', new Date());
 
         setInterval(function() {
-            fireEvent('time');
+            fireEvent('time', new Date());
         }, 60000);
     }, (60 - new Date().getSeconds()) * 1000);
 
@@ -150,7 +150,7 @@ var evaluateSingleTrigger = function(trigger, event, value) {
              * command string
              */
             case 'speech':
-                return (trigger.type === 'speech' && trigger.value && value.indexOf(trigger.value) > -1);
+                return (trigger.type === 'speech' && trigger.value && value.toLowerCase().indexOf(trigger.value.toLowerCase()) > -1);
 
                 break;
 

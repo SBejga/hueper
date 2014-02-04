@@ -23,6 +23,19 @@ module.exports = function(app) {
                 name: 'transition',
                 value: 4,
                 hidden: false
+            },
+
+            // speech recognition
+            {
+                name: 'speechRecognition',
+                value: false,
+                hidden: false
+            },
+
+            {
+                name: 'speechSensitivity',
+                value: 20,
+                hidden: false
             }
 
         ];

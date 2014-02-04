@@ -41,6 +41,8 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
 -   **state**: Aktueller Status der Anwendung
     -   **appConfig**: Aus der MongoDB ausgelesene Konfiguration (*Config*-Model) *(Controller app_configuration)*
         -   **transition**: Überblendzeit der Lampen (in 100ms-Intervallen)
+        -   **speechRecognition**: Spracherkennung aktiv
+        -   **speechSensitivity**: Schwelle der Spracherkennung in Prozent, default 20
     -   **automation**: Automatisierung *(Controller automation)*
         Die Werte für Trigger, Conditions und Actions sind getrennt dokumentiert!
         -   name
@@ -139,6 +141,9 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
                 -   effect
     -   **sensors**: Sensor-Werte *(Controller arduino_sensors)**
         -   **light**: Licht-Sensor (0-100)
+    -   **speech**: Spracherkennung
+        -   **testMode**: Test-Modus aktiv
+        -   **recognized**: Erkannte Wörter, false bei Fehlschlag
 -   **server**
     -   **express**: Express-Server
     -   **http**: HTTP-Server zum Verbinden von Express und Socket.IO
@@ -185,7 +190,16 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **getBroadcastSocket(socket)**: Alle Sockets von eingeloggten Benutzern außer dem übergebenen erhalten
         -   **getConnectedUserCount()**: Anzahl der aktuell verbundenen eingeloggten Benutzer
         -   **sendNotification(socket, notification, isError)**: Benachrichtigung oder Fehlermeldung schicken
+    -   **speech**: Spracherkennung
+        -   **setActive(active)**: Spracherkennung (de)aktivieren
+-   **events**: EventEmitter, der Lade-Events der App feuert
 
+## Events
+
+in app.events
+
+-   **ready**: Alle Controller sind in *app.controllers* eingebunden
+-   **config_ready**: Die Anwendungs-Konfiguration steht zur Verfügung (*app.config* und *app.state.appConfig**)
 
 ## Controller hinzufügen
 

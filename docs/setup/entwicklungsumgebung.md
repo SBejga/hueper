@@ -19,8 +19,12 @@ NPM, der Node Package Manager, benötigt weitere Software, um NodeJS-Module inst
 -   Phyton **(Version 2.x!)**: http://python.org/download/
 -   Eine beliebige Version des Visual Studio (auch Express), z.B. http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop
 
-
 Die IDE kann beliebig gewählt werden, empfohlen wird WebStorm: https://www.jetbrains.com/webstorm/
+
+Die Sprachsteuerung benötigt eine Installation von SoX
+
+-   Herunterladen unter http://sourceforge.net/projects/sox/files/sox/14.4.1/
+-   Installieren entweder im Standardverzeichnis *C:\Program Files (x86)\sox-14-4-1*, oder der Installationsordner muss zum PATH hinzugefügt werden
 
 
 ## Projekt einrichten
@@ -56,7 +60,7 @@ getestet mit Linux Mint 15 (basiert auf Ubuntu 12.04)
 
 ## Dependencies
 
-    sudo apt-get install git python build-essential nodejs mongodb arduino
+    sudo apt-get install git python build-essential nodejs mongodb arduino sox
 
 ## Einstellungen
 

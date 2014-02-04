@@ -7,6 +7,7 @@ var init = function() {
 
     // cache configuration in global app object
     app.controllers.mongoose.addQueryListener(function(callback) {
+        console.log('[app_configuration] Loading configuration');
 
         Config.find(function(err, entries) {
             var i, c;
@@ -27,6 +28,8 @@ var init = function() {
             // load default configuration into MongoDB if not already present
             require('../config/application')(app);
 
+            console.log('[app_configuration] Configuration loaded, firing config_ready event');
+            app.events.emit('config_ready');
 
             callback();
         });
@@ -98,6 +101,8 @@ var socketListeners = function(socket) {
                 );
 
                 app.state.appConfig[i] = data[i];
+
+                configurationChangeListener(i);
             }
         }
 
@@ -106,6 +111,21 @@ var socketListeners = function(socket) {
             ['appConfig']
         );
     });
+
+};
+
+var configurationChangeListener = function(key) {
+
+    switch(key) {
+
+        // toggle speech recognition
+
+        case 'speechRecognition':
+            app.controllers.speech.setActive(app.state.appConfig.speechRecognition);
+
+            break;
+
+    }
 
 };
 

@@ -38,6 +38,10 @@
     -   scenes.update
     -   automation.create
     -   automation.update
+    -   rfid.create
+    -   rfid.update
+    -   device.create
+    -   device.update
 -   **device.address**: MAC-Adresse des Clients
     `<MAC-Adresse>`
 
@@ -103,6 +107,9 @@
 -   **device.delete**: Netzwerk-Gerät löschen ***Client-Änderung***
     Entfernt Trigger und Bedingungen von Automatisierungen mit diesem Gerät (vom Server synchronisiert)
     `<ID>`
+-   **speech.testMode**: Test-Modus aktivieren ***Client-Änderung***
+    `<Sekunden>`
+
 
 ## Broadcasts an eingeloggte User
 

@@ -113,6 +113,9 @@ Beispiele
     -   **update(device)**: Netzwerk-Gerät bearbeiten
     -   **remove(id)**: Netzwerk-Gerät löschen
     -   **isOwnRegistered()**: Ermittelt, ob das eigene Gerät bereits registriert ist
+-   **speech**: Sprachsteuerung
+    -   **testTimeout**: Sekunden, die der Test-Modus aktiviert werden soll
+    -   **activateTestMode()**: Test-Modus aktivieren
 -   **helpers**: Hilfs-Funktionen
     -   **toggleList(arr, el, numeric)**: Element in ein Array einfügen/entfernen; z.B. zum Erstellen eines Arrays aus mehreren Checkboxen
     -   **listChecked(arr, el, numeric)**: Überprüfen, ob ein Element in einem Array vorhanden ist

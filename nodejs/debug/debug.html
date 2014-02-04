@@ -122,6 +122,10 @@
 <form ng-submit="config.change(state.appConfig)">
 
     Lampen-Überblendzeit (*100ms): <input type="number" ng-model="state.appConfig.transition" />
+    <br />
+    Spracherkennung aktiv: <input type="checkbox" ng-model="state.appConfig.speechRecognition" />
+    <br />
+    Spracherkennungs-Schwelle (%): <input type="number" ng-model="state.appConfig.speechSensitivity" />
 
     <br />
     <input type="submit" value="speichern" />
@@ -980,6 +984,21 @@
     </form>
 
 </div>
+
+<!-- speech recognition -->
+
+<h1>Spracherkennung</h1>
+
+<div ng-show="state.speech.testMode">
+    <p><b>Test-Modus aktiv</b></p>
+    <p>erkannt: {{state.speech.recognized}}</p>
+</div>
+
+<div ng-show="!state.speech.testMode">
+    <button ng-click="speech.activateTestMode()">Test-Modus aktivieren</button>
+    für <input type="number" ng-model="speech.testTimeout" /> Sekunden
+</div>
+
 
 
 <!-- complete state -->
