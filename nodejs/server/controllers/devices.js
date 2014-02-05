@@ -114,7 +114,7 @@ var socketListener = function(socket) {
 var refreshPing = function() {
     var ip = address();
 
-    if(ip.indexOf('127.0') === 0) {
+    if(!ip || ip.indexOf('127.0') === 0) {
         console.log('[devices] No local IPv4 found, aborting!');
         return;
     }
@@ -129,44 +129,91 @@ var refreshPing = function() {
 
     console.log('[devices] Starting network range ping');
 
-    range(ip, 254).forEach(function(host) {
-        ping.sys.probe(host, function(isAlive) {
-            var address = arpTable[host];
+    // use ping on windows
+    if(process.platform.indexOf('win') === 0) {
+        range(ip, 254).forEach(function(host) {
+            ping.sys.probe(host, function(isAlive) {
+                pingResult(host, isAlive);
+            });
+        });
+    }
+    // use nmap on linux (far better performance on raspberry pi)
+    else {
+        var stdout = '',
+            ipRange = ip.replace(/\.\d{1,3}$/, '') + '.0/24',
+            nmap = child.spawn('nmap', ['-sP', '-n', '-v', ipRange]);
 
-            if(address === undefined) {
-                return;
+        nmap.stdout.on('data', function(data) {
+            stdout += data;
+        });
+
+        nmap.on('error', function() {
+            console.log('[devices] Nmap error!');
+        });
+
+        nmap.on('close', function(code) {
+            if(code !== 0) {
+                console.log('[devices] Nmap closed with code ' + code);
             }
 
-            var deviceId = isDeviceKnown(address);
+            var lines = stdout.split('\n'),
+                i = lines.length,
+                host;
 
-            if(!deviceId) {
-                return;
-            }
+            while(i--) {
+                if(lines[i].indexOf('Nmap scan report for') === -1) {
+                    continue;
+                }
 
-            var oldStatus = !!pingStatus[address];
-            pingStatus[address] = isAlive;
+                host = lines[i].match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/);
 
-            // device status changed
-            if(oldStatus !== isAlive) {
-                console.log('[devices] Status for ' + address + ' (' + host + ') changed to ' + isAlive);
-
-                app.controllers.automation.fireEvent(
-                    'device',
-                    {
-                        action: (isAlive ? 'login' : 'logout'),
-                        address: address
-                    }
-                );
-            }
-
-            // update lastActivity date every minute
-            if(isAlive && (!app.state.devices[deviceId].lastActivity || new Date() - app.state.devices[deviceId].lastActivity > 60000)) {
-                app.state.devices[deviceId].lastActivity = new Date();
-                Device.findByIdAndUpdate(deviceId, { lastActivity: new Date() }).exec();
-                app.controllers.socket.refreshState(false, ['devices.' + deviceId + '.lastActivity']);
+                if(host) {
+                    pingResult(
+                        host[0],
+                        (lines[i].indexOf('[host down]') === -1)
+                    );
+                }
             }
         });
-    });
+
+    }
+};
+
+var pingResult = function(host, isAlive) {
+    var address = arpTable[host];
+
+    if(address === undefined) {
+        return;
+    }
+
+    var deviceId = isDeviceKnown(address);
+
+    if(!deviceId) {
+        return;
+    }
+
+    var oldStatus = !!pingStatus[address];
+    pingStatus[address] = isAlive;
+
+    // device status changed
+    if(oldStatus !== isAlive) {
+        console.log('[devices] Status for ' + address + ' (' + host + ') changed to ' + isAlive);
+
+        app.controllers.automation.fireEvent(
+            'device',
+            {
+                action: (isAlive ? 'login' : 'logout'),
+                address: address
+            }
+        );
+    }
+
+    // update lastActivity date every minute
+    if(isAlive && (!app.state.devices[deviceId].lastActivity || new Date() - app.state.devices[deviceId].lastActivity > 60000)) {
+        app.state.devices[deviceId].lastActivity = new Date();
+        Device.findByIdAndUpdate(deviceId, { lastActivity: new Date() }).exec();
+        app.controllers.socket.refreshState(false, ['devices.' + deviceId + '.lastActivity']);
+    }
 };
 
 /**

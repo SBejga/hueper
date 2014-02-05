@@ -6,6 +6,7 @@
 var app,
     host,
     api,
+    initialConnectionTryInterval = 10000,
     connectionTryInterval = 10000,
     connectionTryAdd = 10000,
     refreshTimeout,
@@ -74,6 +75,7 @@ var bridgeLocated = function(data) {
     host = data[0].ipaddress;
 
     app.state.connect.hue = true;
+    connectionTryInterval = initialConnectionTryInterval;
 
     // sign in to bridge when MongoDB connection is established
     app.controllers.mongoose.addConnectionListener(function() {
@@ -128,8 +130,6 @@ var registerToBridge = function() {
                         { value: user }
                     ).exec();
                 }
-
-                connectionTryInterval = 10000;
 
                 app.config.hueUser = user;
                 app.state.connect.hueRegistered = true;

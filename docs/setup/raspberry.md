@@ -147,7 +147,7 @@ __________________
 
 ### Dependencies installieren
 
-    sudo apt-get -y install git python build-essential sox
+    sudo apt-get -y install git python build-essential sox nmap
 
 ### NodeJS-Server und MongoDB
 

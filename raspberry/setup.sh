@@ -17,7 +17,7 @@ chown pi /var/log/hue
 
 apt-get update
 apt-get -y upgrade
-apt-get -y install git python build-essential sox
+apt-get -y install git python build-essential sox nmap
 
 
 # NodeJS setup

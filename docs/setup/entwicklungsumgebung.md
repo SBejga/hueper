@@ -60,7 +60,7 @@ getestet mit Linux Mint 15 (basiert auf Ubuntu 12.04)
 
 ## Dependencies
 
-    sudo apt-get install git python build-essential nodejs mongodb arduino sox
+    sudo apt-get install git python build-essential nodejs mongodb arduino sox nmap
 
 ## Einstellungen
 

@@ -3,7 +3,8 @@
     listeners = [],
     connection,
     connectionTimeout,
-    connectionTryInterval = 10000,
+    initialConnectionTryInterval = 10000,
+    connectionTryInterval = initialConnectionTryInterval,
     connectionTryAdd = 10000,
     lastMessageTime,
     app;
@@ -60,7 +61,7 @@ var connectToArduino = function(port) {
 
     connection.on('open', function() {
         clearTimeout(connectionTimeout);
-        connectionTryInterval = 10000;
+        connectionTryInterval = initialConnectionTryInterval;
 
         app.state.connect.arduino = true;
         app.controllers.socket.refreshState(false, ['connect.arduino']);
