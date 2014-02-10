@@ -1,0 +1,43 @@
+% NS_B
+<s>        sil
+
+% NS_E
+</s>        sil
+
+% START
+HUE		hh y uw
+COMPUTER	k ax m p y uw dx er
+
+% COMMAND
+SCENE		s iy n
+INITIATE	ix n ih sh iy ey t
+STOP		s t aa p
+
+% AREA
+ALL		ao l
+
+ZERO		z ih r ow
+ONE		w ah n
+TWO		t uw
+THREE		th r iy
+FOUR		f ao r
+FIVE		f ay v
+SIX		s ih k s
+SEVEN		s eh v ax n
+EIGHT		ey t
+NINE		n ay n
+
+% VALUE
+ON		aa n
+OFF		ao f
+DARK		d aa r k
+BRIGHT		b r ay t
+
+BLUE		b l uw
+GREEN		g r iy n
+RED		r eh d
+YELLOW		y eh l ow
+WHITE		w ay t
+PURPLE		p er p ax l
+ORANGE		ao r ax n jh
+

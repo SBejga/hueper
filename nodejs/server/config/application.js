@@ -33,6 +33,12 @@ module.exports = function(app) {
             },
 
             {
+                name: 'speechRecognitionEngine',
+                value: 'julius',    // possible values: julius, google
+                hidden: false
+            },
+
+            {
                 name: 'speechSensitivity',
                 value: 20,
                 hidden: false

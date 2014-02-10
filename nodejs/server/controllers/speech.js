@@ -1,226 +1,63 @@
-/*
- * Modified version of node-speakable
- * https://github.com/sreuter/node-speakable
- */
+var speechGoogle = require('../modules/speech_google'),
+    speechJulius = require('../modules/speech_julius'),
 
-var EventEmitter = require('events').EventEmitter,
-    util = require('util'),
-    spawn = require('child_process').spawn,
-    http = require('http'),
-    fs = require('fs');
+    speakable,
+    julius,
 
-var Speakable = function Speakable(options) {
-    EventEmitter.call(this);
+    speechActive = false,
+    speechEngine = 'julius',
 
-    options = options || {};
-
-    this.recBuffer = [];
-    this.recRunning = false;
-    this.apiResult = {};
-    this.apiLang = options.lang || "en-US";
-
-
-    if(process.platform.indexOf('win') === 0) {
-        // check x64 and x86 installation folders
-        if(fs.existsSync('C:/Program Files (x86)/sox-14-4-1/sox.exe')) {
-            this.cmd = 'C:/Program Files (x86)/sox-14-4-1/sox.exe';
-        }
-        else if(fs.existsSync('C:/Program Files/sox-14-4-1/sox.exe')) {
-            this.cmd = 'C:/Program Files/sox-14-4-1/sox.exe';
-        }
-        // use PATH
-        else {
-            this.cmd = 'sox';
-        }
-    }
-    else {
-        this.cmd = 'sox';
-    }
-
-    this.rec = false;
-
-};
-
-util.inherits(Speakable, EventEmitter);
-
-Speakable.prototype.postVoiceData = function() {
-    var self = this;
-
-    var options = {
-        hostname: 'www.google.com',
-        path: '/speech-api/v1/recognize?xjerr=1&client=chromium&pfilter=0&maxresults=1&lang="' + self.apiLang + '"',
-        method: 'POST',
-        headers: {
-            'Content-type': 'audio/x-flac; rate=16000'
-        }
-    };
-
-    var req = http.request(options, function(res) {
-
-        //self.recBuffer = [];
-
-        if(res.statusCode !== 200) {
-            return self.emit(
-                'error',
-                'Non-200 answer from Google Speech API (' + res.statusCode + ')'
-            );
-        }
-        res.setEncoding('utf8');
-        res.on('data', function (chunk) {
-            self.apiResult = JSON.parse(chunk);
-        });
-        res.on('end', function() {
-            self.parseResult();
-        });
-    });
-
-    req.on('error', function(e) {
-        self.emit('error', e);
-    });
-
-    // write data to request body
-    console.log('[speech] Posting voice data...');
-
-    for(var i in self.recBuffer) {
-        if(self.recBuffer.hasOwnProperty(i)) {
-            req.write(new Buffer(self.recBuffer[i],'binary'));
-        }
-    }
-    req.end();
-
-
-    if(speakableActive) {
-        setTimeout(function() {
-            self.recBuffer = [];
-            self.recordVoice();
-        }, 500);
-    }
-};
-
-Speakable.prototype.recordVoice = function() {
-    var self = this;
-
-    if(self.recRunning) {
-        return;
-    }
-
-    var args = [
-        '-b','16',
-        '-d','-t','flac','-',
-        'rate','16000','channels','1',
-        'silence','1','0.1', app.state.appConfig.speechSensitivity + '%','1','0.75', app.state.appConfig.speechSensitivity + '%'
-    ];
-
-    self.rec = spawn(self.cmd, args, 'pipe');
-
-    self.rec.on('error', function() {
-        console.log('[speech] ERROR INITIALIZING SOX BINARY, ABORTING!');
-        speakableActive = false;
-    });
-
-    // Process stdout
-
-    self.rec.stdout.on('readable', function() {
-        self.emit('speechReady');
-    });
-
-    self.rec.stdout.setEncoding('binary');
-    self.rec.stdout.on('data', function(data) {
-        if(! self.recRunning) {
-            self.emit('speechStart');
-            self.recRunning = true;
-        }
-        self.recBuffer.push(data);
-    });
-
-    // Process stdin
-
-    self.rec.stderr.setEncoding('utf8');
-    /*
-    self.rec.stderr.on('data', function(data) {
-        console.log(data)
-    });
-    */
-    self.rec.on('close', function(code) {
-        self.recRunning = false;
-        if(code) {
-            self.emit('error', 'sox exited with code ' + code);
-        }
-        self.emit('speechStop');
-        self.postVoiceData();
-    });
-};
-
-Speakable.prototype.resetVoice = function() {
-    var self = this;
-    self.recBuffer = [];
-};
-
-Speakable.prototype.parseResult = function() {
-    var recognizedWords = [], apiResult = this.apiResult;
-    if(apiResult && apiResult.hypotheses && apiResult.hypotheses[0]) {
-        recognizedWords = apiResult.hypotheses[0].utterance;
-        this.emit('speechResult', recognizedWords);
-    } else {
-        this.emit('speechResult', false);
-    }
-
-};
-
-Speakable.prototype.stopRecording = function() {
-    if(this.rec && this.recRunning) {
-        console.log('[speech] Killing sox process');
-        this.rec.kill();
-    }
-};
-
-
-////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////
-
-
-var app,
-    speakable = new Speakable(),
-    speakableActive = false;
-
-speakable.on('error', function(err) {
-    console.log('[speech] Speakable error:', err);
-
-    if(speakableActive) {
-        setTimeout(function() {
-            speakable.recordVoice();
-        }, 5000);
-    }
-});
-
-speakable.on('speechResult', function(recognizedWords) {
-    console.log('[speech] Recognized:', recognizedWords);
-
-    if(recognizedWords) {
-        app.controllers.automation.fireEvent('speech', recognizedWords);
-    }
-
-    app.state.speech.recognized = recognizedWords;
-
-    if(app.state.speech.testMode) {
-        app.controllers.socket.refreshState(false, ['speech']);
-    }
-
-});
-
+    app;
 
 
 var init = function() {
 
-    speakableActive = app.state.appConfig.speechRecognition;
+    speechActive = app.state.appConfig.speechRecognition;
+    speechEngine = app.state.appConfig.speechRecognitionEngine;
+
+
+    app.controllers.socket.addSocketListener(socketListener);
+    app.controllers.app_configuration.addConfigurationChangeListener(configurationChangeListener);
+
+
+    // initialize google
+    speakable = new speechGoogle(app);
+
+    speakable.on('error', function(err) {
+        console.log('[speech] Speakable error:', err);
+
+        if(speechActive && speechEngine === 'google') {
+            setTimeout(function() {
+                speakable.start();
+            }, 5000);
+        }
+    });
+
+    speakable.on('speechResult', function(recognizedWords) {
+        recognized(recognizedWords);
+    });
+
+
+    // initialize julius
+    julius = new speechJulius();
+
+    julius.on('recognize', function(recognizedWords) {
+        recognized(recognizedWords);
+    });
+
+
+    // start speech recognition
 
     if(app.state.appConfig.speechRecognition) {
         console.log('[speech] Starting speech recognition');
-        speakable.recordVoice();
-    }
 
-    app.controllers.socket.addSocketListener(socketListener);
+        if(app.state.appConfig.speechRecognitionEngine === 'google') {
+            speakable.start();
+        }
+        else {
+            julius.start();
+        }
+    }
 
 };
 
@@ -228,6 +65,11 @@ var socketListener = function(socket) {
 
     socket.on('speech.testMode', function(seconds) {
         var mseconds = (parseInt(seconds) || 30) * 1000;
+
+        // prevent multiple timeouts
+        if(app.state.speech.testMode) {
+            return;
+        }
 
         console.log('[speech] Activate test mode for ' + mseconds + 'ms');
 
@@ -242,23 +84,101 @@ var socketListener = function(socket) {
             app.controllers.socket.refreshState(false, ['speech']);
         }, mseconds);
 
-
     });
 
 };
 
+var configurationChangeListener = function(key) {
+
+    if(key === 'speechRecognition') {
+        setActive(app.state.appConfig.speechRecognition);
+    }
+
+    else if(key === 'speechRecognitionEngine') {
+        setEngine(app.state.appConfig.speechRecognitionEngine);
+    }
+
+};
+
+
+/**
+ * Gets called when the selected recognition engine returns a result
+ * @param {string} recognizedWords
+ */
+var recognized = function(recognizedWords) {
+    console.log('[speech] Recognized:', recognizedWords);
+
+    if(recognizedWords) {
+        app.controllers.automation.fireEvent('speech', recognizedWords);
+    }
+
+    app.state.speech.recognized = recognizedWords;
+
+    if(app.state.speech.testMode) {
+        app.controllers.socket.refreshState(false, ['speech.recognized']);
+    }
+};
+
+/**
+ * Turn speech recognition on or off
+ * @param {boolean} active
+ */
 var setActive = function(active) {
     console.log('[speech] Set speech recognition to ' + active);
 
-    if(!active && speakableActive) {
-        speakable.stopRecording();
+    if(!active && speechActive) {
+        if(speechEngine === 'google') {
+            speakable.stop();
+        }
+        else {
+            julius.stop();
+        }
     }
-    else if(active && !speakableActive) {
-        speakable.recordVoice();
+    else if(active && !speechActive) {
+        if(speechEngine === 'google') {
+            speakable.start();
+        }
+        else {
+            julius.start();
+        }
     }
 
-    speakableActive = active;
+    speechActive = active;
 };
+
+/**
+ * choose the engine used for speech recognition
+ * @param {string} engine google or julius
+ */
+var setEngine = function(engine) {
+
+    if(engine === speechEngine || !speechActive) {
+        return;
+    }
+
+    // stop google, start julius
+    if(speechEngine === 'google') {
+        speakable.stop();
+
+        setTimeout(function() {
+            julius.start();
+        }, 1000);
+
+    }
+
+    // stop julius, start google
+    else {
+        julius.stop();
+
+        setTimeout(function() {
+            speakable.start();
+        }, 1000);
+    }
+
+    speechEngine = engine;
+
+};
+
 
 
 module.exports = function(globalApp) {
@@ -268,9 +188,5 @@ module.exports = function(globalApp) {
     app.events.once('config_ready', function() {
         init();
     });
-
-    return {
-        setActive: setActive
-    };
 
 };

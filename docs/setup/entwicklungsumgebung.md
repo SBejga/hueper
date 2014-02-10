@@ -21,10 +21,15 @@ NPM, der Node Package Manager, benötigt weitere Software, um NodeJS-Module inst
 
 Die IDE kann beliebig gewählt werden, empfohlen wird WebStorm: https://www.jetbrains.com/webstorm/
 
-Die Sprachsteuerung benötigt eine Installation von SoX
+Die Sprachsteuerung mit der Google Speech API benötigt eine Installation von SoX
 
 -   Herunterladen unter http://sourceforge.net/projects/sox/files/sox/14.4.1/
 -   Installieren entweder im Standardverzeichnis *C:\Program Files (x86)\sox-14-4-1*, oder der Installationsordner muss zum PATH hinzugefügt werden
+
+Die Sprachsteuerung mit Julius benötigt eine Installation von Julius und ein Akustik-Modell
+
+-   Herunterladen von http://sourceforge.jp/projects/julius/downloads/60273/julius-4.3.1-win32bin.zip
+-   Entpacken nach *C:\julius-4.3.1-win32bin*, oder alternativ den Ordner dem PATH hinzufügen
 
 
 ## Projekt einrichten
@@ -35,11 +40,20 @@ Die Sprachsteuerung benötigt eine Installation von SoX
 -   mit `cd` in den Ordner *nodejs* im Projekt-Verzeichnis wechseln
 -   Dependencies installieren mit `npm install`
 
+### Julius Akustik-Modell herunterladen
+
+-   Download der Datei http://www.repository.voxforge1.org/downloads/Nightly_Builds/AcousticModel-2014-02-10/HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.zip
+-   Entpacken nach *julius/acoustic_model_files* im Projektordner
+
+### MongoDB
+
 Für die MongoDB muss ein Datenverzeichnis angelegt werden, in das sie die Datenbank speichert. Gestartet werden kann sie dann in der Kommandozeile mit
 
     C:\<Pfad>\bin\mongod.exe --dbpath "C:\<Pfad zum Daten-Verzeichnis>"
 
 Der Einfachheit halber kann dieser Befehl in eine BAT-Datei oder eine Verknüpfung gespeichert werden. Um das Projekt ordnungsgemäß starten zu können, muss die MongoDB aktiv sein.
+
+### NodeJS starten
 
 Das Projekt selbst kann ebenfalls über die Kommandozeile gestartet werden:
 
@@ -60,7 +74,7 @@ getestet mit Linux Mint 15 (basiert auf Ubuntu 12.04)
 
 ## Dependencies
 
-    sudo apt-get install git python build-essential nodejs mongodb arduino sox nmap
+    sudo apt-get install git python build-essential nodejs mongodb arduino sox nmap julius
 
 ## Einstellungen
 

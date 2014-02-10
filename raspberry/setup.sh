@@ -17,7 +17,7 @@ chown pi /var/log/hue
 
 apt-get update
 apt-get -y upgrade
-apt-get -y install git python build-essential sox nmap
+apt-get -y install git python build-essential sox nmap alsa-tools alsa-oss flex zlib1g-dev libc-bin libc-dev-bin python-pexpect libasound2 libasound2-dev cvs
 
 
 # NodeJS setup
@@ -51,7 +51,7 @@ chown pi /data/db
 
 # add NodeJS and MongoDB to PATH
 
-sed -i '/^export PATH/c NODE_JS_HOME="/opt/node"\nPATH="$PATH:$NODE_JS_HOME/bin:/opt/mongo/bin/"\nexport PATH' /etc/profile
+sed -i '/^export PATH/c NODE_JS_HOME="/opt/node"\nexport ALSADEV="plughw:1,0"\nPATH="$PATH:$NODE_JS_HOME/bin:/opt/mongo/bin/"\nexport PATH' /etc/profile
 
 
 echo '#!/bin/bash
@@ -117,11 +117,29 @@ chmod 755 /etc/init.d/mongod
 update-rc.d mongod defaults
 
 
+# Julius setup
+cd /home/pi
+sudo -u pi cvs -z3 -d:pserver:anonymous@cvs.sourceforge.jp:/cvsroot/julius co julius4
+export CFLAGS="-O2 -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard -pipe -fomit-frame-pointer"
+cd julius4
+sudo -u pi ./configure --with-mictype=alsa
+sudo -u pi make
+sudo -u pi make install
+
 # Project setup
 
 sudo -u pi git clone https://github.com/SBejga/hueper.git
 cd hueper/nodejs
 sudo -u pi /usr/bin/npm install
+
+# download VoxForge acoustic model
+cd /home/pi/hueper/julius
+wget http://www.repository.voxforge1.org/downloads/Nightly_Builds/AcousticModel-2014-02-10/HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.tgz
+sudo -u pi mkdir acoustic_model_files
+sudo -u pi tar xvfz HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.tgz -C acoustic_model_files
+rm HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.tgz
+
+
 cd /home/pi
 
 echo '#!/bin/bash

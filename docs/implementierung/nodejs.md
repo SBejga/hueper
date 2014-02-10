@@ -32,6 +32,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
     -   **config**: Konfiguration der verschiedenen Module, eingebunden in der server.js
     -   **controllers**: Eingebunden in der server.js
     -   **models**: Mongoose-Models, eingebunden in der server/config/mongoose.js
+    -   **modules**: Zusätzliche Dateien, die in die Controller eingebunden werden
 
 ## Globales app-Objekt
 
@@ -43,6 +44,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **transition**: Überblendzeit der Lampen (in 100ms-Intervallen)
         -   **speechRecognition**: Spracherkennung aktiv
         -   **speechSensitivity**: Schwelle der Spracherkennung in Prozent, default 20
+        -   **speechRecognitionEngine**: Verwendete Spracherkennungs-Methode, mögliche Werte sind *google* und *julius*
     -   **automation**: Automatisierung *(Controller automation)*
         Die Werte für Trigger, Conditions und Actions sind getrennt dokumentiert!
         -   name
@@ -150,6 +152,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
     -   **io**: Socket-IO
 -   **controllers**
     -   **app_configuration**: Konfiguration der Anwendung
+        -   **addConfigurationChangeListener(option)**: Listener für Konfigurations-Änderungen
     -   **arduino**: Verbindungsaufbau zum Arduino
         -   **addListener(listener)**: Listener für Arduino-Nachrichten hinzufügen
     -   **arduino_button**: Fährt den Raspberry Pi herunter, wenn der Button am Arduino gedrückt wurde
@@ -191,7 +194,6 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **getConnectedUserCount()**: Anzahl der aktuell verbundenen eingeloggten Benutzer
         -   **sendNotification(socket, notification, isError)**: Benachrichtigung oder Fehlermeldung schicken
     -   **speech**: Spracherkennung
-        -   **setActive(active)**: Spracherkennung (de)aktivieren
 -   **events**: EventEmitter, der Lade-Events der App feuert
 
 ## Events

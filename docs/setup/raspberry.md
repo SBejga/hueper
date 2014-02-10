@@ -147,7 +147,7 @@ __________________
 
 ### Dependencies installieren
 
-    sudo apt-get -y install git python build-essential sox nmap
+    sudo apt-get -y install git python build-essential sox nmap alsa-tools alsa-oss flex zlib1g-dev libc-bin libc-dev-bin python-pexpect libasound2 libasound2-dev cvs
 
 ### NodeJS-Server und MongoDB
 
@@ -186,6 +186,7 @@ Um den NodeJS für alle Benutzer auf der Kommandozeile sichtbar zu machen, müss
 
 Zusätzlich kann in der */etc/profile* folgenden Inhalt vor den *export PATH*-Befehl eingefügt werden. Dadurch wird die MongoDB auch in den PATH eingefügt:
 
+    export ALSADEV="plughw:1,0"
     NODE_JS_HOME="/opt/node"
     PATH="$PATH:$NODE_JS_HOME/bin:/opt/mongo/bin/"
 
@@ -268,12 +269,32 @@ Starten/stoppen
     sudo /etc/init.d/mongod start
     sudo /etc/init.d/mongod stop
 
+### Julius
+
+Julius muss über das Versionkontrollsystem CVS heruntergeladen und kompiliert werden. Unter Raspbian werden einige zusätzliche Compiler-Einstellungen benötigt.
+
+    cvs -z3 -d:pserver:anonymous@cvs.sourceforge.jp:/cvsroot/julius co julius4
+    export CFLAGS="-O2 -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard -pipe -fomit-frame-pointer"
+    cd julius4
+    ./configure --with-mictype=alsa
+    make
+    sudo make install
+
+
 ### Projekt herunterladen und installieren
 
     cd ~
     git clone https://github.com/SBejga/hueper.git
     cd hueper/nodejs
     npm install
+
+Für Julius muss ein Akustik-Modell heruntergeladen werden:
+
+    cd ~/hueper/julius
+    wget http://www.repository.voxforge1.org/downloads/Nightly_Builds/AcousticModel-2014-02-10/HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.tgz
+    mkdir acoustic_model_files
+    tar xvfz HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.tgz -C acoustic_model_files
+    rm HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.tgz
 
 Starten mit
 
@@ -424,3 +445,4 @@ Starten/stoppen
 -   Forever Setup:
     https://github.com/nodejitsu/forever
     http://stackoverflow.com/questions/4976658/on-ec2-sudo-node-command-not-found-but-node-without-sudo-is-ok#answer-5062718
+-   Julius: http://www.aonsquared.co.uk/raspi_voice_control

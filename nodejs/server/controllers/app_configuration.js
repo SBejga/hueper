@@ -1,5 +1,6 @@
 ﻿var mongoose	= require('mongoose'),
     Config      = mongoose.model('Config'),
+    configurationChangeListeners = [],
     app;
 
 
@@ -81,7 +82,7 @@ var socketListeners = function(socket) {
 
     // change application configuration
     socket.on('config.change', function(data) {
-        var i;
+        var i, j;
 
         console.log('[app_configuration] Change application configuration', data);
 
@@ -102,7 +103,11 @@ var socketListeners = function(socket) {
 
                 app.state.appConfig[i] = data[i];
 
-                configurationChangeListener(i);
+                for(j in configurationChangeListeners) {
+                    if(configurationChangeListeners.hasOwnProperty(j)) {
+                        configurationChangeListeners[j](i);
+                    }
+                }
             }
         }
 
@@ -114,20 +119,11 @@ var socketListeners = function(socket) {
 
 };
 
-var configurationChangeListener = function(key) {
 
-    switch(key) {
-
-        // toggle speech recognition
-
-        case 'speechRecognition':
-            app.controllers.speech.setActive(app.state.appConfig.speechRecognition);
-
-            break;
-
-    }
-
+var addConfigurationChangeListener = function(listener) {
+    configurationChangeListeners.push(listener);
 };
+
 
 module.exports = function(globalApp) {
 
@@ -136,5 +132,9 @@ module.exports = function(globalApp) {
     app.events.once('ready', function() {
         init();
     });
+
+    return {
+        addConfigurationChangeListener: addConfigurationChangeListener
+    };
 
 };

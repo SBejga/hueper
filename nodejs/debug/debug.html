@@ -126,6 +126,12 @@
     Spracherkennung aktiv: <input type="checkbox" ng-model="state.appConfig.speechRecognition" />
     <br />
     Spracherkennungs-Schwelle (%): <input type="number" ng-model="state.appConfig.speechSensitivity" />
+    <br />
+    Spracherkennungs-Methode:
+    <select ng-model="state.appConfig.speechRecognitionEngine">
+        <option>google</option>
+        <option>julius</option>
+    </select>
 
     <br />
     <input type="submit" value="speichern" />
