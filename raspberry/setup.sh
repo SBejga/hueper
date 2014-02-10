@@ -120,14 +120,14 @@ update-rc.d mongod defaults
 # Julius setup
 cd /home/pi
 sudo -u pi cvs -z3 -d:pserver:anonymous@cvs.sourceforge.jp:/cvsroot/julius co julius4
-export CFLAGS="-O2 -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard -pipe -fomit-frame-pointer"
 cd julius4
-sudo -u pi ./configure --with-mictype=alsa
-sudo -u pi make
-sudo -u pi make install
+JULIUSCFLAGS="-O2 -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard -pipe -fomit-frame-pointer"
+sudo -u pi CFLAGS="$JULIUSCFLAGS" ./configure --with-mictype=alsa
+sudo -u pi CFLAGS="$JULIUSCFLAGS" make
+sudo -u pi CFLAGS="$JULIUSCFLAGS" make install
 
 # Project setup
-
+cd /home/pi
 sudo -u pi git clone https://github.com/SBejga/hueper.git
 cd hueper/nodejs
 sudo -u pi /usr/bin/npm install
