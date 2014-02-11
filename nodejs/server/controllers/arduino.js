@@ -98,7 +98,7 @@ var connectToArduino = function(port) {
  * If no message has come for 10 seconds, assume connection loss
  */
 var checkHeartBeat = function() {
-    if(app.state.connect.arduino && new Date().getTime() - lastMessageTime > 10000) {
+    if(app.state.connect.arduino && new Date().getTime() - lastMessageTime > 30000) {
         console.log('[arduino] Arduino connection lost');
 
         // causes abort on Linux when Arduino is disconnected
@@ -129,7 +129,7 @@ module.exports = function(globalApp) {
         findArduino();
 
         // periodically check if Arduino is still there
-        setInterval(checkHeartBeat, 10000);
+        setInterval(checkHeartBeat, 30000);
     });
 
 
