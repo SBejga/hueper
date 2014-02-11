@@ -83,10 +83,6 @@ Folgenden Inhalt zur Datei */etc/wpa_supplicant/wpa_supplicant.conf* hinzufügen
 
     network={
     ssid="<SSID>"
-    proto=RSN
-    key_mgmt=WPA-PSK
-    pairwise=CCMP TKIP
-    group=CCMP TKIP
     psk="<PASSWORT>"
     }
 
@@ -110,6 +106,13 @@ Nachteile:
 
 -   Aufgrund des eigenen Adressbereichs kann die Hue-Bridge nur noch vom Raspberry Pi aus erreicht werden. Das bedeutet, dass die Hue-App und andere Drittsoftware keinen Zugriff mehr auf die Bridge erhalten
 -   Der LAN-Port kann nicht mehr zum Verbinden ins Internet benutzt werden. Dazu muss der DHCP-Server gestoppt und die Netzwerk-Konfiguration geändert werden
+
+### Firmware-Update
+
+    sudo rpi-update
+
+Danach ist ein Neustart nötig, um die neue Firmware zu aktivieren.
+
 
 ### USB-Soundkarte einrichten
 
@@ -184,11 +187,19 @@ Um den NodeJS für alle Benutzer auf der Kommandozeile sichtbar zu machen, müss
     sudo ln -s /opt/node/bin/npm /usr/bin/npm
     sudo ln -s /opt/node/lib /usr/lib/node
 
-Zusätzlich kann in der */etc/profile* folgenden Inhalt vor den *export PATH*-Befehl eingefügt werden. Dadurch wird die MongoDB auch in den PATH eingefügt:
+Zusätzlich kann in der */etc/profile* folgenden Inhalt vor den *export PATH*-Befehl eingefügt werden. Dadurch wird die MongoDB auch in den PATH eingefügt. ALSADEV wird benötigt, wenn man die Julius-Spracherkennung auch außerhalb des Projekts verwenden oder testen möchte:
 
     export ALSADEV="plughw:1,0"
     NODE_JS_HOME="/opt/node"
     PATH="$PATH:$NODE_JS_HOME/bin:/opt/mongo/bin/"
+
+Um auch beim Starten mit sudo wichtige Umgebungsvariablen zu behalten, muss die Datei */etc/sudoers.d/hue* mit folgendem Inhalt angelegt werden:
+
+    Defaults env_keep += "ALSADEV NODE_ENV"
+
+Die Datei sollte nur vom root-Benutzer lesbar sein:
+
+    sudo chmod 0440
 
 -   Ausloggen oder Raspberry neustarten
 -   Test der Installation mit `node -v` und `mongo --version`

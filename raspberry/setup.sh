@@ -49,9 +49,14 @@ mkdir /data/db
 chown pi /data/db
 
 
-# add NodeJS and MongoDB to PATH
+# add NodeJS and MongoDB to PATH, set ALSADEV for Julius speech recognition
 
 sed -i '/^export PATH/c NODE_JS_HOME="/opt/node"\nexport ALSADEV="plughw:1,0"\nPATH="$PATH:$NODE_JS_HOME/bin:/opt/mongo/bin/"\nexport PATH' /etc/profile
+
+# preserve environment variables when starting NodeJS with sudo
+echo 'Defaults env_keep += "ALSADEV NODE_ENV"
+' > /etc/sudoers.d/hue
+chmod 0440 /etc/sudoers.d/hue
 
 
 echo '#!/bin/bash
@@ -124,7 +129,7 @@ cd julius4
 JULIUSCFLAGS="-O2 -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard -pipe -fomit-frame-pointer"
 sudo -u pi CFLAGS="$JULIUSCFLAGS" ./configure --with-mictype=alsa
 sudo -u pi CFLAGS="$JULIUSCFLAGS" make
-sudo -u pi CFLAGS="$JULIUSCFLAGS" make install
+CFLAGS="$JULIUSCFLAGS" make install
 
 # Project setup
 cd /home/pi

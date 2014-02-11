@@ -23,7 +23,7 @@ var Julius = function() {
         this.cmd = 'julius';
     }
 
-    this.args = ['-input', 'mic', '-C', '../julius/hue.jconf'];
+    this.args = ['-input', 'mic', '-C', __dirname + '/../../../julius/hue.jconf'];
 
 };
 
