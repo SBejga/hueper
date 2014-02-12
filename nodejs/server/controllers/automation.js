@@ -320,14 +320,16 @@ var evaluateSingleCondition = function(condition) {
                     var light = app.state.lights[lightId],
                         i;
 
-                    // prevent strange Mongoose magic
-                    state = JSON.parse(JSON.stringify(state));
+                    // convert Mongoose object to standard object
+                    state = state.toObject();
 
                     // convert scene isOn to bridge on propertry
                     if(state.isOn !== undefined) {
                         state['on'] = state.isOn;
                         delete state.isOn;
                     }
+
+                    console.log(state);
 
                     // reject unknown or unreachable lights
                     if(typeof(light) === 'undefined' || !light.state.reachable) {
