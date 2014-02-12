@@ -329,8 +329,6 @@ var evaluateSingleCondition = function(condition) {
                         delete state.isOn;
                     }
 
-                    console.log(state);
-
                     // reject unknown or unreachable lights
                     if(typeof(light) === 'undefined' || !light.state.reachable) {
                         return false;
