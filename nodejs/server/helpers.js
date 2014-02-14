@@ -75,6 +75,14 @@ var equalsProperties = function(a, b, props) {
     return true;
 };
 
+//+ Jonas Raoni Soares Silva
+//@ http://jsfromhell.com/array/shuffle [rev. #1]
+
+var shuffle = function(v){
+    for(var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
+    return v;
+};
+
 /**
  * Removes all root-level properties from an object that start with an underscore
  * @param o
@@ -105,8 +113,9 @@ var copy = function(el) {
  *          used messages: <prefix>.create, <prefix>.update, <prefix>.delete
  * @param errorPrefix prefix for Socket.IO error notifications
  *          used notifications: <prefix>.create, <prefix>.update
+ * @param loadCallback function that is executed when the entries are loaded
  */
-var initCrudTemplate = function(app, Model, name, socketPrefix, errorPrefix) {
+var initCrudTemplate = function(app, Model, name, socketPrefix, errorPrefix, loadCallback) {
 
     //
     // Fetch and cache data
@@ -120,6 +129,10 @@ var initCrudTemplate = function(app, Model, name, socketPrefix, errorPrefix) {
 
             // fire callback for Mongoose remaining events counter
             callback();
+
+            if(loadCallback) {
+                loadCallback();
+            }
         });
 
     });
@@ -160,7 +173,7 @@ var initCrudTemplate = function(app, Model, name, socketPrefix, errorPrefix) {
 
             cleanMongooseProperties(data);
 
-            console.log('[' + name + ' / helpers] Update ' + name + ': ', data);
+            console.log('[' + name + ' / helpers] Update ' + name + ' ' + id + ': ', data);
 
             Model.findByIdAndUpdate(id, data, function(err, entry) {
                 if(err) {
@@ -206,3 +219,4 @@ module.exports.equalsProperties = equalsProperties;
 module.exports.cleanMongooseProperties = cleanMongooseProperties;
 module.exports.initCrudTemplate = initCrudTemplate;
 module.exports.copy = copy;
+module.exports.shuffle = shuffle;

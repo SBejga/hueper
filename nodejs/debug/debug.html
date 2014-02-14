@@ -175,6 +175,10 @@
         Favoriten: <button ng-repeat="(fid, f) in state.favorites" ng-click="lights.state(id, f.state)">{{f.name}}</button>
     </p>
 
+    <p ng-show="party.lightContainedInActive(id)">
+        <b>Lampe wird durch den Party-Modus kontrolliert, Änderungen werden nicht übertragen!</b>
+    </p>
+
     <form ng-submit="lights.setName(id, light.name)">
         <input type="text" ng-model="light.name" />
         <input type="submit" value="umbenennen" />
@@ -1004,6 +1008,178 @@
     <button ng-click="speech.activateTestMode()">Test-Modus aktivieren</button>
     für <input type="number" ng-model="speech.testTimeout" /> Sekunden
 </div>
+
+<!-- party mode -->
+
+<h1>Party-Modus</h1>
+
+<p ng-show="state.appConfig.partyMode">
+    <b>aktiv:</b> {{state.party[state.appConfig.partyMode].name}}
+    <button ng-click="party.stop()">Beenden</button>
+</p>
+
+<p>
+    <select ng-model="party.selected" ng-options="id as p.name for (id , p) in state.party"></select>
+    <button ng-click="party.start(party.selected)">Starten</button>
+</p>
+
+<div ng-repeat="(id, p) in state.party">
+    <h2>{{id}} - {{p.name}}</h2>
+
+    <button ng-click="party.remove(id)">Entfernen</button>
+
+    <p>
+        Name: <input type="text" ng-model="p.name" />
+    </p>
+    <p>
+        Trigger:
+        <select ng-model="p.trigger">
+            <option>sound</option>
+            <option>time</option>
+        </select>
+    </p>
+
+    <p ng-show="p.trigger == 'time'">
+        Zeit von-bis (in 100ms)
+        <input type="number" ng-model="p.timeSettings.min" placeholder="min" />
+        <input type="number" ng-model="p.timeSettings.max" placeholder="max" />
+    </p>
+
+    <p ng-show="p.trigger == 'sound'">
+        max. BPM
+        <input type="number" ng-model="p.soundSettings.maxBpm" />
+    </p>
+
+    <p>
+        Lampen:
+    <span ng-repeat="(id, light) in state.lights">
+    <input type="checkbox" ng-checked="helpers.listChecked(p.lights, id, true)" ng-click="helpers.toggleList(p.lights, id, true)" /> {{id}}</span>
+    </p>
+
+    <p>
+        Überblendzeit (in 100ms)
+        <input type="number" ng-model="p.fadeTime.min" placeholder="min" />
+        <input type="number" ng-model="p.fadeTime.max" placeholder="max" />
+    </p>
+
+    <p>
+        Betroffene Lampen pro Schritt
+        <input type="number" ng-model="p.lightsPerStep.min" placeholder="min" />
+        <input type="number" ng-model="p.lightsPerStep.max" placeholder="max" />
+    </p>
+
+    <p>
+        <input type="checkbox" ng-model="p.randomLightOrder" />
+        Zufällige Lampen-Reihenfolge
+    </p>
+
+    <p>
+        <input type="checkbox" ng-model="p.randomStateOrder" />
+        Zufällige Zustands-Reihenfolge
+    </p>
+
+    <p>
+        <input type="checkbox" ng-model="p.sameState" />
+        Alle betroffenen Lampen bekommen denselben Status
+    </p>
+
+    <p>
+    <h4>Zustände</h4>
+
+    <div ng-repeat="state in p.states">
+        <button ng-click="party.removeState(p.states, $index)">X</button>
+        <div ng-repeat="val in ['bri', 'hue', 'sat', 'ct']">
+            {{val}}
+            <input type="number" ng-model="state[val].min" placeholder="min" />
+            <input type="number" ng-model="state[val].max" placeholder="max" />
+        </div>
+    </div>
+
+    <button ng-click="party.addState(p.states)">+</button>
+    </p>
+
+    <p>
+        <button ng-click="party.update(p)">Speichern</button>
+    </p>
+    
+</div>
+
+
+<h2>Neuen Party-Modus erstellen</h2>
+
+<p>
+    Name: <input type="text" ng-model="party.forms.create.name" />
+</p>
+<p>
+    Trigger:
+    <select ng-model="party.forms.create.trigger">
+        <option>sound</option>
+        <option>time</option>
+    </select>
+</p>
+
+<p ng-show="party.forms.create.trigger == 'time'">
+    Zeit von-bis (in 100ms)
+    <input type="number" ng-model="party.forms.create.timeSettings.min" placeholder="min" />
+    <input type="number" ng-model="party.forms.create.timeSettings.max" placeholder="max" />
+</p>
+
+<p ng-show="party.forms.create.trigger == 'sound'">
+    max. BPM
+    <input type="number" ng-model="party.forms.create.soundSettings.maxBpm" />
+</p>
+
+<p>
+    Lampen:
+    <span ng-repeat="(id, light) in state.lights">
+    <input type="checkbox" ng-checked="helpers.listChecked(party.forms.create.lights, id, true)" ng-click="helpers.toggleList(party.forms.create.lights, id, true)" /> {{id}}</span>
+</p>
+
+<p>
+    Überblendzeit (in 100ms)
+    <input type="number" ng-model="party.forms.create.fadeTime.min" placeholder="min" />
+    <input type="number" ng-model="party.forms.create.fadeTime.max" placeholder="max" />
+</p>
+
+<p>
+    Betroffene Lampen pro Schritt
+    <input type="number" ng-model="party.forms.create.lightsPerStep.min" placeholder="min" />
+    <input type="number" ng-model="party.forms.create.lightsPerStep.max" placeholder="max" />
+</p>
+
+<p>
+    <input type="checkbox" ng-model="party.forms.create.randomLightOrder" />
+    Zufällige Lampen-Reihenfolge
+</p>
+
+<p>
+    <input type="checkbox" ng-model="party.forms.create.randomStateOrder" />
+    Zufällige Zustands-Reihenfolge
+</p>
+
+<p>
+    <input type="checkbox" ng-model="party.forms.create.sameState" />
+    Alle betroffenen Lampen bekommen denselben Status
+</p>
+
+<p>
+    <h4>Zustände</h4>
+
+    <div ng-repeat="state in party.forms.create.states">
+        <button ng-click="party.removeState(party.forms.create.states, $index)">X</button>
+        <div ng-repeat="val in ['bri', 'hue', 'sat', 'ct']">
+            {{val}}
+            <input type="number" ng-model="state[val].min" placeholder="min" />
+            <input type="number" ng-model="state[val].max" placeholder="max" />
+        </div>
+    </div>
+
+    <button ng-click="party.addState(party.forms.create.states)">+</button>
+</p>
+
+<p>
+    <button ng-click="party.create(party.forms.create)">Erstellen</button>
+</p>
 
 
 

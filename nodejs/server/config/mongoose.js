@@ -11,5 +11,6 @@ module.exports = function(app) {
     require('../models/automation');
     require('../models/rfid');
     require('../models/device');
+    require('../models/party');
 
 };

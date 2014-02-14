@@ -28,7 +28,8 @@ var app = {
         speech: {
             testMode: false,
             recognized: false
-        }
+        },
+        party: {}
 	},
 	
 	server: {},
@@ -74,7 +75,7 @@ var controllers = [
 
     // functional controllers
     'app_configuration', 'hue_configuration', 'lights', 'groups', 'favorites', 'scenes', 'automation', 'arduino_button',
-    'arduino_sensors', 'rfid', 'devices', 'speech'
+    'arduino_sensors', 'rfid', 'devices', 'speech', 'party'
 
 ];
 

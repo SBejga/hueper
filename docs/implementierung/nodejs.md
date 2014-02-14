@@ -87,7 +87,6 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   name
         -   lastActivity
     -   **favorites**: Liste der Lampeneinstellungs-Favoriten, ID als Schlüssel *(Controller favorites)*
-        -   _id
         -   name
         -   state
             -   isOn
@@ -124,13 +123,43 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   name
         -   modelid
         -   swversion
+    -   **party**: Liste der Party-Modi, ID als Schlüssel *(Controller party)*
+        -   name
+        -   trigger: sound / time
+        -   timeSettings: Schrittzeit-Bereich in 100ms
+            -   min
+            -   max
+        -   soundSettings
+            -   maxBpm: Begrenzung auf Schläge / Minute
+        -   lights: Array mit allen durch den Party-Modus kontrollierten Lampen
+        -   fadeTime: Bereich der Überblendzeit
+            -   min
+            -   max
+        -   states: Array aus Zuständen
+            -   bri
+                -   min
+                -   max
+            -   hue
+                -   min
+                -   max
+            -   sat
+                -   min
+                -   max
+            -   ct
+                -   min
+                -   max
+        -   lightsPerStep: Bereich der Anzahl der Lampen, die pro Schritt geändert werden
+            -   min
+            -   max
+        -   sameState: Alle Lampen in einem Schritt bekommen denselben Zustand
+        -   randomStateOrder: Zufällige Reihenfolge bei der Zustands-Auswahl
+        -   randomLightOrder: Zufällige Reihenfolge bei der Lampen-Auswahl
     -   **rfid**: Liste bekannter RFID-Tags, ID als Schlüssel *(Controller rfid)*
         -   tag: RFID-Tag-ID
         -   name
         -   lastUsed
     -   **rfidUnknown**: Array unbekannter RFID-Tag-IDs *(Controller rfid)*
     -   **scenes**: Liste der Szenen, ID als Schlüssel *(Controller scenes)*
-        -   _id
         -   name
         -   lights: Array aus allen enthaltenen Lichtern
             -   light: Licht-ID
@@ -180,6 +209,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **addQueryListener(listener)**: Listener, um Daten-Container einmalig zu befüllen. Werden vor den Connection-Listenern ausgeführt. Bekommen eine Callback-Funktion als Parameter übergeben, die sie am Ende aufrufen müssen
         -   **addConnectionListener(listener)**: Ermöglicht anderen Controllern, auf eine erstmalig aufgebaute MongoDB-Verbindung zu warten
         -   **handleError(socket, statePath, oldValue, errorType, broadcast)**: Fehlerbehandlung mit Rücksetzen des State und Senden per Socket
+    -   **party**: Party-Modus
     -   **rfid**: Verwaltung von RFID-Tags
         -   **getSecondsSinceLastUse(tagId)**: Anzahl Sekunden seit der letzten Benutzung eines Tags auslesen
     -   **scenes**: Verwaltung der Szenen

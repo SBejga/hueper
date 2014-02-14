@@ -42,6 +42,13 @@ module.exports = function(app) {
                 name: 'speechSensitivity',
                 value: 20,
                 hidden: false
+            },
+
+            // party mode
+            {
+                name: 'partyMode',
+                value: false,   // ID of the currently active party mode setting
+                hidden: false
             }
 
         ];

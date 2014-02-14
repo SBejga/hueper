@@ -42,6 +42,8 @@
     -   rfid.update
     -   device.create
     -   device.update
+    -   party.create
+    -   party.update
 -   **device.address**: MAC-Adresse des Clients
     `<MAC-Adresse>`
 
@@ -109,6 +111,12 @@
     `<ID>`
 -   **speech.testMode**: Test-Modus aktivieren ***Client-Änderung***
     `<Sekunden>`
+-   **party.create**: Party-Modus erstellen
+    `{ name: ..., trigger: ..., timeSettings: ..., soundSettings: ..., lights: [...], fadeTime: ..., states: [ ... ], lightsPerStep: ..., sameState: ..., randomStateOrder: ..., randomLightOrder: ... }`
+-   **party.update**: Party-Modus bearbeiten
+    `{ name: ..., trigger: ..., timeSettings: ..., soundSettings: ..., lights: [...], fadeTime: ..., states: [ ... ], lightsPerStep: ..., sameState: ..., randomStateOrder: ..., randomLightOrder: ... }`
+-   **party.delete**: Party-Modus löschen
+    `<ID>`
 
 
 ## Broadcasts an eingeloggte User

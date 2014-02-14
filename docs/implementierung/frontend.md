@@ -116,6 +116,17 @@ Beispiele
 -   **speech**: Sprachsteuerung
     -   **testTimeout**: Sekunden, die der Test-Modus aktiviert werden soll
     -   **activateTestMode()**: Test-Modus aktivieren
+-   **party**: Party-Modus
+    -   **forms**: Platzhalter für Formulare
+    -   **selected**: Auswahlfeld, um einen Party-Modus zu starten
+    -   **create(party)**: Party-Modus erstellen
+    -   **update(party)**: Party-Modus bearbeiten
+    -   **remove(id)**: Party-Modus löschen
+    -   **addState(states)**: Zustand hinzufügen
+    -   **removeState(states, index)**: Zustand entfernen
+    -   **start(id)**: Party-Modus starten
+    -   **stop()**: Aktiven Party-Modus beenden
+    -   **lightContainedInActive(lightId)**: Ermittelt, ob eine Lampe vom aktuell aktiven Party-Modus gesteuert wird
 -   **helpers**: Hilfs-Funktionen
     -   **toggleList(arr, el, numeric)**: Element in ein Array einfügen/entfernen; z.B. zum Erstellen eines Arrays aus mehreren Checkboxen
     -   **listChecked(arr, el, numeric)**: Überprüfen, ob ein Element in einem Array vorhanden ist
