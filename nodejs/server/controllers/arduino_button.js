@@ -29,7 +29,7 @@ module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.events.once('ready', function() {
+    app.events.on('ready', function() {
         init();
     });
 

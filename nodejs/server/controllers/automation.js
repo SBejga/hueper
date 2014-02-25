@@ -1,17 +1,18 @@
 ﻿var helpers     = require('../helpers'),
-    mongoose    =  require('mongoose'),
-    Automation  =  mongoose.model('Automation'),
-    app;
+    mongoose    = require('mongoose'),
+    Automation  = mongoose.model('Automation'),
 
-var delayedActions = [];
+    model,
+    app,
+
+    delayedActions = [];
 
 
 var init = function() {
 
-    helpers.initCrudTemplate(
+    model = helpers.initCrudTemplate(
         app,
         Automation,
-        'automation',
         'automation',
         'automation'
     );
@@ -229,7 +230,7 @@ var evaluateConditions = function(automation) {
  * @return {bool} condition is true
  */
 var evaluateSingleCondition = function(condition) {
-    var i, j;
+    var i;
 
     try {
         switch(condition.type) {
@@ -583,19 +584,82 @@ var performAction = function(action) {
 
 };
 
+/**
+ * removes triggers and conditions from all automation entries that pass given evaluation functions
+ * if all triggers of an entry are deleted, the entry itself will also be deleted
+ * @param {function} triggerEvaluation gets a trigger as parameter
+ * @param {function} conditionEvaluation gets a condition as parameter
+ */
+var removeTriggersAndConditions = function(triggerEvaluation, conditionEvaluation) {
+    var i, j, modified, remove,
+        refreshState = [],
+        deleteState = [];
+
+    for(i in app.state.automation) {
+        if(app.state.automation.hasOwnProperty(i)) {
+            modified = false;
+            remove = false;
+
+            // triggers
+            j = app.state.automation[i].triggers.length;
+
+            while(j--) {
+                if(triggerEvaluation(app.state.automation[i].triggers[j])) {
+                    app.state.automation[i].triggers.splice(j, 1);
+                    modified = true;
+                }
+            }
+
+            // remove automation if it was the only trigger
+            if(!app.state.automation[i].triggers.length) {
+                remove = true;
+            }
+
+            // conditions
+            j = app.state.automation[i].conditions.length;
+
+            while(j--) {
+                if(conditionEvaluation(app.state.automation[i].conditions[j])) {
+                    app.state.automation[i].conditions.splice(j, 1);
+                    modified = true;
+                }
+            }
+
+            if(remove) {
+                Automation.findByIdAndRemove(i).exec();
+                delete app.state.automation[i];
+                deleteState.push('automation.' + i);
+            }
+            else if(modified) {
+                app.state.automation[i].save();
+                refreshState.push('automation.' + i);
+            }
+        }
+    }
+
+    // synchronize to sockets
+    if(deleteState.length) {
+        app.controllers.socket.deleteFromState(false, deleteState);
+    }
+    if(refreshState.length) {
+        app.controllers.socket.refreshState(false, refreshState);
+    }
+};
+
 
 
 module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.events.once('ready', function() {
+    app.events.on('ready', function() {
         init();
     });
 
 
     return {
-        fireEvent: fireEvent
+        fireEvent: fireEvent,
+        removeTriggersAndConditions: removeTriggersAndConditions
     };
 
 };

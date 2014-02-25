@@ -1,13 +1,23 @@
 ﻿var serialport = require("serialport"),
 
+    app,
+
     listeners = [],
     connection,
     connectionTimeout,
     initialConnectionTryInterval = 10000,
     connectionTryInterval = initialConnectionTryInterval,
     connectionTryAdd = 10000,
-    lastMessageTime,
-    app;
+    lastMessageTime;
+
+
+var init = function() {
+    findArduino();
+
+    // periodically check if Arduino is still there
+    setInterval(checkHeartBeat, 30000);
+};
+
 
 /**
  * Search all available serial ports for the Arduino
@@ -125,11 +135,8 @@ module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.events.once('ready', function() {
-        findArduino();
-
-        // periodically check if Arduino is still there
-        setInterval(checkHeartBeat, 30000);
+    app.events.on('ready', function() {
+        init();
     });
 
 

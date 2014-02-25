@@ -1,10 +1,7 @@
-﻿var	app,
-    mongoose = require('mongoose'),
+﻿var	mongoose = require('mongoose'),
 	db = mongoose.connection,
-    connectionListeners = [],
-    queryListeners = [],
-    wasConnected = false,
-    remainingEvents = 0;
+
+    app;
 
 //
 // Connection management
@@ -32,40 +29,14 @@ db.on('close', function() {
 
 db.on('error', console.error.bind(console, 'MongoDB connection error'));
 
-
-//
-// load models into cache and execute connection listeners
-//
-
+// fire event once the connection could be established
 db.once('open', function() {
-    var i;
-
-    console.log('[mongoose] Loading MongoDB content into cache');
-
-    // prevent laggy remaining events or missing callbacks from blocking the whole application
-    setTimeout(function() {
-        if(remainingEvents > 0) {
-            console.log('[mongoose] 30 SECONDS HAVE PASSED AND STILL NOT ALL REMAINING QUERIES HAVE EXECUTED WITH A CALLBACK!');
-            console.log('[mongoose] PROCEEDING...');
-
-            remainingEvents = 0;
-            connectionFinished();
-        }
-    }, 30000);
-
-    remainingEvents = queryListeners.length;
-
-    for(i = 0; i < queryListeners.length; i++) {
-        queryListeners[i](function() {
-            connectionFinished();
-        });
-    }
-
-    queryListeners = [];
-
+    app.events.fire('mongodb.ready');
 });
 
-var connectToDB = function() {
+
+
+var init = function() {
     mongoose.connect(app.config.mongoDBHost);
 };
 
@@ -77,33 +48,8 @@ var setConnectedState = function(state) {
     // send to all sockets, including not logged in users
     app.controllers.socket.refreshState(
         app.server.io.sockets,
-        ['connect']
+        ['connect.mongodb']
     );
-};
-
-/**
- * execute connection listeners when all remaining data load events have finished
- */
-var connectionFinished = function() {
-    var i;
-
-    // only execute when all remaining events have finished
-    remainingEvents--;
-
-    if(remainingEvents > 0) {
-        return;
-    }
-
-    console.log('[mongoose] MongoDB connection completed, executing ' + connectionListeners.length + ' listeners');
-
-    wasConnected = true;
-
-    for(i = 0; i < connectionListeners.length; i++) {
-        connectionListeners[i]();
-    }
-
-    connectionListeners = [];
-
 };
 
 /**
@@ -146,51 +92,17 @@ var handleError = function(socket, statePath, oldValue, errorType, broadcast) {
     };
 };
 
-var addQueryListener = function(listener) {
-
-    // execute listener immediately when MongoDB was already connected
-    if(wasConnected) {
-        listener(function() {});
-    }
-    else {
-        queryListeners.push(listener);
-    }
-
-};
-
-/**
- * Add listener that gets executed on first MongoDB connection
- * @param listener
- */
-var addConnectionListener = function(listener) {
-
-    // execute listener immediately when MongoDB was already connected
-    if(wasConnected) {
-        listener();
-    }
-    else {
-        connectionListeners.push(listener);
-    }
-
-};
-
-
 
 module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.events.once('ready', function() {
-        // give all controllers the chance to add query listeners before connecting
-        setTimeout(function() {
-            connectToDB();
-        }, 2000);
+    app.events.on('ready', function() {
+        init();
     });
 
 
     return {
-        addQueryListener: addQueryListener,
-        addConnectionListener: addConnectionListener,
         handleError: handleError
     };
 

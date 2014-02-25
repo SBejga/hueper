@@ -185,7 +185,7 @@ module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.events.once('config_ready', function() {
+    app.events.on('config.ready', function() {
         init();
     });
 

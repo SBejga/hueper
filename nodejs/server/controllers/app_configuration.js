@@ -1,13 +1,15 @@
-﻿var mongoose	= require('mongoose'),
+﻿var mongoose    = require('mongoose'),
     Config      = mongoose.model('Config'),
+
     configurationChangeListeners = [],
+
     app;
 
 
 var init = function() {
 
     // cache configuration in global app object
-    app.controllers.mongoose.addQueryListener(function(callback) {
+    app.events.on('mongodb.ready', function() {
         console.log('[app_configuration] Loading configuration');
 
         Config.find(function(err, entries) {
@@ -29,10 +31,7 @@ var init = function() {
             // load default configuration into MongoDB if not already present
             require('../config/application')(app);
 
-            console.log('[app_configuration] Configuration loaded, firing config_ready event');
-            app.events.emit('config_ready');
-
-            callback();
+            app.events.fire('config.ready');
         });
 
     });
@@ -103,10 +102,10 @@ var socketListeners = function(socket) {
 
                 app.state.appConfig[i] = data[i];
 
-                for(j in configurationChangeListeners) {
-                    if(configurationChangeListeners.hasOwnProperty(j)) {
-                        configurationChangeListeners[j](i);
-                    }
+                j = configurationChangeListeners.length;
+
+                while(j--) {
+                    configurationChangeListeners[j](i);
                 }
             }
         }
@@ -129,7 +128,7 @@ module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.events.once('ready', function() {
+    app.events.on('ready', function() {
         init();
     });
 

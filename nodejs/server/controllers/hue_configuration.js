@@ -1,10 +1,11 @@
 ﻿var app;
 
-var socketListeners = function(socket) {
+var init = function() {
+    app.controllers.socket.addSocketListener(socketListeners);
+};
 
-    //
-    // Hue bridge configuration
-    //
+
+var socketListeners = function(socket) {
 
     // delete user
     socket.on('config.deleteUser', function(data) {
@@ -69,8 +70,8 @@ module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.events.once('ready', function() {
-        app.controllers.socket.addSocketListener(socketListeners);
+    app.events.on('ready', function() {
+        init();
     });
 
 };

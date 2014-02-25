@@ -1,16 +1,17 @@
-﻿var helpers	    = require('../helpers'),
-    mongoose =  require('mongoose'),
-    Scene =  mongoose.model('Scene'),
+﻿var helpers     = require('../helpers'),
+    mongoose    = require('mongoose'),
+    Scene       = mongoose.model('Scene'),
+
+    model,
     app;
 
 
 var init = function() {
 
-    helpers.initCrudTemplate(
+    model = helpers.initCrudTemplate(
         app,
         Scene,
         'scenes',
-        'scene',
         'scene'
     );
 
@@ -84,7 +85,7 @@ module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.events.once('ready', function() {
+    app.events.on('ready', function() {
         init();
     });
 

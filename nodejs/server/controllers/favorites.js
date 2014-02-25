@@ -1,18 +1,27 @@
-﻿var helpers	    = require('../helpers'),
-    mongoose =  require('mongoose'),
-    Favorite =  mongoose.model('Favorite');
+﻿var helpers  = require('../helpers'),
+    mongoose = require('mongoose'),
+    Favorite = mongoose.model('Favorite'),
+
+    model,
+    app;
 
 
-module.exports = function(app) {
+var init = function() {
+    model = helpers.initCrudTemplate(
+        app,
+        Favorite,
+        'favorites',
+        'favorite'
+    );
+};
 
-    app.events.once('ready', function() {
-        helpers.initCrudTemplate(
-            app,
-            Favorite,
-            'favorites',
-            'favorite',
-            'favorite'
-        );
+
+module.exports = function(globalApp) {
+
+    app = globalApp;
+
+    app.events.on('ready', function() {
+        init();
     });
 
 };

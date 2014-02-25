@@ -1,9 +1,10 @@
 ﻿var hue		    = require('node-hue-api'),
 	helpers	    = require('../helpers'),
     mongoose	= require('mongoose'),
-    Config		= mongoose.model('Config');
+    Config		= mongoose.model('Config'),
 
-var app,
+    app,
+
     host,
     api,
     initialConnectionTryInterval = 10000,
@@ -11,6 +12,12 @@ var app,
     connectionTryAdd = 10000,
     refreshTimeout,
     waitingApiCalls = [];
+
+
+var init = function() {
+    findBridge();
+};
+
 
 /**
  * Error Handler for the Hue API connection
@@ -77,8 +84,8 @@ var bridgeLocated = function(data) {
     app.state.connect.hue = true;
     connectionTryInterval = initialConnectionTryInterval;
 
-    // sign in to bridge when MongoDB connection is established
-    app.controllers.mongoose.addConnectionListener(function() {
+    // sign in to bridge when config is present
+    app.events.on('config.ready', function() {
 
         // first start - register to bridge
         if(typeof(app.config.hueUser) === 'undefined') {
@@ -564,6 +571,11 @@ var makeApiCall = function(callback) {
     }
     else {
         waitingApiCalls.push(callback);
+
+        // limit number of waiting calls
+        if(waitingApiCalls.length > 10) {
+            waitingApiCalls = waitingApiCalls.slice(-10);
+        }
     }
 
 };
@@ -593,8 +605,8 @@ module.exports = function(globalApp) {
 	
 	app = globalApp;
 
-    app.events.once('ready', function() {
-        findBridge();
+    app.events.on('ready', function() {
+        init();
     });
 
 

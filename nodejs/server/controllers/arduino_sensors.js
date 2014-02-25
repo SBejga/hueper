@@ -12,7 +12,7 @@ var init = function() {
             handleLightSensor(message);
         }
         else if(message.action === 'motion') {
-            handleMotionSensor(message);
+            handleMotionSensor();
         }
     });
 
@@ -36,7 +36,7 @@ var handleLightSensor = function(message) {
     app.controllers.automation.fireEvent('light', message.light);
 };
 
-var handleMotionSensor = function(message) {
+var handleMotionSensor = function() {
     console.log('[arduino_sensors] Motion event received');
 
     lastMotion = new Date().getTime();
@@ -49,7 +49,7 @@ module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.events.once('ready', function() {
+    app.events.on('ready', function() {
         init();
     });
 

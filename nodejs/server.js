@@ -1,8 +1,8 @@
 ﻿console.log('[SERVER] Starting HueControl on Port 8080');
 
-//
+
 // global application object
-//
+
 var app = {
 
     config: {},
@@ -37,16 +37,12 @@ var app = {
 	controllers: {}
 };
 
-//
 // set up global event infrastructure
-//
-var EventEmitter = require('events').EventEmitter;
-app.events = new EventEmitter();
-app.events.setMaxListeners(0);
 
-//
-// Start Express server with Socket.IO
-//
+app.events = require('./server/modules/events');
+
+
+// start Express server with Socket.IO
 
 app.server.express	= require('express')();
 app.server.http		= require('http').createServer(app.server.express);
@@ -55,36 +51,27 @@ app.server.io		= require('socket.io').listen(app.server.http);
 app.server.http.listen(8080);
 
 
-//
 // Configuration
-//
 
 require('./server/config/express')(app);
 require('./server/config/socket')(app);
 require('./server/config/mongoose')(app);
 
 
-//
-// Controllers
-//
+// include controllers
 
-var controllers = [
+require('fs').readdirSync(__dirname + '/server/controllers').forEach(function(file) {
+    var controller;
 
-    // general controllers
-    'mongoose', 'socket', 'hue', 'arduino',
-
-    // functional controllers
-    'app_configuration', 'hue_configuration', 'lights', 'groups', 'favorites', 'scenes', 'automation', 'arduino_button',
-    'arduino_sensors', 'rfid', 'devices', 'speech', 'party'
-
-];
-
-controllers.forEach(function(controller) {
-    app.controllers[controller] = require('./server/controllers/' + controller)(app);
+    if(file.match(/\.js$/) !== null) {
+        controller = file.replace(/\.js$/, '');
+        app.controllers[controller] = require('./server/controllers/' + controller)(app);
+    }
 });
 
 
 
 // fire ready event
-console.log('[SERVER] All controllers loaded, emitting ready event');
-app.events.emit('ready');
+
+console.log('[SERVER] All controllers loaded, firing ready event');
+app.events.fire('ready');

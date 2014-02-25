@@ -97,6 +97,11 @@ var cleanMongooseProperties = function(o) {
     }
 };
 
+/**
+ * Creates a deep copy of a passed object or array
+ * @param el
+ * @returns {*}
+ */
 var copy = function(el) {
     return JSON.parse(JSON.stringify(el));
 };
@@ -109,26 +114,28 @@ var copy = function(el) {
  * @param app global app object
  * @param Model Mongoose data model which has to implement the getAsMap() function
  * @param name Name in app.state
- * @param socketPrefix prefix for Socket.IO messages
+ * @param prefix prefix for Socket.IO messages, error notifications and fired events
  *          used messages: <prefix>.create, <prefix>.update, <prefix>.delete
- * @param errorPrefix prefix for Socket.IO error notifications
- *          used notifications: <prefix>.create, <prefix>.update
- * @param loadCallback function that is executed when the entries are loaded
+ *          used error notifications: <prefix>.create, <prefix>.update
+ *          used events: <prefix>.ready
+ * @param loadCallback function that is executed when the data is loaded
  */
-var initCrudTemplate = function(app, Model, name, socketPrefix, errorPrefix, loadCallback) {
+var initCrudTemplate = function(app, Model, name, prefix, loadCallback) {
+
+    var createListeners = [],
+        updateListeners = [],
+        deleteListeners = [];
 
     //
     // Fetch and cache data
     //
 
-    app.controllers.mongoose.addQueryListener(function(callback) {
+    app.events.on('mongodb.ready', function() {
         console.log('[' + name + ' / helpers] Fetch ' + name + ' from database');
 
         Model.getAsMap(function(map) {
             app.state[name] = map;
-
-            // fire callback for Mongoose remaining events counter
-            callback();
+            app.events.fire(prefix + '.ready');
 
             if(loadCallback) {
                 loadCallback();
@@ -144,7 +151,7 @@ var initCrudTemplate = function(app, Model, name, socketPrefix, errorPrefix, loa
     app.controllers.socket.addSocketListener(function(socket) {
 
         // create entry
-        socket.on(socketPrefix + '.create', function(data) {
+        socket.on(prefix + '.create', function(data) {
             console.log('[' + name + ' / helpers] Create new ' + name + ': ', data);
 
             new Model(data).save(function(err, entry) {
@@ -153,7 +160,7 @@ var initCrudTemplate = function(app, Model, name, socketPrefix, errorPrefix, loa
                         socket,
                         false,
                         false,
-                        errorPrefix + '.create'
+                        prefix + '.create'
                     ))(err);
                     return;
                 }
@@ -164,11 +171,15 @@ var initCrudTemplate = function(app, Model, name, socketPrefix, errorPrefix, loa
                     false,
                     [name + '.' + id]
                 );
+
+                createListeners.forEach(function(listener) {
+                   listener(entry);
+                });
             });
         });
 
         // update entry
-        socket.on(socketPrefix + '.update', function(data) {
+        socket.on(prefix + '.update', function(data) {
             var id = data['_id'];
 
             cleanMongooseProperties(data);
@@ -181,7 +192,7 @@ var initCrudTemplate = function(app, Model, name, socketPrefix, errorPrefix, loa
                         socket,
                         name + '.' + id,
                         app.state[name][id],
-                        errorPrefix + '.update'
+                        prefix + '.update'
                     ))(err);
                     return;
                 }
@@ -191,24 +202,70 @@ var initCrudTemplate = function(app, Model, name, socketPrefix, errorPrefix, loa
                     app.controllers.socket.getBroadcastSocket(socket),
                     [name + '.' + id]
                 );
+
+                updateListeners.forEach(function(listener) {
+                    listener(entry);
+                });
             });
 
         });
 
         // delete entry
-        socket.on(socketPrefix + '.delete', function(id) {
+        socket.on(prefix + '.delete', function(id) {
             console.log('[' + name  + ' / helpers] Delete ' + name + ': ', id);
 
             Model.findByIdAndRemove(id).exec();
+
+            var data = copy(app.state[name][id]);
 
             delete app.state[name][id];
             app.controllers.socket.deleteFromState(
                 app.controllers.socket.getBroadcastSocket(socket),
                 [name + '.' + id]
             );
+
+            deleteListeners.forEach(function(listener) {
+                listener(id, data);
+            });
         });
 
     });
+
+
+    // publish model listeners
+
+    var returnChain = {
+        on: function(event, listener) {
+
+            switch(event) {
+
+                case 'create':
+                    createListeners.push(listener);
+                    break;
+
+                case 'update':
+                    updateListeners.push(listener);
+                    break;
+
+                case 'save':
+                    createListeners.push(listener);
+                    updateListeners.push(listener);
+                    break;
+
+                case 'delete':
+                    deleteListeners.push(listener);
+                    break;
+
+                default:
+                    console.log('[' + name + ' / helpers] Invalid model listener type "' + event + '"!');
+
+            }
+
+            return returnChain;
+        }
+    };
+
+    return returnChain;
 
 };
 

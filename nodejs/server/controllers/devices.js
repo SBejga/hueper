@@ -6,9 +6,9 @@ var address = require('network-address'),
 
     mongoose = require('mongoose'),
     Device  = mongoose.model('Device'),
-    Automation = mongoose.model('Automation'),
     helpers = require('../helpers'),
 
+    model,
     app,
 
     lastIp = false,
@@ -18,15 +18,33 @@ var address = require('network-address'),
 
 var init = function() {
 
-    app.controllers.socket.addSocketListener(socketListener);
-
-    helpers.initCrudTemplate(
+    model = helpers.initCrudTemplate(
         app,
         Device,
         'devices',
-        'device',
         'device'
     );
+
+    // remove automation triggers and conditions when corresponding device is removed
+
+    model.on('delete', function(id, device) {
+
+        if(!device) {
+            return;
+        }
+
+        app.controllers.automation.removeTriggersAndConditions(
+            function(trigger) {
+                return (trigger.type === 'device' && trigger.value.address === device.address);
+            },
+            function(condition) {
+                return (condition.type === 'device' && condition.value.address === device.address);
+            }
+        );
+
+    });
+
+
 
     // first range ping is used to fill the ARP table
     refreshPing();
@@ -36,75 +54,6 @@ var init = function() {
         refreshArpTable();
         setInterval(refreshArpTable, 20000);
     }, 10000);
-
-};
-
-var socketListener = function(socket) {
-
-    // remove automation triggers and conditions when corresponding device is removed
-
-    socket.on('device.delete', function(id) {
-        var address, i, j, modified, remove,
-            refreshState = [],
-            deleteState = [];
-
-        if(app.state.devices[id] === undefined) {
-            return;
-        }
-
-        address = app.state.devices[id].address;
-
-        for(i in app.state.automation) {
-            if(app.state.automation.hasOwnProperty(i)) {
-                modified = false;
-                remove = false;
-
-                // triggers
-                j = app.state.automation[i].triggers.length;
-
-                while(j--) {
-                    if(app.state.automation[i].triggers[j].type === 'device' && app.state.automation[i].triggers[j].value.address === address) {
-                        app.state.automation[i].triggers.splice(j, 1);
-                        modified = true;
-                    }
-                }
-
-                // remove automation if it was the only trigger
-                if(!app.state.automation[i].triggers.length) {
-                    remove = true;
-                }
-
-                // conditions
-                j = app.state.automation[i].conditions.length;
-
-                while(j--) {
-                    if(app.state.automation[i].conditions[j].type === 'device' && app.state.automation[i].conditions[j].value.address === address) {
-                        app.state.automation[i].conditions.splice(j, 1);
-                        modified = true;
-                    }
-                }
-
-                if(remove) {
-                    Automation.findByIdAndRemove(i).exec();
-                    delete app.state.automation[i];
-                    deleteState.push('automation.' + i);
-                }
-                else if(modified) {
-                    app.state.automation[i].save();
-                    refreshState.push('automation.' + i);
-                }
-            }
-        }
-
-        // synchronize to sockets
-        if(deleteState.length) {
-            app.controllers.socket.deleteFromState(false, deleteState);
-        }
-        if(refreshState.length) {
-            app.controllers.socket.refreshState(false, refreshState);
-        }
-
-    });
 
 };
 
@@ -404,7 +353,7 @@ module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.events.once('ready', function() {
+    app.events.on('ready', function() {
         init();
     });
 

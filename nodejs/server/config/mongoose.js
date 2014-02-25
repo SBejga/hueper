@@ -4,13 +4,10 @@ module.exports = function(app) {
 
 
     // import mongoose models
-
-    require('../models/config');
-    require('../models/favorite');
-    require('../models/scene');
-    require('../models/automation');
-    require('../models/rfid');
-    require('../models/device');
-    require('../models/party');
+    require('fs').readdirSync(__dirname + '/../models').forEach(function(file) {
+        if(file.match(/\.js$/) !== null) {
+            require('../models/' + file.replace(/\.js$/, ''));
+        }
+    });
 
 };

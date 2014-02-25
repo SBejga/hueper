@@ -1,6 +1,8 @@
-﻿var helpers	    = require('../helpers'),
-    mongoose =  require('mongoose'),
-    Party =  mongoose.model('Party'),
+﻿var helpers     = require('../helpers'),
+    mongoose    = require('mongoose'),
+    Party       = mongoose.model('Party'),
+
+    model,
     app,
 
     lastBeat = false,
@@ -12,20 +14,40 @@
 
 var init = function() {
 
-    helpers.initCrudTemplate(
+    model = helpers.initCrudTemplate(
         app,
         Party,
         'party',
-        'party',
-        'party',
-        startPartyMode
+        'party'
     );
+
+    // detect change of currently active party mode
+
+    model.on('update', function(data) {
+
+        if(!app.state.appConfig.partyMode || app.state.appConfig.partyMode !== data['_id']) {
+            return;
+        }
+
+        // clear timeout when trigger changed to sound
+        if(data.trigger === 'sound' && timeout) {
+            clearTimeout(timeout);
+            timeout = false;
+        }
+        // initiate timeout when trigger changed to time
+        else if(data.trigger === 'time' && !timeout) {
+            // delay a bit so the data is present in app.state
+            timeout = setTimeout(startPartyMode, 5000);
+        }
+
+    });
 
     app.controllers.arduino.addListener(arduinoListener);
 
     app.controllers.app_configuration.addConfigurationChangeListener(configurationChangeListener);
 
-    app.controllers.socket.addSocketListener(socketListener);
+    // start party mode after party settings and configuration was loaded
+    app.events.on('config.ready party.ready', startPartyMode);
 };
 
 /**
@@ -78,28 +100,6 @@ var configurationChangeListener = function(key) {
     }
 };
 
-/**
- * Detect update of currently active party mode that changes the trigger
- * @param socket
- */
-var socketListener = function(socket) {
-
-    socket.on('party.update', function(data) {
-
-        // clear timeout when trigger changed to sound
-        if(data.trigger === 'sound' && timeout) {
-            clearTimeout(timeout);
-            timeout = false;
-        }
-        // initiate timeout when trigger changed to time
-        else if(data.trigger === 'time' && !timeout) {
-            // delay a bit so the data is present in app.state
-            timeout = setTimeout(startPartyMode, 5000);
-        }
-
-    });
-
-};
 
 var startPartyMode = function() {
     if(timeout) {
@@ -275,7 +275,7 @@ module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.events.once('ready', function() {
+    app.events.on('ready', function() {
         init();
     });
 

@@ -1,5 +1,10 @@
 ﻿var app;
 
+var init = function() {
+    app.controllers.socket.addSocketListener(socketListeners);
+};
+
+
 var socketListeners = function(socket) {
 
     // change light state
@@ -54,8 +59,8 @@ module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.events.once('ready', function() {
-        app.controllers.socket.addSocketListener(socketListeners);
+    app.events.on('ready', function() {
+        init();
     });
 
 };

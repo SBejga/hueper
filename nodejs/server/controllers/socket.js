@@ -1,14 +1,13 @@
-﻿var	mongoose	= require('mongoose'),
-	Scene		= mongoose.model('Scene');
+﻿var util = require('util'),
 
-var socketListeners = [];
-	
-var app, io;
+    app, io,
+
+    socketListeners = [];
 
 /**
  * Socket connection listener
  */
-var setupSocketHandlers = function() {
+var init = function() {
 
 	io.sockets.on('connection', function(socket) {
 
@@ -19,7 +18,7 @@ var setupSocketHandlers = function() {
             console.log('[socket] connection from ' + socket.id);
         }
 
-        app.controllers.mongoose.addConnectionListener(function() {
+        app.events.on('config.ready', function() {
             handleLogin(socket);
         });
 
@@ -126,7 +125,7 @@ var refreshState = function(socket, area) {
 		return;
 	}
     // convert String to array
-    else if(Object.prototype.toString.call(area) !== '[object Array]') {
+    else if(!util.isArray(area)) {
         area = [area];
     }
 	
@@ -153,7 +152,7 @@ var deleteFromState = function(socket, area) {
     var channel = socket || io.sockets.in('login');
 
     // convert string to array
-    if(Object.prototype.toString.call(area) !== '[object Array]') {
+    if(!util.isArray(area)) {
         area = [area];
     }
 
@@ -186,8 +185,8 @@ module.exports = function(globalApp) {
     app = globalApp;
     io	= app.server.io;
 
-    app.events.once('ready', function() {
-        setupSocketHandlers();
+    app.events.on('ready', function() {
+        init();
     });
 
 

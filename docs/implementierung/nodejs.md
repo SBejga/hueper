@@ -2,7 +2,7 @@
 
 ## Module / Dependencies
 
-Installation über `npm install` im Projekt-Root, aktualisieren über `npm update`
+Installation über `npm install` im Projekt-Ordner *nodejs*, aktualisieren über `npm update`
 
 -   **express**: Web-Server
     http://expressjs.com/
@@ -32,7 +32,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
     -   **config**: Konfiguration der verschiedenen Module, eingebunden in der server.js
     -   **controllers**: Eingebunden in der server.js
     -   **models**: Mongoose-Models, eingebunden in der server/config/mongoose.js
-    -   **modules**: Zusätzliche Dateien, die in die Controller eingebunden werden
+    -   **modules**: Zusätzliche Dateien, die in die server.js und die Controller eingebunden werden
 
 ## Globales app-Objekt
 
@@ -190,6 +190,7 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **getSecondsSinceLastMotion()**: Anzahl Sekunden seit der letzten registrierten Bewegung
     -   **automation**: Automatisierung (Zeitgesteuerte Ereignisse, Sensoren)
         -   **fireEvent(type, value)**: Ereignis auslösen
+        -   **removeTriggersAndConditions(triggerEvaluation, conditionEvaluation)**: Trigger und Bedingungen aller Automatisierungen entfernen, die bestimmte Voraussetzungen erfüllen
     -   **devices**: Verwaltung bekannter Geräte
         -   **getStatus(address)**: Ermitteln, ob Gerät gerade aktiv ist
         -   **isOneActive()**: Ermittelt, ob irgendein bekanntes Gerät gerade aktiv ist
@@ -206,8 +207,6 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
     -   **hue_configuration**: Konfiguration der Hue Bridge
     -   **lights**: Steuerung der Lampen
     -   **mongoose**: Baut Verbindung zur MongoDB auf und liest die Daten in den app.state-Cache
-        -   **addQueryListener(listener)**: Listener, um Daten-Container einmalig zu befüllen. Werden vor den Connection-Listenern ausgeführt. Bekommen eine Callback-Funktion als Parameter übergeben, die sie am Ende aufrufen müssen
-        -   **addConnectionListener(listener)**: Ermöglicht anderen Controllern, auf eine erstmalig aufgebaute MongoDB-Verbindung zu warten
         -   **handleError(socket, statePath, oldValue, errorType, broadcast)**: Fehlerbehandlung mit Rücksetzen des State und Senden per Socket
     -   **party**: Party-Modus
     -   **rfid**: Verwaltung von RFID-Tags
@@ -224,14 +223,42 @@ Installation über `npm install` im Projekt-Root, aktualisieren über `npm updat
         -   **getConnectedUserCount()**: Anzahl der aktuell verbundenen eingeloggten Benutzer
         -   **sendNotification(socket, notification, isError)**: Benachrichtigung oder Fehlermeldung schicken
     -   **speech**: Spracherkennung
--   **events**: EventEmitter, der Lade-Events der App feuert
+-   **events**: Event-System für einmalige Lade-Events
+    -   **is(events)**: Überprüft, ob bestimmte Events bereits gefeuert wurden
+    -   **on(events, listener)**: Fügt einen Event-Listener hinzu
+    -   **fire(event)**: Löst ein Event aus
 
 ## Events
 
-in app.events
+Muss eine Funktion mit anderen Controllern kommunizieren oder benötigt sie bestimmte Daten, die von einem anderen Controller geladen werden, kann sie das Event-System benutzen, um darauf zu warten, dass alle Voraussetzungen erfüllt sind.
+
+Event feuern:
+
+```js
+app.events.fire('foobar');
+```
+
+Auf mehrere Events warten:
+
+```js
+app.events.on('ready foobar', function() { ... });
+
+// alternativ
+
+app.events.on(['ready', 'foobar'], function() { ... });
+```
+
+Verfügbare Events in `app.events`
 
 -   **ready**: Alle Controller sind in *app.controllers* eingebunden
--   **config_ready**: Die Anwendungs-Konfiguration steht zur Verfügung (*app.config* und *app.state.appConfig**)
+-   **mongodb.ready**: Verbindung zur MongoDB erstmalig aufgebaut
+-   **config.ready**: Die Anwendungs-Konfiguration steht zur Verfügung (*app.config* und *app.state.appConfig**)
+-   **automation.ready**: Die Automatisierungs-Einträge wurden geladen
+-   **device.ready**: Die Geräte-Einträge wurden geladen
+-   **favorite.ready**: Die Favoriten-Einträge wurden geladen
+-   **party.ready**: Die Party-Einträge wurden geladen
+-   **rfid.ready**: Die RFID-Einträge wurden geladen
+-   **scene.ready**: Die Szenen-Einträge wurden geladen
 
 ## Controller hinzufügen
 
@@ -250,7 +277,6 @@ var init = function() {
 
 var socketListeners = function(socket) {
 
-     // create favorite
      socket.on('action', function(data) {
          // ...
      });
@@ -264,7 +290,7 @@ module.exports = function(globalApp) {
 
     app = globalApp;
 
-    app.events.once('ready', function() {
+    app.events.on('ready', function() {
         init();
     });
 
@@ -277,12 +303,15 @@ module.exports = function(globalApp) {
 ## Basis CRUD-Funktionalität
 
 ```js
-helpers.initCrudTemplate(
+var helpers = require('../helpers'),
+    mongoose = require('mongoose'),
+    Scene = mongoose.model('Scene');
+
+var model = helpers.initCrudTemplate(
     app,
     Scene,
     'scenes',
     'scene',
-    'scene'
 );
 ```
 
@@ -293,6 +322,34 @@ Die Funktion `initCrudTemplate` führt folgende Aktionen aus:
     -   scene.create
     -   scene.update
     -   scene.remove
--   Error-Notifications werden hinzugefügt (5. Parameter)
+-   Error-Notifications werden hinzugefügt (4. Parameter)
     -   scene.create
     -   scene.update
+-   Events in `app.events` ausgelöst
+    -   scene.ready
+
+Es wird ein Objekt zurückgegeben, dem Listener auf durchgeführte Aktionen übergeben werden können:
+
+```js
+model.on('create', function(entry) {
+    // ...
+});
+
+model.on('update', function(entry) {
+    // ...
+});
+
+model.on('delete', function(id, entry) {
+    // ...
+});
+
+model.on('save', function(id, entry) {
+    // called both for create and update
+});
+```
+
+Das Objekt unterstützt auch Chaining:
+
+```js
+model.on('save', saveFn).on('delete', deleteFn);
+```
