@@ -131,3 +131,114 @@ Alle eingeloggten Sockets außer einem erhalten:
 ```js
 app.controllers.socket.getBroadcastSocket(socket)
 ```
+
+
+## Benutzung als REST-API
+
+Alle Socket.IO-Funktionen sind auch als Standard-REST-API im Endpunkt */rest/<Aktion>* verfügbar. Da intern dieselben Funktionen wie für Socket.IO benutzt werden, besitzt das REST-Interface die folgenden Einschränkungen:
+
+-   Auftretende Fehler, die per Socket.IO als Error-Notifications gesendet werden, werden in der REST-API nicht übertragen. Wird ein Listener für eine Aktion gefunden, wird sofort eine Erfolgsmeldung zurückgegeben
+
+**Generelles Format**
+
+-   Requests müssen den HTTP-Header `Content-Type: application/json` enthalten
+-   der Request-Body ist ein JSON-Objekt, das im `data`-Property die benötigten Daten für die Aktion enthält
+
+**Authentifikation**
+
+Ist in der Applikation ein Passwort vergeben, kann dieses auf die folgenden Arten übergeben werden:
+
+-   als URL-Parameter `password`
+-   im Request-Body als Property `password`
+
+Beispiel:
+
+    http://localhost:8080/rest/state?password=123
+
+**Status nach Aktion erhalten**
+
+Mit dem URL-Parameter `answerState` kann festgelegt werden, dass anstatt der Erfolgsmeldung das komplette `app.state`-Objekt ausgegeben werden soll. Um auf ausgelöste asynchrone Aktionen zu warten, kann eine Zahl in den Parameter eingesetzt werden, die eine Verzögerung der Antwort (in ms) bewirkt.
+
+Beispiel für 1 Sekunde:
+
+    http://localhost:8080/rest/light.state?answerState=1000
+
+
+### Aktionen
+
+**Status abfragen**
+
+-   `/rest/state` liefert das komplette `app.state`-Objekt
+-   `/rest/state/<Pfad>` liefert einen Teilbereich des `app.state`-Objekts. Die einzelnen Ebenen werden durch Punkte getrennt
+
+Beispiel:
+
+    http://localhost:8080/rest/state/lights.1
+
+
+**Socket.IO-Aktionen**
+
+Die oben beschriebenen Aktionen, die über Socket.IO möglich sind, sind ebenso über das REST-Interface möglich.
+
+Beispiel:
+
+    http://localhost:8080/rest/light.state
+    Body: {"data": {"id": 3, "state": { "on": false }}}
+
+
+### Antworten
+
+**Status**
+
+    {
+      "area": <Bereich>,
+      "state": <Status im Bereich>
+    }
+
+Beispiel
+
+    {
+      "area": "lights.1.state",
+      "state": {
+        "on": true,
+        "bri": 254,
+        "hue": 60094,
+        "sat": 254,
+        "alert": "none",
+        "effect": "none",
+        "colormode": "hs",
+        "reachable": true
+      }
+    }
+
+**Normale Erfolgsmeldung**
+
+    {
+      "success": true
+    }
+
+**Fehlerfälle**
+
+Konfiguration noch nicht geladen (503)
+
+    {
+        "error": "Service not available!"
+    }
+
+Falsches Passwort übermittelt (401)
+
+    {
+        "error": "Wrong password!"
+    }
+
+Nicht existenter Status-Bereich ausgewählt (404)
+
+    {
+        "error": "The selected area of the state object does not exist!"
+    }
+
+Ungültige Aktion ausgewählt (404)
+
+    {
+        "error": "No listener is registered with this action!"
+    }

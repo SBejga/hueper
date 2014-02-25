@@ -116,7 +116,11 @@ var refreshState = function(socket, area) {
 	var channel = socket || io.sockets.in('login'),
 		message = {},
 		i, j, path, messagePart;
-	
+
+    if(channel.isDummySocket) {
+        return;
+    }
+
 	// refresh complete state
 	if(area === undefined || area === false || area === null) {
 		channel.emit('state', {
@@ -151,6 +155,10 @@ var refreshState = function(socket, area) {
 var deleteFromState = function(socket, area) {
     var channel = socket || io.sockets.in('login');
 
+    if(channel.isDummySocket) {
+        return;
+    }
+
     // convert string to array
     if(!util.isArray(area)) {
         area = [area];
@@ -168,6 +176,10 @@ var deleteFromState = function(socket, area) {
 var sendNotification = function(socket, notification, isError) {
     var channel = socket || io.sockets.in('login'),
         message = {};
+
+    if(channel.isDummySocket) {
+        return;
+    }
 
     if(isError) {
         message.error = notification;
@@ -200,6 +212,9 @@ module.exports = function(globalApp) {
          */
         addSocketListener: function(listener) {
             socketListeners.push(listener);
+
+            // enable the REST interface to use this socket listener
+            app.controllers.rest.addSocketDummyListener(listener);
         },
 
         /**
@@ -214,7 +229,12 @@ module.exports = function(globalApp) {
          * Send broadcast to all logged in users except the parameter
          */
         broadcastSocket: function(socket, data) {
-            socket.broadcast.to('login').emit(data);
+            if(socket.isDummySocket) {
+                io.sockets.in('login').emit(data);
+            }
+            else {
+                socket.broadcast.to('login').emit(data);
+            }
         },
 
         /**
@@ -223,7 +243,12 @@ module.exports = function(globalApp) {
          * @returns {socket}
          */
         getBroadcastSocket: function(socket) {
-            return socket.broadcast.to('login');
+            if(socket.isDummySocket) {
+                return io.sockets.in('login');
+            }
+            else {
+                return socket.broadcast.to('login');
+            }
         },
 
         getConnectedUserCount: function() {

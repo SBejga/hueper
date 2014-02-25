@@ -209,6 +209,8 @@ Installation über `npm install` im Projekt-Ordner *nodejs*, aktualisieren über
     -   **mongoose**: Baut Verbindung zur MongoDB auf und liest die Daten in den app.state-Cache
         -   **handleError(socket, statePath, oldValue, errorType, broadcast)**: Fehlerbehandlung mit Rücksetzen des State und Senden per Socket
     -   **party**: Party-Modus
+    -   **rest**: REST-Funktionalität
+        -   **addSocketDummyListener(listener)**: Listener hinzufügen, der einen Socket.IO-Dummy erhält
     -   **rfid**: Verwaltung von RFID-Tags
         -   **getSecondsSinceLastUse(tagId)**: Anzahl Sekunden seit der letzten Benutzung eines Tags auslesen
     -   **scenes**: Verwaltung der Szenen
