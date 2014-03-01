@@ -17,12 +17,12 @@
 
 
     <!-- JavaScript -->
-    <script src="./js/jquery-1.10.2.js"></script>
-    <script src="./js/jquery.mobile-1.4.0.js"></script>
+    <script src="js/scripts/jquery-1.10.2.js"></script>
+    <script src="js/scripts/jquery.mobile-1.4.0.js"></script>
 
-    <script src="./js/angular-1.0.8.js"></script>
+    <script src="js/scripts/angular-1.0.8.js"></script>
 
-    <script src="./js/jquery-mobile-angular-adapter-modified.js"></script>
+    <script src="js/scripts/jquery-mobile-angular-adapter-modified.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/app.js"></script>
 
@@ -32,7 +32,6 @@
 <body ng-controller="MainCtrl">
 
 <div data-role="page">
-<div class="wrapper">
 
     <div class="header">
         <h2>Lampen & Gruppen</h2>
@@ -58,7 +57,7 @@
         </div>
         <br>
         <div ng-repeat="l in state.lights" class="ui-btn-inline horizontal_button_view">
-            <a href="lamp.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{l.name}}</a>
+            <a href="lamp.html?lamp={{l.name}}"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{l.name}}</a>
         </div>
 
         <br>
@@ -72,13 +71,12 @@
             <a href="group.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">Beispielgruppe</a>
         </div>
         <div ng-repeat="g in state.groups" class="ui-btn-inline horizontal_button_view">
-            <a href="group.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{g.name}}</a>
+            <a href="group.html?group={{g.name}}"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{g.name}}</a>
         </div>
 
 
 
     </div><!-- /content -->
-</div><!-- /wrapper -->
 
 <div data-role="footer" data-position="fixed" style="text-align: center">
     <h4>Impressum</h4>
