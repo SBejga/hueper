@@ -8,6 +8,7 @@
     initialConnectionTryInterval = 10000,
     connectionTryInterval = initialConnectionTryInterval,
     connectionTryAdd = 10000,
+    maxConnectionTryIntrerval = 60000,
     lastMessageTime;
 
 
@@ -127,7 +128,10 @@ var checkHeartBeat = function() {
 var retryConnection = function() {
     console.log('[arduino] Retry connection in ' + (connectionTryInterval/1000) + ' seconds');
     setTimeout(findArduino, connectionTryInterval);
-    connectionTryInterval += connectionTryAdd;
+
+    if(connectionTryInterval < maxConnectionTryIntrerval) {
+        connectionTryInterval += connectionTryAdd;
+    }
 };
 
 

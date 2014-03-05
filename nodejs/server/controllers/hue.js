@@ -10,6 +10,7 @@
     initialConnectionTryInterval = 10000,
     connectionTryInterval = 10000,
     connectionTryAdd = 10000,
+    maxConnectionTryIntrerval = 60000,
     refreshTimeout,
     waitingApiCalls = [];
 
@@ -24,11 +25,8 @@ var init = function() {
  * schedules new search
  */
 var errorHandler = function(err) {
-
-    // TODO filter out specific errors
-
 	console.log('[hue] Hue error, resetting connection', err);
-	console.log('retry in ' + (connectionTryInterval/1000) + ' seconds');
+	console.log('[huer] Retry in ' + (connectionTryInterval/1000) + ' seconds');
 
 	app.state.connect.hue = false;
     app.state.connect.hueRegistered = false;
@@ -73,7 +71,11 @@ var bridgeLocated = function(data) {
 	if(!data.length) {
 		console.log('[hue] No Hue Bridge found, retry in ' + (connectionTryInterval/1000) + ' seconds');
 		setTimeout(findBridge, connectionTryInterval);
-        connectionTryInterval += connectionTryAdd;
+
+        if(connectionTryInterval < maxConnectionTryIntrerval) {
+            connectionTryInterval += connectionTryAdd;
+        }
+
 		return;
 	}
 	
