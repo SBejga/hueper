@@ -1,7 +1,9 @@
 angular.module('hueApp.controllers').
-controller('LightAndGroupsCtrl', ['$scope',function($scope) {
+controller('LightAndGroupCtrl', ['$scope',function($scope) {
 
     // light control
+
+    $scope.testing="TESTINGCHECK";
 
     $scope.lights = {
 

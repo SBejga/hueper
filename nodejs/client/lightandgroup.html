@@ -37,10 +37,10 @@
 
 <body>
 
-<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl">
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl, lgCtrl:LightAndGroupCtrl">
 
     <div class="header">
-        <h2>{{sharedScope.test}}Lampen & Gruppen</h2>
+        <h2>{{sharedScope.test}}Lampen & Gruppen{{lgCtrl.testing}}</h2>
     </div><!-- /header -->
 
     <div data-role="content">
@@ -56,14 +56,14 @@
 
 
         <span class="ui-btn-inline"><h3>Lampen</h3></span>
-        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext" style="float: right"></button>
+        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext"></button>
         <br>
         <div class="ui-btn-inline horizontal_button_view">
             <a href="light.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">Beispiellampe</a>
         </div>
         <br>
-        <div ng-repeat="l in state.lights" class="ui-btn-inline horizontal_button_view">
-            <a href="light.html?lamp={{l.name}}"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{l.name}}</a>
+        <div ng-repeat="l in lgCtrl.state.lights" class="ui-btn-inline horizontal_button_view">
+            <a href="light.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{l.name}}</a>
         </div>
 
         <br>
