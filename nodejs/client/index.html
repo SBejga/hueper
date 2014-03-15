@@ -4,34 +4,41 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>SmartLights</title>
 
     <!-- CSS -->
     <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
 
+    <link rel="stylesheet" href="./css/jquery.mobile-1.4.0.css"/>
     <link rel="stylesheet" href="./css/jquery.mobile.structure-1.4.0.css"/>
     <link rel="stylesheet" href="./css/jquery.mobile.icons-1.4.0.css"/>
     <link rel="stylesheet" href="./css/firsttry.css"/>
 
     <!-- JavaScript -->
-    <script src=".js/scripts/jquery-1.10.2.js"></script>
-    <script src=".js/scripts/jquery.mobile-1.4.0.js"></script>
-
-    <script src=".js/scripts/angular-1.0.8.js"></script>
-
-    <script src=".js/scripts/jquery-mobile-angular-adapter-modified.js"></script>
+    <script src="./js/scripts/jquery-1.10.2.js"></script>
+    <script src="./js/scripts/jquery.mobile-1.4.0.js"></script>
+    <script src="./js/scripts/angular-1.0.8.js"></script>
+    <script src="./js/scripts/jquery-mobile-angular-adapter-modified.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+
+
+    <!-- Controller -->
     <script src="./js/app.js"></script>
     <script src="./js/controllers.js"></script>
     <script src="./js/filters.js"></script>
     <script src="./js/services.js"></script>
+    <script src="./js/controllers/lightandgroupctrl.js"></script>
+    <script src="./js/controllers/partyctrl.js"></script>
+    <script src="./js/controllers/scenectrl.js"></script>
+    <script src="./js/controllers/speechctrl.js"></script>
+
 
 </head>
 
-<body ng-controller="MainCtrl">
 
-<div data-role="page">
+<body>
+
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl">
 
     <div class="header">
         <h2>SmartLights</h2>
@@ -39,7 +46,9 @@
 
     <div data-role="content">
 
-        <a href="lampsandgroups.html" class="ui-btn ui-icon-singlelamp ui-btn-icon-left">Lampen & Gruppen</a>
+        {{sharedScope.test}}
+
+        <a href="lightandgroup.html" class="ui-btn ui-icon-singlelamp ui-btn-icon-left">Lampen & Gruppen</a>
         <a href="" class="ui-btn ui-icon-delete ui-btn-icon-left" >Zeitschaltuhr</a>
         <a href="" class="ui-btn ui-icon-delete ui-btn-icon-left">Sensoren</a>
         <a href="" class="ui-btn ui-icon-delete ui-btn-icon-left">Party-Modus</a>
