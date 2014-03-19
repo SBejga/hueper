@@ -35,12 +35,12 @@
 
 </head>
 
-<body ng-controller="LightAndGroupCtrl">
+<body>
 
-<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl">
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl, lgCtrl:LightAndGroupCtrl">
 
     <div class="header">
-        <h2>{{sharedScope.test}}Lampen & Gruppen{{testing}}</h2>
+        <h2>{{sharedScope.test}}Lampen & Gruppen{{lgCtrl.testing}}</h2>
     </div><!-- /header -->
 
     <div data-role="content">
@@ -62,14 +62,11 @@
             <a href="light.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">Beispiellampe</a>
         </div>
         <br>
-        <div ng-repeat="l in state.lights">
-           {{l.name}}
-        </div>
-       <!--
-        <div ng-repeat="l in state.lights" class="ui-btn-inline horizontal_button_view">
+
+        <div ng-repeat="l in sharedScope.state.lights" class="ui-btn-inline horizontal_button_view">
             <a href="light.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{l.name}}</a>
         </div>
-        -->
+
         <br>
         <br>
 

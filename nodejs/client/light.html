@@ -38,10 +38,10 @@
 
 <body>
 
-<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl">
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl, lgCtrl:LightAndGroupCtrl">
 
     <div class="header">
-        <h2>{{sharedScope.test}}Lampenmenü</h2>
+        <h2>{{sharedScope.test}}Lampenmenü{{lgCtrl.testing}}</h2>
 
         <div data-role="navbar">
             <ul>
