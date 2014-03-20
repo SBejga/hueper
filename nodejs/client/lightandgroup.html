@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="./css/jquery.mobile-1.4.0.css"/>
     <link rel="stylesheet" href="./css/jquery.mobile.structure-1.4.0.css"/>
     <link rel="stylesheet" href="./css/jquery.mobile.icons-1.4.0.css"/>
-    <link rel="stylesheet" href="./css/firsttry.css"/>
+
 
     <!-- JavaScript -->
     <script src="./js/scripts/jquery-1.10.2.js"></script>
@@ -40,7 +40,7 @@
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl, lgCtrl:LightAndGroupCtrl">
 
     <div class="header">
-        <h2>{{sharedScope.test}}Lampen & Gruppen{{lgCtrl.testing}}</h2>
+        <h2>Lampen & Gruppen</h2>
     </div><!-- /header -->
 
     <div data-role="content">
@@ -64,7 +64,7 @@
         <br>
 
         <div ng-repeat="l in sharedScope.state.lights" class="ui-btn-inline horizontal_button_view">
-            <a href="light.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{l.name}}</a>
+            <a href="light.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top" ng-init="lgCtrl.selectedLight = {{l.name}}">{{l.name}}</a>
         </div>
 
         <br>

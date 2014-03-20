@@ -3,7 +3,7 @@ controller('LightAndGroupCtrl', ['$scope',function($scope) {
 
     // light control
 
-    $scope.testing="TESTINGCHECK";
+    $scope.selectedLight;
 
     $scope.lights = {
 

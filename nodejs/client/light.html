@@ -7,12 +7,10 @@
     <title>SmartLights</title>
 
     <!-- CSS -->
-    <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
-
     <link rel="stylesheet" href="./css/jquery.mobile-1.4.0.css"/>
     <link rel="stylesheet" href="./css/jquery.mobile.structure-1.4.0.css"/>
     <link rel="stylesheet" href="./css/jquery.mobile.icons-1.4.0.css"/>
-    <link rel="stylesheet" href="./css/firsttry.css"/>
+    <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
 
     <!-- JavaScript -->
     <script src="./js/scripts/jquery-1.10.2.js"></script>
@@ -20,7 +18,6 @@
     <script src="./js/scripts/angular-1.0.8.js"></script>
     <script src="./js/scripts/jquery-mobile-angular-adapter-modified.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-
 
     <!-- Controller -->
     <script src="./js/app.js"></script>
@@ -32,81 +29,49 @@
     <script src="./js/controllers/scenectrl.js"></script>
     <script src="./js/controllers/speechctrl.js"></script>
 
-
 </head>
 
 
 <body>
 
-<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl, lgCtrl:LightAndGroupCtrl">
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl, lgCtrl:LightAndGroupCtrl" id="background">
 
-    <div class="header">
-        <h2>{{sharedScope.test}}Lampenmenü{{lgCtrl.testing}}</h2>
+    <div data-role="header" class="jqm-header ui-header ui-bar-inherit" role="banner">
+        <a href="lightandgroup.html" class="ui-alt-icon ui-nodisc-icon ui-btn-left ui-btn ui-icon-carat-l ui-btn-icon-notext ui-corner-all" data-role="button" role="button">
+        </a>
+        <h2>Lightmenu</h2>
+        <a href="#mainmenu" class="ui-alt-icon ui-nodisc-icon ui-btn-right ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" data-role="button" role="button">
+        </a>
+    </div>
 
-        <div data-role="navbar">
-            <ul>
-                <li><a href="lightandgroup.html" style="background-color: #959611; border: 2px solid #dcde0a; border-bottom: 2px solid #959611;"><img src="css/images/birne.png"></a></li>
-                <li><a href="" style="border-bottom: 2px solid #dcde0a;"><img src="css/images/birne.png"></a></li>
-                <li><a href="" style="border-bottom: 2px solid #dcde0a;"><img src="css/images/birne.png"></a></li>
-                <li><a href="" style="border-bottom: 2px solid #dcde0a;"><img src="css/images/birne.png"></a></li>
-                <li><a href="properties.html" style="border-bottom: 2px solid #dcde0a;"><img src="css/images/birne.png"></a></li>
-            </ul>
-        </div><!-- /navbar -->
-    </div><!-- /header -->
+    <div data-role="content">
 
-    <div data-role="content" style="background-color: #959611; border-color: #dcde0a; border-top-color: #959611;">
+        <input type="text" value="Light 3" class="input_transparent_bg">
 
 
-        <input type="text" value="Lampenname" style="text-align: center">
-        <button class="ui-btn ui-icon-delete ui-btn-icon-right">Gruppenname</button>
+
+        <button class="input_transparent_bg">Gruppenname</button>
         <button class="ui-btn ui-icon-delete ui-btn-icon-right">Gruppenname</button>
 
 
-        <br>
-        <br>
-        <br>
-
-        <!-- Farbauswahl -->
-
-        <form>
-            <label for="slider-1">Farbskala:</label>
-            <input name="farbskala" data-mini="true" id="slider-1" min="0" max="65535" value="44005" type="range">
-        </form>
-
-        <form>
-            <label for="slider-2">Helligkeit:</label>
-            <input name="helligkeit" data-mini="true" id="slider-2" min="0" max="254" value="100" type="range">
-        </form>
-
-        <form>
-            <label for="slider-3">Sättigung:</label>
-            <input name="saettigung" data-mini="true" id="slider-3" min="0" max="254" value="150" type="range">
-        </form>
-
-        <form>
-            <label for="slider-4">Farbtemperatur:</label>
-            <input name="farbtemperatur" data-mini="true" id="slider-4" min="153" max="497" value="250" type="range">
-        </form>
-
-        <br>
-
-        <form>
-            <label>
-                <input name="checkbox-0 " type="checkbox">Farbe als Favorit speichern
-            </label>
-        </form>
-
-
-        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-star ui-btn-icon-notext"></button>
-        <br>
-        <br>
-        <button class="ui-btn">Änderungen übernehmen</button>
 
     </div><!-- /content -->
 
-    <div data-role="footer" data-position="fixed" style="text-align: center">
-        <h4>Impressum</h4>
-    </div><!-- /footer -->
+    <div data-role="panel" id="mainmenu">
+
+        <div data-role="controlgroup">
+            <a href="index.html" class="ui-btn ui-corner-all">Mainmenu</a>
+            <a href="lightandgroup.html" class="ui-btn ui-corner-all">Lights and Groups</a>
+            <a href="#" class="ui-btn ui-corner-all">Timer</a>
+            <a href="#" class="ui-btn ui-corner-all">Sensors</a>
+            <a href="#" class="ui-btn ui-corner-all">Partymode</a>
+            <a href="#" class="ui-btn ui-corner-all">Settings</a>
+        </div>
+
+        <a href="light.html" class="ui-btn ui-corner-all" data-rel="close" ng-click="window.location.reload()">zurück</a>
+
+    </div>
+
 
 </div>
 </body>

@@ -59,6 +59,15 @@
         margin: auto;
     }
 
+    #background{
+        background: linear-gradient(120deg, #bc3b24, #ce1d18, #f8c33c);
+    }
+
+    .input_transparent_bg{
+        opacity:0.6;
+        background-color: rgb(236, 236, 236);
+    }
+
 
 
 }
