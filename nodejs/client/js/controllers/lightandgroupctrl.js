@@ -2,10 +2,8 @@ angular.module('hueApp.controllers').
 controller('LightAndGroupCtrl', ['$scope',function($scope) {
 
     // light control
-
-    $scope.selectedLight;
-
     $scope.lights = {
+
 
         /**
          * Change state attributes of a light
@@ -121,6 +119,11 @@ controller('LightAndGroupCtrl', ['$scope',function($scope) {
                 }
             });
             return groupsOfLamp;
+        },
+
+        getLightFromUrl: function(){
+
+
         }
     };
 

@@ -15,11 +15,6 @@
 
 }
 
-
-
-
-
-
 .ui-icon-singlelamp:after{
     background-image:url("images/birne.png");
     width: 30px;
@@ -73,7 +68,6 @@
     .light_wrapper{
         position: relative;
         height:350px;
-        text-align: center !important;
     }
 
 
@@ -81,7 +75,7 @@
         position: absolute;
         width:250px;
         height:226px;
-        border-radius: 900px;
+        border-radius: 200px;
         background-color: #800080;
     }
 

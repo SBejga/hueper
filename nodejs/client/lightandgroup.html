@@ -63,8 +63,8 @@
         </div>
         <br>
 
-        <div ng-repeat="l in sharedScope.state.lights" class="ui-btn-inline horizontal_button_view">
-            <a href="light.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top" ng-init="lgCtrl.selectedLight = {{l.name}}">{{l.name}}</a>
+        <div ng-repeat="(id, light) in sharedScope.state.lights" class="ui-btn-inline horizontal_button_view">
+            <a href="light.html#id={{id}}"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{light.name}}</a>
         </div>
 
         <br>
