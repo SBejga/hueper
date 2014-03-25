@@ -2,6 +2,7 @@
 
     'hueApp.controllers',
     'hueApp.filters',
-    'hueApp.services'
+    'hueApp.services',
+    'hueApp.directives'
 ]);
 
