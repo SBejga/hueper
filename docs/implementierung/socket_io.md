@@ -32,10 +32,10 @@
     Mögliche Fehlermeldungen:
     -   config.save
     -   config.password
-    -   favorites.create
-    -   favorites.update
-    -   scenes.create
-    -   scenes.update
+    -   favorite.create
+    -   favorite.update
+    -   scene.create
+    -   scene.update
     -   automation.create
     -   automation.update
     -   rfid.create

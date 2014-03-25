@@ -22,6 +22,12 @@ var socketListeners = function(socket) {
     socket.on('group.create', function(data) {
         console.log('[groups] Create group: ', data);
 
+        // prevent creating empty group as it would result in an API error
+        if(!data.lights || !data.lights.length) {
+            console.log('[groups] Tried to create empty group. Aborting...');
+            return;
+        }
+
         app.controllers.hue.makeApiCall(function(api) {
             api.createGroup(data.name, data.lights)
                 .then(function(result) {

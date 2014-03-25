@@ -93,7 +93,7 @@ Hört auf benutzerdefinierte Ereignisse, die durch Aktionen von anderen Einträg
 
 Überprüft die Zeit, die seit der letzten registrierten Bewegung vergangen ist
 
--   type: light
+-   type: motion
 -   value
     -   relation: < / > (< = länger her)
     -   time: Zeit in Sekunden
@@ -149,7 +149,7 @@ Alternativ kann auch die Zeit seit der letzten Aktivität überprüft werden. Da
 -   type: state
 -   value
     -   type: light / group / scene
-    -   id [nur bei value.type == scene]: ID der Szene, die überprüft werden soll
+    -   id: ID der Lampe / Gruppe / Szene, die überprüft werden soll
     -   state [nur bei value.type != scene]: Status, auf den die Lampe oder Gruppe überprüft werden soll
 
 

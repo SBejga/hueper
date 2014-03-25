@@ -140,6 +140,9 @@ var initCrudTemplate = function(app, Model, name, prefix, loadCallback) {
             if(loadCallback) {
                 loadCallback();
             }
+
+            // broadcast state refresh in case MongoDB starts after clients are already connected
+            app.controllers.socket.refreshState(false, name);
         });
 
     });

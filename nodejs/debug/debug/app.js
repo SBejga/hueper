@@ -728,16 +728,16 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, 
                 }
 
                 // turn light on when changing other properties
-                if(typeof(scene.lights[i].state.on) === 'undefined') {
+                if(typeof(scene.lights[i].state.isOn) === 'undefined') {
                     $scope.state.lights[scene.lights[i].light].state.on = true;
                 }
 
                 // change colormode
                 if(typeof(scene.lights[i].state.ct) !== 'undefined') {
-                    $scope.state.lights[scene.lights[i].light].colormode = 'ct';
+                    $scope.state.lights[scene.lights[i].light].state.colormode = 'ct';
                 }
-                else if(typeof(scene.lights[i].state.hs) !== 'undefined') {
-                    $scope.state.lights[scene.lights[i].light].colormode = 'hs';
+                else if(typeof(scene.lights[i].state.hue) !== 'undefined') {
+                    $scope.state.lights[scene.lights[i].light].state.colormode = 'hs';
                 }
 
             }
