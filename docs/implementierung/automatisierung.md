@@ -146,11 +146,23 @@ Alternativ kann auch die Zeit seit der letzten Aktivität überprüft werden. Da
 
 Überprüft, ob die Lampen derzeit einem bestimmten Status entsprechen oder ob eine Szene aktiv ist. Bei nicht erreichbaren Lichtern oder ausgeschalteten Lichtern, die auf eine andere Eigenschaft (z.B. die aktuelle Farbe) überprüft werden sollen, wird die Bedingung abgelehnt.
 
+Bei allen Optionen in *value.type* außer *scene* sind auch ähnliche Werte für bri, ct, sat (jeweils etwa 10% Abweichung) sowie hue (etwa 5% Abweichung) erlaubt.
+
 -   type: state
 -   value
-    -   type: light / group / scene
+    -   type: light / all / active (alle eingeschalteten) / group / scene
     -   id: ID der Lampe / Gruppe / Szene, die überprüft werden soll
     -   state [nur bei value.type != scene]: Status, auf den die Lampe oder Gruppe überprüft werden soll
+    -   invert: Kehrt die Bedingung um, wenn true (nicht der Status / die Szene aktiv)
+
+#### Party-Modus aktiv
+
+Überprüft, ob gerade ein bestimmter oder irgendein Party-Modus aktiv ist
+
+-   type: party
+-   value
+    -   id: ID des Party-Modus, false für irgendeinen Party-Modus
+    -   invert: Kehrt die Bedingung um, wenn true (Nicht der angegebene oder kein Party-Modus aktiv)
 
 
 ## Aktionen
@@ -171,12 +183,30 @@ Alle Aktionen können mit dem *delay*-Attribut (in Sekunden) verzögert ausgefü
     -   id: ID der Gruppe
     -   state: Status, der angenommen werden soll. Kann die Überblendzeit als *transitiontime*-Attribut beinhalten
 
+#### alle Lampen ändern
+
+-   type: all
+-   value
+    - state: Status, der angenommen werden soll. Kann die Überblendzeit als *transitiontime*-Attribut beinhalten
+
 #### Szene anwenden
 
 -   type: scene
 -   value
     -   id: ID der Szene
     -   transition: Überblendzeit, false für Standardwert
+
+#### Party-Modus
+
+-   type: party
+-   value: ID des Party-Modus, der gestartet werden soll; false stoppt den gerade aktiven Party-Modus
+
+#### Automatisierungs-Eintrag (de)aktivieren
+
+-   type: automation
+-   value
+    -   id: ID des Automatisierungs-Eintrags
+    -   active: bei true wird der Eintrag aktiviert, bei false deaktiviert; bei jedem anderen Wert wird die Aktivität des Eintrags invertiert
 
 #### Benutzerdefiniertes Ereignis
 

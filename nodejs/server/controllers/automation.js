@@ -17,6 +17,18 @@ var init = function() {
         'automation'
     );
 
+    model.on('delete', function(id, automation) {
+
+        removeSubEntries(
+            false,
+            false,
+            function(action) {
+                return (action.type === 'automation' && action.value.id === id);
+            }
+        );
+
+    });
+
 
     // time event for schedule and periodical triggers
     setTimeout(function() {
@@ -317,12 +329,20 @@ var evaluateSingleCondition = function(condition) {
 
                 var hasState = true;
 
-                var compareLightState = function(lightId, state) {
+                var compareLightState = function(lightId, state, acceptSimilar) {
                     var light = app.state.lights[lightId],
+
+                        similarDeltas = {
+                            bri: 20,
+                            ct: 20,
+                            hue: 3000,
+                            sat: 20
+                        },
+
                         i;
 
                     // convert Mongoose object to standard object
-                    state = state.toObject();
+                    state = helpers.copy(state);
 
                     // convert scene isOn to bridge on propertry
                     if(state.isOn !== undefined) {
@@ -342,9 +362,18 @@ var evaluateSingleCondition = function(condition) {
 
                     for(i in state) {
                         if(state.hasOwnProperty(i)) {
-                            if(state[i] !== null && state[i] !== light.state[i]) {
+
+                            // check for similar value
+                            if(acceptSimilar && similarDeltas[i] !== undefined) {
+                                if(Math.abs(state[i] - light.state[i]) > similarDeltas[i]) {
+                                    return false;
+                                }
+                            }
+                            // check for exact value
+                            else if(state[i] !== null && state[i] !== light.state[i]) {
                                 return false;
                             }
+
                         }
                     }
 
@@ -356,7 +385,7 @@ var evaluateSingleCondition = function(condition) {
                     // state of single light
                     case 'light':
 
-                        hasState = compareLightState(condition.value.id, condition.value.state);
+                        hasState = compareLightState(condition.value.id, condition.value.state, true);
 
                         break;
 
@@ -365,7 +394,7 @@ var evaluateSingleCondition = function(condition) {
 
                         for(i in app.state.lights) {
                             if(app.state.lights.hasOwnProperty(i)) {
-                                if(!compareLightState(i, condition.value.state)) {
+                                if(!compareLightState(i, condition.value.state, true)) {
                                     hasState = false;
                                     break;
                                 }
@@ -379,7 +408,7 @@ var evaluateSingleCondition = function(condition) {
 
                         for(i in app.state.lights) {
                             if(app.state.lights.hasOwnProperty(i)) {
-                                if(app.state.lights[i].state.on && !compareLightState(i, condition.value.state)) {
+                                if(app.state.lights[i].state.on && !compareLightState(i, condition.value.state, true)) {
                                     hasState = false;
                                     break;
                                 }
@@ -400,7 +429,7 @@ var evaluateSingleCondition = function(condition) {
                         i = group.lights.length;
 
                         while(i--) {
-                            if(!compareLightState(group.lights[i], condition.value.state)) {
+                            if(!compareLightState(group.lights[i], condition.value.state, true)) {
                                 hasState = false;
                                 break;
                             }
@@ -488,6 +517,22 @@ var evaluateSingleCondition = function(condition) {
 
                 break;
 
+            /**
+             * Party mode currently active
+             */
+            case 'party':
+                var isPartyModeRunning = !!app.state.appConfig.partyMode;
+
+                if(condition.value.id) {
+                    isPartyModeRunning = (app.state.appConfig.partyMode === condition.value.id);
+                }
+                // no party mode running
+                else {
+                    isPartyModeRunning = !isPartyModeRunning;
+                }
+
+                return (condition.value.invert ? !isPartyModeRunning : isPartyModeRunning);
+
         }
     }
     catch(e) {
@@ -536,11 +581,66 @@ var performAction = function(action) {
 
             break;
 
+        // change state for all lights
+        case 'all':
+
+            actionFn = function() {
+                app.controllers.hue.setLightStateAll(action.value.state, true);
+            };
+
+            break;
+
         // apply scene
         case 'scene':
 
             actionFn = function() {
                 app.controllers.scenes.applyScene(action.value.id, action.value.transition);
+            };
+
+            break;
+
+        // start/stop party mode
+        case 'party':
+
+            actionFn = function() {
+                if(action.value) {
+                    app.controllers.party.start(action.value);
+                }
+                else {
+                    app.controllers.party.stop();
+                }
+            };
+
+            break;
+
+        // (de)activate automation entry
+        case 'automation':
+
+            actionFn = function() {
+                if(!action.value.id) {
+                    return;
+                }
+
+                var automation = app.state.automation[action.value.id];
+
+                if(!automation) {
+                    return;
+                }
+
+                // simply invert active flag
+                var newActive = !automation.active;
+
+                // alternatively set active flag to a given value
+                if(action.value.active === true || action.value.active === false) {
+                    newActive = action.value.active;
+                }
+
+                automation.active = newActive;
+
+                automation.save(function(err) {
+                   app.controllers.socket.refreshState(false, 'automation.' + action.value.id + '.active');
+                });
+
             };
 
             break;
@@ -585,12 +685,13 @@ var performAction = function(action) {
 };
 
 /**
- * removes triggers and conditions from all automation entries that pass given evaluation functions
+ * removes triggers, conditions and actions from all automation entries that pass given evaluation functions
  * if all triggers of an entry are deleted, the entry itself will also be deleted
  * @param {function} triggerEvaluation gets a trigger as parameter
  * @param {function} conditionEvaluation gets a condition as parameter
+ * @param {function} actionEvaluation gets an action as parameter
  */
-var removeTriggersAndConditions = function(triggerEvaluation, conditionEvaluation) {
+var removeSubEntries = function(triggerEvaluation, conditionEvaluation, actionEvaluation) {
     var i, j, modified, remove,
         refreshState = [],
         deleteState = [];
@@ -604,26 +705,38 @@ var removeTriggersAndConditions = function(triggerEvaluation, conditionEvaluatio
             j = app.state.automation[i].triggers.length;
 
             while(j--) {
-                if(triggerEvaluation(app.state.automation[i].triggers[j])) {
+                if(triggerEvaluation && triggerEvaluation(app.state.automation[i].triggers[j])) {
                     app.state.automation[i].triggers.splice(j, 1);
                     modified = true;
                 }
-            }
-
-            // remove automation if it was the only trigger
-            if(!app.state.automation[i].triggers.length) {
-                remove = true;
             }
 
             // conditions
             j = app.state.automation[i].conditions.length;
 
             while(j--) {
-                if(conditionEvaluation(app.state.automation[i].conditions[j])) {
+                if(conditionEvaluation && conditionEvaluation(app.state.automation[i].conditions[j])) {
                     app.state.automation[i].conditions.splice(j, 1);
                     modified = true;
                 }
             }
+
+            // actions
+            j = app.state.automation[i].actions.length;
+
+            while(j--) {
+                if(actionEvaluation && actionEvaluation(app.state.automation[i].actions[j])) {
+                    app.state.automation[i].actions.splice(j, 1);
+                    modified = true;
+                }
+            }
+
+
+            // remove automation if it was the only trigger or action
+            if(!app.state.automation[i].triggers.length || !app.state.automation[i].actions.length) {
+                remove = true;
+            }
+
 
             if(remove) {
                 Automation.findByIdAndRemove(i).exec();
@@ -659,7 +772,7 @@ module.exports = function(globalApp) {
 
     return {
         fireEvent: fireEvent,
-        removeTriggersAndConditions: removeTriggersAndConditions
+        removeSubEntries: removeSubEntries
     };
 
 };

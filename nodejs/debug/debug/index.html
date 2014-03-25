@@ -487,6 +487,7 @@
             <option>rfid</option>
             <option>device</option>
             <option>state</option>
+            <option>party</option>
         </select>
 
         <button ng-click="helpers.removeFromArray(a.conditions, $index)">X</button>
@@ -583,6 +584,13 @@
                 <input type="checkbox" ng-model="t.value.invert"> invertieren
 
             </div>
+            <div ng-switch-when="party">
+                <select ng-model="t.value.id" ng-options="id as p.name for (id , p) in state.party">
+                    <option value="">[kein Party-Modus aktiv]</option>
+                </select>
+                <br />
+                <input type="checkbox" ng-model="t.value.invert" /> invertieren
+            </div>
 
         </div>
 
@@ -604,8 +612,11 @@
         Typ:
         <select ng-model="t.type" ng-change="automation.resetActionValue(t)">
             <option>light</option>
+            <option>all</option>
             <option>group</option>
             <option>scene</option>
+            <option>party</option>
+            <option>automation</option>
             <option>custom</option>
             <option>cancelDelay</option>
         </select>
@@ -615,41 +626,41 @@
         <div ng-switch="t.type">
             <div ng-switch-when="light">
                 <select ng-model="t.value.id" ng-options="id as l.name for (id , l) in state.lights"></select>
-                <br />
-                on: <input type="checkbox" ng-model="t.value.state.on" /><br />
-
-                <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
-                    {{name}} <code>[{{val}}]</code> <input type="number" ng-model="t.value.state[val]" /><br />
-                </span>
-
-                effect
-                <select ng-model="t.value.state.effect">
-                    <option>none</option>
-                    <option>colorloop</option>
-                </select>
             </div>
             <div ng-switch-when="group">
                 <select ng-model="t.value.id" ng-options="id as g.name for (id , g) in state.groups"></select>
-                <br />
-                on: <input type="checkbox" ng-model="t.value.state.on" /><br />
-
-                <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
-                    {{name}} <code>[{{val}}]</code> <input type="number" ng-model="t.value.state[val]" /><br />
-                </span>
-
-                effect
-                <select ng-model="t.value.state.effect">
-                    <option>none</option>
-                    <option>colorloop</option>
-                </select>
             </div>
             <div ng-switch-when="scene">
                 <select ng-model="t.value.id" ng-options="id as s.name for (id , s) in state.scenes"></select>
                 Übergang: <input type="number" ng-model="t.value.transition" />
             </div>
+            <div ng-switch-when="party">
+                <select ng-model="t.value" ng-options="id as p.name for (id , p) in state.party">
+                    <option value="">[Party-Modus deaktivieren]</option>
+                </select>
+            </div>
+            <div ng-switch-when="automation">
+                <select ng-model="t.value.id" ng-options="id as am.name for (id , am) in state.automation"></select>
+                <br />
+                <input type="checkbox" ng-model="t.value.active" /> aktiv (unverändert lassen für invertieren)
+            </div>
             <div ng-switch-when="custom">
                 <input type="text" ng-model="t.value" placeholder="Eigener Befehl" />
             </div>
+        </div>
+
+        <div ng-if="t.type === 'light' || t.type === 'group' || t.type === 'all'">
+            on: <input type="checkbox" ng-model="t.value.state.on" /><br />
+
+            <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
+                {{name}} <code>[{{val}}]</code> <input type="number" ng-model="t.value.state[val]" /><br />
+            </span>
+
+            effect
+            <select ng-model="t.value.state.effect">
+                <option>none</option>
+                <option>colorloop</option>
+            </select>
         </div>
 
         <br />
@@ -750,6 +761,7 @@
             <option>rfid</option>
             <option>device</option>
             <option>state</option>
+            <option>party</option>
         </select>
 
         <button ng-click="helpers.removeFromArray(automation.forms.create.conditions, $index)">X</button>
@@ -846,6 +858,13 @@
                 <input type="checkbox" ng-model="t.value.invert"> invertieren
 
             </div>
+            <div ng-switch-when="party">
+                <select ng-model="t.value.id" ng-options="id as p.name for (id , p) in state.party">
+                    <option value="">[kein Party-Modus aktiv]</option>
+                </select>
+                <br />
+                <input type="checkbox" ng-model="t.value.invert" /> invertieren
+            </div>
 
         </div>
 
@@ -867,52 +886,55 @@
         Typ:
         <select ng-model="t.type" ng-change="automation.resetActionValue(t)">
             <option>light</option>
+            <option>all</option>
             <option>group</option>
             <option>scene</option>
+            <option>party</option>
+            <option>automation</option>
             <option>custom</option>
             <option>cancelDelay</option>
         </select>
 
-        <button ng-click="helpers.removeFromArray(automation.forms.create.actions, $index)">X</button>
+        <button ng-click="helpers.removeFromArray(a.actions, $index)">X</button>
 
         <div ng-switch="t.type">
             <div ng-switch-when="light">
                 <select ng-model="t.value.id" ng-options="id as l.name for (id , l) in state.lights"></select>
-                <br />
-                on: <input type="checkbox" ng-model="t.value.state.on" /><br />
-
-                <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
-                    {{name}} <code>[{{val}}]</code> <input type="number" ng-model="t.value.state[val]" /><br />
-                </span>
-
-                effect
-                <select ng-model="t.value.state.effect">
-                    <option>none</option>
-                    <option>colorloop</option>
-                </select>
             </div>
             <div ng-switch-when="group">
                 <select ng-model="t.value.id" ng-options="id as g.name for (id , g) in state.groups"></select>
-                <br />
-                on: <input type="checkbox" ng-model="t.value.state.on" /><br />
-
-                <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
-                    {{name}} <code>[{{val}}]</code> <input type="number" ng-model="t.value.state[val]" /><br />
-                </span>
-
-                effect
-                <select ng-model="t.value.state.effect">
-                    <option>none</option>
-                    <option>colorloop</option>
-                </select>
             </div>
             <div ng-switch-when="scene">
                 <select ng-model="t.value.id" ng-options="id as s.name for (id , s) in state.scenes"></select>
                 Übergang: <input type="number" ng-model="t.value.transition" />
             </div>
+            <div ng-switch-when="party">
+                <select ng-model="t.value" ng-options="id as p.name for (id , p) in state.party">
+                    <option value="">[Party-Modus deaktivieren]</option>
+                </select>
+            </div>
+            <div ng-switch-when="automation">
+                <select ng-model="t.value.id" ng-options="id as am.name for (id , am) in state.automation"></select>
+                <br />
+                <input type="checkbox" ng-model="t.value.active" /> aktiv (unverändert lassen für invertieren)
+            </div>
             <div ng-switch-when="custom">
                 <input type="text" ng-model="t.value" placeholder="Eigener Befehl" />
             </div>
+        </div>
+
+        <div ng-if="t.type === 'light' || t.type === 'group' || t.type === 'all'">
+            on: <input type="checkbox" ng-model="t.value.state.on" /><br />
+
+            <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
+                {{name}} <code>[{{val}}]</code> <input type="number" ng-model="t.value.state[val]" /><br />
+            </span>
+
+            effect
+            <select ng-model="t.value.state.effect">
+                <option>none</option>
+                <option>colorloop</option>
+            </select>
         </div>
 
         <br />

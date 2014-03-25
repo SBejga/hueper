@@ -42,6 +42,20 @@ var init = function() {
 
     });
 
+    model.on('delete', function(id, party) {
+
+        app.controllers.automation.removeSubEntries(
+            false,
+            function(condition) {
+                return (condition.type === 'party' && condition.value.id === id);
+            },
+            function(action) {
+                return (action.type === 'party' && action.value === id);
+            }
+        );
+
+    });
+
     app.controllers.arduino.addListener(arduinoListener);
 
     app.controllers.app_configuration.addConfigurationChangeListener(configurationChangeListener);
@@ -278,5 +292,30 @@ module.exports = function(globalApp) {
     app.events.on('ready', function() {
         init();
     });
+
+    return {
+
+        start: function(id) {
+            if(!app.state.party[id]) {
+                console.log('[party] Party mode ' + id + ' does not exist!');
+                return;
+            }
+
+            console.log('[party] Starting party mode ' + id);
+
+            app.controllers.app_configuration.change({
+                partyMode: id
+            });
+        },
+
+        stop: function() {
+            console.log('[party] Stopping party mode');
+
+            app.controllers.app_configuration.change({
+                partyMode: false
+            });
+        }
+
+    }
 
 };

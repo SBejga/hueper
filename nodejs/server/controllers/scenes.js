@@ -15,6 +15,20 @@ var init = function() {
         'scene'
     );
 
+    model.on('delete', function(id, scene) {
+
+        app.controllers.automation.removeSubEntries(
+            false,
+            function(condition) {
+                return (condition.type === 'state' && condition.value.type === 'scene' && condition.value.id === id);
+            },
+            function(action) {
+                return (action.type === 'scene' && action.value.id === id);
+            }
+        );
+
+    });
+
     app.controllers.socket.addSocketListener(socketListeners);
 
 };

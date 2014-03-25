@@ -182,6 +182,7 @@ Installation über `npm install` im Projekt-Ordner *nodejs*, aktualisieren über
 -   **controllers**
     -   **app_configuration**: Konfiguration der Anwendung
         -   **addConfigurationChangeListener(option)**: Listener für Konfigurations-Änderungen
+        -   **change(data, socket)**: Teile der Konfiguration ändern (key:value in data)
     -   **arduino**: Verbindungsaufbau zum Arduino
         -   **addListener(listener)**: Listener für Arduino-Nachrichten hinzufügen
     -   **arduino_button**: Fährt den Raspberry Pi herunter, wenn der Button am Arduino gedrückt wurde
@@ -190,7 +191,7 @@ Installation über `npm install` im Projekt-Ordner *nodejs*, aktualisieren über
         -   **getSecondsSinceLastMotion()**: Anzahl Sekunden seit der letzten registrierten Bewegung
     -   **automation**: Automatisierung (Zeitgesteuerte Ereignisse, Sensoren)
         -   **fireEvent(type, value)**: Ereignis auslösen
-        -   **removeTriggersAndConditions(triggerEvaluation, conditionEvaluation)**: Trigger und Bedingungen aller Automatisierungen entfernen, die bestimmte Voraussetzungen erfüllen
+        -   **removeSubEntries(triggerEvaluation, conditionEvaluation)**: Trigger, Bedingungen und Aktionen aller Automatisierungen entfernen, die bestimmte Voraussetzungen erfüllen
     -   **devices**: Verwaltung bekannter Geräte
         -   **getStatus(address)**: Ermitteln, ob Gerät gerade aktiv ist
         -   **isOneActive()**: Ermittelt, ob irgendein bekanntes Gerät gerade aktiv ist
@@ -209,6 +210,8 @@ Installation über `npm install` im Projekt-Ordner *nodejs*, aktualisieren über
     -   **mongoose**: Baut Verbindung zur MongoDB auf und liest die Daten in den app.state-Cache
         -   **handleError(socket, statePath, oldValue, errorType, broadcast)**: Fehlerbehandlung mit Rücksetzen des State und Senden per Socket
     -   **party**: Party-Modus
+        - **start(id)**: Party-Modus starten
+        - **stop()**: Aktiven Party-Modus beenden
     -   **rest**: REST-Funktionalität
         -   **addSocketDummyListener(listener)**: Listener hinzufügen, der einen Socket.IO-Dummy erhält
     -   **rfid**: Verwaltung von RFID-Tags

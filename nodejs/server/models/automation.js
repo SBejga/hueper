@@ -15,7 +15,7 @@ var AutomationSchema = new Schema({
     conditions: [{
         type: {
             type:   String,
-            enum:   ['light', 'motion', 'rfid', 'device', 'time', 'weekdays', 'connections', 'state']
+            enum:   ['light', 'motion', 'rfid', 'device', 'time', 'weekdays', 'connections', 'state', 'party']
         },
         value:  Schema.Types.Mixed
     }],
@@ -25,7 +25,7 @@ var AutomationSchema = new Schema({
     actions: [{
         type: {
             type:   String,
-            enum:   ['light', 'group', 'scene', 'custom', 'cancelDelay']
+            enum:   ['light', 'group', 'all', 'scene', 'party', 'automation', 'custom', 'cancelDelay']
         },
         value:  Schema.Types.Mixed,
         delay:  Number

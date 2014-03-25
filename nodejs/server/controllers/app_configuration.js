@@ -81,39 +81,7 @@ var socketListeners = function(socket) {
 
     // change application configuration
     socket.on('config.change', function(data) {
-        var i, j;
-
-        console.log('[app_configuration] Change application configuration', data);
-
-        for(i in data) {
-            if(data.hasOwnProperty(i) && typeof(app.state.appConfig[i]) !== 'undefined') {
-                Config.update(
-                    { name: i },
-                    { value: data[i] },
-
-                    app.controllers.mongoose.handleError(
-                        socket,
-                        'appConfig.' + i,
-                        app.state.appConfig[i],
-                        'config.save',
-                        true
-                    )
-                );
-
-                app.state.appConfig[i] = data[i];
-
-                j = configurationChangeListeners.length;
-
-                while(j--) {
-                    configurationChangeListeners[j](i);
-                }
-            }
-        }
-
-        app.controllers.socket.refreshState(
-            app.controllers.socket.getBroadcastSocket(socket),
-            ['appConfig']
-        );
+        change(data, socket);
     });
 
 };
@@ -121,6 +89,51 @@ var socketListeners = function(socket) {
 
 var addConfigurationChangeListener = function(listener) {
     configurationChangeListeners.push(listener);
+};
+
+/**
+ * Change application configuration
+ * @param {object} data key-value pairs of the changed configuration entries
+ *          The keys alrady have to be present in app.state.appConfig
+ * @param socket (optional) socket of the originating client
+ */
+var change = function(data, socket) {
+    var channel = socket ? app.controllers.socket.getBroadcastSocket(socket) : false;
+
+    var i, j;
+
+    console.log('[app_configuration] Change application configuration', data);
+
+    for(i in data) {
+        if(data.hasOwnProperty(i) && typeof(app.state.appConfig[i]) !== 'undefined') {
+            Config.update(
+                { name: i },
+                { value: data[i] },
+
+                app.controllers.mongoose.handleError(
+                    socket,
+                    'appConfig.' + i,
+                    app.state.appConfig[i],
+                    'config.save',
+                    true
+                )
+            );
+
+            app.state.appConfig[i] = data[i];
+
+            j = configurationChangeListeners.length;
+
+            while(j--) {
+                configurationChangeListeners[j](i);
+            }
+        }
+    }
+
+    app.controllers.socket.refreshState(
+        channel,
+        ['appConfig']
+    );
+
 };
 
 
@@ -133,7 +146,8 @@ module.exports = function(globalApp) {
     });
 
     return {
-        addConfigurationChangeListener: addConfigurationChangeListener
+        addConfigurationChangeListener: addConfigurationChangeListener,
+        change: change
     };
 
 };

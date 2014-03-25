@@ -37,7 +37,7 @@ var init = function() {
             return;
         }
 
-        app.controllers.automation.removeTriggersAndConditions(
+        app.controllers.automation.removeSubEntries(
             function(trigger) {
                 return (trigger.type === 'rfid' && trigger.value === rfid.tag);
             },

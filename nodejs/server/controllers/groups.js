@@ -103,6 +103,18 @@ var socketListeners = function(socket) {
             app.controllers.socket.getBroadcastSocket(socket),
             ['groups.' + id]
         );
+
+        // delete from automation conditions and actions
+        app.controllers.automation.removeSubEntries(
+            false,
+            function(condition) {
+                return (condition.type === 'state' && condition.value.type === 'group' && condition.value.id === id);
+            },
+            function(action) {
+                return (action.type === 'group' && action.value.id === id);
+            }
+        );
+
     });
 
 };
