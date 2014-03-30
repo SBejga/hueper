@@ -26,6 +26,14 @@
 
 }
 
+.btn_red{
+    background-color: #a00000;
+    padding:3px;
+    text-align: center;
+    border-radius:20px;
+    color:white;
+}
+
 
 
 
