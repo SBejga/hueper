@@ -122,8 +122,8 @@ controller('LightAndGroupCtrl', ['$scope', '$location',function($scope, $locatio
         },
 
         getLightFromUrl: function(){
-            if (window.location.search != ""){
-                alert(window.location.search);
+            if (window.$location.search != ""){
+                alert(window.$location.search);
             }
         }
     };

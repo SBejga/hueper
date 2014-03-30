@@ -35,7 +35,7 @@
 
 <body>
 
-<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl, lgCtrl:LightAndGroupCtrl" class="background_red" ng-model="lgCtrl.getLightFromUrl">
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl, lgCtrl:LightAndGroupCtrl" class="background_red">
 
     <div data-role="header" role="banner">
         <a href="lightandgroup.html" class="ui-alt-icon ui-nodisc-icon ui-btn-left ui-btn ui-icon-carat-l ui-btn-icon-notext ui-corner-all" data-role="button" role="button">
@@ -56,7 +56,7 @@
            <div class="light_color">
            </div>
            <div class="light_template">
-               <img src="./css/images/transparent_light.png" class="transparent_light">
+               <img src="./css/images/transparent_light.png">
            </div>
        </div>
 
@@ -71,8 +71,20 @@
 
         <button class="ui-btn ui-icon-star ui-btn-icon-left transparent_bg">save colour as a favourite</button>
 
-        <div class="transparent_bg">
-            Group 1
+        <div class="transparent_bg" style="padding: 20px">
+            <div class="light_group">
+                <img src="./css/images/transparent_group.png">
+                Beispiel
+                <a href="#" class="ui-nodisc-icon ui-alt-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" >favourite</a>
+            </div>
+
+            <div class="light_group" ng-repeat="g in state.groups">
+                <img src="./css/images/transparent_group.png">
+                Group 1
+                <a href="#" class="ui-nodisc-icon ui-alt-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" >favourite</a>
+            </div>
+
+
 
             <br>
             Group 2
