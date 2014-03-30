@@ -8,10 +8,8 @@
 
 
 .header{
-    position:relative;
-    text-align: center;
-    font-size: 15px;
-    margin: auto;
+   background-color: #faeeec;
+   color: #800000;
 
 }
 
@@ -53,41 +51,40 @@
         width:90%;
     }
 
-    #background{
-        background: linear-gradient(120deg, #bc3b24, #ce1d18, #f8c33c);
+    .background_red{
+        background: linear-gradient(120deg, #bc3b24, #ce1d18, #f8c33c) !important;
     }
 
     .transparent_bg{
-        opacity:0.6;
+        opacity:0.6 !important;
         background-color: rgb(236, 236, 236);
     }
-
 
 
 
     .light_wrapper{
         position: relative;
         height:350px;
+        width:250px;
+        margin:auto;
+        max-width: 100%;
+
     }
 
 
     .light_color{
         position: absolute;
         width:250px;
-        height:226px;
+        height:250px;
         border-radius: 200px;
         background-color: #800080;
+        max-width: 100%;
     }
 
     .light_template{
         position: absolute;
+        max-width: 100%;
     }
-
-
-
-
-
-
 
 }
 

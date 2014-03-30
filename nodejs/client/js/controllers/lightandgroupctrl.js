@@ -1,5 +1,5 @@
 angular.module('hueApp.controllers').
-controller('LightAndGroupCtrl', ['$scope',function($scope) {
+controller('LightAndGroupCtrl', ['$scope', '$location',function($scope, $location) {
 
     // light control
     $scope.lights = {
@@ -122,8 +122,9 @@ controller('LightAndGroupCtrl', ['$scope',function($scope) {
         },
 
         getLightFromUrl: function(){
-
-
+            if (window.location.search != ""){
+                alert(window.location.search);
+            }
         }
     };
 

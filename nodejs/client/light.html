@@ -35,9 +35,9 @@
 
 <body>
 
-<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl, lgCtrl:LightAndGroupCtrl" id="background">
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl, lgCtrl:LightAndGroupCtrl" class="background_red" ng-model="lgCtrl.getLightFromUrl">
 
-    <div data-role="header" class="jqm-header ui-header ui-bar-inherit" role="banner">
+    <div data-role="header" role="banner">
         <a href="lightandgroup.html" class="ui-alt-icon ui-nodisc-icon ui-btn-left ui-btn ui-icon-carat-l ui-btn-icon-notext ui-corner-all" data-role="button" role="button">
         </a>
         <h2>Lightmenu</h2>
@@ -47,7 +47,7 @@
 
     <div data-role="content">
 
-        <input type="text" class="transparent_bg">
+        <input type="text" value="light">
 
 
 
@@ -69,13 +69,22 @@
             <a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-star ui-btn-icon-notext ui-btn-inline" >favourite</a>
         </div>
 
+        <button class="ui-btn ui-icon-star ui-btn-icon-left transparent_bg">save colour as a favourite</button>
+
+        <div class="transparent_bg">
+            Group 1
+
+            <br>
+            Group 2
+
+
+        </div>
 
 
 
 
 
 
-        <button class="transparent_bg">Gruppenname</button>
         <button class="ui-btn ui-icon-delete ui-btn-icon-right">Gruppenname</button>
 
 
