@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="./css/jquery.mobile-1.4.0.css"/>
     <link rel="stylesheet" href="./css/jquery.mobile.structure-1.4.0.css"/>
-    <link rel="stylesheet" href="./css/jquery.mobile.icons-1.4.0.css"/>
+    <link rel="stylesheet" href="css/jquery.mobile.icons-1.4.0.css"/>
 
 
     <!-- JavaScript -->
@@ -60,12 +60,13 @@
         <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext"></button>
         <br>
         <div class="ui-btn-inline horizontal_button_view">
-            <a href="light.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">Beispiellampe</a>
+            <a href="light.html?id=5"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">Beispiellampe</a>
+
         </div>
         <br>
 
         <div ng-repeat="(id, light) in sharedScope.state.lights" class="ui-btn-inline horizontal_button_view">
-            <a href="light.html#id={{id}}"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{light.name}}</a>
+            <a href="light.html?id={{id}}"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{light.name}}</a>
         </div>
 
         <br>
@@ -78,7 +79,7 @@
         <div class="ui-btn-inline horizontal_button_view">
             <a href="group.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">Beispielgruppe</a>
         </div>
-        <div ng-repeat="g in state.groups" class="ui-btn-inline horizontal_button_view">
+        <div ng-repeat="g in sharedScope.state.groups" class="ui-btn-inline horizontal_button_view">
             <a href="group.html?group={{g.name}}"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{g.name}}</a>
         </div>
 

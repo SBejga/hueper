@@ -7,7 +7,6 @@ controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, socket,
     // local data model
     //
 
-    $scope.test = "TestSuccessfull";
 
     $scope.state = {
         user: {
