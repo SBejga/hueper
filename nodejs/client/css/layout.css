@@ -6,17 +6,27 @@
     margin: auto;
 }
 
+.header_title{
+    margin: auto !important;
+}
 
-.header{
-   background-color: #faeeec;
-   color: #800000;
-
+.header_left_icon{
+    float: left;
+    padding:5px;
+}
+.header_right_icon{
+    float: right;
+    padding:5px;
 }
 
 .ui-icon-singlelamp:after{
     background-image:url("images/birne.png");
     width: 30px;
     height: 30px;
+}
+
+.icon-arrow-left{
+    background-image: url("images/icons/icon-arrow-left-red.png");
 
 
 }
@@ -26,24 +36,7 @@
 
 }
 
-.btn_red{
-    background-color: #a00000;
-    padding:3px;
-    text-align: center;
-    border-radius:20px;
-    color:white;
-}
 
-
-
-.light_group{
-    padding:5px;
-    font-weight: bold;
-    line-height: 65px;
-    vertical-align:middle;
-    text-align: center;
-    overflow: hidden;
-}
 
 .btn-round-corner{
     border-radius:20px;
@@ -65,6 +58,72 @@ button:active{
 
 }
 
+.background_red{
+    background: linear-gradient(120deg, #bc3b24, #ce1d18, #f8c33c) !important;
+}
+
+.transparent_bg{
+    background-color: rgba(236, 236, 236, 0.6) !important;
+}
+
+
+
+.light_wrapper{
+    position: relative;
+    height:370px;
+    width:250px;
+    margin:auto;
+    max-width: 100%;
+
+}
+
+
+.light_color{
+    position: absolute;
+    width:250px;
+    height:250px;
+    border-radius: 200px;
+    max-width: 100%;
+}
+
+.light_template{
+    position: absolute;
+    max-width: 100%;
+}
+
+.light_group{
+    padding:5px;
+    font-weight: bold;
+    line-height: 65px;
+    vertical-align:middle;
+    text-align: center;
+    overflow: hidden;
+}
+
+
+.favorites_wrapper{
+    display: inline-block;
+    height: 32px;
+    width:32px;
+    padding:5px;
+
+}
+
+.light_favorites{
+    position: absolute;
+    max-width: 100%;
+    display:inline-block;
+
+}
+.light_favorites_star_color{
+    position: absolute;
+    max-width: 100%;
+    width:32px;
+    height:32px;
+    border-radius: 32px;
+
+}
+
 
 
 /* small screen */
@@ -76,12 +135,6 @@ button:active{
     }
 }
 
-
-
-
-
-
-
 /* Smartphone */
 @media screen and (max-width:500px) {
 
@@ -89,48 +142,9 @@ button:active{
         position: relative;
         width:90%;
     }
-
-    .background_red{
-        background: linear-gradient(120deg, #bc3b24, #ce1d18, #f8c33c) !important;
-    }
-
-    .transparent_bg{
-        background-color: rgba(236, 236, 236, 0.6) !important;
-    }
-
-
-
-    .light_wrapper{
-        position: relative;
-        height:350px;
-        width:250px;
-        margin:auto;
-        max-width: 100%;
-
-    }
-
-
-    .light_color{
-        position: absolute;
-        width:250px;
-        height:250px;
-        border-radius: 200px;
-        background-color: #800080;
-        max-width: 100%;
-    }
-
-    .light_template{
-        position: absolute;
-        max-width: 100%;
-    }
-
-
-
-    .light_group{
-        font-weight: bold;
-        vertical-align:middle;
-    }
 }
+
+
 
 
 /*** AngularJS directives ***/

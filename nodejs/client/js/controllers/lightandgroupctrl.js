@@ -4,7 +4,7 @@ controller('LightAndGroupCtrl', ['$scope', '$location',function($scope, $locatio
     // light control
     $scope.lights = {
 
-        selectedLightId: 0,
+        selectedLight: 0,
         /**
          * Change state attributes of a light
          * @param {integer} id 0 for all lights
@@ -124,7 +124,7 @@ controller('LightAndGroupCtrl', ['$scope', '$location',function($scope, $locatio
 
 
         getLightFromUrl: function(){
-            $scope.lights.selectedLightId = $location.search();
+            $scope.lights.selectedLight = $location.search();
         }
     };
 
@@ -225,15 +225,6 @@ controller('LightAndGroupCtrl', ['$scope', '$location',function($scope, $locatio
         remove: function(id) {
             socket.emit('group.remove', id);
             delete $scope.state.groups[id];
-        },
-
-        lightInGroup: function(id){
-            if(group.lights.contains(id)){
-                return true;
-            }
-            else{
-                return false;
-            }
         }
 
     };
