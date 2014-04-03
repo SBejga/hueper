@@ -191,15 +191,14 @@ directive('hueperTouch', function() {
  * - round: number of digits to round the value to, default 0
  * - vertical: make the slider vertical
  */
-
-directive('hueperSlider', function() {
+directive('hueperSlider', ['$timeout', function($timeout) {
     return {
         template: '<div class="slider" hueper-touch>\
-                        <div class="slider-track"></div>\
-                        <div class="slider-handle-container">\
-                            <div class="slider-handle"></div>\
-                        </div>\
-                    </div>',
+                    <div class="slider-track"></div>\
+                    <div class="slider-handle-container">\
+                        <div class="slider-handle"></div>\
+                    </div>\
+                </div>',
 
         replace: true,
 
@@ -220,7 +219,7 @@ directive('hueperSlider', function() {
                 valueDelta = Math.round(Math.abs(max - min), round),
 
                 handle = elm.find('.slider-handle'),
-                handleOffset = handle.offset()[dimension],
+                handleOffset = handle.offset().left,
                 sliderOffset,
                 sliderLength,
                 minDelta,
@@ -229,7 +228,11 @@ directive('hueperSlider', function() {
                 axis = 'x',
                 getDimension = function(el) {
                     return el.width();
-                };
+                },
+
+                minChangeInterval = 400,
+                lastChange = false,
+                changeTimeout = false;
 
             // vertical slider
 
@@ -253,7 +256,7 @@ directive('hueperSlider', function() {
                 sliderOffset = elm.offset()[dimension];
                 sliderLength = getDimension(elm);
                 handleOffset = handle.offset()[dimension];
-                minDelta = sliderLength / ( valueDelta / step )
+                minDelta = sliderLength / ( valueDelta / step ) / 2;
             });
 
             // change model and execute callback when slider is moved
@@ -280,8 +283,31 @@ directive('hueperSlider', function() {
                         round
                     );
 
+
                     if(scope.change) {
-                        scope.change({value: scope.model});
+                        var now = new Date().getTime(),
+                            param = {value: scope.model};
+
+                        if(changeTimeout) {
+                            $timeout.cancel(changeTimeout);
+                        }
+
+                        if(e.type === 'move') {
+                            if(now - lastChange > minChangeInterval) {
+                                lastChange = now;
+                                scope.change(param);
+                            }
+                            else {
+                                changeTimeout = $timeout(function() {
+                                    lastChange = now;
+                                    scope.change(param);
+                                }, minChangeInterval);
+                            }
+                        }
+                        else {
+                            scope.change(param);
+                            lastChange = now;
+                        }
                     }
                 });
 
@@ -290,13 +316,14 @@ directive('hueperSlider', function() {
             // display changes to the model
 
             scope.$watch('model', function(val) {
+                console.log(val);
                 handle.css(dimension, 100 * (val - min) / (max - min) + '%');
                 handleOffset = handle.offset()[dimension];
             });
 
         }
     };
-}).
+}]).
 
 /**
  * color picker that binds to a state
@@ -324,13 +351,14 @@ directive('hueperColorpicker', function() {
         },
 
         link: function(scope, elm, attrs) {
-
-            var handle = elm.find('.colorpicker-handle'),
+            var container = elm,
+                touchElement = container,
+                handle = container.find('.colorpicker-handle'),
                 handleOffset = handle.offset(),
 
                 containerOffset,
-                containerWidth = elm.width(),
-                containerHeight = elm.height(),
+                containerWidth = container.width(),
+                containerHeight = container.height(),
 
                 handleWidth = 32,
                 handleCenter = 16,
@@ -352,21 +380,25 @@ directive('hueperColorpicker', function() {
                 hsOffsetFactor = hsOffset / 100,
                 hsFactor = 100 - hsOffset,
 
-                minPixelDistance = 10;
+                minPixelDistance = 2,
+
+                minChangeInterval = 400,
+                lastChange = false,
+                changeTimeout = false;
 
 
             // compute sizes and dimensions on interaction start
 
-            elm.on('down', function(e, pos) {
+            touchElement.on('down', function(e, pos) {
                 handleOffset = handle.offset();
-                containerOffset = elm.offset();
-                containerWidth = elm.width();
-                containerHeight = elm.height();
+                containerOffset = container.offset();
+                containerWidth = container.width();
+                containerHeight = container.height();
             });
 
             // change model and execute callback when handle is moved
 
-            elm.on('down up move', function(e, pos) {
+            touchElement.on('down up move', function(e, pos) {
                 var posX = pos.x - handleCenter,
                     posY = pos.y - handleCenter;
 
@@ -399,19 +431,44 @@ directive('hueperColorpicker', function() {
 
                 scope.$apply(function() {
 
+                    var invokeChange = function(param) {
+                        var now = new Date().getTime();
+
+                        if(scope.change) {
+                            if(changeTimeout) {
+                                $timeout.cancel(changeTimeout);
+                            }
+
+                            if(e.type === 'move') {
+                                if(now - lastChange > minChangeInterval) {
+                                    lastChange = now;
+                                    scope.change(param);
+                                }
+                                else {
+                                    changeTimeout = $timeout(function() {
+                                        lastChange = now;
+                                        scope.change(param);
+                                    }, minChangeInterval);
+                                }
+                            }
+                            else {
+                                scope.change(param);
+                                lastChange = new Date().getTime();
+                            }
+                        }
+                    };
+
                     // ct
 
                     if(x < hsOffsetFactor) {
                         scope.state.colormode = 'ct';
                         scope.state.ct = Math.round(ctMin + y * ctArea);
 
-                        if(scope.change) {
-                            scope.change({
-                                state: {
-                                    ct: scope.state.ct
-                                }
-                            });
-                        }
+                        invokeChange({
+                            state: {
+                                ct: scope.state.ct
+                            }
+                        });
                     }
 
                     // hue/sat
@@ -425,14 +482,12 @@ directive('hueperColorpicker', function() {
                         scope.state.hue = Math.round(hueMin + x * hueArea);
                         scope.state.sat = Math.round(satMin + y * satArea);
 
-                        if(scope.change) {
-                            scope.change({
-                                state: {
-                                    hue: scope.state.hue,
-                                    sat: scope.state.sat
-                                }
-                            });
-                        }
+                        invokeChange({
+                            state: {
+                                hue: scope.state.hue,
+                                sat: scope.state.sat
+                            }
+                        });
                     }
 
                 });
@@ -497,7 +552,7 @@ directive('hueperColorpicker', function() {
                 else if(scope.state.colormode === 'hs') {
                     delete scope.state.ct;
                 }
-            }
+            };
 
         }
     };

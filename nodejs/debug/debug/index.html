@@ -90,12 +90,10 @@
 <div ng-repeat="(id, user) in state.config.whitelist">
     {{id}}: {{user.name}} - erstellt {{user['create date']}}
 
-    <span ng-show="user['last use date']">
-         - letzte Benutzung {{user['last use date']}}
-        <button ng-click="config.deleteUser(id)">löschen</button>
-    </span>
+     - letzte Benutzung {{user['last use date']}}
+    <button ng-show="!user.currentUser" ng-click="config.deleteUser(id)">löschen</button>
 
-    <span ng-show="!user['last use date']">
+    <span ng-show="user.currentUser">
         <b>aktueller Benutzer</b>
     </span>
 </div>
@@ -140,18 +138,22 @@
 
 <h3>Passwort ändern</h3>
 
-<form ng-submit="config.changePassword(config.forms.password.oldPassword, config.forms.password.newPassword)">
+<form ng-submit="config.changePassword()">
 
     <p>
-        alt: <input type="text" ng-model="config.forms.password.oldPassword" />
-        neu: <input type="text" ng-model="config.forms.password.newPassword" />
+        alt: <input type="text" ng-model="user.forms.password.oldPassword" />
+        neu: <input type="text" ng-model="user.forms.password.newPassword" />
+        wiederholen: <input type="text" ng-model="user.forms.password.newPassword2" />
         <input type="submit" value="ändern" />
     </p>
 
-    <p ng-show="config.forms.password.error">
+    <p ng-show="user.forms.password.error === true">
         <b>Altes Passwort falsch!</b>
     </p>
-    <p ng-show="config.forms.password.success">
+    <p ng-show="user.forms.password.error === 'match'">
+        <b>Die beiden Passwörter sind nicht gleich!</b>
+    </p>
+    <p ng-show="user.forms.password.success">
         Das Passwort wurde erfolgreich geändert.
     </p>
 

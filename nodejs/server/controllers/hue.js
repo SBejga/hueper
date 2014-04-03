@@ -298,13 +298,19 @@ var cleanHueState = function(state) {
 
     // clean configuration to prevent it from always being recognized as changed
 
-    // remove UTC
+    // remove timestamps
     delete state.config.UTC;
+    delete state.config.localtime;
 
     // remove time from last use date
     for (i in state.config.whitelist) {
         if(state.config.whitelist.hasOwnProperty(i)) {
-            state.config.whitelist[i]['last use date'] = state.config.whitelist[i]['last use date'].substring(0, 10);
+            state.config.whitelist[i]['last use date'] = state.config.whitelist[i]['last use date'].substring(0, 17) + '00';
+
+            if(i === app.config.hueUser) {
+                state.config.whitelist[i].currentUser = true;
+                state.config.whitelist[i]['last use date'] = state.config.whitelist[i]['last use date'].substring(0, 14) + '00:00';
+            }
         }
     }
 

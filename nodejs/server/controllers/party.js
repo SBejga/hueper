@@ -54,6 +54,12 @@ var init = function() {
             }
         );
 
+        // stop party mode when deleted
+        if(app.state.appConfig.partyMode === id) {
+            app.state.appConfig.partyMode = false;
+            app.controllers.socket.refreshState(false, 'appConfig.partyMode');
+        }
+
     });
 
     app.controllers.arduino.addListener(arduinoListener);
