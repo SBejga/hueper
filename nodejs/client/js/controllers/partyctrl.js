@@ -1,7 +1,9 @@
 angular.module('hueApp.controllers').
-controller('PartyCtrl', ['$scope', function($scope) {
+controller('PartyCtrl', ['$scope', 'stateManager', function($scope, stateManager) {
 
-    $scope.party = {
+        stateManager($scope);
+
+        $scope.party = {
 
         forms: {
             create: {

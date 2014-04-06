@@ -1,5 +1,7 @@
 angular.module('hueApp.controllers').
-controller('LightAndGroupCtrl', ['$scope', '$location',function($scope, $location) {
+controller('LightAndGroupCtrl', ['$scope', '$location', 'stateManager', function($scope, $location, stateManager) {
+
+    stateManager($scope);
 
     // light control
     $scope.lights = {
@@ -121,10 +123,23 @@ controller('LightAndGroupCtrl', ['$scope', '$location',function($scope, $locatio
             return groupsOfLamp;
         },
 
-
-
         getLightFromUrl: function(){
             $scope.lights.selectedLight = $location.search();
+        },
+
+        saveColorAsFavorite: function(){
+            numberOfFavorites=0;
+            angular.forEach($scope.state.favorites, function(value){
+                numberOfFavorites = numberOfFavorites + 1;
+            });
+
+            if(numberOfFavorites < 6){
+                return true;
+            }
+            else {
+                return false;
+            }
+
         }
     };
 

@@ -1,5 +1,8 @@
 angular.module('hueApp.controllers', []).
-controller('MainCtrl', ['$scope', 'socket', '$timeout', function($scope, socket, $timeout) {
+controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', function($scope, socket, $timeout, stateManager) {
+
+
+        stateManager($scope);
 
     // TODO remove
     scope = $scope;
