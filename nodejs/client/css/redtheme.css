@@ -422,26 +422,26 @@ html .ui-panel-page-container-b {
 html .ui-bar-b a,
 html .ui-body-b a,
 html body .ui-group-theme-b a {
-    color: #f6574c /*{b-link-color}*/;
+    color: #333333 /*{b-link-color}*/;
     font-weight: bold;
 }
 .ui-page-theme-b a:visited,
 html .ui-bar-b a:visited,
 html .ui-body-b a:visited,
 html body .ui-group-theme-b a:visited {
-    color: #3388cc /*{b-link-visited}*/;
+    color: #333333 /*{b-link-visited}*/;
 }
 .ui-page-theme-b a:hover,
 html .ui-bar-b a:hover,
 html .ui-body-b a:hover,
 html body .ui-group-theme-b a:hover {
-    color: #005599 /*{b-link-hover}*/;
+    color: #666666 /*{b-link-hover}*/;
 }
 .ui-page-theme-b a:active,
 html .ui-bar-b a:active,
 html .ui-body-b a:active,
 html body .ui-group-theme-b a:active {
-    color: #005599 /*{b-link-active}*/;
+    color: #666666 /*{b-link-active}*/;
 }
 /* Button up */
 .ui-page-theme-b .ui-btn,

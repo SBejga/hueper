@@ -66,22 +66,61 @@ button:active{
     background-color: rgba(236, 236, 236, 0.6) !important;
 }
 
+.overlap_replace_favorite{
+    background-color: rgba(128, 0, 0, 0.8) !important;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    min-height: 200px;
+}
+
+.overlap_arrow_down{
+    text-align:center;
+    padding-top:5px
+}
+
+
+.light_name_edit{
+    float:right;
+    width:35px;
+    padding-top: 2px;
+}
+
+.light_name_input{
+    margin-right:45px;
+}
 
 
 .light_wrapper{
     position: relative;
-    height:370px;
-    width:250px;
+    height:220px;
+    width:150px;
     margin:auto;
     max-width: 100%;
+}
 
+.light_wrapper_80width{
+    position: relative;
+    height:112px;
+    width:80px;
+    margin:auto;
+    max-width: 100%;
 }
 
 
 .light_color{
     position: absolute;
-    width:250px;
-    height:250px;
+    width:150px;
+    height:150px;
+    border-radius: 200px;
+    max-width: 100%;
+}
+
+.light_color_80width{
+    position: absolute;
+    width:80px;
+    height:80px;
     border-radius: 200px;
     max-width: 100%;
 }
@@ -100,12 +139,21 @@ button:active{
     overflow: hidden;
 }
 
+.light_group_img{
+    float: left;
+    padding: 5px;
+}
+
+.light_group_a{
+    float: right;
+    margin-top: 20px;
+}
 
 .favorites_wrapper{
     display: inline-block;
     height: 32px;
     width:32px;
-    padding:5px;
+    padding:8px;
 
 }
 
@@ -161,7 +209,7 @@ button:active{
 .slider-track {
     height:16px;
     margin:8px 0;
-    background-color:rgba(255,255,255,0.05);
+    background-color:rgba(255,255,255,0.8);
 }
 
 .slider-handle-container {
@@ -183,12 +231,12 @@ button:active{
     width:32px;
     height:32px;
     margin:0 -16px;
-    background-color:rgba(255,255,255,0.1);
+    background-color:rgba(255,255,255,0.5);
 }
 
 .slider.vertical {
     width:32px;
-    height:224px;
+    height:210px;
     -ms-touch-action:none;
     touch-action:none;
     margin:0 16px;

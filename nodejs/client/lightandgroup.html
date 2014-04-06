@@ -35,59 +35,58 @@
 
 <body>
 
-<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl, lgCtrl:LightAndGroupCtrl" data-theme="b">
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl, lgCtrl:LightAndGroupCtrl" class="background_red" data-theme="b">
 
-    <div class="header">
-        <h2>Lampen & Gruppen</h2>
-    </div><!-- /header -->
+    <!-- HEADER -->
+    <div data-role="header">
+        <div><a href="index.html">
+            <img src="css/images/icons/icon-menu-red.png" class="header_right_icon">
+        </a></div>
+        <h2 class="header_title">Lights & Groups</h2>
+    </div>
+
 
     <div data-role="content">
-        <div data-role="navbar">
-            <ul>
-                <li><a href="lightandgroup.html"><img src="css/images/birne.png"></a></li>
-                <li><a href=""><img src="css/images/birne.png"></a></li>
-                <li><a href=""><img src="css/images/birne.png"></a></li>
-                <li><a href=""><img src="css/images/birne.png"></a></li>
-                <li><a href="properties.html" data-theme="a"><img src="css/images/birne.png"></a></li>
-            </ul>
-        </div><!-- /navbar -->
+
+        <div class="transparent_bg" style="padding:7px">
+            <div>
+                <a href="#" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext light_group_a" style="float:right;"></a>
+                <h2>Lights</h2>
+            </div>
 
 
-        <span class="ui-btn-inline"><h3>Lampen</h3></span>
-        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext"></button>
-        <br>
-        <div class="ui-btn-inline horizontal_button_view">
-            <a href="light.html?id=5"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">Beispiellampe</a>
+            <div ng-repeat="(id, light) in sharedScope.state.lights" class="ui-btn-inline horizontal_button_view" style="text-align:center">
+                <a href="light.html?id={{id}}">
+                <div class="light_wrapper_80width">
+                    <div class="light_color_80width" hueper-color="sharedScope.state.lights[id].state">
+                    </div>
+                    <div class="light_template">
+                        <img src="./css/images/transparent_light_80width.png">
+                    </div>
+                </div>
+                {{light.name}}
+                </a>
+            </div>
 
+
+            <div style="padding-top: 25px">
+                <a href="#" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right"></a>
+                <a href="#" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right"></a>
+                <h2>Groups</h2>
+            </div>
+
+
+            <div class="light_group" ng-repeat="(id, group) in sharedScope.state.groups">
+                <a href="#" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline light_group_a"></a>
+                <a href="group.html?id={{id}}">
+                <img src="./css/images/transparent_group_small.png" class="light_group_img">
+                {{group.name}}
+                </a>
+            </div>
         </div>
-        <br>
-
-        <div ng-repeat="(id, light) in sharedScope.state.lights" class="ui-btn-inline horizontal_button_view">
-            <a href="light.html?id={{id}}"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{light.name}}</a>
-        </div>
-
-        <br>
-        <br>
 
 
-        <span class="ui-btn-inline"><h3>Gruppen</h3></span>
-        <button class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext"  style="float: right"></button>
-        <br>
-        <div class="ui-btn-inline horizontal_button_view">
-            <a href="group.html"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">Beispielgruppe</a>
-        </div>
-        <div ng-repeat="g in sharedScope.state.groups" class="ui-btn-inline horizontal_button_view">
-            <a href="group.html?group={{g.name}}"class="ui-btn ui-corner-all ui-icon-singlelamp ui-btn-icon-top">{{g.name}}</a>
-        </div>
-
-
-
-    </div><!-- /content -->
-
-<div data-role="footer" data-position="fixed" style="text-align: center">
-    <h4>Impressum</h4>
-</div><!-- /footer -->
-
+    </div><!--END OF CONTENT-->
 </div>
 </body>
 </html>
