@@ -213,8 +213,8 @@ directive('hueperSlider', ['$timeout', function($timeout) {
                 step = parseFloat(attrs.step) || 1,
                 round = parseFloat(attrs.round) || 0,
 
-                handleWidth = 32,
-                handleCenter = 16,
+                handleWidth = 16,
+                handleCenter = 8,
 
                 valueDelta = Math.round(Math.abs(max - min), round),
 

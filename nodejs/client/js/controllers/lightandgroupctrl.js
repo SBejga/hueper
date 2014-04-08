@@ -128,7 +128,7 @@ controller('LightAndGroupCtrl', ['$scope', '$location', 'stateManager', function
         },
 
         saveColorAsFavorite: function(){
-            numberOfFavorites=0;
+            var numberOfFavorites=0;
             angular.forEach($scope.state.favorites, function(value){
                 numberOfFavorites = numberOfFavorites + 1;
             });
@@ -137,10 +137,11 @@ controller('LightAndGroupCtrl', ['$scope', '$location', 'stateManager', function
                 return true;
             }
             else {
-                return false;
+                $scope.sharedScope.submenu.openSubmenu("replaceFavorite");
             }
 
         }
+
     };
 
     // group control
@@ -277,6 +278,6 @@ controller('LightAndGroupCtrl', ['$scope', '$location', 'stateManager', function
 
     };
 
-    $scope.$on('$locationChangeSuccess', $scope.lights.getLightFromUrl);
+    $scope.lights.getLightFromUrl();
 
     }]);

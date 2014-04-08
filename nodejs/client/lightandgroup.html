@@ -35,7 +35,7 @@
 
 <body>
 
-<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl, lgCtrl:LightAndGroupCtrl" class="background_red" data-theme="b">
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl" class="background_red" data-theme="b">
 
     <!-- HEADER -->
     <div data-role="header">
@@ -46,27 +46,73 @@
     </div>
 
 
-    <div data-role="content">
+    <div data-role="content" ng-controller="LightAndGroupCtrl">
 
         <div class="transparent_bg" style="padding:7px">
             <div>
-                <a href="#" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext light_group_a" style="float:right;"></a>
+                <a href="#" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right; margin-top: -1px"></a>
+                <a href="#" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right; margin-top: -1px" ng-click="lights.stateAll({on: false})"></a>
                 <h2>Lights</h2>
             </div>
 
 
             <div ng-repeat="(id, light) in sharedScope.state.lights" class="ui-btn-inline horizontal_button_view" style="text-align:center">
-                <a href="light.html?id={{id}}">
-                <div class="light_wrapper_80width">
-                    <div class="light_color_80width" hueper-color="sharedScope.state.lights[id].state">
+                <a href="light.html?id={{id}}"  style="text-decoration: none">
+                <div class="light_wrapper_69width">
+                    <div class="light_color_69width" hueper-color="sharedScope.state.lights[id].state">
                     </div>
                     <div class="light_template">
-                        <img src="./css/images/transparent_light_80width.png">
+                        <img src="./css/images/transparent_light_69width.png">
                     </div>
                 </div>
                 {{light.name}}
                 </a>
             </div>
+
+            <!-- for testing without Lamp-->
+            <div class="ui-btn-inline horizontal_button_view" style="text-align:center">
+                <a href="light.html?id=test" style="text-decoration: none">
+                    <div class="light_wrapper_69width">
+                        <div class="light_color_69width" style="background-color: green">
+                        </div>
+                        <div class="light_template">
+                            <img src="./css/images/transparent_light_69width.png">
+                        </div>
+                    </div>
+                    Licht1
+                </a>
+            </div>
+            <div class="ui-btn-inline horizontal_button_view" style="text-align:center">
+                <a href="light.html?id=test"  style="text-decoration: none">
+                    <div class="light_wrapper_69width">
+                        <div class="light_color_69width" style="background-color: yellow">
+                        </div>
+                        <div class="light_template">
+                            <img src="./css/images/transparent_light_69width.png">
+                        </div>
+                    </div>
+                    Licht2
+                </a>
+            </div>
+            <div class="ui-btn-inline horizontal_button_view" style="text-align:center; text-decoration: none !important">
+                <a href="light.html?id=test" style="text-decoration: none">
+                    <div class="light_wrapper_69width">
+                        <div class="light_color_69width" style="background-color: red">
+                        </div>
+                        <div class="light_template">
+                            <img src="./css/images/transparent_light_69width.png">
+                        </div>
+                    </div>
+                    Licht3
+                </a>
+            </div>
+            <!--END testing part-->
+
+
+
+
+
+
 
 
             <div style="padding-top: 25px">
@@ -78,11 +124,29 @@
 
             <div class="light_group" ng-repeat="(id, group) in sharedScope.state.groups">
                 <a href="#" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline light_group_a"></a>
-                <a href="group.html?id={{id}}">
+                <a href="group.html?id={{id}}" style="text-decoration: none">
                 <img src="./css/images/transparent_group_small.png" class="light_group_img">
                 {{group.name}}
                 </a>
             </div>
+
+            <!-- for testing without Lamp-->
+            <div class="light_group">
+                <a href="#" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline light_group_a"></a>
+                <a href="group.html?id={{id}}" style="text-decoration: none">
+                    <img src="./css/images/transparent_group_small.png" class="light_group_img">
+                    Group1
+                </a>
+            </div>
+            <div class="light_group">
+                <a href="#" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline light_group_a"></a>
+                <a href="group.html?id={{id}}" style="text-decoration: none">
+                    <img src="./css/images/transparent_group_small.png" class="light_group_img">
+                    Group2
+                </a>
+            </div>
+            <!--END testing part-->
+
         </div>
 
 
