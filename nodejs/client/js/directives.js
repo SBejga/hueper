@@ -335,7 +335,7 @@ directive('hueperSlider', ['$timeout', function($timeout) {
  * - clean: Remove the state properties of the colormode that is currently not used
  */
 
-directive('hueperColorpicker', function() {
+directive('hueperColorpicker', ['$timeout', function($timeout) {
     return {
         template: '<div class="colorpicker" hueper-touch>\
                     <div class="colorpicker-handle-container">\
@@ -556,7 +556,7 @@ directive('hueperColorpicker', function() {
 
         }
     };
-}).
+}]).
 
 /**
  * computes the RGB color of a light state and applies it as background-color to an element

@@ -3,6 +3,7 @@
     'hueApp.controllers',
     'hueApp.filters',
     'hueApp.services',
-    'hueApp.directives'
+    'hueApp.directives',
+    'jqmAdapter'
 ]);
 

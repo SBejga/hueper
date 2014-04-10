@@ -506,7 +506,7 @@ html .ui-bar-b .ui-slider-track .ui-btn-active,
 html .ui-body-b .ui-slider-track .ui-btn-active,
 html body .ui-group-theme-b .ui-slider-track .ui-btn-active,
 html body div.ui-slider-track.ui-body-b .ui-btn-active {
-    background-color: #df6869 /*{b-active-background-color}*/;
+    background-color: #a00000 /*{b-active-background-color}*/;
     border-color: #7a3939 /*{b-active-border}*/;
     color: #ffffff /*{b-active-color}*/;
     text-shadow: 0 /*{b-active-shadow-x}*/ 0px /*{b-active-shadow-y}*/ 0 /*{b-active-shadow-radius}*/ #005599 /*{b-active-shadow-color}*/;
@@ -517,7 +517,7 @@ html .ui-bar-b .ui-radio-on:after,
 html .ui-body-b .ui-radio-on:after,
 html body .ui-group-theme-b .ui-radio-on:after,
 .ui-btn.ui-radio-on.ui-btn-b:after {
-    border-color: #df6869 /*{b-active-background-color}*/;
+    border-color: #a00000 /*{b-active-background-color}*/;
 }
 /* Focus */
 .ui-page-theme-b .ui-btn:focus,
@@ -532,9 +532,9 @@ html .ui-body-b .ui-focus,
 html body .ui-group-theme-b .ui-focus,
 html head + body .ui-btn-b.ui-focus,
 html head + body .ui-body-b.ui-focus {
-    -webkit-box-shadow: 0 0 12px #df6869 /*{b-active-background-color}*/;
-    -moz-box-shadow: 0 0 12px #df6869 /*{b-active-background-color}*/;
-    box-shadow: 0 0 12px #df6869 /*{b-active-background-color}*/;
+    -webkit-box-shadow: 0 0 12px #a00000 /*{b-active-background-color}*/;
+    -moz-box-shadow: 0 0 12px #a00000 /*{b-active-background-color}*/;
+    box-shadow: 0 0 12px #a00000 /*{b-active-background-color}*/;
 }
 
 

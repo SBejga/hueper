@@ -1,5 +1,5 @@
 angular.module('hueApp.controllers').
-controller('LightAndGroupCtrl', ['$scope', '$location', 'stateManager', function($scope, $location, stateManager) {
+controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager', function($scope, socket, $location, stateManager) {
 
     stateManager($scope);
 
@@ -139,8 +139,16 @@ controller('LightAndGroupCtrl', ['$scope', '$location', 'stateManager', function
             else {
                 $scope.sharedScope.submenu.openSubmenu("replaceFavorite");
             }
+        },
 
+        turnLightOnOff: function(id){
+            if($scope.state.lights[id].state.on === true){
+                $scope.lights.state($scope.lights.selectedLight.id, {on: false});
+            }else{
+                $scope.lights.state($scope.lights.selectedLight.id, {on: true});
+            }
         }
+
 
     };
 

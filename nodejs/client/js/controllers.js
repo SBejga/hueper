@@ -1,5 +1,5 @@
 angular.module('hueApp.controllers', []).
-controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', function($scope, socket, $timeout, stateManager) {
+controller('MainCtrl', ['$scope', '$rootScope', 'socket', '$timeout', 'stateManager', function($scope, $rootScope, socket, $timeout, stateManager) {
 
     stateManager($scope);
 
@@ -132,7 +132,7 @@ controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', function
     // helper functions
     // checkbox list to array conversion
 
-    $scope.helpers = {
+    $rootScope.helpers = {
 
             /**
              * toggle add/remove element to array
