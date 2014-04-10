@@ -67,7 +67,7 @@ button:active{
 
 .overlap{
     background-color: rgba(128, 0, 0, 0.8) !important;
-    position: absolute;
+    position: fixed;
     bottom: 0px;
     left: 0px;
     width: 100%;
@@ -80,13 +80,13 @@ button:active{
 }
 
 
-.light_name_edit{
+.lightgroup_name_edit{
     float:right;
     width:35px;
     padding-top: 2px;
 }
 
-.light_name_input{
+.lightgroup_name_input{
     margin-right:45px;
 }
 

@@ -105,6 +105,17 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         },
 
         /**
+         * Set lightid of SelectedLight
+         * @param id
+         */
+        setSelectedLight: function(id) {
+            console.log( id );
+            $scope.lights.selectedLight = id;
+        },
+
+
+
+        /**
          *
          *
          * @param id of the specified light
@@ -156,6 +167,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
 
     $scope.groups = {
 
+        selectedGroup: 0,
         // placeholder for form data
         forms: {
 
@@ -230,6 +242,25 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         },
 
         /**
+         * Rename a group
+         * @param id
+         * @param name
+         */
+        setName: function(id, name) {
+
+            if(typeof($scope.state.groups[id]) == 'undefined') {
+                return;
+            }
+
+            socket.emit('group.name', {
+                id: id,
+                name: name
+            });
+
+            $scope.state.groups[id].name = name;
+        },
+
+        /**
          * update group
          * @param id
          * @param {object} group light IDs as strings!
@@ -249,6 +280,10 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         remove: function(id) {
             socket.emit('group.remove', id);
             delete $scope.state.groups[id];
+        },
+
+        getGroupFromUrl: function(){
+            $scope.groups.selectedGroup = $location.search();
         }
 
     };
@@ -287,5 +322,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
     };
 
     $scope.lights.getLightFromUrl();
+    $scope.groups.getGroupFromUrl();
+
 
     }]);

@@ -213,21 +213,26 @@ controller('MainCtrl', ['$scope', '$rootScope', 'socket', '$timeout', 'stateMana
     //Submenu functions
     $scope.submenu = {
 
-        visibleReplaceFavorite: false,
         visibleChangeLightColor: false,
+        visibleReplaceFavorite: false,
+        visibleAddLightToGroup: false,
 
         openSubmenu: function(menuname){
-            if(menuname === "replaceFavorite"){
+            if(menuname === "changeLightColor"){
+                $scope.submenu.visibleChangeLightColor = true;
+            }
+            else if(menuname === "replaceFavorite"){
                 $scope.submenu.visibleReplaceFavorite = true;
             }
-            else if(menuname === "changeLightColor"){
-                $scope.submenu.visibleChangeLightColor = true;
+            else if(menuname === "addLightToGroup"){
+                $scope.submenu.visibleAddLightToGroup = true;
             }
         },
 
         closeSubmenu: function(){
-            $scope.submenu.visibleReplaceFavorite = false;
             $scope.submenu.visibleChangeLightColor = false;
+            $scope.submenu.visibleReplaceFavorite = false;
+            $scope.submenu.visibleAddLightToGroup = false;
         }
 
     };
