@@ -54,15 +54,14 @@
             <div>
                 <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right; margin-top: -1px"></span>
                 <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right; margin-top: -1px"
-                      ng-click="lights.turnLightOnOff('allLights')"></span>
+                      ng-click="lights.turnAllLightsOnOff()"></span>
                 <h2>Lights</h2>
             </div>
 
             <div ng-repeat="(id, light) in sharedScope.state.lights" class="ui-btn-inline horizontal_button_view" style="text-align:center">
                 <a href="light.html?id={{id}}"  style="text-decoration: none">
                 <div class="light_wrapper_69width">
-                    <div class="light_color_69width" hueper-color="sharedScope.state.lights[id].state">
-                    </div>
+                    <div class="light_color_69width" hueper-color="sharedScope.state.lights[id].state"></div>
                     <div class="light_template">
                         <img src="./css/images/transparent_light_69width.png">
                     </div>
@@ -73,8 +72,10 @@
 
         <!-- GROUP MENU -->
             <div style="padding-top: 25px">
-                <a href="#" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right"></a>
-                <a href="#" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right"></a>
+                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline
+                    light_group_a" style="float:right"></span>
+                <a href="addGroup.html" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                    light_group_a" style="float:right"></a>
                 <h2>Groups</h2>
             </div>
 

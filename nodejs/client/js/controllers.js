@@ -1,5 +1,5 @@
 angular.module('hueApp.controllers', []).
-controller('MainCtrl', ['$scope', '$rootScope', 'socket', '$timeout', 'stateManager', function($scope, $rootScope, socket, $timeout, stateManager) {
+controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout', 'stateManager', function($scope, $rootScope, $location, socket, $timeout, stateManager) {
 
     stateManager($scope);
 
@@ -134,13 +134,15 @@ controller('MainCtrl', ['$scope', '$rootScope', 'socket', '$timeout', 'stateMana
 
     $rootScope.helpers = {
 
-            /**
+        urlId: 0,
+
+        /**
              * toggle add/remove element to array
              * @param arr
              * @param el
              * @param {boolean} numeric convert element to integer
              */
-            toggleList: function(arr, el, numeric) {
+        toggleList: function(arr, el, numeric) {
 
                 if(arr === undefined) {
                     arr = [];
@@ -158,14 +160,14 @@ controller('MainCtrl', ['$scope', '$rootScope', 'socket', '$timeout', 'stateMana
                 }
             },
 
-            /**
+        /**
              * Check if array contains element
              * @param arr
              * @param el
              * @param {boolean} numeric convert element to integer
              * @returns {boolean}
              */
-            listChecked: function(arr, el, numeric) {
+        listChecked: function(arr, el, numeric) {
 
                 if(arr === undefined) {
                     arr = [];
@@ -206,6 +208,18 @@ controller('MainCtrl', ['$scope', '$rootScope', 'socket', '$timeout', 'stateMana
 
         removeFromArray: function(arr, index) {
             arr.splice(index, 1);
+        },
+
+        /**
+         *  If the Url contains an ID (for example GroupID or LightID)
+         *  this functions sets the global urlId to this ID.
+         *
+         */
+        getIdFromUrl: function(){
+            var url = $location.absUrl().toString();
+            if(url.indexOf("id") != -1){
+                $scope.helpers.urlId = $location.search().id;
+            }
         }
     };
 
@@ -213,29 +227,22 @@ controller('MainCtrl', ['$scope', '$rootScope', 'socket', '$timeout', 'stateMana
     //Submenu functions
     $scope.submenu = {
 
-        visibleChangeLightColor: false,
-        visibleReplaceFavorite: false,
-        visibleAddLightToGroup: false,
-
+        visible:{},
         openSubmenu: function(menuname){
-            if(menuname === "changeLightColor"){
-                $scope.submenu.visibleChangeLightColor = true;
-            }
-            else if(menuname === "replaceFavorite"){
-                $scope.submenu.visibleReplaceFavorite = true;
-            }
-            else if(menuname === "addLightToGroup"){
-                $scope.submenu.visibleAddLightToGroup = true;
-            }
+            $scope.submenu.visible = {};
+            $scope.submenu.visible[menuname] = true;
         },
 
         closeSubmenu: function(){
-            $scope.submenu.visibleChangeLightColor = false;
-            $scope.submenu.visibleReplaceFavorite = false;
-            $scope.submenu.visibleAddLightToGroup = false;
+            $scope.submenu.visible = {};
         }
-
     };
+
+    $scope.$on("$locationChangeSuccess", function(){
+        $rootScope.helpers.getIdFromUrl();
+        $scope.submenu.closeSubmenu();
+    });
+
 }]);
 
 

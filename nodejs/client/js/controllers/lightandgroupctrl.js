@@ -6,7 +6,8 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
     // light control
     $scope.lights = {
 
-        selectedLight: 0,
+        selectedLightId:0,
+
         /**
          * Change state attributes of a light
          * @param {integer} id 0 for all lights
@@ -108,19 +109,16 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
          * Set lightid of SelectedLight
          * @param id
          */
-        setSelectedLight: function(id) {
+        setSelectedLightId: function(id) {
             console.log( id );
-            $scope.lights.selectedLight = id;
+            $scope.lights.selectedLightId = id;
         },
-
-
 
         /**
          *
          *
          * @param id of the specified light
          */
-
         getGroups: function(id){
 
             var groupsOfLamp = [];
@@ -132,10 +130,6 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
                 }
             });
             return groupsOfLamp;
-        },
-
-        getLightFromUrl: function(){
-            $scope.lights.selectedLight = $location.search();
         },
 
         saveColorAsFavorite: function(){
@@ -154,12 +148,21 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
 
         turnLightOnOff: function(id){
             if($scope.state.lights[id].state.on === true){
-                $scope.lights.state($scope.lights.selectedLight.id, {on: false});
+                $scope.lights.state(id, {on: false});
             }else{
-                $scope.lights.state($scope.lights.selectedLight.id, {on: true});
+                $scope.lights.state(id, {on: true});
             }
-        }
+        },
 
+        turnAllLightsOnOff: function(){
+            var statusOfLights = false;
+            angular.forEach($scope.state.lights, function(light){
+                if(light.state.on === true){
+                    statusOfLights = true;
+                }
+            });
+            $scope.lights.stateAll({on: !statusOfLights});
+        }
 
     };
 
@@ -167,7 +170,6 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
 
     $scope.groups = {
 
-        selectedGroup: 0,
         // placeholder for form data
         forms: {
 
@@ -241,24 +243,6 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             $scope.groups.forms.create.lights = [];
         },
 
-        /**
-         * Rename a group
-         * @param id
-         * @param name
-         */
-        setName: function(id, name) {
-
-            if(typeof($scope.state.groups[id]) == 'undefined') {
-                return;
-            }
-
-            socket.emit('group.name', {
-                id: id,
-                name: name
-            });
-
-            $scope.state.groups[id].name = name;
-        },
 
         /**
          * update group
@@ -282,8 +266,28 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             delete $scope.state.groups[id];
         },
 
-        getGroupFromUrl: function(){
-            $scope.groups.selectedGroup = $location.search();
+        removeLight: function(groupId, lightId){
+            console.log("GruppenID: " + groupId + " contains Lights: " + $scope.state.groups[groupId].lights.toString());
+            $scope.state.groups[groupId].lights.splice($scope.state.groups[groupId].lights.indexOf(lightId), 1);
+
+
+
+            if($scope.state.groups[groupId].lights.length === 0){
+                //$scope.groups.remove(groupId);
+                console.log("group " + groupId + " has no light left and was deleted" );
+            }
+
+            console.log("GruppenID: " + groupId + " contains Lights: " + $scope.state.groups[groupId].lights.toString());
+        },
+
+        turnGroupOnOff: function(id){
+            var statusOfGroup = false;
+            angular.forEach($scope.state.groups[id].lights, function(lightId){
+                if($scope.state.lights[lightId].state.on === true){
+                    statusOfGroup = true;
+                }
+            });
+            $scope.groups.state(id, {on: !statusOfGroup});
         }
 
     };
@@ -320,9 +324,4 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         }
 
     };
-
-    $scope.lights.getLightFromUrl();
-    $scope.groups.getGroupFromUrl();
-
-
-    }]);
+}]);
