@@ -269,14 +269,11 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         removeLight: function(groupId, lightId){
             console.log("GruppenID: " + groupId + " contains Lights: " + $scope.state.groups[groupId].lights.toString());
             $scope.state.groups[groupId].lights.splice($scope.state.groups[groupId].lights.indexOf(lightId), 1);
-
-
-
             if($scope.state.groups[groupId].lights.length === 0){
                 //$scope.groups.remove(groupId);
                 console.log("group " + groupId + " has no light left and was deleted" );
             }
-
+            $scope.groups.update(groupId, $scope.state.groups[groupId]);
             console.log("GruppenID: " + groupId + " contains Lights: " + $scope.state.groups[groupId].lights.toString());
         },
 
