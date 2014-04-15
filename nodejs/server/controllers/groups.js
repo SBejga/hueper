@@ -57,7 +57,13 @@ var socketListeners = function(socket) {
         console.log('[groups] Update group: ', data);
 
         if(typeof(app.state.groups[data.id]) === 'undefined') {
-            console.log('group does not exist!');
+            console.log('[groups] group does not exist!');
+            return;
+        }
+
+        // prevent empty group as it would result in an API error
+        if(!data.lights || !data.lights.length) {
+            console.log('[groups] Tried to update group with no lights. Aborting...');
             return;
         }
 
