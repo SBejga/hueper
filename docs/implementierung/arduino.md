@@ -42,6 +42,6 @@ Die Beat-Erkennung funktioniert nach dem folgenden Prinzip:
 -   Bei jedem Zyklus des Arduino-Hauptprogramms wird der aktuelle Wert des Sensors gemessen. Da er manchmal trotz Umgebungsgeräuschen 0 zurückgibt, wird so oft gemessen, bis ein Wert ungleich 0 herauskommt
 -   Der gemessene Wert wird durch einen festgelegten Wert geteilt, quadriert und dann auf eine Summe aufaddiert (Sample-Summe)
 -   Die Summe besteht aus einer festgelegten Anzahl von Messungen. Wurde n mal gemessen, wird die Summe in ein Array zusammen mit früheren Summen gespeichert (Frames)
--   Um zu erkennen, ob die aktuelle Summe einen Taktschlag darstellt, wird ihr Wert mit dem Durschnittswert der gespeicherten Frames verglichen
+-   Um zu erkennen, ob die aktuelle Summe einen Taktschlag darstellt, wird ihr Wert mit dem Durchschnittswert der gespeicherten Frames verglichen
 -   Überschreitet der Unterschieds-Faktor einen festgelegten Schwellwert, wird ein Beat erkannt. Da bei höherer Musik-Lautstärke der Unterschied zwischen Taktschlägen und restlicher Musik nicht so groß ist, wird die Amplitudensumme des aktuellen Samples mit in den Schwellwert eingerechnet
 -   Um eine zu schnelle Takterkennung zu verhindern, darf ein Schlag erst eine festgelegte Zeitspanne nach dem letzten erkannt werden
