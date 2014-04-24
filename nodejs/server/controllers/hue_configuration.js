@@ -15,8 +15,8 @@ var socketListeners = function(socket) {
         });
 
         delete app.state.config.whitelist[data.id];
-        app.controllers.socket.deleteFromState(
-            app.controllers.socket.getBroadcastSocket(socket),
+        app.controllers.socket.deleteFromStateOfOthers(
+            socket,
             ['config.whitelist.' + data.id]
         );
     });
@@ -29,8 +29,8 @@ var socketListeners = function(socket) {
         });
 
         app.state.config.linkbutton = true;
-        app.controllers.socket.refreshState(
-            app.controllers.socket.getBroadcastSocket(socket),
+        app.controllers.socket.refreshStateOfOthers(
+            socket,
             ['config.linkbutton']
         );
     });
@@ -56,8 +56,8 @@ var socketListeners = function(socket) {
                 { swupdate: { updatestate: 3 } }
             );
 
-            app.controllers.socket.refreshState(
-                app.controllers.socket.getBroadcastSocket(socket),
+            app.controllers.socket.refreshStateOfOthers(
+                socket,
                 ['config.swupdate.updatestate']
             );
         }

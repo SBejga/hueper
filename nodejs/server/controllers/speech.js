@@ -74,8 +74,8 @@ var socketListener = function(socket) {
         console.log('[speech] Activate test mode for ' + mseconds + 'ms');
 
         app.state.speech.testMode = true;
-        app.controllers.socket.refreshState(
-            app.controllers.socket.getBroadcastSocket(socket),
+        app.controllers.socket.refreshStateOfOthers(
+            socket,
             ['speech']
         );
 

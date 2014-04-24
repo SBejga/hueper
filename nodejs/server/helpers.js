@@ -201,8 +201,8 @@ var initCrudTemplate = function(app, Model, name, prefix, loadCallback) {
                 }
 
                 app.state[name][id] = entry;
-                app.controllers.socket.refreshState(
-                    app.controllers.socket.getBroadcastSocket(socket),
+                app.controllers.socket.refreshStateOfOthers(
+                    socket,
                     [name + '.' + id]
                 );
 
@@ -222,8 +222,8 @@ var initCrudTemplate = function(app, Model, name, prefix, loadCallback) {
             var data = copy(app.state[name][id]);
 
             delete app.state[name][id];
-            app.controllers.socket.deleteFromState(
-                app.controllers.socket.getBroadcastSocket(socket),
+            app.controllers.socket.deleteFromStateOfOthers(
+                socket,
                 [name + '.' + id]
             );
 

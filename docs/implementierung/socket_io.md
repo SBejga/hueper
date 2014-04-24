@@ -123,13 +123,13 @@
 
 ```js
 app.controllers.socket.broadcast(data);
-app.controllers.socket.broadcastSocket(socket, data);
+app.controllers.socket.broadcastToOthers(socket, data);
 ```
 
 Alle eingeloggten Sockets außer einem erhalten:
 
 ```js
-app.controllers.socket.getBroadcastSocket(socket)
+app.controllers.socket.getOtherSockets(socket)
 ```
 
 

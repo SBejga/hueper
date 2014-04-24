@@ -14,7 +14,7 @@ var socketListeners = function(socket) {
         app.controllers.hue.setGroupLightState(
             data.id,
             data.state,
-            app.controllers.socket.getBroadcastSocket(socket)
+            app.controllers.socket.getOtherSockets(socket)
         );
     });
 
@@ -82,8 +82,8 @@ var socketListeners = function(socket) {
                                 lights: data.lights
                             };
 
-                            app.controllers.socket.refreshState(
-                                app.controllers.socket.getBroadcastSocket(socket),
+                            app.controllers.socket.refreshStateOfOthers(
+                                socket,
                                 ['groups.' + data.id]
                             );
                         })
@@ -105,8 +105,8 @@ var socketListeners = function(socket) {
         });
 
         delete app.state.groups[id];
-        app.controllers.socket.deleteFromState(
-            app.controllers.socket.getBroadcastSocket(socket),
+        app.controllers.socket.deleteFromStateOfOthers(
+            socket,
             ['groups.' + id]
         );
 

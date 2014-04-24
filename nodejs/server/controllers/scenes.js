@@ -79,8 +79,8 @@ var applyScene = function(id, transition, socket) {
     }
 
     if(socket) {
-        app.controllers.socket.refreshState(
-            app.controllers.socket.getBroadcastSocket(socket),
+        app.controllers.socket.refreshStateOfOthers(
+            socket,
             ['lights']
         );
     }

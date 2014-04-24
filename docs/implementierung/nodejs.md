@@ -220,11 +220,13 @@ Installation über `npm install` im Projekt-Ordner *nodejs*, aktualisieren über
         -   **applyScene(id, transition, socket)**: Szene anwenden
     -   **socket**: Handling von Socket.IO-Verbindungen und Benutzer-Login
         -   **refreshState(socket, areas)**: An bestimmte Clients bestimmte Teile des app.state-Objekts senden
+        -   **refreshStateOfOthers(socket, areas)**: An andere Clients bestimmte Teile des app.state-Objekts senden
         -   **deleteFromState(socket, areas)**: Bestimmte Teile des app.state-Objekts bei bestimmten Clients löschen
+        -   **deleteFromStateOfOthers(socket, areas)**: Bei anderen Clients bestimmte Teile des app.state-Objekts löschen
         -   **addSocketListener(listener)**: Hook für andere Controller, um bestimmte Socket.IO-Nachrichten abzufangen
         -   **broadcast(data)**: Nachricht an alle eingeloggten Benutzer schicken
-        -   **broadcastSocket(socket, data)**: Nachricht an alle eingeloggten Benutzer außer den des Sockets schicken
-        -   **getBroadcastSocket(socket)**: Alle Sockets von eingeloggten Benutzern außer dem übergebenen erhalten
+        -   **broadcastToOthers(socket, data)**: Nachricht an alle eingeloggten Benutzer außer den des Sockets schicken
+        -   **getOtherSockets(socket)**: Alle Sockets von eingeloggten Benutzern außer dem übergebenen erhalten
         -   **getConnectedUserCount()**: Anzahl der aktuell verbundenen eingeloggten Benutzer
         -   **sendNotification(socket, notification, isError)**: Benachrichtigung oder Fehlermeldung schicken
     -   **speech**: Spracherkennung

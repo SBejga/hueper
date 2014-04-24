@@ -14,7 +14,7 @@ var socketListeners = function(socket) {
         app.controllers.hue.setLightState(
             data.id,
             data.state,
-            app.controllers.socket.getBroadcastSocket(socket)
+            app.controllers.socket.getOtherSockets(socket)
         );
     });
 
@@ -24,7 +24,7 @@ var socketListeners = function(socket) {
 
         app.controllers.hue.setLightStateAll(
             data,
-            app.controllers.socket.getBroadcastSocket(socket)
+            app.controllers.socket.getOtherSockets(socket)
         );
     });
 
@@ -47,8 +47,8 @@ var socketListeners = function(socket) {
 
         app.state.lights[data.id].name = data.name;
 
-        app.controllers.socket.refreshState(
-            app.controllers.socket.getBroadcastSocket(socket),
+        app.controllers.socket.refreshStateOfOthers(
+            socket,
             ['lights.' + data.id + '.name']
         );
     });

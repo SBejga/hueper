@@ -147,6 +147,10 @@ var refreshState = function(socket, area) {
 	channel.emit('state', message);
 };
 
+var refreshStateOfOthers = function(socket, area) {
+    refreshState(getOtherSockets(socket), area);
+};
+
 /**
  * Remove specified parts of the client-side application state
  * @param socket specified socket to send state to, all sockets if false
@@ -165,6 +169,10 @@ var deleteFromState = function(socket, area) {
     }
 
     channel.emit('state.delete', area);
+};
+
+var deleteFromStateOfOthers = function(socket, area) {
+    deleteFromState(getOtherSockets(socket), area);
 };
 
 /**
@@ -191,6 +199,59 @@ var sendNotification = function(socket, notification, isError) {
     channel.emit('notification', message);
 };
 
+/**
+ * add listener that is applied to all newly logged in sockets
+ * @param {function} listener
+ */
+var addSocketListener = function(listener) {
+    socketListeners.push(listener);
+
+    // enable the REST interface to use this socket listener
+    app.controllers.rest.addSocketDummyListener(listener);
+};
+
+/**
+ * Send broadcast to all logged in users
+ * @param data
+ */
+var broadcast = function(data) {
+    io.sockets.in('login').emit(data);
+};
+
+/**
+ * Send broadcast to all logged in users except the parameter
+ */
+var broadcastToOthers = function(socket, data) {
+    if(socket.isDummySocket) {
+        io.sockets.in('login').emit(data);
+    }
+    else {
+        socket.broadcast.to('login').emit(data);
+    }
+};
+
+/**
+ * get all sockets for logged in users except the parameter
+ * @param socket
+ * @returns {socket}
+ */
+var getOtherSockets = function(socket) {
+    if(socket.isDummySocket) {
+        return io.sockets.in('login');
+    }
+    else {
+        return socket.broadcast.to('login');
+    }
+};
+
+/**
+ * @returns {Number} amount of currently logged in users
+ */
+var getConnectedUserCount = function() {
+    return io.sockets.clients('login').length;
+};
+
+
 
 module.exports = function(globalApp) {
 
@@ -204,58 +265,14 @@ module.exports = function(globalApp) {
 
     return {
         refreshState: refreshState,
+        refreshStateOfOthers: refreshStateOfOthers,
         deleteFromState: deleteFromState,
-
-        /**
-         * add listener that is applied to all newly logged in sockets
-         * @param {function} listener
-         */
-        addSocketListener: function(listener) {
-            socketListeners.push(listener);
-
-            // enable the REST interface to use this socket listener
-            app.controllers.rest.addSocketDummyListener(listener);
-        },
-
-        /**
-         * Send broadcast to all logged in users
-         * @param data
-         */
-        broadcast: function(data) {
-            io.sockets.in('login').emit(data);
-        },
-
-        /**
-         * Send broadcast to all logged in users except the parameter
-         */
-        broadcastSocket: function(socket, data) {
-            if(socket.isDummySocket) {
-                io.sockets.in('login').emit(data);
-            }
-            else {
-                socket.broadcast.to('login').emit(data);
-            }
-        },
-
-        /**
-         * get all sockets for logged in users except the parameter
-         * @param socket
-         * @returns {socket}
-         */
-        getBroadcastSocket: function(socket) {
-            if(socket.isDummySocket) {
-                return io.sockets.in('login');
-            }
-            else {
-                return socket.broadcast.to('login');
-            }
-        },
-
-        getConnectedUserCount: function() {
-            return app.server.io.sockets.clients('login').length;
-        },
-
+        deleteFromStateOfOthers: deleteFromStateOfOthers,
+        addSocketListener: addSocketListener,
+        broadcast: broadcast,
+        broadcastToOthers: broadcastToOthers,
+        getOtherSockets: getOtherSockets,
+        getConnectedUserCount: getConnectedUserCount,
         sendNotification: sendNotification
-
     };
 };
