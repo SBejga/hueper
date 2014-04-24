@@ -63,8 +63,8 @@ var socketListener = function(socket) {
 
         app.state.rfidUnknown = [];
 
-        app.controllers.socket.refreshState(
-            app.controllers.socket.getBroadcastSocket(socket),
+        app.controllers.socket.refreshStateOfOthers(
+            socket,
             ['rfidUnknown']
         );
     });

@@ -98,7 +98,7 @@ var addConfigurationChangeListener = function(listener) {
  * @param socket (optional) socket of the originating client
  */
 var change = function(data, socket) {
-    var channel = socket ? app.controllers.socket.getBroadcastSocket(socket) : false;
+    var channel = socket ? app.controllers.socket.getOtherSockets(socket) : false;
 
     var i, j;
 
