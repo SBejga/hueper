@@ -328,7 +328,7 @@ Die Funktion `initCrudTemplate` führt folgende Aktionen aus:
 -   Es werden Listener für Socket.IO registriert (4. Parameter)
     -   scene.create
     -   scene.update
-    -   scene.remove
+    -   scene.delete
 -   Error-Notifications werden hinzugefügt (4. Parameter)
     -   scene.create
     -   scene.update
