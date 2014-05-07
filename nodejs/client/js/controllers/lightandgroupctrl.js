@@ -119,7 +119,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
          *
          * @param id of the specified light
          */
-        getGroups: function(id){
+        getGroups: function(){
 
             var groupsOfLamp = [];
 
@@ -139,7 +139,9 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             });
 
             if(numberOfFavorites < 6){
-                return true;
+
+
+
             }
             else {
                 $scope.sharedScope.submenu.openSubmenu("replaceFavorite");
