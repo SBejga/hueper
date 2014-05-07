@@ -48,6 +48,12 @@
 
 <!-- CONTENT -->
     <div data-role="content" ng-controller="LightAndGroupCtrl">
+
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationGroupDeleted">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+           The selected group was deleted, because there was no light left.
+        </div>
+
         <div class="transparent_bg" style="padding:7px">
 
         <!-- LIGHT MENU -->
@@ -74,7 +80,7 @@
             <div style="padding-top: 25px">
                 <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline
                     light_group_a" style="float:right"></span>
-                <a href="addGroup.html" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                <a href="createGroup.html" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
                     light_group_a" style="float:right"></a>
                 <h2>Groups</h2>
             </div>
