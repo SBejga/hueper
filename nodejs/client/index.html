@@ -37,7 +37,7 @@
 
 <body>
 
-<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl">
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl" class="background_stars">
 
     <div class="header">
         <h2>SmartLights</h2>
@@ -45,19 +45,44 @@
 
     <div data-role="content">
 
-        <a href="lightandgroup.html" class="ui-btn ui-icon-singlelamp ui-btn-icon-left">Lampen & Gruppen</a>
-        <a href="" class="ui-btn ui-icon-delete ui-btn-icon-left" >Zeitschaltuhr</a>
-        <a href="" class="ui-btn ui-icon-delete ui-btn-icon-left">Sensoren</a>
-        <a href="" class="ui-btn ui-icon-delete ui-btn-icon-left">Party-Modus</a>
-        <a href="properties.html" class="ui-btn ui-icon-delete ui-btn-icon-left">Einstellungen</a>
+        <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
+            <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
+            <div class="main_menu_text">
+                Lights & Groups
+            </div>
+        </a>
+
+        <div class="ui-btn main_menu_transparent_bg button">
+            <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
+            <div class="main_menu_text">
+                Scenes
+            </div>
+        </div>
+
+        <div class="ui-btn main_menu_transparent_bg button">
+            <img src="./css/images/icons/icon-automation-40.png" class="light_group_img no_padding">
+            <div class="main_menu_text">
+                Automation
+            </div>
+        </div>
+
+        <div class="ui-btn main_menu_transparent_bg button">
+            <img src="./css/images/icons/icon-party-40.png" class="light_group_img no_padding">
+            <div class="main_menu_text">
+                Party
+            </div>
+        </div>
+
+        <div class="ui-btn main_menu_transparent_bg button">
+            <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
+            <div class="main_menu_text">
+                Settings
+            </div>
+        </div>
 
     </div><!-- /content -->
 
 
-
-<div data-role="footer" data-position="fixed">
-    <h4>Impressum</h4>
-</div><!-- /footer -->
 
 </div>
 </body>

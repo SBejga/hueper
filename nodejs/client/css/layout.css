@@ -6,6 +6,15 @@
     margin: auto;
 }
 
+.header{
+    text-align: center;
+    font-size: 20px;
+    text-shadow: none;
+    color: #b3b3b3;
+    background-color: rgba(236, 236, 236, 0.2) !important;
+
+}
+
 .header_title{
     margin: auto !important;
 }
@@ -19,21 +28,18 @@
     padding:5px;
 }
 
-.ui-icon-singlelamp:after{
-    background-image:url("images/birne.png");
-    width: 30px;
-    height: 30px;
-}
-
 .icon-arrow-left{
     background-image: url("images/icons/icon-arrow-left-red.png");
-
-
 }
 
 .horizontal_button_view{
     width: 27%;
 }
+
+.no_padding{
+    padding:0px !important;
+}
+
 
 
 
@@ -61,8 +67,34 @@ button:active{
     background: linear-gradient(120deg, #bc3b24, #ce1d18, #f8c33c) !important;
 }
 
+.background_stars{
+    background-image: url(images/himmel.png);
+}
+
 .transparent_bg{
     background-color: rgba(236, 236, 236, 0.3) !important;
+}
+
+.main_menu_transparent_bg{
+    background-color: rgba(236, 236, 236, 0.6) !important;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.main_menu_text{
+    font-size:18px;
+    padding-top: 6px;
+}
+
+.notification{
+    padding: 6px;
+    border-color: #800000;
+    border-style: dotted;
+    border-width: 1px;
+    background-color: #faeeec;
+    color: #800000;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 .overlap{

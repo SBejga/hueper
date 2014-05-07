@@ -270,6 +270,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             $scope.state.groups[groupId].lights.splice($scope.state.groups[groupId].lights.indexOf(lightId), 1);
             if($scope.state.groups[groupId].lights.length === 0){
                 $scope.groups.remove(groupId);
+                $scope.sharedScope.submenu.openSubmenu("notificationGroupDeleted");
             }
             $scope.groups.update(groupId, $scope.state.groups[groupId]);
         },
