@@ -7,6 +7,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
     $scope.lights = {
 
         selectedLightId:0,
+        selectedFavId:0,
 
         /**
          * Change state attributes of a light
@@ -114,6 +115,11 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             $scope.lights.selectedLightId = id;
         },
 
+        setSelectedFavId: function(id) {
+            console.log("FavId: " + id);
+            $scope.lights.selectedFavId = id;
+        },
+
         /**
          *
          *
@@ -132,20 +138,50 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             return groupsOfLamp;
         },
 
-        saveColorAsFavorite: function(){
+        checkNumberOfFavorites: function(){
             var numberOfFavorites=0;
+            var fav;
             angular.forEach($scope.state.favorites, function(value){
                 numberOfFavorites = numberOfFavorites + 1;
             });
 
             if(numberOfFavorites < 6){
-
-
-
+                fav = $scope.lights.getCurrentStateForFavorite();
             }
             else {
                 $scope.sharedScope.submenu.openSubmenu("replaceFavorite");
             }
+        },
+
+        getCurrentStateForFavorite: function(){
+            var fav;
+
+            if($scope.state.lights[selectedLightId].state.colormode === "ct"){
+                fav = {
+                    state: {
+                        bri: $scope.state.lights[selectedLightId].state.bri,
+                        ct: $scope.state.lights[selectedLightId].state.ct,
+                        effect: $scope.state.lights[selectedLightId].state.effect
+                    }
+                }
+            }else{
+                fav = {
+                    state: {
+                        bri: $scope.state.lights[selectedLightId].state.bri,
+                        hue: $scope.state.lights[selectedLightId].state.hue,
+                        sat: $scope.state.lights[selectedLightId].state.sat,
+                        effect: $scope.state.lights[selectedLightId].state.effect
+                    }
+                }
+            }
+
+            return fav;
+
+        },
+
+        updateFavorite: function(){
+            $scope.state.favorites[$scope.lights.selectedFavId].state = $scope.lights.getCurrentStateForFavorite();
+            $scope.favorites.update($scope.state.favorites[$scope.lights.selectedFavId]);
         },
 
         turnLightOnOff: function(id){
