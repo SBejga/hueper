@@ -6,9 +6,6 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
     // light control
     $scope.lights = {
 
-        selectedLightId:0,
-        selectedFavId:0,
-
         /**
          * Change state attributes of a light
          * @param {integer} id 0 for all lights
@@ -106,21 +103,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             $scope.state.lights[id].name = name;
         },
 
-        /**
-         * Set lightid of SelectedLight
-         * @param id
-         */
-        setSelectedLightId: function(id) {
-            console.log( id );
-            $scope.lights.selectedLightId = id;
-        },
-
-        setSelectedFavId: function(id) {
-            console.log("FavId: " + id);
-            $scope.lights.selectedFavId = id;
-        },
-
-        /**
+       /**
          *
          *
          * @param id of the specified light
@@ -179,9 +162,9 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
 
         },
 
-        updateFavorite: function(lightId){
-            $scope.state.favorites[$scope.lights.selectedFavId].state = $scope.lights.getCurrentStateForFavorite(lightId).state;
-            $scope.favorites.update($scope.state.favorites[$scope.lights.selectedFavId]);
+        updateFavorite: function(favId, lightId){
+            $scope.state.favorites[favId].state = $scope.lights.getCurrentStateForFavorite(lightId).state;
+            $scope.favorites.update($scope.state.favorites[favId]);
 
             $scope.sharedScope.submenu.closeSubmenu();
         },
