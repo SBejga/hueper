@@ -186,6 +186,10 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             $scope.sharedScope.submenu.closeSubmenu();
         },
 
+        changeLightColorToFavorite: function(favId, lightId){
+            $scope.lights.state(lightId, $scope.state.favorites[favId].state);
+        },
+
         turnLightOnOff: function(id){
             if($scope.state.lights[id].state.on === true){
                 $scope.lights.state(id, {on: false});
