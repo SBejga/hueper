@@ -84,7 +84,7 @@
                 <img src="css/images/icons/icon-star-frame-red.png">
             </div>
         </div>
-       <button class="ui-btn ui-icon-star ui-btn-icon-left btn-round-corner transparent_bg button" ng-click="lights.checkNumberOfFavorites()">save color</button>
+       <button class="ui-btn ui-icon-star ui-btn-icon-left btn-round-corner transparent_bg button" ng-click="lights.checkNumberOfFavorites(helpers.urlId)">save color</button>
 
 
 
@@ -134,13 +134,13 @@
             </div>
 
             <div style="padding:20px">
-                <div class="favorites_wrapper" ng-repeat="(id, fav) in sharedScope.state.favorites" ng-click="lights.setSelectedLightId(id)">
+                <div class="favorites_wrapper" ng-repeat="(id, fav) in sharedScope.state.favorites" ng-click="lights.setSelectedFavId(id)">
                     <div class="light_favorites_star_color" hueper-color="fav.state"></div>
                     <div class="light_favorites">
                         <img src="css/images/icons/icon-star-frame-red.png">
                     </div>
                 </div>
-                <button class="ui-btn ui-icon-action ui-btn-icon-left btn-round-corner transparent_bg button" ng-click="lights.updateFavorite()">replace color</button>
+                <button class="ui-btn ui-icon-action ui-btn-icon-left btn-round-corner transparent_bg button" ng-click="lights.updateFavorite(helpers.urlId)">replace color</button>
             </div>
         </div>
 
