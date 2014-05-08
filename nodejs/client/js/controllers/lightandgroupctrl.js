@@ -155,7 +155,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         },
 
         getCurrentStateForFavorite: function(id){
-            console.log("getCurrentStateForFavorite");
+            console.log(id);
             var fav;
             if($scope.state.lights[id].state.colormode === "ct"){
                 fav = {
@@ -175,22 +175,15 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
                     }
                 }
             }
-
             return fav;
 
         },
 
         updateFavorite: function(lightId){
-            console.log("updateFavorite");
-            console.log("selected fav: " + $scope.lights.selectedFavId);
-
-
-            $scope.state.favorites[$scope.lights.selectedFavId] = $scope.lights.getCurrentStateForFavorite(lightId);
+            $scope.state.favorites[$scope.lights.selectedFavId].state = $scope.lights.getCurrentStateForFavorite(lightId).state;
             $scope.favorites.update($scope.state.favorites[$scope.lights.selectedFavId]);
 
-
-
-            console.log("Update finished");
+            $scope.sharedScope.submenu.closeSubmenu();
         },
 
         turnLightOnOff: function(id){
