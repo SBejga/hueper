@@ -77,7 +77,7 @@
 
 
     <!-- favorites -->
-        <div class="favorites_wrapper" ng-repeat="(id, fav) in sharedScope.state.favorites">
+        <div class="favorites_wrapper" ng-repeat="(id, fav) in sharedScope.state.favorites" ng-click="lights.changeLightColorToFavorite(id, helpers.urlId)">
             <div class="light_favorites_star_color" hueper-color="fav.state">
             </div>
             <div class="light_favorites">
