@@ -310,11 +310,14 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         removeLight: function(groupId, lightId){
             $scope.state.groups[groupId].lights.splice($scope.state.groups[groupId].lights.indexOf(lightId), 1);
             if($scope.state.groups[groupId].lights.length === 0){
+                console.log("group is empty");
                 $scope.groups.remove(groupId);
                 $scope.sharedScope.submenu.openSubmenu("notificationGroupDeletedNoLightLeft");
             }
-            $scope.groups.update(groupId, $scope.state.groups[groupId]);
-            $scope.sharedScope.submenu.closeSubmenu();
+            else{
+                $scope.groups.update(groupId, $scope.state.groups[groupId]);
+            }
+
         },
 
         turnGroupOnOff: function(id){
