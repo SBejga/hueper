@@ -162,8 +162,9 @@
                     Which color should be replaced?
                 </div>
 
-                <div style="padding:16px">
-                    <div class="favorites_wrapper" ng-repeat="(id, fav) in sharedScope.state.favorites" ng-click="lights.updateFavorite(id,helpers.urlId)">
+                <div style="padding:16px; text-align: center">
+                    <div class="favorites_wrapper" ng-repeat="(id, fav) in sharedScope.state.favorites"
+                         ng-click="lights.updateFavorite(id,helpers.urlId)">
                         <div class="light_favorites_star_color" hueper-color="fav.state"></div>
                         <div class="light_favorites">
                             <img src="css/images/icons/icon-star-frame-red.png">
@@ -202,7 +203,9 @@
                 <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
                     <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
                 </div>
-                <div style="text-align: center; color: #f9efed">Do you want to remove lightname from groupname?</div>
+                <div style="text-align: center; color: #f9efed">Do you want to remove the light
+                    "{{sharedScope.state.lights[helpers.urlId].name}}" <br>from the group
+                    "{{sharedScope.state.groups[groups.selectedGroupId].name}}" ?</div>
                 <div style="padding:20px; text-align: center">
                     <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button
                         ui-btn-inline" ng-click="groups.removeLight(groups.selectedGroupId, helpers.urlId)">YES</button>
