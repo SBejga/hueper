@@ -180,6 +180,7 @@ button:active{
 }
 
 .favorites_wrapper{
+    position: relative;
     display: inline-block;
     height: 32px;
     width:32px;
@@ -189,12 +190,16 @@ button:active{
 
 .light_favorites{
     position: absolute;
+    top:0px;
+    left:0px;
     max-width: 100%;
     display:inline-block;
 
 }
 .light_favorites_star_color{
     position: absolute;
+    top:0px;
+    left:0px;
     max-width: 100%;
     width:32px;
     height:32px;
