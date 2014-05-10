@@ -95,12 +95,12 @@
             <div class="light_group" ng-repeat="groupId in lights.getGroups(helpers.urlId)">
                 <img src="./css/images/transparent_group_small.png" class="light_group_img">
                 <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                    ui-btn-inline light_group_a" ng-click="groups.removeLight(groupId, helpers.urlId)"></span>
+                    ui-btn-inline light_group_a" ng-click="groups.openDeleteMenu(groupId)"></span>
                 {{sharedScope.state.groups[groupId].name}}
             </div>
         </div>
         <button class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
-                ng-click="sharedScope.submenu.openSubmenu('addLightToGroup')">add to Group</button>
+                ng-click="sharedScope.submenu.openSubmenu('addLightToGroup')">add group</button>
 
 
 
@@ -166,6 +166,25 @@
                 <button class="ui-btn ui-icon-action ui-btn-icon-left btn-round-corner transparent_bg button" >replace color</button>
             </div>
         </div>
+
+    <!--overlapping menu - delete from group -->
+        <div class="overlap" ng-if="sharedScope.submenu.visible.deleteLightFromGroup" ng-click="sharedScope.submenu.closeSubmenu()" data-position="fixed">
+            <div class="overlap_content">
+                <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                    <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                </div>
+                <div style="text-align: center; color: #f9efed">Do you want to remove lightname from groupname?</div>
+
+
+                <div style="padding:20px; text-align: center">
+                    <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button
+                        ui-btn-inline" ng-click="groups.removeLight(groups.selectedGroupId, helpers.urlId)">YES</button>
+                    <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner transparent_bg button
+                        ui-btn-inline" ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                </div>
+            </div>
+        </div>
+
 
 
     </div><!--END OF CONTENT-->

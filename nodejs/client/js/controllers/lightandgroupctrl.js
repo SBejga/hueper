@@ -197,6 +197,8 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
 
     $scope.groups = {
 
+        selectedGroupId:0,
+
         // placeholder for form data
         forms: {
 
@@ -291,6 +293,18 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         remove: function(id) {
             socket.emit('group.remove', id);
             delete $scope.state.groups[id];
+        },
+
+        openDeleteMenu: function(groupId){
+            $scope.groups.setSelectedGroupId(groupId);
+            $scope.sharedScope.submenu.openSubmenu('deleteLightFromGroup');
+
+
+        },
+
+
+        setSelectedGroupId: function(groupId){
+            $scope.groups.selectedGroupId = groupId;
         },
 
         removeLight: function(groupId, lightId){
