@@ -49,22 +49,30 @@
 <!-- CONTENT -->
     <div data-role="content" ng-controller="LightAndGroupCtrl">
 
+
+    <!-- NOTIFICATIONS -->
         <div class="notification" ng-if="sharedScope.submenu.visible.notificationGroupDeleted">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            The selected group was deleted.
+        </div>
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationGroupDeletedNoLightLeft">
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
            The selected group was deleted, because there was no light left.
         </div>
 
+
+    <!--  MENUES-->
         <div class="transparent_bg" style="padding:7px">
 
-        <!-- LIGHT MENU -->
+        <!-- light menu -->
             <div>
                 <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right; margin-top: -1px"></span>
                 <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right; margin-top: -1px"
                       ng-click="lights.turnAllLightsOnOff()"></span>
                 <h2>Lights</h2>
             </div>
-
-            <div ng-repeat="(id, light) in sharedScope.state.lights" class="ui-btn-inline horizontal_button_view" style="text-align:center">
+            <div ng-repeat="(id, light) in sharedScope.state.lights" class="ui-btn-inline horizontal_button_view"
+                 style="text-align:center">
                 <a href="light.html?id={{id}}"  style="text-decoration: none">
                 <div class="light_wrapper_69width">
                     <div class="light_color_69width" hueper-color="sharedScope.state.lights[id].state"></div>
@@ -76,24 +84,43 @@
                 </a>
             </div>
 
-        <!-- GROUP MENU -->
+        <!-- group menu -->
             <div style="padding-top: 25px">
-                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline
-                    light_group_a" style="float:right"></span>
-                <a href="createGroup.html" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                    light_group_a" style="float:right"></a>
+                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext
+                    ui-btn-inline light_group_a" style="float:right"></span>
+                <a href="createGroup.html" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus
+                    ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right"></a>
                 <h2>Groups</h2>
             </div>
-
             <div class="light_group" ng-repeat="(id, group) in sharedScope.state.groups">
-                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline light_group_a"></span>
+                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                    ui-btn-inline light_group_a" ng-click="groups.openDeleteMenu(id, 'deleteGroup')"></span>
                 <a href="group.html?id={{id}}" style="text-decoration: none">
                 <img src="./css/images/transparent_group_small.png" class="light_group_img">
                 {{group.name}}
                 </a>
             </div>
-
         </div>
+
+
+    <!--overlapping menu - delete group -->
+        <div ng-if="sharedScope.submenu.visible.deleteGroup">
+            <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+            <div class="overlap_content">
+                <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                    <a href="lightandgroup.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                </div>
+                <div style="text-align: center; color: #f9efed">Do you want to remove groupname?</div>
+                <div style="padding:20px; text-align: center">
+                    <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button
+                        ui-btn-inline" ng-click="groups.remove(groups.selectedGroupId)">YES</button>
+                    <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner transparent_bg button
+                        ui-btn-inline" ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
 </body>

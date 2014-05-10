@@ -95,7 +95,7 @@
             <div class="light_group" ng-repeat="groupId in lights.getGroups(helpers.urlId)">
                 <img src="./css/images/transparent_group_small.png" class="light_group_img">
                 <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                    ui-btn-inline light_group_a" ng-click="groups.openDeleteMenu(groupId)"></span>
+                    ui-btn-inline light_group_a" ng-click="groups.openDeleteMenu(groupId, 'deleteLightFromGroup')"></span>
                 {{sharedScope.state.groups[groupId].name}}
             </div>
         </div>

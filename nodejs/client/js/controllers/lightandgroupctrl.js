@@ -293,15 +293,15 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         remove: function(id) {
             socket.emit('group.remove', id);
             delete $scope.state.groups[id];
+            $scope.sharedScope.submenu.closeSubmenu();
+            $scope.sharedScope.submenu.openSubmenu("notificationGroupDeleted");
+
         },
 
-        openDeleteMenu: function(groupId){
+        openDeleteMenu: function(groupId, submenuName){
             $scope.groups.setSelectedGroupId(groupId);
-            $scope.sharedScope.submenu.openSubmenu('deleteLightFromGroup');
-
-
+            $scope.sharedScope.submenu.openSubmenu(submenuName);
         },
-
 
         setSelectedGroupId: function(groupId){
             $scope.groups.selectedGroupId = groupId;
@@ -311,9 +311,10 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             $scope.state.groups[groupId].lights.splice($scope.state.groups[groupId].lights.indexOf(lightId), 1);
             if($scope.state.groups[groupId].lights.length === 0){
                 $scope.groups.remove(groupId);
-                $scope.sharedScope.submenu.openSubmenu("notificationGroupDeleted");
+                $scope.sharedScope.submenu.openSubmenu("notificationGroupDeletedNoLightLeft");
             }
             $scope.groups.update(groupId, $scope.state.groups[groupId]);
+            $scope.sharedScope.submenu.closeSubmenu();
         },
 
         turnGroupOnOff: function(id){
