@@ -87,6 +87,7 @@ button:active{
 }
 
 .notification{
+    margin-top: 5px;
     padding: 6px;
     border-color: #800000;
     border-style: dotted;
@@ -124,6 +125,17 @@ button:active{
     padding-top:5px
 }
 
+
+.overlap_grouplist{
+    padding:5px;
+    background-color: #faeeec;
+    color: #800000;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+    overflow: hidden;
+    horizontal-align: middle;
+}
 
 .lightgroup_name_edit{
     float:right;

@@ -52,12 +52,6 @@
 <!-- CONTENT -->
     <div data-role="content" ng-controller="LightAndGroupCtrl">
 
-    <!-- NOTIFICATIONS -->
-        <div class="notification" ng-if="sharedScope.submenu.visible.notificationGroupDeletedNoLightLeft">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-            The selected group was deleted completely, because there was no light left.
-        </div>
-
 
     <!-- lightname -->
         <div class="lightgroup_name_edit">
@@ -92,8 +86,13 @@
             </div>
         </div>
         </div>
-       <button class="ui-btn ui-icon-star ui-btn-icon-left btn-round-corner transparent_bg button" ng-click="lights.checkNumberOfFavorites(helpers.urlId)">save color</button>
+        <button class="ui-btn ui-icon-star ui-btn-icon-left btn-round-corner transparent_bg button" ng-click="lights.checkNumberOfFavorites(helpers.urlId)">save color</button>
 
+        <!-- NOTIFICATION Group deleted completely-->
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationGroupDeletedNoLightLeft">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            The selected group was deleted completely, because there was no light left.
+        </div>
 
     <!-- groups -->
         <div class="transparent_bg">
@@ -106,6 +105,12 @@
                 </a>
             </div>
         </div>
+        <!-- NOTIFICATION -->
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationNoGroupToAdd">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            This light is included in all existing groups.
+        </div>
+
         <button class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
                 ng-click="sharedScope.submenu.openSubmenu('addLightToGroup')">add group</button>
 
@@ -168,29 +173,24 @@
             </div>
         </div>
 
-    <!--overlapping menu - add to group -->
+    <!--overlapping menu - add group/groups -->
         <div ng-if="sharedScope.submenu.visible.addLightToGroup">
             <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
             <div class="overlap_content">
                 <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
                     <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
                 </div>
-
-                <div style="text-align: center; color: #f9efed">
-                    Which group should be added?
-                </div>
-
+                <div style="text-align: center; color: #f9efed">Which groups should be added?</div>
                 <div style="padding:20px">
-                    <div class="favorites_wrapper" style="color: #f9efed">
-                         <div ng-repeat="(id, groups) in sharedScope.state.groups">
-                             <div class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext
-                                ui-btn-inline" style="float:right">
-                            </div>
-                             <div>{{groups.name}}</div>
-                         </div>
+                    <div class="overlap_grouplist" ng-repeat="groupId in lights.getGroupsInverse(helpers.urlId)">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext
+                            ui-btn-inline"  style="float:right" ng-click="groups.addLight(groupId, helpers.urlId)"></span>
+                        <div style="margin-top: 12px">
+                            {{sharedScope.state.groups[groupId].name}}
+                        </div>
                     </div>
-                    <button class="ui-btn ui-icon-action ui-btn-icon-left btn-round-corner transparent_bg button" >
-                        replace color</button>
+                    <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button"
+                            ng-click="sharedScope.submenu.closeSubmenu()">done</button>
                 </div>
             </div>
         </div>

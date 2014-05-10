@@ -121,6 +121,22 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             return groupsOfLamp;
         },
 
+        getGroupsInverse: function(id){
+          var groupsOfLampInverse = [];
+            id = id.toString();
+            angular.forEach($scope.state.groups, function(value, key){
+                if(value.lights.indexOf(id) === -1){
+                    groupsOfLampInverse.push(key);
+                }
+            });
+            console.log(groupsOfLampInverse.toString());
+            if(groupsOfLampInverse.length === 0){
+                $scope.sharedScope.submenu.closeSubmenu();
+                $scope.sharedScope.submenu.openSubmenu("notificationNoGroupToAdd");
+            }
+            return groupsOfLampInverse;
+        },
+
         checkNumberOfFavorites: function(lightId){
             console.log("checkNumberOfFavorites");
             var numberOfFavorites=0;
@@ -198,6 +214,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
     $scope.groups = {
 
         selectedGroupId:0,
+
 
         // placeholder for form data
         forms: {
@@ -312,12 +329,22 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             if($scope.state.groups[groupId].lights.length === 0){
                 console.log("group is empty");
                 $scope.groups.remove(groupId);
+                $scope.sharedScope.submenu.closeSubmenu();
                 $scope.sharedScope.submenu.openSubmenu("notificationGroupDeletedNoLightLeft");
             }
             else{
                 $scope.groups.update(groupId, $scope.state.groups[groupId]);
+                $scope.sharedScope.submenu.closeSubmenu();
             }
+        },
 
+        addLight: function(groupId, lightId){
+            $scope.state.groups[groupId].lights.push(lightId);
+            $scope.groups.update(groupId, $scope.state.groups[groupId]);
+            if($scope.lights.getGroupsInverse(groupId).length === 0){
+                $scope.sharedScope.submenu.closeSubmenu();
+                $scope.sharedScope.submenu.openSubmenu("notificationNoGroupToAdd");
+            }
         },
 
         turnGroupOnOff: function(id){
