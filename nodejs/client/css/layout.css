@@ -96,6 +96,7 @@ button:active{
     text-align: center;
     margin-bottom: 10px;
     min-height: 40px;
+    font-size: 13px;
 }
 
 .overlap{

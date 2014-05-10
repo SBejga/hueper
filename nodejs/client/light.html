@@ -51,6 +51,14 @@
 
 <!-- CONTENT -->
     <div data-role="content" ng-controller="LightAndGroupCtrl">
+
+    <!-- NOTIFICATIONS -->
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationGroupDeletedNoLightLeft">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            The selected group was deleted completely, because there was no light left.
+        </div>
+
+
     <!-- lightname -->
         <div class="lightgroup_name_edit">
             <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline"
@@ -60,7 +68,6 @@
         <div class="lightgroup_name_input">
             <input type="text" ng-model="state.lights[helpers.urlId].name">
         </div>
-
 
 
     <!-- current lightcolor -->
@@ -73,7 +80,6 @@
                   style="position: absolute; top: 170px; left: 60px" ng-click="lights.turnLightOnOff(helpers.urlId)"></span>
            </div>
         </div>
-
 
 
     <!-- favorites -->
@@ -89,19 +95,19 @@
        <button class="ui-btn ui-icon-star ui-btn-icon-left btn-round-corner transparent_bg button" ng-click="lights.checkNumberOfFavorites(helpers.urlId)">save color</button>
 
 
-
     <!-- groups -->
         <div class="transparent_bg">
             <div class="light_group" ng-repeat="groupId in lights.getGroups(helpers.urlId)">
-                <img src="./css/images/transparent_group_small.png" class="light_group_img">
                 <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
                     ui-btn-inline light_group_a" ng-click="groups.openDeleteMenu(groupId, 'deleteLightFromGroup')"></span>
-                {{sharedScope.state.groups[groupId].name}}
+                <a href="group.html?id={{groupId}}" style="text-decoration: none">
+                    <img src="./css/images/transparent_group_small.png" class="light_group_img">
+                    {{sharedScope.state.groups[groupId].name}}
+                </a>
             </div>
         </div>
         <button class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
                 ng-click="sharedScope.submenu.openSubmenu('addLightToGroup')">add group</button>
-
 
 
     <!--overlapping menu - change color-->
