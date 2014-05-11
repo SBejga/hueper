@@ -73,6 +73,21 @@
             </span>
         </div>
 
+
+
+    <!-- favorites -->
+    <div style="text-align: center">
+        <div class="favorites_wrapper" ng-repeat="(id, fav) in sharedScope.state.favorites" ng-click="lights.changeLightColorToFavorite(id, helpers.urlId, 'group')">
+            <div class="light_favorites_star_color" hueper-color="fav.state">
+            </div>
+            <div class="light_favorites">
+                <img src="css/images/icons/icon-star-frame-red.png">
+            </div>
+        </div>
+    </div>
+
+
+
     <!-- lights -->
         <div class="transparent_bg">
             <div class="light_group" ng-repeat="lightId in state.groups[helpers.urlId].lights">
@@ -139,6 +154,7 @@
                 </div>
             </div>
         </div>
+
 
     <!-- SUBMENU - change Lightcolor-->
         <div ng-if="sharedScope.submenu.visible.changeLightColor">
