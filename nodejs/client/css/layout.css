@@ -206,10 +206,11 @@ button:active{
 }
 
 .group_wrapper{
-    position:relative;
-    height:150px;
-    width: 100%;
-    margin: auto;
+    position: relative;
+    height:170px;
+    width:150px;
+    margin:auto;
+    max-width: 100%;
 }
 
 .favorites_wrapper{
