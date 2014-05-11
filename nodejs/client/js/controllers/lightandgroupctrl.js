@@ -1,5 +1,6 @@
 angular.module('hueApp.controllers').
-controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager', '$timeout', function($scope, socket, $location, stateManager, $timeout) {
+controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager', '$timeout',
+        function($scope, socket, $location, stateManager, $timeout) {
 
     stateManager($scope);
 
@@ -10,34 +11,34 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
 
         /**
          * Change state attributes of a light
-         * @param {integer} id 0 for all lights
+         * @param {integer} lightId 0 for all lights
          * @param {object} state
          */
-        state: function(id, state) {
+        state: function(lightId, state) {
             var i;
 
-            if(typeof($scope.state.lights[id]) === 'undefined') {
+            if(typeof($scope.state.lights[lightId]) === 'undefined') {
                 return;
             }
 
             socket.emit('light.state', {
-                id: id,
+                id: lightId,
                 state: state
             });
 
             for(i in state) {
                 if(state.hasOwnProperty(i) && i !== 'transitiontime') {
-                    $scope.state.lights[id].state[i] = state[i];
+                    $scope.state.lights[lightId].state[i] = state[i];
                 }
             }
 
             // turn on when changing other properties
             if(typeof(state.on) === 'undefined') {
-                $scope.state.lights[id].state.on = true;
+                $scope.state.lights[lightId].state.on = true;
             }
 
             // change colormode
-            $scope.helpers.setColorMode(state, $scope.state.lights[id].state);
+            $scope.helpers.setColorMode(state, $scope.state.lights[lightId].state);
         },
 
         /**
@@ -88,49 +89,58 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
 
         /**
          * Rename a light
-         * @param id
+         * @param lightId
          * @param name
          */
-        setName: function(id, name) {
+        setName: function(lightId, name) {
 
-            if(typeof($scope.state.lights[id]) == 'undefined') {
+            if(typeof($scope.state.lights[lightId]) == 'undefined') {
                 return;
             }
 
             socket.emit('light.name', {
-                id: id,
+                id: lightId,
                 name: name
             });
 
-            $scope.state.lights[id].name = name;
+            $scope.state.lights[lightId].name = name;
         },
 
+        /**
+         * sets the local variable to an id
+         * @param lightId
+         */
         setSelectedLightId: function(lightId){
             $scope.lights.selectedLightId = lightId;
         },
 
-       /**
-         *
-         *
-         * @param id of the specified light
+        /**
+         * gets the groups which contain the lightId
+         * @param lightId
+         * @returns Array of groupIds
          */
-        getGroups: function(id){
+        getGroups: function(lightId){
             var groupsOfLamp = [];
 
-            id = id.toString();
+           lightId = lightId.toString();
             angular.forEach($scope.state.groups, function(value, key){
-                if(value.lights.indexOf(id) > -1){
+                if(value.lights.indexOf(lightId) > -1){
                     groupsOfLamp.push(key);
                 }
             });
             return groupsOfLamp;
         },
 
-        getGroupsInverse: function(id){
+        /**
+         * get the groups which are not containing the lightId
+         * @param lightId
+         * @returns {Array} of groupIDs
+         */
+        getGroupsInverse: function(lightId){
           var groupsOfLampInverse = [];
-            id = id.toString();
+            lightId = lightId.toString();
             angular.forEach($scope.state.groups, function(value, key){
-                if(value.lights.indexOf(id) === -1){
+                if(value.lights.indexOf(lightId) === -1){
                     groupsOfLampInverse.push(key);
                 }
             });
@@ -142,6 +152,12 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             return groupsOfLampInverse;
         },
 
+        /**
+         * just a guide to the right functions dependent on the
+         * number of lights which are left
+         * @param lightId
+         * @param groupId
+         */
         openDeleteMenuLight: function(lightId, groupId){
             $scope.lights.setSelectedLightId(lightId);
 
@@ -152,14 +168,16 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             }
         },
 
+        /**
+         * counts the faorites and starts the replacing if it's required
+         * @param lightId
+         */
         checkNumberOfFavorites: function(lightId){
             console.log("checkNumberOfFavorites");
             var numberOfFavorites=0;
-            var fav;
             angular.forEach($scope.state.favorites, function(value){
                 numberOfFavorites = numberOfFavorites + 1;
             });
-
             if(numberOfFavorites < 6){
                 $scope.favorites.create($scope.lights.getCurrentStateForFavorite(lightId));
             }
@@ -168,31 +186,39 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             }
         },
 
-        getCurrentStateForFavorite: function(id){
-            console.log(id);
+        /**
+         * gets the current state of the lamp and saves it as a favorite object
+         * @param   lightId
+         * @returns {*} favorite object
+         */
+        getCurrentStateForFavorite: function(lightId){
             var fav;
-            if($scope.state.lights[id].state.colormode === "ct"){
+            if($scope.state.lights[lightId].state.colormode === "ct"){
                 fav = {
                     state: {
-                        bri: $scope.state.lights[id].state.bri,
-                        ct: $scope.state.lights[id].state.ct,
-                        effect: $scope.state.lights[id].state.effect
+                        bri: $scope.state.lights[lightId].state.bri,
+                        ct: $scope.state.lights[lightId].state.ct,
+                        effect: $scope.state.lights[lightId].state.effect
                     }
                 }
             }else{
                 fav = {
                     state: {
-                        bri: $scope.state.lights[id].state.bri,
-                        hue: $scope.state.lights[id].state.hue,
-                        sat: $scope.state.lights[id].state.sat,
-                        effect: $scope.state.lights[id].state.effect
+                        bri: $scope.state.lights[lightId].state.bri,
+                        hue: $scope.state.lights[lightId].state.hue,
+                        sat: $scope.state.lights[lightId].state.sat,
+                        effect: $scope.state.lights[lightId].state.effect
                     }
                 }
             }
             return fav;
-
         },
 
+        /**
+         * Updates a favorite
+         * @param favId
+         * @param lightId
+         */
         updateFavorite: function(favId, lightId){
             $scope.state.favorites[favId].state = $scope.lights.getCurrentStateForFavorite(lightId).state;
             $scope.favorites.update($scope.state.favorites[favId]);
@@ -200,6 +226,12 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             $scope.sharedScope.submenu.closeSubmenu();
         },
 
+        /**
+         * guide to different functions, depends on type to which one
+         * @param favId
+         * @param changeId can be lightId or GroupId
+         * @param type can be 'light' or 'group'
+         */
         changeLightColorToFavorite: function(favId, changeId, type){
             if(type === 'group'){
                 $scope.groups.state(changeId, $scope.state.favorites[favId].state);
@@ -210,14 +242,21 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
 
         },
 
-        turnLightOnOff: function(id){
-            if($scope.state.lights[id].state.on === true){
-                $scope.lights.state(id, {on: false});
+        /**
+         * turns one light on or off
+         * @param lightId
+         */
+        turnLightOnOff: function(lightId){
+            if($scope.state.lights[lightId].state.on === true){
+                $scope.lights.state(lightId, {on: false});
             }else{
-                $scope.lights.state(id, {on: true});
+                $scope.lights.state(lightId, {on: true});
             }
         },
 
+        /**
+         * turns all lights on or off (if one light is on, everylight will be turned off)
+         */
         turnAllLightsOnOff: function(){
             var statusOfLights = false;
             angular.forEach($scope.state.lights, function(light){
@@ -235,9 +274,6 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
     $scope.groups = {
 
         selectedGroupId:0,
-        newGroupName:"",
-        newLightsArray: [],
-
 
         // placeholder for form data
         forms: {
@@ -251,52 +287,52 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
 
         /**
          * change state for group
-         * @param id
+         * @param groupId
          * @param {array} state
          */
-        state: function(id, state) {
+        state: function(groupId, state) {
             var i, j;
 
-            if(typeof($scope.state.groups[id]) == 'undefined') {
+            if(typeof($scope.state.groups[groupId]) == 'undefined') {
                 return;
             }
 
             socket.emit('group.state', {
-                id: id,
+                id: groupId,
                 state: state
             });
 
             // change group state
 
-            if(typeof($scope.state.groups[id].action) === 'undefined') {
-                $scope.state.groups[id].action = {};
+            if(typeof($scope.state.groups[groupId].action) === 'undefined') {
+                $scope.state.groups[groupId].action = {};
             }
 
             for(j in state) {
                 if(state.hasOwnProperty(j) && j !== 'transitiontime') {
-                    $scope.state.groups[id].action[j] = state[j];
+                    $scope.state.groups[groupId].action[j] = state[j];
                 }
             }
 
             // change group action colormode
-            $scope.helpers.setColorMode(state, $scope.state.groups[id].action);
+            $scope.helpers.setColorMode(state, $scope.state.groups[groupId].action);
 
             // change lights state
 
-            for(i = 0; i < $scope.state.groups[id].lights.length; i++) {
+            for(i = 0; i < $scope.state.groups[groupId].lights.length; i++) {
                 for(j in state) {
                     if(state.hasOwnProperty(j) && j !== 'transitiontime') {
-                        $scope.state.lights[$scope.state.groups[id].lights[i]].state[j] = state[j];
+                        $scope.state.lights[$scope.state.groups[groupId].lights[i]].state[j] = state[j];
                     }
                 }
 
                 // turn light on when changing other properties
                 if(typeof(state.on) === 'undefined') {
-                    $scope.state.lights[$scope.state.groups[id].lights[i]].state.on = true;
+                    $scope.state.lights[$scope.state.groups[groupId].lights[i]].state.on = true;
                 }
 
                 // change light colormode
-                $scope.helpers.setColorMode(state, $scope.state.lights[$scope.state.groups[id].lights[i]].state);
+                $scope.helpers.setColorMode(state, $scope.state.lights[$scope.state.groups[groupId].lights[i]].state);
             }
         },
 
@@ -312,15 +348,14 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             $scope.groups.forms.create.lights = [];
         },
 
-
         /**
          * update group
-         * @param id
+         * @param groupId
          * @param {object} group light IDs as strings!
          */
-        update: function(id, group) {
+        update: function(groupId, group) {
             socket.emit('group.update', {
-                id: id,
+                id: groupId,
                 name: group.name,
                 lights: group.lights
             });
@@ -328,25 +363,39 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
 
         /**
          * delete group
-         * @param id
+         * @param groupId
          */
-        remove: function(id) {
-            socket.emit('group.remove', id);
-            delete $scope.state.groups[id];
+        remove: function(groupId) {
+            socket.emit('group.remove', groupId);
+            delete $scope.state.groups[groupId];
             $scope.sharedScope.submenu.closeSubmenu();
             $scope.sharedScope.submenu.openSubmenu("notificationGroupDeleted");
 
         },
 
+        /**
+         * guide which open the required submenu
+         * @param groupId
+         * @param submenuName
+         */
         openDeleteMenuGroup: function(groupId, submenuName){
             $scope.groups.setSelectedGroupId(groupId);
             $scope.sharedScope.submenu.openSubmenu(submenuName);
         },
 
+        /**
+         * sets the local variable selectedGroupId
+         * @param groupId
+         */
         setSelectedGroupId: function(groupId){
             $scope.groups.selectedGroupId = groupId;
         },
 
+        /**
+         * removes a light from a group (from its array)
+         * @param groupId
+         * @param lightId
+         */
         removeLight: function(groupId, lightId){
             $scope.state.groups[groupId].lights.splice($scope.state.groups[groupId].lights.indexOf(lightId), 1);
             if($scope.state.groups[groupId].lights.length === 0){
@@ -360,6 +409,11 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             }
         },
 
+        /**
+         * adds light to a group (to its array)
+         * @param groupId
+         * @param lightId
+         */
         addLight: function(groupId, lightId){
             $scope.state.groups[groupId].lights.push(lightId);
             $scope.groups.update(groupId, $scope.state.groups[groupId]);
@@ -369,16 +423,25 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             }
         },
 
-        turnGroupOnOff: function(id){
+        /**
+         * turns a group of lights on or off
+         * @param groupId
+         */
+        turnGroupOnOff: function(groupId){
             var statusOfGroup = false;
-            angular.forEach($scope.state.groups[id].lights, function(lightId){
+            angular.forEach($scope.state.groups[groupId].lights, function(lightId){
                 if($scope.state.lights[lightId].state.on === true){
                     statusOfGroup = true;
                 }
             });
-            $scope.groups.state(id, {on: !statusOfGroup});
+            $scope.groups.state(groupId, {on: !statusOfGroup});
         },
 
+        /**
+         * gets all lights which are not part of group
+         * @param groupId
+         * @returns {Array} contains lightIDs
+         */
         getLightsInverse: function(groupId){
             var lightsOfGroupInverse = [];
             groupId = groupId.toString();
@@ -394,23 +457,6 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
                 $scope.sharedScope.submenu.openSubmenu("notificationNoLightToAdd");
             }
             return lightsOfGroupInverse;
-        },
-
-        createNewGroup: function(lightId){
-
-            if($scope.groups.newLightsArray.length === 0){
-                newGroupName = $scope.groups.forms.create.name;
-
-                console.log("Name: " + newGroupName);
-
-
-
-
-
-
-            }
-
-
         }
 
     };

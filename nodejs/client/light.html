@@ -64,7 +64,7 @@
         </div>
 
 
-    <!-- current lightCOLOR -->
+    <!-- lightCOLOR -->
         <div class="light_wrapper">
            <div class="light_color" hueper-color="sharedScope.state.lights[helpers.urlId].state">
            </div>
@@ -76,9 +76,10 @@
         </div>
 
 
-    <!-- favorites -->
+    <!-- Favorites -->
         <div style="text-align: center">
-        <div class="favorites_wrapper" ng-repeat="(id, fav) in sharedScope.state.favorites" ng-click="lights.changeLightColorToFavorite(id, helpers.urlId, 'light')">
+        <div class="favorites_wrapper" ng-repeat="(id, fav) in sharedScope.state.favorites"
+                ng-click="lights.changeLightColorToFavorite(id, helpers.urlId, 'light')">
             <div class="light_favorites_star_color" hueper-color="fav.state">
             </div>
             <div class="light_favorites">
@@ -86,7 +87,8 @@
             </div>
         </div>
         </div>
-        <button class="ui-btn ui-icon-star ui-btn-icon-left btn-round-corner transparent_bg button" ng-click="lights.checkNumberOfFavorites(helpers.urlId)">save color</button>
+        <button class="ui-btn ui-icon-star ui-btn-icon-left btn-round-corner transparent_bg button"
+                ng-click="lights.checkNumberOfFavorites(helpers.urlId)">save color</button>
 
         <!-- NOTIFICATION Group deleted completely-->
         <div class="notification" ng-if="sharedScope.submenu.visible.notificationGroupDeletedNoLightLeft">
@@ -115,7 +117,7 @@
                 ng-click="sharedScope.submenu.openSubmenu('addGroupToLight')">add group</button>
 
 
-    <!--overlapping menu - change color-->
+    <!-- SUBMENU - change color-->
         <div ng-if="sharedScope.submenu.visible.changeLightColor">
         <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()">
             <div class="light_wrapper" style="top: 112px">
@@ -150,7 +152,7 @@
         </div>
         </div>
 
-    <!--overlapping menu - choose favorite to replace -->
+    <!-- SUBMENU - choose favorite to replace -->
         <div ng-if="sharedScope.submenu.visible.replaceFavorite">
             <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
             <div class="overlap_content">
@@ -174,7 +176,7 @@
             </div>
         </div>
 
-    <!--overlapping menu - add group/groups -->
+    <!-- SUBMENU - add group/groups -->
         <div ng-if="sharedScope.submenu.visible.addGroupToLight">
             <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
             <div class="overlap_content">
@@ -196,7 +198,7 @@
             </div>
         </div>
 
-    <!--overlapping menu - delete from group -->
+    <!-- SUBMENU - delete from group -->
         <div ng-if="sharedScope.submenu.visible.deleteLightFromGroup">
             <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
             <div class="overlap_content">
