@@ -66,13 +66,15 @@
 
 
     <!-- groupCOLOR -->
-        <div class="group_wrapper">
-            <img src="./css/images/transparent_group.png" style="position:absolute; left: 84px"
-                 ng-click="sharedScope.submenu.openSubmenu('changeGroupColor')">
+    <div class="group_wrapper">
+        <div class="light_template">
+            <img src="./css/images/transparent_group.png" ng-click="sharedScope.submenu.openSubmenu('changeGroupColor')">
             <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-notext ui-btn-inline"
-                style="position: absolute; top: 90px; left: 145px" ng-click="groups.turnGroupOnOff(helpers.urlId)">
-            </span>
+                  style="position: absolute; top: 100px; left: 60px" ng-click="groups.turnGroupOnOff(helpers.urlId)"></span>
         </div>
+    </div>
+
+
 
 
     <!-- FAVorites -->
