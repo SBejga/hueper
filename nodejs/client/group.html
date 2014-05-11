@@ -89,11 +89,19 @@
                     {{sharedScope.state.lights[lightId].name}}</a>
             </div>
         </div>
-        <button class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button">add Light</button>
+
+        <!-- NOTIFICATION -->
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationNoLightToAdd">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            This group includes all existing lights.
+        </div>
+
+        <button class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
+                ng-click="sharedScope.submenu.openSubmenu('addLightToGroup')">add Light</button>
 
 
 
-    <!-- OVERLAPPING menu - change Groupcolor-->
+    <!-- SUBMENU - change Groupcolor-->
         <div ng-if="sharedScope.submenu.visible.changeGroupColor">
             <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()">
                 <div class="light_wrapper" style="top: 112px">
@@ -132,7 +140,7 @@
             </div>
         </div>
 
-    <!-- OVERLAPPING menu - change Lightcolor-->
+    <!-- SUBMENU - change Lightcolor-->
         <div ng-if="sharedScope.submenu.visible.changeLightColor">
             <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()">
                 <div class="light_wrapper" style="top: 112px">
@@ -167,7 +175,7 @@
             </div>
         </div>
 
-    <!--overlapping menu - delete from group -->
+    <!--SUBMENU - delete light from group -->
         <div ng-if="sharedScope.submenu.visible.deleteLightFromGroup">
             <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
             <div class="overlap_content">
@@ -186,7 +194,7 @@
             </div>
         </div>
 
-        <!--overlapping menu - delete last light from group -->
+        <!-- SUBMENU - delete last light from group -->
         <div ng-if="sharedScope.submenu.visible.deleteLastLightFromGroup">
             <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
             <div class="overlap_content">
@@ -204,6 +212,32 @@
                 </div>
             </div>
         </div>
+
+        </div>
+
+        <!--SUBMENU - add light/lights -->
+        <div ng-if="sharedScope.submenu.visible.addLightToGroup">
+            <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+            <div class="overlap_content">
+                <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                    <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                </div>
+                <div style="text-align: center; color: #f9efed">Which lights should be added?</div>
+                <div style="padding:20px">
+                    <div class="overlap_list" ng-repeat="lightId in groups.getLightsInverse(helpers.urlId)">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext
+                            ui-btn-inline"  style="float:right" ng-click="groups.addLight(helpers.urlId, lightId)"></span>
+                        <div style="margin-top: 12px">
+                            {{sharedScope.state.lights[lightId].name}}
+                        </div>
+                    </div>
+                    <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button"
+                            ng-click="sharedScope.submenu.closeSubmenu()">done</button>
+                </div>
+            </div>
+        </div>
+
+
 
     </div><!--END OF CONTENT-->
 </div>
