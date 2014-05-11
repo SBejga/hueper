@@ -49,6 +49,7 @@
     </div>
 
 
+
     <!-- CONTENT -->
     <div data-role="content" ng-controller="LightAndGroupCtrl">
 
@@ -64,7 +65,7 @@
         </div>
 
 
-    <!-- current groupCOLOR -->
+    <!-- groupCOLOR -->
         <div class="group_wrapper">
             <img src="./css/images/transparent_group.png" style="position:absolute; left: 84px"
                  ng-click="sharedScope.submenu.openSubmenu('changeGroupColor')">
@@ -74,8 +75,7 @@
         </div>
 
 
-
-    <!-- favorites -->
+    <!-- FAVorites -->
     <div style="text-align: center">
         <div class="favorites_wrapper" ng-repeat="(id, fav) in sharedScope.state.favorites" ng-click="lights.changeLightColorToFavorite(id, helpers.urlId, 'group')">
             <div class="light_favorites_star_color" hueper-color="fav.state">
@@ -85,7 +85,6 @@
             </div>
         </div>
     </div>
-
 
 
     <!-- lights -->
@@ -105,7 +104,7 @@
             </div>
         </div>
 
-        <!-- NOTIFICATION -->
+    <!-- NOTIFICATION -->
         <div class="notification" ng-if="sharedScope.submenu.visible.notificationNoLightToAdd">
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
             This group includes all existing lights.
@@ -154,7 +153,6 @@
                 </div>
             </div>
         </div>
-
 
     <!-- SUBMENU - change Lightcolor-->
         <div ng-if="sharedScope.submenu.visible.changeLightColor">
@@ -210,7 +208,7 @@
             </div>
         </div>
 
-        <!-- SUBMENU - delete last light from group -->
+    <!-- SUBMENU - delete last light from group -->
         <div ng-if="sharedScope.submenu.visible.deleteLastLightFromGroup">
             <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
             <div class="overlap_content">
@@ -231,7 +229,7 @@
 
         </div>
 
-        <!--SUBMENU - add light/lights -->
+    <!--SUBMENU - add light/lights -->
         <div ng-if="sharedScope.submenu.visible.addLightToGroup">
             <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
             <div class="overlap_content">
