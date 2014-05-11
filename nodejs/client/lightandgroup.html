@@ -61,7 +61,7 @@
         </div>
 
 
-    <!--  MENUES-->
+    <!--  MENU-->
         <div class="transparent_bg" style="padding:7px">
 
         <!-- light menu -->
@@ -88,8 +88,8 @@
             <div style="padding-top: 25px">
                 <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext
                     ui-btn-inline light_group_a" style="float:right"></span>
-                <a href="createGroup.html" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus
-                    ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right"></a>
+                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                light_group_a" style="float:right" ng-click="sharedScope.submenu.openSubmenu('createNewGroup')"></span>
                 <h2>Groups</h2>
             </div>
             <div class="light_group" ng-repeat="(id, group) in sharedScope.state.groups">
@@ -103,7 +103,7 @@
         </div>
 
 
-    <!--overlapping menu - delete group -->
+    <!-- SUBMENU - delete group -->
         <div ng-if="sharedScope.submenu.visible.deleteGroup">
             <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
             <div class="overlap_content">
@@ -120,6 +120,54 @@
                 </div>
             </div>
         </div>
+
+
+
+
+
+        <!-- SUBMENU - create new group add Lights-->
+        <div ng-if="sharedScope.submenu.visible.createNewGroup">
+            <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+            <div class="overlap_content">
+                <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                    <a href="lightandgroup.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                </div>
+                <div style="padding:20px; text-align: center">
+
+                    <form ng-submit="groups.create(groups.forms.create)">
+
+                <div style="text-align: center; color: #f9efed">
+                    Please insert the new groupname...
+                </div>
+
+                <input type="text" ng-model="groups.forms.create.name" required />
+
+                <div style="text-align: center; color: #f9efed;">
+                    ...and add at least one light.
+                </div>
+
+
+
+                    <div class="overlap_list" ng-repeat="(id, light) in sharedScope.state.lights" style="padding:10px; margin-top:10px;">
+                        <input type="checkbox" name="checkbox"  ng-checked="helpers.listChecked(groups.forms.create.lights,
+                            id, true)" ng-click="helpers.toggleList(groups.forms.create.lights, id, true)">{{light.name}}
+                    </div>
+
+
+
+
+                    <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
+                            ng-disabled="!groups.forms.create.lights.length" ng-click="sharedScope.submenu.closeSubmenu()">
+                    done </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
 
 
     </div>

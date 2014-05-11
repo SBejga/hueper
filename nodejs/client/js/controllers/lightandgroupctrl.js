@@ -229,6 +229,8 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
     $scope.groups = {
 
         selectedGroupId:0,
+        newGroupName:"",
+        newLightsArray: [],
 
 
         // placeholder for form data
@@ -386,8 +388,24 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
                 $scope.sharedScope.submenu.openSubmenu("notificationNoLightToAdd");
             }
             return lightsOfGroupInverse;
-        }
+        },
 
+        createNewGroup: function(lightId){
+
+            if($scope.groups.newLightsArray.length === 0){
+                newGroupName = $scope.groups.forms.create.name;
+
+                console.log("Name: " + newGroupName);
+
+
+
+
+
+
+            }
+
+
+        }
 
     };
 
