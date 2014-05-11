@@ -112,7 +112,7 @@
         </div>
 
         <button class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
-                ng-click="sharedScope.submenu.openSubmenu('addLightToGroup')">add group</button>
+                ng-click="sharedScope.submenu.openSubmenu('addGroupToLight')">add group</button>
 
 
     <!--overlapping menu - change color-->
@@ -175,7 +175,7 @@
         </div>
 
     <!--overlapping menu - add group/groups -->
-        <div ng-if="sharedScope.submenu.visible.addLightToGroup">
+        <div ng-if="sharedScope.submenu.visible.addGroupToLight">
             <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
             <div class="overlap_content">
                 <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
@@ -183,7 +183,7 @@
                 </div>
                 <div style="text-align: center; color: #f9efed">Which groups should be added?</div>
                 <div style="padding:20px">
-                    <div class="overlap_grouplist" ng-repeat="groupId in lights.getGroupsInverse(helpers.urlId)">
+                    <div class="overlap_list" ng-repeat="groupId in lights.getGroupsInverse(helpers.urlId)">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext
                             ui-btn-inline"  style="float:right" ng-click="groups.addLight(groupId, helpers.urlId)"></span>
                         <div style="margin-top: 12px">

@@ -115,7 +115,6 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
          * @param id of the specified light
          */
         getGroups: function(id){
-
             var groupsOfLamp = [];
 
             id = id.toString();
@@ -371,6 +370,23 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             });
             $scope.groups.state(id, {on: !statusOfGroup});
         },
+
+        getLightsInverse: function(groupId){
+            var lightsOfGroupInverse = [];
+            groupId = groupId.toString();
+
+            angular.forEach($scope.state.lights, function(value, key){
+                if($scope.state.groups[groupId].lights.indexOf(key) === -1 ){
+                    lightsOfGroupInverse.push(key)
+                }
+            });
+
+            if(lightsOfGroupInverse.length === 0){
+                $scope.sharedScope.submenu.closeSubmenu();
+                $scope.sharedScope.submenu.openSubmenu("notificationNoLightToAdd");
+            }
+            return lightsOfGroupInverse;
+        }
 
 
     };
