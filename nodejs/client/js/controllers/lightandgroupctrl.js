@@ -1,10 +1,12 @@
 angular.module('hueApp.controllers').
-controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager', function($scope, socket, $location, stateManager) {
+controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager', '$timeout', function($scope, socket, $location, stateManager, $timeout) {
 
     stateManager($scope);
 
     // light control
     $scope.lights = {
+
+        selectedLightId: 0,
 
         /**
          * Change state attributes of a light
@@ -103,6 +105,10 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             $scope.state.lights[id].name = name;
         },
 
+        setSelectedLightId: function(lightId){
+            $scope.lights.selectedLightId = lightId;
+        },
+
        /**
          *
          *
@@ -135,6 +141,16 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
                 $scope.sharedScope.submenu.openSubmenu("notificationNoGroupToAdd");
             }
             return groupsOfLampInverse;
+        },
+
+        openDeleteMenuLight: function(lightId, groupId){
+            $scope.lights.setSelectedLightId(lightId);
+
+            if($scope.state.groups[groupId].lights.length === 1){
+                $scope.sharedScope.submenu.openSubmenu('deleteLastLightFromGroup');
+            }else{
+                $scope.sharedScope.submenu.openSubmenu('deleteLightFromGroup');
+            }
         },
 
         checkNumberOfFavorites: function(lightId){
@@ -315,7 +331,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
 
         },
 
-        openDeleteMenu: function(groupId, submenuName){
+        openDeleteMenuGroup: function(groupId, submenuName){
             $scope.groups.setSelectedGroupId(groupId);
             $scope.sharedScope.submenu.openSubmenu(submenuName);
         },
@@ -327,10 +343,9 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         removeLight: function(groupId, lightId){
             $scope.state.groups[groupId].lights.splice($scope.state.groups[groupId].lights.indexOf(lightId), 1);
             if($scope.state.groups[groupId].lights.length === 0){
-                console.log("group is empty");
                 $scope.groups.remove(groupId);
                 $scope.sharedScope.submenu.closeSubmenu();
-                $scope.sharedScope.submenu.openSubmenu("notificationGroupDeletedNoLightLeft");
+                window.location.href = 'lightandgroup.html';
             }
             else{
                 $scope.groups.update(groupId, $scope.state.groups[groupId]);
@@ -355,7 +370,8 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
                 }
             });
             $scope.groups.state(id, {on: !statusOfGroup});
-        }
+        },
+
 
     };
 

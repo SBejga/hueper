@@ -94,7 +94,7 @@
             </div>
             <div class="light_group" ng-repeat="(id, group) in sharedScope.state.groups">
                 <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                    ui-btn-inline light_group_a" ng-click="groups.openDeleteMenu(id, 'deleteGroup')"></span>
+                    ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, 'deleteGroup')"></span>
                 <a href="group.html?id={{id}}" style="text-decoration: none">
                 <img src="./css/images/transparent_group_small.png" class="light_group_img">
                 {{group.name}}

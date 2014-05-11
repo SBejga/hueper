@@ -185,6 +185,7 @@ button:active{
     max-width: 100%;
 }
 
+
 .light_group{
     padding:5px;
     font-weight: bold;
@@ -202,6 +203,13 @@ button:active{
 .light_group_a{
     float: right;
     margin-top: 20px;
+}
+
+.group_wrapper{
+    position:relative;
+    height:150px;
+    width: 100%;
+    margin: auto;
 }
 
 .favorites_wrapper{
