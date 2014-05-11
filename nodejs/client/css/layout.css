@@ -65,6 +65,7 @@ button:active{
 
 .background_red{
     background: linear-gradient(120deg, #bc3b24, #ce1d18, #f8c33c) !important;
+
 }
 
 .background_stars{
@@ -103,17 +104,17 @@ button:active{
 .overlap{
     z-index:1;
     background-color: rgba(100, 100, 100, 0.5) !important;
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0px;
     width: 100%;
-    height:100%
+    height:100%;
 }
 
 .overlap_content{
     z-index:2;
     background-color: rgba(128, 0, 0, 0.8) !important;
-    position: absolute;
+    position: fixed;
     bottom: 0px;
     left: 0px;
     width: 100%;

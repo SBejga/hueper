@@ -122,7 +122,6 @@
             </div>
         </div>
 
-
     <!-- SUBMENU - create new group add Lights-->
         <div ng-if="sharedScope.submenu.visible.createNewGroup">
             <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
@@ -147,10 +146,8 @@
                         <input type="checkbox" name="checkbox"  ng-checked="helpers.listChecked(groups.forms.create.lights, id, true)"
                                ng-click="helpers.toggleList(groups.forms.create.lights, id, true)">{{light.name}}
                     </div>
-
                     <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
-                            ng-disabled="!groups.forms.create.lights.length" ng-click="sharedScope.submenu.closeSubmenu()">
-                        done</button>
+                        ng-disabled="!groups.forms.create.lights.length">done</button>
 
                     </form>
                 </div>

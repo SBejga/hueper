@@ -224,6 +224,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
     };
 
 
+
     //Submenu functions
     $scope.submenu = {
 
@@ -238,10 +239,14 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         }
     };
 
+
+
     $scope.$on("$locationChangeSuccess", function(){
         $rootScope.helpers.getIdFromUrl();
         $scope.submenu.closeSubmenu();
     });
+
+
 
 }]);
 
