@@ -3,11 +3,11 @@ hueper
 
 **!!! WORK IN PROGRESS !!!**
 
-This software is part of a study project done by @fairylands and @kryops at DHBW Stuttgart in 2013/14.
+This software is part of a study project done by [fairylands](https://github.com/fairylands) and [kryops](https://github.com/kryops) at DHBW Stuttgart in 2013/14.
 
 It provides a Node.JS + MongoDB backend and a real-time cross-platform mobile web frontend for extended control and automation of the Philips Hue lights, intended for usage on a Raspberry Pi together with an Arduino. Its features include:
 
--   Existing functions of the Hue Bridge (control of lights, groups, user administration, firmware update)
+-   Most of the existing functions of the Hue Bridge (control of lights, groups, user administration, firmware update)
 -   Save Favorite color settings
 -   Scenes
 -   Flexible scheduling and automation framework
@@ -30,7 +30,7 @@ Complete hardware list in *docs/planung/hardware.md* (German)
 #### Linux
 
     sudo apt-get install git python build-essential nodejs mongodb arduino sox nmap julius
-    sudo usermod -aG dialout USERNAME
+    sudo usermod -aG dialout $USER
 
 #### Windows
 
@@ -50,7 +50,7 @@ Complete hardware list in *docs/planung/hardware.md* (German)
     cd hueper/nodejs
     npm install
 
--   Download acoustic model: http://www.repository.voxforge1.org/downloads/Nightly_Builds/AcousticModel-2014-02-10/HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.zip and extract to *julius/acoustic_model_files*
+-   Download acoustic model: http://www.repository.voxforge1.org/downloads/Nightly_Builds/AcousticModel-2014-05-15/HTK_AcousticModel-2014-05-15_16kHz_16bit_MFCC_O_D.zip and extract to *julius/acoustic_model_files*
 -   Start NodeJS: `node <Project path>/nodejs/server.js`
 -   Frontend is accessible at http://localhost:8080
 

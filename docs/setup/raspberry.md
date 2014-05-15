@@ -167,10 +167,10 @@ Folgende Befehle in die Kommandozeile eingeben, dabei die richtige NodeJS-Versio
     cd  ~
 
     sudo mkdir /opt/node
-    wget http://nodejs.org/dist/v0.10.22/node-v0.10.22-linux-arm-pi.tar.gz
-    tar xvzf node-v0.10.22-linux-arm-pi.tar.gz
-    sudo cp -r node-v0.10.22-linux-arm-pi/* /opt/node
-    rm -f -r node-v0.10.22-linux-arm-pi
+    wget http://nodejs.org/dist/v0.10.26/node-v0.10.26-linux-arm-pi.tar.gz
+    tar xvzf node-v0.10.26-linux-arm-pi.tar.gz
+    sudo cp -r node-v0.10.26-linux-arm-pi/* /opt/node
+    rm -f -r node-v0.10.26-linux-arm-pi
 
     sudo mkdir /opt/mongo
     git clone https://github.com/brice-morin/ArduPi.git
@@ -302,10 +302,10 @@ Julius muss über das Versionkontrollsystem CVS heruntergeladen und kompiliert w
 Für Julius muss ein Akustik-Modell heruntergeladen werden:
 
     cd ~/hueper/julius
-    wget http://www.repository.voxforge1.org/downloads/Nightly_Builds/AcousticModel-2014-02-10/HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.tgz
+    wget http://www.repository.voxforge1.org/downloads/Nightly_Builds/AcousticModel-2014-05-15/HTK_AcousticModel-2014-05-15_16kHz_16bit_MFCC_O_D.tgz
     mkdir acoustic_model_files
-    tar xvfz HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.tgz -C acoustic_model_files
-    rm HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.tgz
+    tar xvfz HTK_AcousticModel-2014-05-15_16kHz_16bit_MFCC_O_D.tgz -C acoustic_model_files
+    rm HTK_AcousticModel-2014-05-15_16kHz_16bit_MFCC_O_D.tgz
 
 Starten mit
 

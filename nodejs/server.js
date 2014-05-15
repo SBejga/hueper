@@ -1,4 +1,4 @@
-﻿console.log('[SERVER] Starting HueControl on Port 8080');
+﻿console.log('[SERVER] Starting Smart Lights backend on Port 8080');
 
 
 // global application object

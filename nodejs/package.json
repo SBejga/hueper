@@ -1,15 +1,15 @@
 ﻿{
-	"name"			: "hue-control",
+	"name"			: "smart-lights",
 	"version"		: "0.0.0",
 	"main"			: "server.js",
 	"dependencies"	: {
-		"express"		: "3.x",
-		"mongoose"  	: "*",
-		"node-hue-api"	: "*",
-		"socket.io"		: "*",
-		"serialport"	: "*",
-        "ipv4-range"    : "*",
-        "ping"          : "*",
-        "network-address": "*"
+		"express"		: "3.6.x",
+		"mongoose"  	: "3.8.x",
+		"node-hue-api"	: "0.2.x",
+		"socket.io"		: "0.9.x",
+		"serialport"	: "1.4.x",
+        "ipv4-range"    : "0.0.x",
+        "ping"          : "0.1.x",
+        "network-address": "0.0.x"
 	}
 }
