@@ -42,7 +42,7 @@ Die Sprachsteuerung mit Julius benötigt eine Installation von Julius und ein Ak
 
 ### Julius Akustik-Modell herunterladen
 
--   Download der Datei http://www.repository.voxforge1.org/downloads/Nightly_Builds/AcousticModel-2014-02-10/HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.zip
+-   Download der Datei http://www.repository.voxforge1.org/downloads/Nightly_Builds/AcousticModel-2014-05-15/HTK_AcousticModel-2014-05-15_16kHz_16bit_MFCC_O_D.zip
 -   Entpacken nach *julius/acoustic_model_files* im Projektordner
 
 ### MongoDB

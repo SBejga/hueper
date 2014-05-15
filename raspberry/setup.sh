@@ -23,10 +23,10 @@ apt-get -y install git python build-essential sox nmap alsa-tools alsa-oss flex 
 # NodeJS setup
 
 mkdir /opt/node
-wget http://nodejs.org/dist/v0.10.22/node-v0.10.22-linux-arm-pi.tar.gz
-tar xvzf node-v0.10.22-linux-arm-pi.tar.gz
-cp -r node-v0.10.22-linux-arm-pi/* /opt/node
-rm -f -r node-v0.10.22-linux-arm-pi
+wget http://nodejs.org/dist/v0.10.26/node-v0.10.26-linux-arm-pi.tar.gz
+tar xvzf node-v0.10.26-linux-arm-pi.tar.gz
+cp -r node-v0.10.26-linux-arm-pi/* /opt/node
+rm -f -r node-v0.10.26-linux-arm-pi
 
 # Create symlinks for PATH and root access
 ln -s /opt/node/bin/node /usr/bin/node
@@ -139,10 +139,10 @@ sudo -u pi /usr/bin/npm install
 
 # download VoxForge acoustic model
 cd /home/pi/hueper/julius
-wget http://www.repository.voxforge1.org/downloads/Nightly_Builds/AcousticModel-2014-02-10/HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.tgz
+wget http://www.repository.voxforge1.org/downloads/Nightly_Builds/AcousticModel-2014-05-15/HTK_AcousticModel-2014-05-15_16kHz_16bit_MFCC_O_D.tgz
 sudo -u pi mkdir acoustic_model_files
-sudo -u pi tar xvfz HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.tgz -C acoustic_model_files
-rm HTK_AcousticModel-2014-02-10_16kHz_16bit_MFCC_O_D.tgz
+sudo -u pi tar xvfz HTK_AcousticModel-2014-05-15_16kHz_16bit_MFCC_O_D.tgz -C acoustic_model_files
+rm HTK_AcousticModel-2014-05-15_16kHz_16bit_MFCC_O_D.tgz
 
 
 cd /home/pi
