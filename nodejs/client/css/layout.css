@@ -49,7 +49,8 @@
 
 .button{
     border: none !important;
-    color: #333333 !important;
+    color: #800000 !important;
+    text-shadow:1px 1px #b3b3b3 !important;
 }
 
 button:hover
@@ -65,7 +66,6 @@ button:active{
 
 .background_red{
     background: linear-gradient(120deg, #bc3b24, #ce1d18, #f8c33c) !important;
-
 }
 
 .background_stars{
@@ -73,7 +73,7 @@ button:active{
 }
 
 .transparent_bg{
-    background-color: rgba(236, 236, 236, 0.3) !important;
+    background-color: rgba(236, 236, 236, 0.5) !important;
 }
 
 .main_menu_transparent_bg{
@@ -242,6 +242,15 @@ button:active{
 
 }
 
+.settings_icon{
+    position: relative;
+    height:80px;
+    width:80px;
+    max-width: 100%;
+    margin:10px;
+    margin-top: 20px;
+
+}
 
 
 /* small screen */

@@ -38,47 +38,24 @@
 <body>
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl" class="background_stars" data-theme="b">
-<!-- HEADER -->
-    <div data-role="header" data-position="fixed">
-        <h1 class="header_title">SmartLights</h1>
-    </div>
+
+    <div class="header">
+        <h2>Login</h2>
+    </div><!-- /header -->
 
     <div data-role="content">
 
-        <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
-            <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
-            <div class="main_menu_text">
-                Lights & Groups
+        <div class="transparent_bg" style="padding:10px;">
+        Password:
+            <div class="lightgroup_name_edit">
+                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline">
+                </span>
             </div>
-        </a>
-
-        <div class="ui-btn main_menu_transparent_bg button">
-            <img src="./css/images/icons/icon-scene-40.png" class="light_group_img no_padding">
-            <div class="main_menu_text">
-                Scenes
+            <div class="lightgroup_name_input" style="max-width: 80%; text-align: center">
+                <input type="text">
             </div>
         </div>
 
-        <div class="ui-btn main_menu_transparent_bg button">
-            <img src="./css/images/icons/icon-automation-40.png" class="light_group_img no_padding">
-            <div class="main_menu_text">
-                Automation
-            </div>
-        </div>
-
-        <div class="ui-btn main_menu_transparent_bg button">
-            <img src="./css/images/icons/icon-party-40.png" class="light_group_img no_padding">
-            <div class="main_menu_text">
-                Party
-            </div>
-        </div>
-
-        <a href="settings.html" class="ui-btn main_menu_transparent_bg button">
-            <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
-            <div class="main_menu_text">
-                Settings
-            </div>
-        </a>
 
     </div><!-- /content -->
 
