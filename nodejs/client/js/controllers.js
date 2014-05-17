@@ -65,6 +65,15 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         updateFirmware: function() {
             socket.emit('config.firmware', true);
             $scope.state.config.swupdate.updatestate = 3;
+        },
+
+        checkLogin: function(){
+
+            if(true){
+
+
+            }
+
         }
     };
 
@@ -244,6 +253,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
     $scope.$on("$locationChangeSuccess", function(){
         $rootScope.helpers.getIdFromUrl();
         $scope.submenu.closeSubmenu();
+        $scope.config.checkLogin();
     });
 
 
