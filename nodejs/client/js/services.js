@@ -35,7 +35,7 @@ factory('socket', ['$rootScope', function ($rootScope) {
  * Manages Notifications
  * Adds the following properties to a given (scope) object: state, notifications, clientConfig, client, user
  */
-factory('stateManager', ['socket', '$timeout', function(socket, $timeout) {
+factory('stateManager', ['socket', '$timeout', '$window', '$location', function(socket, $timeout, $window, $location) {
 
     var $scope = {};
 
@@ -146,6 +146,9 @@ factory('stateManager', ['socket', '$timeout', function(socket, $timeout) {
             $scope.user.login();
         }
         else {
+            if($location.absUrl().toString().indexOf("login") === -1){
+                $window.location.href = 'login.html';
+            }
             $scope.state.ready = true;
         }
     });
@@ -195,6 +198,9 @@ factory('stateManager', ['socket', '$timeout', function(socket, $timeout) {
         // persist password
         if(login) {
             localStorage.huePassword = $scope.user.password;
+            if($location.absUrl().toString().indexOf("login") > -1){
+                $window.location.href = 'index.html';
+            }
         }
     });
 

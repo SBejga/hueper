@@ -66,17 +66,9 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         updateFirmware: function() {
             socket.emit('config.firmware', true);
             $scope.state.config.swupdate.updatestate = 3;
-        },
-
-        /** Checks if the user is logged in
-         * if not it redirects to the login page
-         */
-        checkLogin: function(){
-            if($scope.state.user.loginRequired){
-                console.log("if");
-                $window.location.href = 'login.html';
-            }
         }
+
+
     };
 
     // rfid/nfc tags
@@ -226,7 +218,8 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
          *  this functions sets the global urlId to this ID.
          *
          */
-        getIdFromUrl: function(url){
+        getIdFromUrl: function(){
+            var url = $location.absUrl().toString();
             if(url.indexOf("id") != -1){
                 $scope.helpers.urlId = $location.search().id;
             }
@@ -252,12 +245,9 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
 
     $scope.$on("$locationChangeSuccess", function(){
-        var url = $location.absUrl().toString();
-        if(url.indexOf("login") === -1){
-            $rootScope.helpers.getIdFromUrl(url);
+            $rootScope.helpers.getIdFromUrl();
             $scope.submenu.closeSubmenu();
-            $scope.config.checkLogin();
-        }
+
     });
 
 
