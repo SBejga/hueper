@@ -246,8 +246,8 @@ button:active{
     position: relative;
     height:80px;
     width:80px;
-    max-width: 100%;
-    margin:10px;
+    max-width:100px ;
+    margin: auto;
     margin-top: 20px;
 
 }

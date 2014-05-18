@@ -1,5 +1,6 @@
 angular.module('hueApp.controllers', []).
-controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout', 'stateManager', function($scope, $rootScope, $location, socket, $timeout, stateManager) {
+controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout', 'stateManager', '$window',
+        function($scope, $rootScope, $location, socket, $timeout, stateManager, $window) {
 
     stateManager($scope);
 
@@ -67,13 +68,14 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             $scope.state.config.swupdate.updatestate = 3;
         },
 
+        /** Checks if the user is logged in
+         * if not it redirects to the login page
+         */
         checkLogin: function(){
-
-            if(true){
-
-
+            if($scope.state.user.loginRequired){
+                console.log("if");
+                $window.location.href = 'login.html';
             }
-
         }
     };
 
@@ -224,8 +226,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
          *  this functions sets the global urlId to this ID.
          *
          */
-        getIdFromUrl: function(){
-            var url = $location.absUrl().toString();
+        getIdFromUrl: function(url){
             if(url.indexOf("id") != -1){
                 $scope.helpers.urlId = $location.search().id;
             }
@@ -251,9 +252,12 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
 
     $scope.$on("$locationChangeSuccess", function(){
-        $rootScope.helpers.getIdFromUrl();
-        $scope.submenu.closeSubmenu();
-        $scope.config.checkLogin();
+        var url = $location.absUrl().toString();
+        if(url.indexOf("login") === -1){
+            $rootScope.helpers.getIdFromUrl(url);
+            $scope.submenu.closeSubmenu();
+            $scope.config.checkLogin();
+        }
     });
 
 

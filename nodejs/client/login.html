@@ -38,22 +38,36 @@
 <body>
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl" class="background_stars" data-theme="b">
+<!-- HEADER -->
+    <div data-role="header" data-position="fixed">
+        <h1 class="header_title">Login</h1>
+    </div>
 
-    <div class="header">
-        <h2>Login</h2>
-    </div><!-- /header -->
+<!-- CONTENT -->
+    <div data-role="content" ng-controller="LightAndGroupCtrl">
 
-    <div data-role="content">
-
-        <div class="transparent_bg" style="padding:10px;">
-        Password:
+        <div class="transparent_bg" style="padding:5px;">
+            <h2>Please enter your password</h2>
             <div class="lightgroup_name_edit">
                 <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline">
                 </span>
             </div>
             <div class="lightgroup_name_input" style="max-width: 80%; text-align: center">
-                <input type="text">
+                <input type="text" ng-model="user.password"/>
             </div>
+
+            <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
+                    style="max-width:80%">Login</button>
+
+            <input type="submit" value="Login" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button">
+
+
+        </div>
+
+    <!-- NOTIFICATION -->
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationWrongPassword">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            This password is incorrect.
         </div>
 
 
