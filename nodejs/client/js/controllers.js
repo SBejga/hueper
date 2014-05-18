@@ -50,6 +50,11 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             });
             $scope.config.forms.password.error = false;
             $scope.config.forms.password.success = false;
+
+            console.log("oldpw: " + $scope.user.forms.password.oldPassword.toString());
+            console.log("newpw: " + $scope.user.forms.password.newPassword.toString());
+            console.log("new2pw: " + $scope.user.forms.password.newPassword2.toString());
+            console.log("error: " + $scope.user.forms.password.error.toString());
         },
 
         /**
