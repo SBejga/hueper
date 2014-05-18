@@ -34,18 +34,16 @@
 
 </head>
 
-
 <body>
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl" class="background_stars" data-theme="b">
 <!-- HEADER -->
     <div data-role="header" data-position="fixed">
-        <div><a href="login.html">
-            <img src="css/images/icons/icon-menu-logout.png" class="header_left_icon">
-        </a></div>
+        <img src="css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()">
         <h2 class="header_title">SmartLights</h2>
     </div>
 
+<!-- CONTENT -->
     <div data-role="content">
 
         <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
@@ -83,9 +81,7 @@
             </div>
         </a>
 
-    </div><!-- /content -->
-
-
+    </div>
 
 </div>
 </body>

@@ -44,36 +44,31 @@
     </div>
 
 <!-- CONTENT -->
-    <div data-role="content" ng-controller="LightAndGroupCtrl">
+    <div data-role="content">
 
         <div class="transparent_bg" style="padding:5px;">
-            <h2>Please enter your password</h2>
-            <div class="lightgroup_name_edit">
-                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline">
-                </span>
-            </div>
-            <div class="lightgroup_name_input" style="max-width: 80%; text-align: center">
-                <input type="text" ng-model="user.password"/>
-            </div>
 
-            <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
-                    style="max-width:80%">Login</button>
 
-            <input type="submit" value="Login" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button">
+            <form ng-submit="sharedScope.user.login()" ng-show="!sharedScope.state.user.login && sharedScope.state.user.loginPromptReceived">
 
+                <p>
+                    <h2>Password</h2>
+                    <span ng-show="sharedScope.state.user.loginWaiting">Überprüfe Passwort...</span>
+
+                <!-- NOTIFICATION password incorrect -->
+                    <div class="notification" ng-show="sharedScope.state.user.loginError">
+                        <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                        This password is incorrect, please enter the right password.
+                    </div>
+
+                    <input type="password" ng-model="sharedScope.user.password"/>
+                    <input type="submit" value="Login"/>
+                </p>
+            </form>
 
         </div>
 
-    <!-- NOTIFICATION -->
-        <div class="notification" ng-if="sharedScope.submenu.visible.notificationWrongPassword">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-            This password is incorrect.
-        </div>
-
-
-    </div><!-- /content -->
-
-
+    </div>
 
 </div>
 </body>
