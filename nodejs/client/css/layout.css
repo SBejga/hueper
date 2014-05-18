@@ -242,13 +242,35 @@ button:active{
 
 }
 
+.settings_wrapper{
+    height:140px;
+    width:90px;
+    float:left;
+    margin: 9px;
+}
+
 .settings_icon{
-    position: relative;
     height:80px;
     width:80px;
-    max-width:100px ;
-    margin: auto;
-    margin-top: 20px;
+    padding:5px
+}
+
+.settings_label{
+    border-radius:10px;
+    line-height:40px;
+    width:80px;
+    float:left;
+    padding:5px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.settings_headerline{
+    font-weight: bold;
+    line-height: 50px;
+    vertical-align: middle;
+    text-align: center;
 
 }
 

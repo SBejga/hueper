@@ -44,70 +44,133 @@
     </div>
 
 <!-- CONTENT -->
-    <div data-role="content" ng-controller="LightAndGroupCtrl">
+    <div data-role="content">
 
-        <!--MENU-->
-        <div class="transparent_bg" style="padding:7px">
-
-            <!-- user settings -->
-            <div>
-                <h2>User Settings</h2>
-            </div>
-            <div class="ui-btn-inline horizontal_button_view" style="text-align:center">
-                <a href=""  style="text-decoration: none">
-                    <div class="settings_icon">
-                        <img src="./css/images/icons/icon-key-80.png">
-                    </div>
-                </a>
+    <!-- ACCOUNT Settings - DETAILS -->
+        <div class="transparent_bg" style="padding:7px; height:420px;" ng-if="sharedScope.submenu.visible.accountSettings">
+            <div class="settings_headerline">
+                <img src="./css/images/icons/icon-account-settings-60.png" style="float:left">Account Settings
             </div>
 
-            <div class="ui-btn-inline horizontal_button_view" style="text-align:center">
-                <a href=""  style="text-decoration: none">
-                    <div class="settings_icon">
-                        <img src="./css/images/icons/icon-hardware-80.png">
-                    </div>
-                </a>
+            <h2>Change Password</h2>
+            <form ng-submit="sharedScope.config.changePassword()">
+                <p>
+                    old password: <input type="text" ng-model="sharedScope.user.forms.password.oldPassword" />
+                    new password: <input type="text" ng-model="sharedScope.user.forms.password.newPassword" />
+                    repeat: <input type="text" ng-model="sharedScope.user.forms.password.newPassword2" />
+                    <input type="submit" value="change" />
+                </p>
+                <p ng-show="sharedScope.user.forms.password.error === true">
+                    <b>Altes Passwort falsch!</b>
+                </p>
+                <p ng-show="sharedScope.user.forms.password.error === 'match'">
+                    <b>Die beiden Passwörter sind nicht gleich!</b>
+                </p>
+                <p ng-show="sharedScope.user.forms.password.success">
+                    Das Passwort wurde erfolgreich geändert.
+                </p>
+            </form>
+        </div>
+
+    <!-- LIGHT Settings - DETAILS -->
+        <div class="transparent_bg" style="padding:7px; height:420px;" ng-if="sharedScope.submenu.visible.lightSettings">
+            <div class="settings_headerline">
+                <img src="./css/images/icons/icon-light-settings-60.png" style="float:left">Light Settings
             </div>
 
-            <!-- sensor settings -->
-            <div style="padding-top: 25px">
-                <h2>Sensor Settings</h2>
+            <h2>Add Light</h2>
+            <div class="light_group" style="line-height: 35px;" ng-click="">
+                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext
+                    ui-btn-inline"></span>
+                Search for new lights...
             </div>
-            <div class="ui-btn-inline horizontal_button_view" style="text-align:center">
-                <a href=""  style="text-decoration: none">
-                    <div class="settings_icon">
-                        <img src="./css/images/icons/icon-addlight-80.png">
-                    </div>
-                </a>
+
+
+            <h2>Fading Time</h2>
+        </div>
+
+    <!-- VOICE Settings - DETAILS -->
+        <div class="transparent_bg" style="padding:7px; height:420px;" ng-if="sharedScope.submenu.visible.voiceSettings">
+            <div class="settings_headerline">
+                <img src="./css/images/icons/icon-micro-settings-60.png" style="float:left">Voice Settings
             </div>
-            <div class="ui-btn-inline horizontal_button_view" style="text-align:center">
-                <a href=""  style="text-decoration: none">
-                    <div class="settings_icon">
-                        <img src="./css/images/icons/icon-rfid-80.png">
-                    </div>
-                </a>
+        </div>
+
+    <!-- RFID Settings - DETAILS -->
+        <div class="transparent_bg" style="padding:7px; height:420px;" ng-if="sharedScope.submenu.visible.rfidSettings">
+            <div class="settings_headerline">
+                <img src="./css/images/icons/icon-rfid-settings-60.png" style="float:left">RFID Settings
             </div>
-            <div class="ui-btn-inline horizontal_button_view" style="text-align:center">
-                <a href=""  style="text-decoration: none">
-                    <div class="settings_icon">
-                        <img src="./css/images/icons/icon-micro-80.png">
-                    </div>
-                </a>
+        </div>
+
+
+
+
+
+
+    <!-- ACCOUNT Settings -->
+        <div class="settings_wrapper" ng-click="sharedScope.submenu.openSubmenu('accountSettings')"
+             ng-if="!sharedScope.submenu.visible.accountSettings">
+            <div class="settings_icon">
+                <img src="./css/images/icons/icon-account-settings-80.png">
             </div>
-            <div class="ui-btn-inline horizontal_button_view" style="text-align:center">
-                <a href=""  style="text-decoration: none">
-                    <div class="settings_icon">
-                        <img src="./css/images/icons/icon-move-80.png">
-                    </div>
-                </a>
+            <div class="transparent_bg settings_label">Account</div>
+        </div>
+
+    <!-- LIGHT Settings -->
+        <div class="settings_wrapper" ng-click="sharedScope.submenu.openSubmenu('lightSettings')"
+             ng-if="!sharedScope.submenu.visible.lightSettings">
+            <div class="settings_icon">
+                <img src="./css/images/icons/icon-light-settings-80.png">
             </div>
-            <div class="ui-btn-inline horizontal_button_view" style="text-align:center">
-                <a href=""  style="text-decoration: none">
-                    <div class="settings_icon">
-                        <img src="./css/images/icons/icon-brightness-80.png">
-                    </div>
-                </a>
+            <div class="transparent_bg settings_label" >Light</div>
+        </div>
+
+    <!-- VOICE Settings -->
+        <div class="settings_wrapper" ng-click="sharedScope.submenu.openSubmenu('voiceSettings')"
+             ng-if="!sharedScope.submenu.visible.voiceSettings">
+            <div class="settings_icon">
+                <img src="./css/images/icons/icon-micro-settings-80.png">
             </div>
+            <div class="transparent_bg settings_label">Voice</div>
+        </div>
+
+    <!-- RFID Settings -->
+        <div class="settings_wrapper" ng-click="sharedScope.submenu.openSubmenu('rfidSettings')"
+             ng-if="!sharedScope.submenu.visible.rfidSettings">
+            <div class="settings_icon">
+                <img src="./css/images/icons/icon-rfid-settings-80.png">
+            </div>
+            <div class="transparent_bg settings_label">RFID</div>
+        </div>
+
+
+
+
+
+
+
+    <!-- NOTIFICATION Group deleted completely-->
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationGroupDeletedNoLightLeft">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            The selected group was deleted completely, because there was no light left.
+        </div>
+
+            <!-- TODO
+            Layout überarbeiten
+            Funktionalitäten:
+            > Account Settings  - change PW
+            > Lights            - fading time
+                                - add
+            > Voice Control     - start/stop
+                                - google/julius
+                                - sensibility
+                                - test mode
+            > RFID              - known list
+                                - unknown list
+                                - delete
+                                - watch unknown list
+             -->
 
 
         </div>

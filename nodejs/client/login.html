@@ -47,27 +47,20 @@
     <div data-role="content">
 
         <div class="transparent_bg" style="padding:5px;">
-
-
             <form ng-submit="sharedScope.user.login()" ng-show="!sharedScope.state.user.login && sharedScope.state.user.loginPromptReceived">
-
                 <p>
                     <h2>Password</h2>
-                    <span ng-show="sharedScope.state.user.loginWaiting">Überprüfe Passwort...</span>
-
+                    <span ng-show="sharedScope.state.user.loginWaiting">Check password...</span>
                 <!-- NOTIFICATION password incorrect -->
                     <div class="notification" ng-show="sharedScope.state.user.loginError">
                         <img src="css/images/icons/icon-warning.png" class="header_left_icon">
                         This password is incorrect, please enter the right password.
                     </div>
-
                     <input type="password" ng-model="sharedScope.user.password"/>
                     <input type="submit" value="Login"/>
                 </p>
             </form>
-
         </div>
-
     </div>
 
 </div>
