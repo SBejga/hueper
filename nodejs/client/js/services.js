@@ -146,10 +146,14 @@ factory('stateManager', ['socket', '$timeout', '$window', '$location', function(
             $scope.user.login();
         }
         else {
-            if($location.absUrl().toString().indexOf("login") === -1){
+            if($location.absUrl().toString().indexOf("login") === -1 && $scope.state.user.loginRequired === true){
                 $window.location.href = 'login.html';
             }
             $scope.state.ready = true;
+        }
+
+        if(!required && $location.absUrl().toString().indexOf("login") > -1){
+            $window.location.href = 'index.html';
         }
     });
 

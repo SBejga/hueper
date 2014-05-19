@@ -85,6 +85,9 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
          */
         search: function() {
             socket.emit('light.search', true);
+            console.log("search()");
+
+
         },
 
         /**
