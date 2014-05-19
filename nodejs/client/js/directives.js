@@ -316,7 +316,6 @@ directive('hueperSlider', ['$timeout', function($timeout) {
             // display changes to the model
 
             scope.$watch('model', function(val) {
-                console.log(val);
                 handle.css(dimension, 100 * (val - min) / (max - min) + '%');
                 handleOffset = handle.offset()[dimension];
             });

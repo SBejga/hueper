@@ -8,17 +8,6 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
     $scope.config = {
 
-        // container for form data
-        forms: {
-            // change password
-            password: {
-                oldPassword: '',
-                newPassword: '',
-                error: false,
-                success: false
-            }
-        },
-
         /**
          * Delete user from Hue bridge
          * @param {string} id
@@ -43,18 +32,25 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
          * @param {string} oldPassword
          * @param {string} newPassword
          */
-        changePassword: function(oldPassword, newPassword) {
-            socket.emit('config.password', {
-                oldPassword: oldPassword,
-                newPassword: newPassword
-            });
-            $scope.config.forms.password.error = false;
-            $scope.config.forms.password.success = false;
+        changePassword: function() {
+            var form = $scope.user.forms.password;
 
-            console.log("oldpw: " + $scope.user.forms.password.oldPassword.toString());
-            console.log("newpw: " + $scope.user.forms.password.newPassword.toString());
-            console.log("new2pw: " + $scope.user.forms.password.newPassword2.toString());
-            console.log("error: " + $scope.user.forms.password.error.toString());
+            form.error = false;
+            form.success = false;
+
+            if(form.newPassword !== form.newPassword2) {
+                form.error = 'match';
+                return;
+            }
+
+            if(!$scope.state.user.loginRequired) {
+                form.oldPassword = '';
+            }
+
+            socket.emit('config.password', {
+                oldPassword: form.oldPassword,
+                newPassword: form.newPassword
+            });
         },
 
         /**
@@ -71,6 +67,14 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         updateFirmware: function() {
             socket.emit('config.firmware', true);
             $scope.state.config.swupdate.updatestate = 3;
+        },
+
+        /*
+         *Turns the speech recognition on/off.
+         */
+        changeSpeechRecognitionState: function(){
+
+
         }
 
 
@@ -143,6 +147,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
     $rootScope.helpers = {
 
         urlId: 0,
+        transitionTime: 0,
 
         /**
              * toggle add/remove element to array
@@ -229,6 +234,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
                 $scope.helpers.urlId = $location.search().id;
             }
         }
+
     };
 
 
@@ -239,7 +245,13 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         visible:{},
         openSubmenu: function(menuname){
             $scope.submenu.visible = {};
-            $scope.submenu.visible[menuname] = true;
+            if(angular.isArray(menuname)){
+                angular.forEach(menuname, function(value){
+                    $scope.submenu.visible[value] = true;
+                });
+            }else{
+                $scope.submenu.visible[menuname] = true;
+            }
         },
 
         closeSubmenu: function(){

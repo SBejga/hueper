@@ -396,7 +396,7 @@ html body .ui-group-theme-b .ui-bar-inherit {
 .ui-overlay-b,
 .ui-page-theme-b,
 .ui-page-theme-b .ui-panel-wrapper {
-    background-color: #c40e0e /*{b-page-background-color}*/;
+    background-color: #141938 /*{b-page-background-color}*/;
     border-color: #bbbbbb /*{b-page-border}*/;
     color: #800000 /*{b-page-color}*/;
     text-shadow: 0 /*{b-page-shadow-x}*/ 1px /*{b-page-shadow-y}*/ 0 /*{b-page-shadow-radius}*/ #b3b3b3 /*{b-page-shadow-color}*/;
@@ -478,7 +478,7 @@ html .ui-body-b .ui-btn:active,
 html body .ui-group-theme-b .ui-btn:active,
 html head + body .ui-btn.ui-btn-b:active {
     background-color: #c63f3f /*{b-bdown-background-color}*/;
-    border-color: #c63f3f /*{b-bdown-border}*/;
+    border-color: #6c2222 /*{b-bdown-border}*/;
     color: #ffffff /*{b-bdown-color}*/;
     text-shadow: 0 /*{b-bdown-shadow-x}*/ 0px /*{b-bdown-shadow-y}*/ 0 /*{b-bdown-shadow-radius}*/ #b3b3b3 /*{b-bdown-shadow-color}*/;
 }

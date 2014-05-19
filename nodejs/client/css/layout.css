@@ -99,6 +99,7 @@ button:active{
     margin-bottom: 10px;
     min-height: 40px;
     font-size: 13px;
+    font-weight: normal;
 }
 
 .overlap{
@@ -246,13 +247,27 @@ button:active{
     height:140px;
     width:90px;
     float:left;
-    margin: 9px;
+    margin: 3px;
+    margin-bottom:30px;
+}
+
+.settings_wrapper_small{
+    display: inline-block;
+    height:50px;
+    width:40px;
+    margin: 3px;
 }
 
 .settings_icon{
     height:80px;
     width:80px;
     padding:5px
+}
+
+.settings_icon_small{
+    height:40px;
+    width:40px;
+    padding:0px
 }
 
 .settings_label{
@@ -271,6 +286,12 @@ button:active{
     line-height: 50px;
     vertical-align: middle;
     text-align: center;
+
+}
+
+.settings_details{
+    padding:8px;
+    overflow:hidden;
 
 }
 
@@ -312,8 +333,20 @@ button:active{
     background: linear-gradient(90deg, #000000, #ffffff);
 }
 
+
 .slider-brightness .slider-handle{
     background-color:rgba(255,255,255,0.8)
+}
+
+.slider-fading .slider-track{
+    border-radius:5px;
+    border-color: #a00000;
+    border: solid 1px;
+    background-color: #faeeec;
+}
+
+.slider-fading .slider-handle{
+    background-color:rgba(160,0,0,0.8)
 }
 
 .slider-track {
