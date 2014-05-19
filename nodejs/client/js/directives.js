@@ -210,13 +210,14 @@ directive('hueperSlider', ['$timeout', function($timeout) {
         link: function(scope, elm, attrs) {
             var min = parseFloat(attrs.min) || 0,
                 max = parseFloat(attrs.max) || 100,
-                step = parseFloat(attrs.step) || 1,
-                round = parseFloat(attrs.round) || 0,
+                step = Math.abs(parseFloat(attrs.step)) || 1,
+                round = parseFloat(attrs.round),
+                roundFactor,
 
                 handleWidth = 16,
                 handleCenter = 8,
 
-                valueDelta = Math.round(Math.abs(max - min), round),
+                valueDelta = Math.abs(max - min),
 
                 handle = elm.find('.slider-handle'),
                 handleOffset = handle.offset().left,
@@ -233,6 +234,18 @@ directive('hueperSlider', ['$timeout', function($timeout) {
                 minChangeInterval = 400,
                 lastChange = false,
                 changeTimeout = false;
+
+            // estimate round based on step width
+            if(isNaN(round)) {
+                if(step > 1) {
+                    round = 0;
+                }
+                else {
+                    round = Math.abs(Math.floor(Math.log(step) / 2.302585092994046));
+                }
+            }
+
+            roundFactor = Math.pow(10, round);
 
             // vertical slider
 
@@ -278,10 +291,18 @@ directive('hueperSlider', ['$timeout', function($timeout) {
                 }
 
                 scope.$apply(function() {
-                    scope.model = Math.round(
-                        min + (innerPos / (sliderLength - handleWidth) * (max - min)),
-                        round
-                    );
+                    scope.model = min + (innerPos / (sliderLength - handleWidth) * (max - min));
+
+                    var diff = scope.model % step;
+
+                    if(diff > step / 2) {
+                        scope.model += step - diff;
+                    }
+                    else {
+                        scope.model -= diff;
+                    }
+
+                    scope.model = Math.round(scope.model * roundFactor) / roundFactor;
 
 
                     if(scope.change) {
