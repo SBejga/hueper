@@ -256,33 +256,71 @@
                 </div>
             </div>
 
+
         <!-- RFID Settings - DETAILS -->
             <div class="transparent_bg settings_details" ng-if="sharedScope.submenu.visible.rfidSettings">
                 <div class="settings_headerline">
                     <img src="./css/images/icons/icon-rfid-settings-60.png" style="float:left">RFID Settings
                 </div>
 
+                <!-- KNOWN RFID list -->
+                <h2>Known RFID Tags</h2>
+                <div class="light_group transparent_bg" style="margin:8px" ng-repeat="id in sharedScope.state.rfid">
+                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                        ui-btn-inline light_group_a" style="margin-top: 27px" ng-click="sharedScope.rfid.remove(id)"></span>
+                    <div style="float: left; line-height: 20px; text-align: left; padding-left:5px"  >
+                        <p>Name</p>
+                        <p>Last Usage</p>
+                    </div>
+                    <div style="line-height: 20px; width: 80%">
+                        <p>{{id.name}}</p>
+                        <p>{{id.lastUsed}}</p>
+                    </div>
+                </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                <!-- UNKNOWN RFID list -->
+                    <div style="padding-top: 25px">
+                        <h2>Unknown RFID Tags</h2>
+                    </div>
+                    <div class="light_group " style="margin:8px; line-height: 30px; height:30px;"
+                         ng-repeat="id in sharedScope.state.rfidUnknown">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                                 ui-btn-inline" style="float: right;margin-top: 0px"></span>
+                        <div ng-click="sharedScope.submenu.openSubmenu(['rfidSettings', 'smallMenu', 'addRfidTag'])">
+                            <div style="float: left; text-align: left; line-height: 30px; padding-left: 5px">
+                                ID
+                            </div>
+                            <div style="line-height: 30px; width: 80%">
+                                {{id}}
+                            </div>
+                        </div>
+                    </div>
+                <button ng-click="sharedScope.rfid.reset()" style="padding: 7px">Reset Unknown List</button>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <!-- NETWORK Devices - DETAILS -->
             <div class="transparent_bg settings_details" ng-if="sharedScope.submenu.visible.networkDevices">
@@ -293,20 +331,31 @@
 
         </div>
 
-            <!-- TODO
-            Layout überarbeiten
-            Funktionalitäten:
-            > Lights            - fading time
-                                - add
-            > Voice Control     - start/stop
-                                - google/julius
-                                - sensibility
-                                - test mode
-            > RFID              - known list
-                                - unknown list
-                                - delete
-                                - watch unknown list
-             -->
+
+
+    <!-- SUBMENU - add RFID to KNOWN -->
+        <div ng-if="sharedScope.submenu.visible.addRfidTag">
+            <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu(); sharedScope.submenu.openSubmenu(['rfidSettings', 'smallMenu'])"></div>
+            <div class="overlap_content">
+                <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu(); sharedScope.submenu.openSubmenu(['rfidSettings', 'smallMenu'])">
+                    <img src="css/images/icons/icon-arrow-down.png">
+                </div>
+                <div style="text-align: center; color: #f9efed">Please enter a name...</div>
+                <div style="padding:20px">
+
+                    <form ng-init="tag = { tag: sharedScope.state.rfid.id }"
+                          ng-submit="sharedScope.rfid.create(sharedScope.state.rfid.tag)">
+                        <input type="text" ng-model="sharedScope.state.rfid.tag.name" />
+                        <input type="submit" class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button" value="Save">
+                    </form>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
 
 
     </div>
