@@ -741,4 +741,323 @@ directive('hueperColor', function() {
         }
     };
 
+}).
+
+/**
+ * Range slider
+ *
+ * Attributes:
+ * - modelMin
+ * - modelMax
+ * - change(type, value): function to  be called when slider is moved (type = 'min' / 'max')
+ * - min default 0
+ * - max default 100
+ * - step: minimum distance to trigger a movement, default 1
+ * - round: number of digits to round the value to, default 0
+ * - vertical: make the slider vertical
+ */
+directive('hueperRangeSlider', ['$timeout', function($timeout) {
+    return {
+        template: '<div class="slider" hueper-touch>\
+                    <div class="slider-track"></div>\
+                    <div class="slider-handle-container">\
+                        <div class="slider-range"></div>\
+                        <div class="slider-handle min"></div>\
+                        <div class="slider-handle max"></div>\
+                    </div>\
+                </div>',
+
+        replace: true,
+
+        scope: {
+            modelMin: '=',
+            modelMax: '=',
+            change: '&'
+        },
+
+        link: function(scope, elm, attrs) {
+            var min = parseFloat(attrs.min) || 0,
+                max = parseFloat(attrs.max) || 100,
+                step = Math.abs(parseFloat(attrs.step)) || 1,
+                round = parseFloat(attrs.round),
+                roundFactor,
+
+                handleWidth = 32,
+                handleCenter = 16,
+
+                valueDelta = Math.abs(max - min),
+
+                range = elm.find('.slider-range'),
+
+                handles = {
+                    min: elm.find('.slider-handle.min'),
+                    max: elm.find('.slider-handle.max')
+                },
+
+                handleOffset = {
+                    min: handles.min.offset()[dimension],
+                    max: handles.max.offset()[dimension]
+                },
+
+                sliderOffset,
+                sliderLength,
+                minDelta,
+
+                dimension = 'left',
+                dimensionSide = 'right',
+                axis = 'x',
+                getDimension = function(el) {
+                    return el.width();
+                },
+
+                handle = 'min',
+                model = 'modelMin',
+
+                minChangeInterval = 400,
+                lastChange = false,
+                changeTimeout = false;
+
+            // estimate round based on step width
+            if(isNaN(round)) {
+                if(step > 1) {
+                    round = 0;
+                }
+                else {
+                    round = Math.abs(Math.floor(Math.log(step) / 2.302585092994046));
+                }
+            }
+
+            roundFactor = Math.pow(10, round);
+
+            // vertical slider
+
+            if(attrs.vertical !== undefined) {
+                dimension = 'top';
+                dimensionSide = 'bottom';
+                axis = 'y';
+                getDimension = function(el) {
+                    return el.height();
+                };
+
+                // switch min and max for easier position computations
+                max = parseFloat(attrs.min) || 0;
+                min = parseFloat(attrs.max) || 100;
+
+                elm.addClass('vertical');
+            }
+
+            // compute sizes and dimensions on interaction start
+
+            elm.on('down', function(e, pos) {
+                sliderOffset = elm.offset()[dimension];
+                sliderLength = getDimension(elm);
+                handleOffset.min = handles.min.offset()[dimension];
+                handleOffset.max = handles.max.offset()[dimension];
+                minDelta = sliderLength / ( valueDelta / step ) / 2;
+
+                var p = pos[axis] - handleCenter;
+
+                // select active handle
+                if(Math.abs(p-handleOffset.max) < Math.abs(p-handleOffset.min) || p > handleOffset.max) {
+                    handle = 'max';
+                    model = 'modelMax';
+                }
+                else {
+                    handle = 'min';
+                    model = 'modelMin';
+                }
+            });
+
+            // change model and execute callback when slider is moved
+
+            elm.on('down up move', function(e, pos) {
+                var p = pos[axis] - handleCenter;
+
+                if(Math.abs(p-handleOffset[handle]) < minDelta) {
+                    return;
+                }
+
+                if((handle === 'max' && p < handleOffset.min) || (handle === 'min' && p > handleOffset.max)) {
+                    return;
+                }
+
+                var innerPos = p - sliderOffset;
+
+                if(innerPos < 0) {
+                    innerPos = 0;
+                }
+                else if(innerPos > sliderLength - handleWidth) {
+                    innerPos = sliderLength - handleWidth;
+                }
+
+                scope.$apply(function() {
+                    scope[model] = min + (innerPos / (sliderLength - handleWidth) * (max - min));
+
+                    var diff = scope[model] % step;
+
+                    if(diff > step / 2) {
+                        scope[model] += step - diff;
+                    }
+                    else {
+                        scope[model] -= diff;
+                    }
+
+                    scope[model] = Math.round(scope[model] * roundFactor) / roundFactor;
+
+
+                    if(scope.change) {
+                        var now = new Date().getTime(),
+                            param = {
+                                type: handle,
+                                value: scope[model]
+                            };
+
+                        if(changeTimeout) {
+                            $timeout.cancel(changeTimeout);
+                        }
+
+                        if(e.type === 'move') {
+                            if(now - lastChange > minChangeInterval) {
+                                lastChange = now;
+                                scope.change(param);
+                            }
+                            else {
+                                changeTimeout = $timeout(function() {
+                                    lastChange = now;
+                                    scope.change(param);
+                                }, minChangeInterval);
+                            }
+                        }
+                        else {
+                            scope.change(param);
+                            lastChange = now;
+                        }
+                    }
+                });
+
+            });
+
+            // display changes to the model
+
+            scope.$watch('modelMin', function(val) {
+                handles.min.css(dimension, 100 * (val - min) / (max - min) + '%');
+                handleOffset.min = handles.min.offset()[dimension];
+                setRangePosition(val, scope.modelMax);
+            });
+
+            scope.$watch('modelMax', function(val) {
+                handles.max.css(dimension, 100 * (val - min) / (max - min) + '%');
+                handleOffset.max = handles.max.offset()[dimension];
+                setRangePosition(scope.modelMin, val);
+            });
+
+            var setRangePosition = function(minValue, maxValue) {
+                var rangePosition = {};
+                rangePosition[dimension] = 100 * (minValue - min) / (max - min) + '%';
+                rangePosition[dimensionSide] = (100 - 100 * (maxValue - min) / (max - min)) + '%';
+                range.css(rangePosition);
+            };
+        }
+    };
+}]).
+
+/**
+ * Range color picker
+ *
+ * Attributes
+ * - hueper-colorpicker-range: light state with hue.min, hue.max, sat.min and sat.max
+ */
+directive('hueperColorpickerRange', function() {
+    return {
+        template: '<div class="colorpicker range" hueper-touch>\
+                <div class="colorpicker-handle"></div>\
+            </div>',
+
+        replace: true,
+
+        scope: {
+            state: '=hueperColorpickerRange'
+        },
+
+        link: function(scope, elm, attrs) {
+
+            var container = elm,
+                handle = elm.find('.colorpicker-handle'),
+
+                containerOffset,
+                containerWidth = container.width(),
+                containerHeight = container.height(),
+
+                hueMin = 0,
+                hueMax = 65535,
+                hueArea = hueMax - hueMin,
+
+                satMin = 0,
+                satMax = 254,
+                satArea = satMax - satMin;
+
+
+            elm.on('down', function(e, pos) {
+                containerOffset = container.offset();
+                containerWidth = container.width();
+                containerHeight = container.height();
+            });
+
+            // change model and execute callback when handle is moved
+
+            elm.on('down up move', function(e, pos) {
+                var propHue = 'min',
+                    propSat = 'min';
+
+                var relX = pos.x - containerOffset.left,
+                    relY = pos.y - containerOffset.top;
+
+                if(relX < 0) {
+                    relX = 0;
+                }
+                else if(relX > containerWidth) {
+                    relX = containerWidth;
+                }
+
+                if(relY < 0) {
+                    relY = 0;
+                }
+                else if(relY > containerHeight) {
+                    relY = containerHeight;
+                }
+
+                var x = relX / containerWidth,
+                    y = relY / containerHeight,
+
+                    hue = Math.round(hueMin + x * hueArea),
+                    sat = Math.round(satMin + y * satArea);
+
+                if(Math.abs(scope.state.hue.max-hue) < Math.abs(scope.state.hue.min-hue)) {
+                    propHue = 'max';
+                }
+
+                if(Math.abs(scope.state.sat.max-sat) < Math.abs(scope.state.sat.min-sat)) {
+                    propSat = 'max';
+                }
+
+                scope.$apply(function() {
+                    scope.state.hue[propHue] = hue;
+                    scope.state.sat[propSat] = sat;
+                });
+            });
+
+
+            // display changes to the model
+
+            scope.$watch('[state.hue, state.sat]', function() {
+                handle.css({
+                    top: 100 * (scope.state.sat.min - satMin) / satArea + '%',
+                    left: 100 * (scope.state.hue.min - hueMin) / hueArea + '%',
+                    bottom: (100 - 100 * (scope.state.sat.max - satMin) / satArea) + '%',
+                    right: (100 - 100 * (scope.state.hue.max - hueMin) / hueArea) + '%'
+                });
+            }, true);
+
+        }
+    };
 });

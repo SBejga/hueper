@@ -233,6 +233,23 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             if(url.indexOf("id") != -1){
                 $scope.helpers.urlId = $location.search().id;
             }
+        },
+
+        cancelEvent: function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+        },
+
+        objectLength: function(o) {
+            var i, sum = 0;
+
+            for(i in o) {
+                if(o.hasOwnProperty(i)) {
+                    sum++;
+                }
+            }
+
+            return sum;
         }
 
     };
