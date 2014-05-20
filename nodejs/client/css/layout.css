@@ -289,10 +289,21 @@ button:active{
 
 }
 
+.settings_subheader{
+    margin-top:25px;
+    margin-bottom:5px;
+
+}
+
 .settings_details{
     padding:8px;
     overflow:hidden;
 
+}
+.settings_standard{
+    padding: 10px;
+    font-weight: bold;
+    text-align: center
 }
 
 

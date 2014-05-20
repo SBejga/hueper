@@ -1,5 +1,5 @@
 angular.module('hueApp.controllers').
-controller('SceneCtrl', ['$scope', 'stateManager', function($scope, stateManager) {
+controller('SpeechCtrl', ['$scope','socket', 'stateManager', function($scope, socket, stateManager) {
 
     stateManager($scope);
 
