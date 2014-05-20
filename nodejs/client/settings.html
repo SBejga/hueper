@@ -131,14 +131,14 @@
 
 
     <!-- SETTINGS DETAILS -->
-        <div style="clear:both; margin-top: 20px">
+        <div style="clear:both; margin-top: 20px" ng-controller="SpeechCtrl">
         <!-- ACCOUNT Settings - DETAILS -->
             <div class="transparent_bg settings_details" ng-show="sharedScope.submenu.visible.accountSettings">
                 <div class="settings_headerline">
                     <img src="./css/images/icons/icon-account-settings-60.png" style="float:left">Account Settings
                 </div>
 
-                <h2>Change Password</h2>
+                <h2 class="settings_subheader">Change Password</h2>
                 <form ng-submit="sharedScope.config.changePassword()" style="padding: 10px; font-weight: bold">
 
                         <div ng-show="sharedScope.state.user.loginRequired">
@@ -175,7 +175,7 @@
                 <div class="settings_headerline">
                     <img src="./css/images/icons/icon-light-settings-60.png" style="float:left">Light Settings
                 </div>
-                <h2>Add Light</h2>
+                <h2 class="settings_subheader">Add Light</h2>
                 <div class="light_group" style="line-height: 35px;" ng-click="lights.search();
                      sharedScope.submenu.openSubmenu(['smallMenu', 'lightSettings', 'searchLights'])" ng-if="!sharedScope.submenu.visible.searchLights">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext
@@ -187,7 +187,7 @@
                     <img src="css/images/icons/icon-warning.png" class="header_left_icon">
                     The bridge is looking for new lamps. They will be added automatically.
                 </div>
-                <h2>Fading Time</h2>
+                <h2 class="settings_subheader">Fading Time</h2>
                 <div style="padding: 10px; font-weight: bold; text-align: center">
                     <div hueper-slider model="sharedScope.state.appConfig.transition" min="0" max="100" class="slider-fading"></div>
                     <div style="float:right; width:40%; padding-right: 10px;">
@@ -205,38 +205,55 @@
                     <img src="./css/images/icons/icon-micro-settings-60.png" style="float:left">Voice Settings
                 </div>
 
-
-                <h2>Speech Recognition</h2>
-
-
-                <div style="padding: 10px; font-weight: bold;">
+                <h2 class="settings_subheader">Switch Status</h2>
+                <label class="transparent_bg button">
+                    <input type="checkbox" name="checkboxSpeechRecog" ng-model="sharedScope.state.appConfig.speechRecognition"
+                           ng-true-value="true" ng-false-value="false"
+                           ng-change="sharedScope.config.change(sharedScope.state.appConfig)">
+                    Speech Recognition
+                </label>
+                <div class="light_group" style="line-height: 40px;text-align: left" ng-click="sharedScope.config.changeSpeechRecognitionState()">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-notext
-                        ui-btn-inline" ng-click="sharedScope.config.changeSpeechRecognitionState()"></span>
-                    <div ng-show="sharedScope.state.appConfig.speechRecognition"> Status: ON</div>
-                    <div ng-show="!sharedScope.state.appConfig.speechRecognition"> Status: OFF</div>
-
+                        ui-btn-inline"></span>
+                    <div class="ui-btn-inline" ng-show="sharedScope.state.appConfig.speechRecognition"> speech recognition is enabled </div>
+                    <div class="ui-btn-inline" ng-show="!sharedScope.state.appConfig.speechRecognition"> speech recognition is disabled</div>
                 </div>
 
+                <h2 class="settings_subheader">Choose Interpreter</h2>
+                <div class="settings_standard" style="vertical-align: middle">
+                    <div style="line-height: 30px">
+                        <input type="radio" value="julius" ng-model="sharedScope.state.appConfig.speechRecognitionEngine"
+                            ng-change="sharedScope.config.change(sharedScope.state.appConfig)"  style="margin-top: 5px">
+                        <div style="padding-left:50px;">Julius</div>
+                    </div>
+                    <div style="line-height: 30px">
+                        <input type="radio" value="google" ng-model="sharedScope.state.appConfig.speechRecognitionEngine"
+                               ng-change="sharedScope.config.change(sharedScope.state.appConfig)" style="margin-top: 3px">
+                        <div style="padding-left:50px;">Google</div>
+                    </div>
+                </div>
 
+                <h2 class="settings_subheader">Sensitivity</h2>
+                <div class="settings_standard">
+                    <div hueper-slider model="sharedScope.state.appConfig.speechSensitivity" min="0" max="100" class="slider-fading"></div>
+                    <div style="float:right; width:40%; padding-right: 10px;">
+                        <button ng-click="sharedScope.config.change(sharedScope.state.appConfig);">Save</button>
+                    </div>
+                    <div style="width:60%; line-height:35px;padding-top:10px; padding-left: 10px; text-align: center">
+                        {{sharedScope.state.appConfig.speechSensitivity}} %
+                    </div>
+                </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                <h2  class="settings_subheader">Test Mode</h2>
+                <button style="vertical-align: middle; line-height: 32px; padding:7px" ng-show="!sharedScope.state.speech.testMode"
+                        ng-click="speech.activateTestMode()">
+                    <img src="./css/images/icons/icon-testmode-settings-32.png" class="light_group_img no_padding">
+                    Start
+                </button>
+                <div ng-show="sharedScope.state.speech.testMode" class="settings_standard" style="line-height: 10px">
+                    <p>Test mode is running for 60 seconds ...</p>
+                    <p>"{{sharedScope.state.speech.recognized}}"</p>
+                </div>
             </div>
 
         <!-- RFID Settings - DETAILS -->
@@ -244,6 +261,27 @@
                 <div class="settings_headerline">
                     <img src="./css/images/icons/icon-rfid-settings-60.png" style="float:left">RFID Settings
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
 
         <!-- NETWORK Devices - DETAILS -->

@@ -73,8 +73,8 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
          *Turns the speech recognition on/off.
          */
         changeSpeechRecognitionState: function(){
-
-
+            $scope.state.appConfig.speechRecognition = !$scope.state.appConfig.speechRecognition;
+            $scope.config.change($scope.state.appConfig);
         }
 
 
@@ -241,7 +241,6 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
     //Submenu functions
     $scope.submenu = {
-
         visible:{},
         openSubmenu: function(menuname){
             $scope.submenu.visible = {};
@@ -264,7 +263,6 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
     $scope.$on("$locationChangeSuccess", function(){
             $rootScope.helpers.getIdFromUrl();
             $scope.submenu.closeSubmenu();
-
     });
 
 
