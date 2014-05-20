@@ -1,4 +1,6 @@
-
+[ng-click] {
+    cursor:pointer;
+}
 
 .wrapper {
     position: relative;
@@ -120,6 +122,8 @@ button:active{
     left: 0px;
     width: 100%;
     min-height: 150px;
+    max-height:85%;
+    overflow:auto;
 }
 
 .overlap_arrow_down{
@@ -307,6 +311,102 @@ button:active{
 }
 
 
+
+
+/* party mode */
+
+.party-running {
+    background-color: rgba(236, 236, 236, 0.5);
+    margin:0 -1em; /* overlap padding of jQM content container */
+    margin-bottom:20px;
+    padding:8px 12px;
+}
+
+.panel {
+    display:block;
+    background-color: rgba(236, 236, 236, 0.5);
+    padding:12px 8px 12px 16px;
+    margin-bottom:8px;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    font-weight: bold;
+}
+
+.panel.active, .panel[ng-click]:active {
+    background-color:rgba(255,255,255,0.65);
+}
+
+.panel .control {
+    display:block;
+    position:relative; /* prevent strange behavior with ellipsis-text in .panel */
+    float:right;
+    margin:-12px -8px -12px 8px;
+    padding:0 8px;
+    cursor:pointer;
+    -ms-touch-action:pan-y;
+    touch-action:pan-y;
+}
+
+.panel .control .ui-btn {
+    margin-right:0;
+}
+
+.panel .text {
+    position:relative;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.panel.subpanel {
+    background-color:rgba(255,255,255,0.15);
+}
+
+.overlap_background {
+    background-color: rgba(236, 236, 236, 0.5);
+    padding:12px;
+    font-weight:bold;
+}
+
+.party-form-headline {
+    background-color:rgba(255,255,255,0.25);
+    margin:1em -12px;
+    padding:8px 12px;
+}
+
+.checkbox-container {
+    margin-bottom:8px;
+}
+
+.checkbox-container .ui-checkbox {
+    display: inline-block;
+    margin-right: 32px;
+}
+
+.icon {
+    display:inline-block;
+    width:18px;
+    height:18px;
+    background-size:18px 18px;
+}
+
+.icon.large {
+    width:32px;
+    height:32px;
+    background-size:32px 32px;
+}
+
+.icon-sun {
+    background-image:url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gQ3JlYXRlZCB3aXRoIElua3NjYXBlIChodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy8pIC0tPgo8c3ZnIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjI1NiIgd2lkdGg9IjI1NiIgdmVyc2lvbj0iMS4xIiB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIj4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0ibGluZWFyR3JhZGllbnQ0MTkxIiB5Mj0iNTEzMi40IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeTE9IjQ5MDguNCIgZ3JhZGllbnRUcmFuc2Zvcm09InRyYW5zbGF0ZSgtMjU2LjAwMTUxLC00MDk1Ljk5OTkpIiB4Mj0iNDk2IiB4MT0iMjcyIj4KPHN0b3Agc3RvcC1jb2xvcj0iI0ZGRiIgb2Zmc2V0PSIwIi8+CjxzdG9wIHN0b3AtY29sb3I9IiNGRkYiIHN0b3Atb3BhY2l0eT0iMC4zOTIxNTY4NyIgb2Zmc2V0PSIxIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPG1ldGFkYXRhPgo8cmRmOlJERj4KPGNjOldvcmsgcmRmOmFib3V0PSIiPgo8ZGM6Zm9ybWF0PmltYWdlL3N2Zyt4bWw8L2RjOmZvcm1hdD4KPGRjOnR5cGUgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIvPgo8ZGM6dGl0bGUvPgo8L2NjOldvcms+CjwvcmRmOlJERj4KPC9tZXRhZGF0YT4KPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwtNzk2LjM2MjE4KSI+CjxwYXRoIGZpbGwtcnVsZT0ibm9uemVybyIgZmlsbD0idXJsKCNsaW5lYXJHcmFkaWVudDQxOTEpIiBkPSJtMTI3Ljk0LDgxMi4zNmE0Ljk3NzksNC45NzgxLDAsMCwwLC00LjkxNTIsNS4wMzk3djQzLjY3OGE0Ljk3NzksNC45NzgxLDAsMCwwLDAsMC40OTc4LDQuOTgzNiw0Ljk4MzgsMCwxLDAsOS45NTQ4LC0wLjQ5Nzh2LTQzLjY3OGE0Ljk3NzksNC45NzgxLDAsMCwwLC01LjAzOTYsLTUuMDM5N3ptLTc1LjYyNSwzMS4zNTlhNC45Nzc5LDQuOTc4MSwwLDAsMCwtMy40NTMxLDguNTU1MmwzMC44OTEsMzAuODYxYTQuOTc3OSw0Ljk3ODEsMCwwLDAsMC4zNDIyLDAuMzczMyw0Ljk4ODgsNC45ODksMCwwLDAsNi42ODg0LC03LjQwNDJsLTMwLjg5MS0zMC44OTJhNC45Nzc5LDQuOTc4MSwwLDAsMCwtMy41Nzc1LC0xLjQ5MzN6bTE1MS4yMiwwYTQuOTc3OSw0Ljk3ODEsMCwwLDAsLTMuNDIyLDEuNDkzM2wtMzAuODkxLDMwLjg5MmE0Ljk3NzksNC45NzgxLDAsMCwwLC0wLjM0MjE5LDAuMzQyMiw0Ljk4MzYsNC45ODM4LDAsMCwwLDcuMzcyOCw2LjY4ODdsMzAuODkxLTMwLjg2MWE0Ljk3NzksNC45NzgxLDAsMCwwLC0zLjYwODYsLTguNTU1MnptLTc1LjU0LDMyLjg1Yy0yNi4zOSwwLTQ3Ljc4MywyMS4zOTQtNDcuNzgzLDQ3Ljc4NXMyMS4zOTMsNDcuNzg1LDQ3Ljc4Myw0Ny43ODUsNDcuNzgzLTIxLjM5NCw0Ny43ODMtNDcuNzg1LTIxLjM5My00Ny43ODUtNDcuNzgzLTQ3Ljc4NXptLTEwNi45NSw0Mi44MWE0Ljk3NzksNC45NzgxLDAsMSwwLDAsOS45NTUyaDQzLjY3N2E0Ljk3NzksNC45NzgxLDAsMCwwLDAuNDk3NzQsMCw0Ljk4MzYsNC45ODM4LDAsMSwwLC0wLjQ5Nzc0LC05Ljk1NTJoLTQzLjY3N3ptMTY5LjczLDBhNC45ODM2LDQuOTgzOCwwLDEsMCwwLjQ5Nzc0LDkuOTU1Mmg0My42NzdhNC45Nzc5LDQuOTc4MSwwLDEsMCwwLC05Ljk1NTJoLTQzLjY3N2E0Ljk3NzksNC45NzgxLDAsMCwwLC0wLjQ5Nzc0LDB6bS0xMDcuMzMsNDQuNThhNC45ODM2LDQuOTgzOCwwLDAsMCwtMy43MDIsMS42NDg4bC0zMC44OTEsMzAuODYxYTQuOTgyNCw0Ljk4MjUsMCwxLDAsNy4wMzA2LDcuMDYxOGwzMC44OTEtMzAuODkyYTQuOTc3OSw0Ljk3ODEsMCwwLDAsMC4zNDIyLC0wLjM3MzMsNC45ODM2LDQuOTgzOCwwLDAsMCwtMy42NzA4LC04LjMwNjR6bTg4Ljc4NCwwYTQuOTgzNiw0Ljk4MzgsMCwwLDAsLTMuMDE3Niw4LjY3OTdsMzAuODkxLDMwLjg5MmE0Ljk4MjQsNC45ODI1LDAsMSwwLDcuMDMwNiwtNy4wNjE4bC0zMC44OTEtMzAuODYxYTQuOTc3OSw0Ljk3ODEsMCwwLDAsLTAuMzQyMiwtMC4zNzMyLDQuOTgzNiw0Ljk4MzgsMCwwLDAsLTMuNjcwOCwtMS4yNzU2em0tNDQuMTQzLDE4LjQ0OGE0Ljk4MzYsNC45ODM4LDAsMCwwLC01LjA3MDcsNS4yMjY0djQzLjY3OGE0Ljk3NzksNC45NzgxLDAsMSwwLDkuOTU0OCwwdi00My42NzhhNC45Nzc5LDQuOTc4MSwwLDAsMCwwLC0wLjQ5NzYsNC45ODM2LDQuOTgzOCwwLDAsMCwtNC44ODQxLC00LjcyODh6Ii8+CjwvZz4KPC9zdmc+Cg==);
+}
+
+.party-colorpicker-container {
+    clear:both;
+    margin-top:8px;
+}
+
+
+
 /* small screen */
 @media screen and (max-width:1100px) {
     .wrapper {
@@ -388,6 +488,15 @@ button:active{
     background-color:rgba(255,255,255,0.5);
 }
 
+.slider-range {
+    position:absolute;
+    top:8px;
+    left:0;
+    width:auto;
+    height:16px;
+    background-color:rgba(255,255,255,0.1);
+}
+
 .slider.vertical {
     width:32px;
     height:210px;
@@ -411,6 +520,27 @@ button:active{
 
 .slider.vertical .slider-handle {
     margin:-16px 0;
+}
+
+.slider.vertical .slider-range {
+    top:0;
+    left:8px;
+    width:16px;
+    height:auto;
+}
+
+.slider-left-value {
+    float:left;
+    margin-right:8px;
+    min-width:48px;
+    text-align:center;
+}
+
+.slider-right-value {
+    float:right;
+    margin-left:8px;
+    min-width:48px;
+    text-align:center;
 }
 
 /* colorpicker */
@@ -451,4 +581,14 @@ button:active{
     -moz-box-sizing:border-box;
     -webkit-box-sizing:border-box;
     box-sizing:border-box;
+}
+
+.colorpicker.range {
+    background-image:url(images/colorpicker-range.png);
+}
+
+.colorpicker.range .colorpicker-handle {
+    width:auto;
+    height:auto;
+    margin:0;
 }
