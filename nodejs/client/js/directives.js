@@ -1060,4 +1060,72 @@ directive('hueperColorpickerRange', function() {
 
         }
     };
-});
+}).
+
+
+
+
+directive('hueperCheckbox', function(){
+        return {
+            template: '<div class="checkbox_container"><div class="checkbox_box">\
+                        <img src="css/images/checkbox-true.png" style="float: left" ng-show="show"></div>\
+                        <div ng-transclude></div></div>',
+
+            replace: true,
+            transclude: true,
+
+            scope: {
+                hueperCheckbox: '=',
+                list: '=',
+                change: '&'
+            },
+
+
+            link: function(scope, elm, attrs){
+
+                elm.on('click', function(){
+                    scope.$apply(function(){
+                        var id = parseInt(scope.hueperCheckbox);
+
+                        if(scope.list === undefined){
+                            var trueValue = attrs.trueValue || true;
+                            var falseValue = attrs.falseValue || false;
+
+                            if(scope.hueperCheckbox === trueValue){
+                                scope.hueperCheckbox = falseValue;
+                            }
+                            else{
+                                scope.hueperCheckbox = trueValue;
+                            }
+                        }
+                        else{
+                            if(scope.list.indexOf(id) > -1){
+                                scope.list.splice(scope.list.indexOf(id), 1);
+                            }
+                            else{
+                                scope.list.push(id);
+                            }
+                        }
+                        scope.change({value: scope.hueperCheckbox});
+                    });
+                });
+
+
+                if(scope.list === undefined){
+                    scope.$watch('hueperCheckbox', function(){
+                        scope.show = scope.hueperCheckbox;
+                    });
+                }
+                else{
+                    scope.$watch('list', function(){
+                        if(list.indexOf(scope.hueperCheckbox) > -1){
+                            scope.show = true;
+                        }
+                        else{
+                            scope.show = false;
+                        }
+                    }, true);
+                }
+            }
+        }
+    });

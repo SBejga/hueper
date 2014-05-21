@@ -592,3 +592,23 @@ button:active{
     height:auto;
     margin:0;
 }
+
+/* checkbox */
+
+.checkbox_container{
+    padding: 8px;
+    line-height:30px;
+    background-color: rgba(236, 236, 236, 0.5) !important;
+    text-align:center;
+    vertical-align: middle;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.checkbox_box{
+    border: solid 2px #800000;
+    width:18px;
+    height:18px;
+    float: left;
+    margin-top: 4px;
+    margin-left: 2px;
+}

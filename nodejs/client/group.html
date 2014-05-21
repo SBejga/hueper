@@ -144,11 +144,19 @@
                     <div hueper-slider model="sharedScope.state.groups[helpers.urlId].action.bri" min="0" max="254"
                          step="5" change="groups.state(helpers.urlId, { bri: value })" class="slider-brightness">
                     </div>
+
+
+
+                    <div hueper-checkbox="sharedScope.state.groups[helpers.urlId].action.effect" true-value="colorloop" false-value="none"
+                         change="groups.state(helpers.urlId,{effect : value})"> Activate Colorloop</div>
                     <label class="transparent_bg button">
                         <input type="checkbox" name="checkboxColorloop" ng-model="sharedScope.state.groups[helpers.urlId].action.effect"
                                ng-true-value="colorloop" ng-false-value="none" ng-change="groups.state(helpers.urlId,
                            {'effect': sharedScope.state.groups[helpers.urlId].action.effect})">activate colorloop
                     </label>
+
+
+
                 </div>
             </div>
         </div>
@@ -180,10 +188,19 @@
                     <div hueper-colorpicker state="sharedScope.state.lights[lights.selectedLightId].state" change="lights.state(lights.selectedLightId, state)"></div>
                     <div hueper-slider model="sharedScope.state.lights[lights.selectedLightId].state.bri" min="0" max="254" step="5"
                          change="lights.state(lights.selectedLightId, { bri: value })" class="slider-brightness"></div>
+
+
+
+                    <div hueper-checkbox="sharedScope.state.lights[lights.selectedLightId].state.effect" true-value="colorloop" false-value="none"
+                         change="lights.state(lights.selectedLightId,{effect : value})"> Activate Colorloop</div>
+
                     <label class="transparent_bg button">
                         <input type="checkbox" name="checkboxColorloop" ng-model="sharedScope.state.lights[lights.selectedLightId].state.effect" ng-true-value="colorloop"
                                ng-false-value="none" ng-change="lights.state(lights.selectedLightId, {'effect': sharedScope.state.lights[lights.selectedLightId].state.effect})">activate colorloop
                     </label>
+
+
+
                 </div>
             </div>
         </div>

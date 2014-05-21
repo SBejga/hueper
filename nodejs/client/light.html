@@ -144,6 +144,10 @@
                      change="lights.state(helpers.urlId, state)"></div>
                 <div hueper-slider model="sharedScope.state.lights[helpers.urlId].state.bri" min="0" max="254" step="5"
                      change="lights.state(helpers.urlId, { bri: value })" class="slider-brightness"></div>
+
+                <div hueper-checkbox="sharedScope.state.lights[helpers.urlId].state.effect" true-value="colorloop" false-value="none"
+                     change="lights.state(helpers.urlId, {effect : value})"> Activate Colorloop</div>
+
                 <label class="transparent_bg button">
                     <input type="checkbox" name="checkboxColorloop" ng-model="sharedScope.state.lights[helpers.urlId].state.effect" ng-true-value="colorloop"
                            ng-false-value="none" ng-change="lights.state(helpers.urlId, {'effect': sharedScope.state.lights[helpers.urlId].state.effect})">activate colorloop
