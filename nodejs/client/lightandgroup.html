@@ -143,6 +143,12 @@
                     ...and add at least one light.
                 </div>
                     <div class="overlap_list" ng-repeat="(id, light) in sharedScope.state.lights" style="padding:10px; margin-top:10px;">
+
+
+                        <div hueper-checkbox="id" list="groups.forms.create.lights"> {{light.name}}</div>
+
+
+
                         <input type="checkbox" name="checkbox"  ng-checked="helpers.listChecked(groups.forms.create.lights, id, true)"
                                ng-click="helpers.toggleList(groups.forms.create.lights, id, true)">{{light.name}}
                     </div>

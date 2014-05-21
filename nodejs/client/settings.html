@@ -206,18 +206,8 @@
                 </div>
 
                 <h2 class="settings_subheader">Switch Status</h2>
-                <label class="transparent_bg button">
-                    <input type="checkbox" name="checkboxSpeechRecog" ng-model="sharedScope.state.appConfig.speechRecognition"
-                           ng-true-value="true" ng-false-value="false"
-                           ng-change="sharedScope.config.change(sharedScope.state.appConfig)">
-                    Speech Recognition
-                </label>
-                <div class="light_group" style="line-height: 40px;text-align: left" ng-click="sharedScope.config.changeSpeechRecognitionState()">
-                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-notext
-                        ui-btn-inline"></span>
-                    <div class="ui-btn-inline" ng-show="sharedScope.state.appConfig.speechRecognition"> speech recognition is enabled </div>
-                    <div class="ui-btn-inline" ng-show="!sharedScope.state.appConfig.speechRecognition"> speech recognition is disabled</div>
-                </div>
+                <div hueper-checkbox="sharedScope.state.appConfig.speechRecognition" change="sharedScope.config.change({speechRecognition : value})">Speech Recognition</div>
+
 
                 <h2 class="settings_subheader">Choose Interpreter</h2>
                 <div class="settings_standard" style="vertical-align: middle">
@@ -342,6 +332,9 @@
                 </div>
                 <div style="text-align: center; color: #f9efed">Please enter a name...</div>
                 <div style="padding:20px">
+
+
+
 
                     <form ng-init="tag = { tag: sharedScope.state.rfid.id }"
                           ng-submit="sharedScope.rfid.create(sharedScope.state.rfid.tag)">
