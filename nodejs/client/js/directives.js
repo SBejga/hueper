@@ -1088,8 +1088,9 @@ directive('hueperCheckbox', function(){
                         var id = parseInt(scope.hueperCheckbox);
 
                         if(scope.list === undefined){
-                            var trueValue = attrs.trueValue || true;
-                            var falseValue = attrs.falseValue || false;
+                            var trueVal = attrs.trueval || true;
+                            console.log("if");
+                            var falseVal = attrs.falseval || false;
 
                             if(scope.hueperCheckbox === trueValue){
                                 scope.hueperCheckbox = falseValue;
