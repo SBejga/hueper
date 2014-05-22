@@ -74,15 +74,71 @@
             <div ng-repeat="(id, light) in sharedScope.state.lights" class="ui-btn-inline horizontal_button_view"
                  style="text-align:center">
                 <a href="light.html?id={{id}}"  style="text-decoration: none">
-                <div class="light_wrapper_69width">
-                    <div class="light_color_69width" hueper-color="sharedScope.state.lights[id].state"></div>
-                    <div class="light_template">
-                        <img src="./css/images/transparent_light_69width.png">
+                    <div class="light_wrapper_69width">
+                        <div class="light_color_69width" hueper-color="sharedScope.state.lights[id].state"></div>
+                        <div class="light_template">
+                            <img src="./css/images/transparent_light_69width.png">
+                        </div>
                     </div>
-                </div>
-                {{light.name}}
+                    <div class="panel" style="background-color: rgba(236, 236, 236, 0)">{{light.name}}</div>
                 </a>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+            <!--START TEST AREA LIGHTS -->
+            <div class="ui-btn-inline horizontal_button_view" style="text-align:center">
+                <a href="light.html"  style="text-decoration: none; text-overflow:ellipsis;">
+                    <div class="light_wrapper_69width">
+                        <div class="light_color_69width" hueper-color="sharedScope.state.lights[id].state"></div>
+                        <div class="light_template">
+                            <img src="./css/images/transparent_light_69width.png">
+                        </div>
+                    </div>
+                    <div class="panel" style="background-color: rgba(236, 236, 236, 0)">Licht1wqejhalkjsdjlkasbd</div>
+                </a>
+            </div>
+
+            <div class="ui-btn-inline horizontal_button_view" style="text-align:center">
+                <a href="light.html"  style="text-decoration: none; text-overflow:ellipsis;">
+                    <div class="light_wrapper_69width">
+                        <div class="light_color_69width" hueper-color="sharedScope.state.lights[id].state"></div>
+                        <div class="light_template">
+                            <img src="./css/images/transparent_light_69width.png">
+                        </div>
+                    </div>
+                    <div class="panel" style="background-color: rgba(236, 236, 236, 0)">Licht2</div>
+                </a>
+            </div>
+            <div class="ui-btn-inline horizontal_button_view" style="text-align:center">
+                <a href="light.html"  style="text-decoration: none; text-overflow:ellipsis;">
+                    <div class="light_wrapper_69width">
+                        <div class="light_color_69width" hueper-color="sharedScope.state.lights[id].state"></div>
+                        <div class="light_template">
+                            <img src="./css/images/transparent_light_69width.png">
+                        </div>
+                    </div>
+                    <div class="panel" style="background-color: rgba(236, 236, 236, 0)">Licht3</div>
+                </a>
+            </div>
+            <!-- END TEST AREA-->
+
+
+
+
+
+
+
+
+
 
         <!-- GROUP menu -->
             <div style="padding-top: 25px">
@@ -97,10 +153,63 @@
                     ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, 'deleteGroup')"></span>
                 <a href="group.html?id={{id}}" style="text-decoration: none">
                 <img src="./css/images/transparent_group_small.png" class="light_group_img">
-                {{group.name}}
+                    <div class="panel" style="background-color: rgba(236, 236, 236, 0)">{{group.name}}</div>
                 </a>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+            <!--START TEST AREA GROUP-->
+            <div class="light_group">
+                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                    ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, 'deleteGroup')"></span>
+                <a href="group.html?id={{id}}" style="text-decoration: none">
+                    <img src="./css/images/transparent_group_small.png" class="light_group_img">
+                    <div class="panel" style="background-color: rgba(236, 236, 236, 0)">Group1asdadgrfgsrfkanefjlknölawjefnajkfösdlkfnafjköaldsfkä</div>
+                </a>
+            </div>
+
+
+            <div class="light_group">
+                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                    ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, 'deleteGroup')"></span>
+                <a href="group.html?id={{id}}" style="text-decoration: none">
+                    <img src="./css/images/transparent_group_small.png" class="light_group_img">
+                    Group1asdadgrfgsrfkanefjlknölawjefnajkfösdlkfnafjköaldsfkä
+                </a>
+            </div>
+
+
+            <div class="light_group">
+                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                    ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, 'deleteGroup')"></span>
+                <a href="group.html?id={{id}}" style="text-decoration: none">
+                    <img src="./css/images/transparent_group_small.png" class="light_group_img">
+                    Group1
+                </a>
+            </div>
+
+
+            <!-- END TEST AREA-->
+
+
+
+
+
+
         </div>
+
+
+
+
 
 
 

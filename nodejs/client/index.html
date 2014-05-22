@@ -39,49 +39,51 @@
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl" class="background_stars" data-theme="b">
 <!-- HEADER -->
     <div data-role="header" data-position="fixed">
-        <img src="css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
-             ng-show="sharedScope.state.user.loginRequired">
-        <h2 class="header_title">SmartLights</h2>
+        <div class="header_container">
+            <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
+                 ng-show="sharedScope.state.user.loginRequired">
+            <h1 class="ui-title">SmartLights</h1>
+        </div>
     </div>
 
 <!-- CONTENT -->
-    <div data-role="content">
+    <div data-role="content" class="content_container">
+        <div style="max-width:250px; margin: auto; text-align:left; margin-left: 0px; float: left">
+                <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
+                    <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
+                    <div class="main_menu_text panel">
+                        Lights & Groups
+                    </div>
+                </a>
 
-        <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
-            <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
-            <div class="main_menu_text">
-                Lights & Groups
-            </div>
-        </a>
+                <a href="sceneoverview.html" class="ui-btn main_menu_transparent_bg button">
+                    <img src="./css/images/icons/icon-scene-40.png" class="light_group_img no_padding">
+                    <div class="main_menu_text panel">
+                        Scenes
+                    </div>
+                </a>
 
-        <a href="sceneoverview.html" class="ui-btn main_menu_transparent_bg button">
-            <img src="./css/images/icons/icon-scene-40.png" class="light_group_img no_padding">
-            <div class="main_menu_text">
-                Scenes
-            </div>
-        </a>
+                <div class="ui-btn main_menu_transparent_bg button">
+                    <img src="./css/images/icons/icon-automation-40.png" class="light_group_img no_padding">
+                    <div class="main_menu_text panel">
+                        Automation
+                    </div>
+                </div>
 
-        <div class="ui-btn main_menu_transparent_bg button">
-            <img src="./css/images/icons/icon-automation-40.png" class="light_group_img no_padding">
-            <div class="main_menu_text">
-                Automation
-            </div>
+                <a href="party.html" class="ui-btn main_menu_transparent_bg button">
+                    <img src="./css/images/icons/icon-party-40.png" class="light_group_img no_padding">
+                    <div class="main_menu_text panel">
+                        Party
+                    </div>
+                </a>
+
+                <a href="settings.html" class="ui-btn main_menu_transparent_bg button">
+                    <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
+                    <div class="main_menu_text panel">
+                        Settings
+                    </div>
+                </a>
         </div>
-
-        <a href="party.html" class="ui-btn main_menu_transparent_bg button">
-            <img src="./css/images/icons/icon-party-40.png" class="light_group_img no_padding">
-            <div class="main_menu_text">
-                Party
-            </div>
-        </a>
-
-        <a href="settings.html" class="ui-btn main_menu_transparent_bg button">
-            <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
-            <div class="main_menu_text">
-                Settings
-            </div>
-        </a>
-
     </div>
 
 </div>
