@@ -155,7 +155,12 @@ button:active{
 }
 
 .background_stars{
-    background-image: url(images/himmel.png);
+    background-color:#141414;
+    background-image:url(images/himmel.png); /* fallback */
+    background:url(images/bg.svg), #141414;
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
 }
 
 .transparent_bg{
