@@ -167,11 +167,27 @@
 
             <!-- LIGHT menu -->
                 <div>
-                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right; margin-top: -1px"></span>
+                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right; margin-top: -1px" ng-click="lights.adjustAll.toggle()"></span>
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-notext ui-btn-inline light_group_a" style="float:right; margin-top: -1px"
                           ng-click="lights.turnAllLightsOnOff()"></span>
                     <h2>Lights</h2>
                 </div>
+
+
+                <div ng-if="lights.adjustAll.display" class="lightgroup-all-container">
+                    <h3>Adjust All Lights</h3>
+
+                    <div class="slider-brightness" hueper-slider model="lights.adjustAll.dummyState.bri" min="0" max="254" step="5" change="lights.stateAll({ bri: value })"></div>
+
+                    <div hueper-colorpicker ng-if="!lights.adjustAll.separate" state="lights.adjustAll.dummyState" change="lights.stateAll(state)"></div>
+                    <div hueper-colorpicker-separate ng-if="lights.adjustAll.separate" state="lights.adjustAll.dummyState" lights="state.lights" change="lights.state(id, state)"></div>
+
+                    <p>
+                        <input type="checkbox" ng-model="lights.adjustAll.separate" />  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Separate colors
+                    </p>
+                </div>
+
+
                 <div ng-repeat="(id, light) in sharedScope.state.lights" class="ui-btn-inline horizontal_button_view"
                      style="text-align:center">
                     <a href="light.html?id={{id}}"  style="text-decoration: none">

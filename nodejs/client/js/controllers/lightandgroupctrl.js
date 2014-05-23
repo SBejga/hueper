@@ -269,6 +269,21 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
                 }
             });
             $scope.lights.stateAll({on: !statusOfLights});
+        },
+
+        adjustAll: {
+            display: false,
+            separate: false,
+
+            dummyState: {
+                on: true,
+                bri: 254,
+                ct: 359
+            },
+
+            toggle: function() {
+                $scope.lights.adjustAll.display = !$scope.lights.adjustAll.display;
+            }
         }
 
     };

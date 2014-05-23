@@ -345,6 +345,221 @@ directive('hueperSlider', ['$timeout', function($timeout) {
     };
 }]).
 
+
+/**
+ * Link function for color pickers
+ * @param container
+ * @param handle
+ * @param touchElement element that receives the touch abstraction events from hueperTouch
+ * @param scope
+ * @param attrs
+ * @param $timeout
+ */
+factory('hueperColorpickerLinkFn', function() {
+    return function(container, handle, touchElement, scope, attrs, $timeout) {
+        var handleOffset = handle.offset(),
+
+            containerOffset,
+            containerWidth = container.width(),
+            containerHeight = container.height(),
+
+            handleWidth = 32,
+            handleCenter = 16,
+
+            ctPosition = 2,
+            ctMin = 153,
+            ctMax = 497,
+            ctArea = ctMax - ctMin,
+
+            hueMin = 0,
+            hueMax = 65535,
+            hueArea = hueMax - hueMin,
+
+            satMin = 0,
+            satMax = 254,
+            satArea = satMax - satMin,
+
+            hsOffset = 12.5,
+            hsOffsetFactor = hsOffset / 100,
+            hsFactor = 100 - hsOffset,
+
+            minPixelDistance = 2,
+
+            minChangeInterval = 400,
+            lastChange = false,
+            changeTimeout = false;
+
+
+        // compute sizes and dimensions on interaction start
+
+        touchElement.on('down', function(e, pos) {
+            handleOffset = handle.offset();
+            containerOffset = container.offset();
+            containerWidth = container.width();
+            containerHeight = container.height();
+        });
+
+        // change model and execute callback when handle is moved
+
+        touchElement.on('down up move', function(e, pos) {
+            var posX = pos.x - handleCenter,
+                posY = pos.y - handleCenter;
+
+            if(Math.abs(posX - handleOffset.left) < minPixelDistance && Math.abs(posY - handleOffset.top) < minPixelDistance) {
+                return;
+            }
+
+            var maxX = containerWidth - handleWidth,
+                maxY = containerHeight - handleWidth,
+
+                relX = posX - containerOffset.left,
+                relY = posY - containerOffset.top;
+
+            if(relX < 0) {
+                relX = 0;
+            }
+            else if(relX > maxX) {
+                relX = maxX;
+            }
+
+            if(relY < 0) {
+                relY = 0;
+            }
+            else if(relY > maxY) {
+                relY = maxY;
+            }
+
+            var x = relX / maxX,
+                y = relY / maxY;
+
+            scope.$apply(function() {
+
+                var invokeChange = function(param) {
+                    var now = new Date().getTime();
+
+                    if(scope.change) {
+                        if(changeTimeout) {
+                            $timeout.cancel(changeTimeout);
+                        }
+
+                        if(e.type === 'move') {
+                            if(now - lastChange > minChangeInterval) {
+                                lastChange = now;
+                                scope.change(param);
+                            }
+                            else {
+                                changeTimeout = $timeout(function() {
+                                    lastChange = now;
+                                    scope.change(param);
+                                }, minChangeInterval);
+                            }
+                        }
+                        else {
+                            scope.change(param);
+                            lastChange = new Date().getTime();
+                        }
+                    }
+                };
+
+                // ct
+
+                if(x < hsOffsetFactor) {
+                    scope.state.colormode = 'ct';
+                    scope.state.ct = Math.round(ctMin + y * ctArea);
+
+                    invokeChange({
+                        state: {
+                            ct: scope.state.ct
+                        }
+                    });
+                }
+
+                // hue/sat
+
+                else {
+
+                    // correct x-axis percent value
+                    x = (x - hsOffsetFactor) / (1 - hsOffsetFactor);
+
+                    scope.state.colormode = 'hs';
+                    scope.state.hue = Math.round(hueMin + x * hueArea);
+                    scope.state.sat = Math.round(satMin + y * satArea);
+
+                    invokeChange({
+                        state: {
+                            hue: scope.state.hue,
+                            sat: scope.state.sat
+                        }
+                    });
+                }
+
+            });
+
+        });
+
+
+        // display changes to the model
+
+        scope.$watch('[state.hue, state.sat, state.ct, state.colormode]', function() {
+
+            var left = 0,
+                top = 0;
+
+            if(!scope.state) {
+                return;
+            }
+
+            if(scope.state.colormode === 'ct' || scope.state.hue === undefined) {
+                left = ctPosition;
+                top = 100 * (scope.state.ct - ctMin) / ctArea;
+            }
+            else {
+                top = 100 * (scope.state.sat - satMin) / satArea;
+                left = hsOffset + hsFactor * (scope.state.hue - hueMin) / hueArea;
+            }
+
+            if(top < 0) {
+                top = 0;
+            }
+            else if(top > 100) {
+                top = 100;
+            }
+
+            if(left < 0) {
+                left = 0;
+            }
+            else if(left > 100) {
+                left = 100;
+            }
+
+            handle.css({
+                top: top + '%',
+                left: left + '%'
+            });
+
+            handleOffset = handle.offset();
+
+            cleanColormode();
+        }, true);
+
+
+        var cleanColormode = function() {
+            if(attrs.clean === undefined) {
+                return;
+            }
+
+            if(scope.state.colormode === 'ct') {
+                delete scope.state.hue;
+                delete scope.state.sat;
+            }
+            else if(scope.state.colormode === 'hs') {
+                delete scope.state.ct;
+            }
+        };
+    };
+}).
+
+
 /**
  * color picker that binds to a state
  *
@@ -354,14 +569,13 @@ directive('hueperSlider', ['$timeout', function($timeout) {
  *      The state object contains either hue/sat or a ct property
  * - clean: Remove the state properties of the colormode that is currently not used
  */
-
-directive('hueperColorpicker', ['$timeout', function($timeout) {
+directive('hueperColorpicker', ['$timeout', 'hueperColorpickerLinkFn', function($timeout, hueperColorpickerLinkFn) {
     return {
         template: '<div class="colorpicker" hueper-touch>\
-                    <div class="colorpicker-handle-container">\
-                        <div class="colorpicker-handle"></div>\
-                    </div>\
-                </div>',
+                <div class="colorpicker-handle-container">\
+                    <div class="colorpicker-handle"></div>\
+                </div>\
+            </div>',
 
         replace: true,
 
@@ -371,22 +585,82 @@ directive('hueperColorpicker', ['$timeout', function($timeout) {
         },
 
         link: function(scope, elm, attrs) {
+            hueperColorpickerLinkFn(elm, elm.find('.colorpicker-handle'), elm, scope, attrs, $timeout);
+        }
+    };
+}]).
+
+/**
+ * color picker for separate colors per light
+ *
+ * Attributes
+ * - lights
+ * - change(id, value)
+ */
+directive('hueperColorpickerSeparate', function() {
+    return {
+        template: '<div class="colorpicker">\
+                <div class="colorpicker-handle-container">\
+                    <div class="colorpicker-handle" ng-repeat="(id, l) in lights" hueper-touch hueper-colorpicker-separate-handle="l.state" change="change({id: id, state: state})">{{id}}</div>\
+                </div>\
+            </div>',
+
+        replace: true,
+
+        scope: {
+            lights: '=',
+            change: '&'
+        }
+    };
+}).
+
+/**
+ * Handle for the separate colorpicker
+ *
+ * Attributes
+ * - state
+ * - change(value)
+ */
+directive('hueperColorpickerSeparateHandle', ['$timeout', 'hueperColorpickerLinkFn', function($timeout, hueperColorpickerLinkFn) {
+    return {
+
+        scope: {
+            state: '=hueperColorpickerSeparateHandle',
+            change: '&'
+        },
+
+        link: function(scope, elm, attrs) {
+            hueperColorpickerLinkFn(elm.parents('.colorpicker'), elm, elm, scope, attrs, $timeout);
+        }
+    };
+}]).
+
+/**
+ * Range color picker
+ *
+ * Attributes
+ * - hueper-colorpicker-range: light state with hue.min, hue.max, sat.min and sat.max
+ */
+directive('hueperColorpickerRange', function() {
+    return {
+        template: '<div class="colorpicker range" hueper-touch>\
+                    <div class="colorpicker-handle"></div>\
+                </div>',
+
+        replace: true,
+
+        scope: {
+            state: '=hueperColorpickerRange'
+        },
+
+        link: function(scope, elm, attrs) {
+
             var container = elm,
-                touchElement = container,
-                handle = container.find('.colorpicker-handle'),
-                handleOffset = handle.offset(),
+                handle = elm.find('.colorpicker-handle'),
 
                 containerOffset,
                 containerWidth = container.width(),
                 containerHeight = container.height(),
-
-                handleWidth = 32,
-                handleCenter = 16,
-
-                ctPosition = 2,
-                ctMin = 153,
-                ctMax = 497,
-                ctArea = ctMax - ctMin,
 
                 hueMin = 0,
                 hueMax = 65535,
@@ -394,23 +668,10 @@ directive('hueperColorpicker', ['$timeout', function($timeout) {
 
                 satMin = 0,
                 satMax = 254,
-                satArea = satMax - satMin,
-
-                hsOffset = 12.5,
-                hsOffsetFactor = hsOffset / 100,
-                hsFactor = 100 - hsOffset,
-
-                minPixelDistance = 2,
-
-                minChangeInterval = 400,
-                lastChange = false,
-                changeTimeout = false;
+                satArea = satMax - satMin;
 
 
-            // compute sizes and dimensions on interaction start
-
-            touchElement.on('down', function(e, pos) {
-                handleOffset = handle.offset();
+            elm.on('down', function(e, pos) {
                 containerOffset = container.offset();
                 containerWidth = container.width();
                 containerHeight = container.height();
@@ -418,165 +679,62 @@ directive('hueperColorpicker', ['$timeout', function($timeout) {
 
             // change model and execute callback when handle is moved
 
-            touchElement.on('down up move', function(e, pos) {
-                var posX = pos.x - handleCenter,
-                    posY = pos.y - handleCenter;
+            elm.on('down up move', function(e, pos) {
+                var propHue = 'min',
+                    propSat = 'min';
 
-                if(Math.abs(posX - handleOffset.left) < minPixelDistance && Math.abs(posY - handleOffset.top) < minPixelDistance) {
-                    return;
-                }
-
-                var maxX = containerWidth - handleWidth,
-                    maxY = containerHeight - handleWidth,
-
-                    relX = posX - containerOffset.left,
-                    relY = posY - containerOffset.top;
+                var relX = pos.x - containerOffset.left,
+                    relY = pos.y - containerOffset.top;
 
                 if(relX < 0) {
                     relX = 0;
                 }
-                else if(relX > maxX) {
-                    relX = maxX;
+                else if(relX > containerWidth) {
+                    relX = containerWidth;
                 }
 
                 if(relY < 0) {
                     relY = 0;
                 }
-                else if(relY > maxY) {
-                    relY = maxY;
+                else if(relY > containerHeight) {
+                    relY = containerHeight;
                 }
 
-                var x = relX / maxX,
-                    y = relY / maxY;
+                var x = relX / containerWidth,
+                    y = relY / containerHeight,
+
+                    hue = Math.round(hueMin + x * hueArea),
+                    sat = Math.round(satMin + y * satArea);
+
+                if(Math.abs(scope.state.hue.max-hue) < Math.abs(scope.state.hue.min-hue)) {
+                    propHue = 'max';
+                }
+
+                if(Math.abs(scope.state.sat.max-sat) < Math.abs(scope.state.sat.min-sat)) {
+                    propSat = 'max';
+                }
 
                 scope.$apply(function() {
-
-                    var invokeChange = function(param) {
-                        var now = new Date().getTime();
-
-                        if(scope.change) {
-                            if(changeTimeout) {
-                                $timeout.cancel(changeTimeout);
-                            }
-
-                            if(e.type === 'move') {
-                                if(now - lastChange > minChangeInterval) {
-                                    lastChange = now;
-                                    scope.change(param);
-                                }
-                                else {
-                                    changeTimeout = $timeout(function() {
-                                        lastChange = now;
-                                        scope.change(param);
-                                    }, minChangeInterval);
-                                }
-                            }
-                            else {
-                                scope.change(param);
-                                lastChange = new Date().getTime();
-                            }
-                        }
-                    };
-
-                    // ct
-
-                    if(x < hsOffsetFactor) {
-                        scope.state.colormode = 'ct';
-                        scope.state.ct = Math.round(ctMin + y * ctArea);
-
-                        invokeChange({
-                            state: {
-                                ct: scope.state.ct
-                            }
-                        });
-                    }
-
-                    // hue/sat
-
-                    else {
-
-                        // correct x-axis percent value
-                        x = (x - hsOffsetFactor) / (1 - hsOffsetFactor);
-
-                        scope.state.colormode = 'hs';
-                        scope.state.hue = Math.round(hueMin + x * hueArea);
-                        scope.state.sat = Math.round(satMin + y * satArea);
-
-                        invokeChange({
-                            state: {
-                                hue: scope.state.hue,
-                                sat: scope.state.sat
-                            }
-                        });
-                    }
-
+                    scope.state.hue[propHue] = hue;
+                    scope.state.sat[propSat] = sat;
                 });
-
             });
 
 
             // display changes to the model
 
-            scope.$watch('[state.hue, state.sat, state.ct, state.colormode]', function() {
-
-                var left = 0,
-                    top = 0;
-
-                if(!scope.state) {
-                    return;
-                }
-
-                if(scope.state.colormode === 'ct' || scope.state.hue === undefined) {
-                    left = ctPosition;
-                    top = 100 * (scope.state.ct - ctMin) / ctArea;
-                }
-                else {
-                    top = 100 * (scope.state.sat - satMin) / satArea;
-                    left = hsOffset + hsFactor * (scope.state.hue - hueMin) / hueArea;
-                }
-
-                if(top < 0) {
-                    top = 0;
-                }
-                else if(top > 100) {
-                    top = 100;
-                }
-
-                if(left < 0) {
-                    left = 0;
-                }
-                else if(left > 100) {
-                    left = 100;
-                }
-
+            scope.$watch('[state.hue, state.sat]', function() {
                 handle.css({
-                    top: top + '%',
-                    left: left + '%'
+                    top: 100 * (scope.state.sat.min - satMin) / satArea + '%',
+                    left: 100 * (scope.state.hue.min - hueMin) / hueArea + '%',
+                    bottom: (100 - 100 * (scope.state.sat.max - satMin) / satArea) + '%',
+                    right: (100 - 100 * (scope.state.hue.max - hueMin) / hueArea) + '%'
                 });
-
-                handleOffset = handle.offset();
-
-                cleanColormode();
             }, true);
-
-
-            var cleanColormode = function() {
-                if(attrs.clean === undefined) {
-                    return;
-                }
-
-                if(scope.state.colormode === 'ct') {
-                    delete scope.state.hue;
-                    delete scope.state.sat;
-                }
-                else if(scope.state.colormode === 'hs') {
-                    delete scope.state.ct;
-                }
-            };
 
         }
     };
-}]).
+}).
 
 /**
  * computes the RGB color of a light state and applies it as background-color to an element
