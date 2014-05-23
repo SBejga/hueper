@@ -282,9 +282,12 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             $scope.submenu.closeSubmenu();
     });
 
+}]).
 
-
-
+controller('IndexCtrl', [function() {
+        if(window.innerWidth > 1100){
+            window.location.href = 'lightandgroup.html';
+        }
 }]);
 
 
