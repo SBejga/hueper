@@ -27,9 +27,12 @@ Um eine angemessen zuverlässige Erkennung zu gewährleisten, beherrscht die Sta
 Diese Wort-Kategorien können folgendermaßen zusammengesetzt werden:
 
 -   Start Wert
+-   Start Wert Wert
+-   Start Bereich
 -   Start Bereich Wert
 -   Start Kommando
 -   Start Kommando Bereich
+-   Start Kommando Wert
 
 Bsp: *Computer one blue*
 
