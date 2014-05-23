@@ -30,7 +30,8 @@ var Julius = function() {
 util.inherits(Julius, EventEmitter);
 
 Julius.prototype.start = function() {
-    var self = this;
+    var self = this,
+        sentence = false;
 
     console.log('[speech_julius] Start julius speech recognition');
 
@@ -46,14 +47,38 @@ Julius.prototype.start = function() {
 
     this.process.stdout.on('data', function(data) {
         var lines = data.toString().split('\n'),
-            i = lines.length;
+            confidenceScore,
+            linesLength = lines.length,
+            i, j;
 
-        while(i--) {
+        for(i=0; i < linesLength; i++) {
             if(lines[i] === '<search failed>') {
                 self.emit('recognize', false);
             }
+            // sentence recognized - wait for confidence score
             else if(lines[i].indexOf('sentence1: <s>') === 0) {
-                self.emit('recognize', lines[i].match('<s> (.+) </s>')[1]);
+                sentence = lines[i].match('<s> (.+) </s>')[1];
+            }
+            // score threshold
+            else if(lines[i].indexOf('cmscore1: ') === 0) {
+                confidenceScore = lines[i].replace(/^cmscore1: /, '').split(' ');
+                j = confidenceScore.length;
+
+                while(j--) {
+                    // set 0.8 as arbitrary threshold
+                    if(parseFloat(confidenceScore[j]) < 0.8) {
+                        break;
+                    }
+                }
+
+                // emit recognition when loop has completed
+                if(j === -1) {
+                    self.emit('recognize', sentence);
+                }
+                else {
+                    self.emit('recognize', false);
+                    console.log('[speech_julius] Threw away sentence: ' + sentence, confidenceScore);
+                }
             }
         }
     });
