@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="de" ng-app="hueApp">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,86 +48,208 @@
     <meta name="msapplication-TileColor" content="#141414" />
 
 </head>
-
 <body>
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl"  class="background_stars" data-theme="b">
     <!-- HEADER -->
-    <div data-role="header" data-position="fixed">
-        <div><a href="index.html">
-            <img src="css/images/icons/icon-menu-red.png" class="header_right_icon">
-        </a></div>
-        <h2 class="header_title">Scenes</h2>
+    <div data-role="header" data-position="fixed" style="position: fixed">
+        <div class="header_container tablet_hide">
+            <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
+                 ng-show="sharedScope.state.user.loginRequired">
+            <h1 class="ui-title">Smart Lights</h1>
+        </div>
+        <!---------------------------------------- MOBILE MENU -------------------------------------------------------->
+        <div class="tablet_show mobile_menu_wrapper">
+            <a href="lightandgroup.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-light-40.png">
+                </div>
+            </a>
+            <a href="sceneoverview.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-scene-dark-40.png">
+                </div>
+            </a>
+            <a href="automation.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-automation-40.png">
+                </div>
+            </a>
+            <a href="party.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-party-40.png">
+                </div>
+            </a>
+            <a href="settings.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-settings-40.png">
+                </div>
+            </a>
+        </div>
     </div>
 
 
+
+
     <!-- CONTENT -->
-    <div data-role="content" ng-controller="SceneCtrl">
+    <div data-role="content" ng-controller="SceneCtrl" class="content_container">
+        <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
+        <div class="content_left_subcontainer tablet_hide">
+            <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">Lights & Groups</div>
+            </a>
+            <a href="sceneoverview.html" class="ui-btn main_menu_transparent_bg button checked_menubox">
+                <img src="./css/images/icons/icon-scene-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">Scenes</div>
+            </a>
+            <div class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-automation-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Automation
+                </div>
+            </div>
+            <a href="party.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-party-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Party
+                </div>
+            </a>
+            <a href="settings.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Settings
+                </div>
+            </a>
 
-        <!--  MENU-->
-        <div class="transparent_bg" style="padding:7px">
-
-            <!-- SCENE menu -->
-            <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                light_group_a" style="float:right" ng-click="sharedScope.submenu.openSubmenu('createNewScene')"></span>
-            <h2>Scenes</h2>
-
-
-
-
-
-            <div class="light_group" ng-repeat="(id, scene) in sharedScope.state.scenes">
-                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                    ui-btn-inline light_group_a"></span>
-                <a href="scene.html?id={{id}}" style="text-decoration: none">
-                    <img src="./css/images/scene-75w-38h.png" class="light_group_img" style="margin-top: 10px">
-                    {{scene.name}}
-                </a>
+            <!---------------------------------------- NOTIFICATIONS -------------------------------------------------->
+            <div class="notification" ng-if="sharedScope.submenu.visible.notificationSceneDeleted"
+                 ng-click="sharedScope.submenu.closeSubmenu()">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                Scene deleted.
             </div>
         </div>
 
 
-        <!-- SUBMENU - create new scene add lights -->
-        <div ng-if="sharedScope.submenu.visible.createNewScene">
-            <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
-            <div class="overlap_content">
-                <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
-                    <a href="sceneoverview.html"><img src="css/images/icons/icon-arrow-down.png"></a>
-                </div>
-                <div style="padding:20px; text-align: center">
-                    <div style="text-align: center; color: #f9efed">
-                        Please insert the new scenename...
+        <div class="content_right_subcontainer" style="text-align: center; margin: auto; overflow:hidden">
+            <!---------------------------------------- NOTIFICATIONS -------------------------------------------------->
+            <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.notificationSceneDeleted"
+                 ng-click="sharedScope.submenu.closeSubmenu()">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                Scene deleted.
+            </div>
+
+            <!---------------------------------------- SCENES --------------------------------------------------------->
+            <div class="subcontent_a">
+                <div class="transparent_bg listing_box" style="max-width:100%;">
+                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('createNewScene')"></span>
+                    <h2 class="listing_box_title">Scenes</h2>
+                    <div class="light_group" ng-repeat="(id, scene) in sharedScope.state.scenes">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                            ui-btn-inline light_group_a" ng-click="scenes.openDeleteMenuScene(id, '', 'sceneoverview')"></span>
+                        <img src="./css/images/icons/icon-pausescene-50.png" class="light_group_img" style="margin-top: 10px"
+                             ng-if="scenes.activeScene(id)">
+                        <img src="./css/images/icons/icon-startscene-50.png" class="light_group_img" style="margin-top: 10px"
+                             ng-if="!scenes.activeScene(id)" ng-click="scenes.apply(id)">
+                        <a href="scene.html?id={{id}}" style="text-decoration: none">
+                            {{scene.name}}
+                        </a>
                     </div>
-
-                    <input type="text" ng-model="scenes.forms.create.name" required />
-
-                    <div style="text-align: center; color: #f9efed;">
-                        ...and add at least one light.
-                    </div>
-                    <div class="overlap_list" ng-repeat="(id, light) in sharedScope.state.lights" style="padding:10px; margin-top:10px;">
-
-                        <div hueper-checkbox="id" list="scenes.forms.create.lights"> {{light.name}}</div>
-
-
-                        <input type="checkbox" name="checkbox"  ng-checked="helpers.listChecked(scenes.forms.create.lights, id, true)"
-                               ng-click="helpers.toggleList(scenes.forms.create.lights, id, true)">{{light.name}}
-                    </div>
-                    <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
-                            ng-disabled="!scenes.forms.create.lights.length">done</button>
-
-
-
-
-
                 </div>
             </div>
+
+
+            <!------------------------ SUBMENUES: create new scene ------------------->
+            <div class="subcontent_d">
+
+                <!-- create new scene add lights -->
+                <div ng-if="sharedScope.submenu.visible.createNewScene">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide" style="overflow: hidden">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                            light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title">Add Scene</h2>
+                        <form ng-submit="scenes.create(scenes.forms.create)" style="padding: 8px;">
+                            <div style="line-height: 50px; font-weight: bold; width:50%; float: left">
+                                Please insert the scenename...
+                            </div>
+                            <div style="width:45%; float:right">
+                                <input type="text" ng-model="scenes.forms.create.name" required />
+                            </div>
+                            <div style="text-align: center;line-height: 50px; font-weight: bold;width:43%; float: left">
+                                ...and add at least one light.
+                            </div>
+                            <div style="padding:5px; width:45%; float:right; padding-right:0px">
+                                <div style="padding-bottom:10px" ng-repeat="(id, light) in sharedScope.state.lights">
+                                    <div hueper-checkbox="id" list="scenes.forms.create.lights"> {{light.name}}</div>
+                                </div>
+                            </div>
+                            <div style="text-align: center; margin: auto; width:100%; float: right; margin-bottom:15px">
+                                <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
+                                        ng-disabled="!scenes.forms.create.lights.length" style="max-width: 250px; text-align: center; margin:auto">done</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- mobile view -->
+                   <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
+                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                            <a href="sceneoverview.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                        </div>
+                        <div style="padding:20px; text-align: center">
+                            <div style="text-align: center; color: #f9efed">Please insert the new scenename...</div>
+                            <input type="text" ng-model="scenes.forms.create.name" required />
+                            <div style="text-align: center; color: #f9efed;">
+                                ...and add at least one light.
+                            </div>
+                            <div class="overlap_list" ng-repeat="(id, light) in sharedScope.state.lights" style="padding:10px; margin-top:10px;">
+                                <div hueper-checkbox="id" list="scenes.forms.create.lights"> {{light.name}}</div>
+                            </div>
+                            <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
+                                    ng-disabled="!scenes.forms.create.lights.length">done</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- delete scene -->
+                <div ng-if="sharedScope.submenu.visible.deleteScene">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title">Do you want to remove the scene "{{sharedScope.state.scenes[scenes.selectedSceneId].name}}"?</h2>
+                        <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                ng-click="scenes.remove(scenes.selectedSceneId); ">YES</button>
+                        <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                    </div>
+
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
+                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                            <a href="sceneoverview.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                        </div>
+                        <div style="text-align: center; color: #f9efed">
+                            Do you want to remove the scene "{{sharedScope.state.scenes[scenes.selectedSceneId].name}}"?
+                        </div>
+                        <div style="padding:20px; text-align: center">
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button
+                                ui-btn-inline" ng-click="scenes.remove(scenes.selectedSceneId)">YES</button>
+                            <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner transparent_bg button
+                                ui-btn-inline" ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
         </div>
-
-
-
-
-
-
     </div>
 </div>
 </body>

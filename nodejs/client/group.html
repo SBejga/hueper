@@ -52,7 +52,7 @@
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl" class="background_stars" data-theme="b">
     <!---------------------------------------- HEADER ----------------------------------------------------------------->
-    <div data-role="header" data-position="fixed">
+    <div data-role="header" data-position="fixed" style="position: fixed">
         <div class="header_container tablet_hide">
             <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
                  ng-show="sharedScope.state.user.loginRequired">
@@ -294,9 +294,7 @@
                         <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
                             <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
                         </div>
-                        <div style="text-align: center; color: #f9efed">Do you want to remove the light
-                            "{{sharedScope.state.lights[lights.selectedLightId].name}}" <br>from the group
-                            "{{sharedScope.state.groups[helpers.urlId].name}}" ?</div>
+                        <div style="text-align: center; color: #f9efed">Do you want to remove the light "{{sharedScope.state.lights[groups.selectedLightId].name}}"?</div>
                         <div style="padding:20px; text-align: center">
                             <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
                                     ng-click="groups.removeLight('groupmenu','deleteLightFromGroup')">YES</button>

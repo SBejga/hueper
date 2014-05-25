@@ -723,6 +723,7 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', f
         },
 
         create: function(scene) {
+            console.log("Debug " + scene.name + " " + scene.lights.toString());
             socket.emit('scene.create', scene);
             $scope.scenes.forms.create.name = '';
             $scope.scenes.forms.create.lights = [];

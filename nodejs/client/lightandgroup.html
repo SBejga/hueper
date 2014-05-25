@@ -54,7 +54,7 @@
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl"  class="background_stars" data-theme="b">
 <!-- HEADER -->
-    <div data-role="header" data-position="fixed">
+    <div data-role="header" data-position="fixed" style="position: fixed">
         <div class="header_container tablet_hide">
             <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
                  ng-show="sharedScope.state.user.loginRequired">
@@ -331,7 +331,8 @@
                     <div class="lightgroup-all-container transparent_bg mobile_hide" style="overflow: hidden">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
                         light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
-                        <form ng-submit="groups.create(groups.forms.create)" style="padding: 8px; margin-top:40px;">
+                        <h2 class="listing_box_title">Add Group</h2>
+                        <form ng-submit="groups.create(groups.forms.create)" style="padding: 8px;">
                             <div style="line-height: 50px; font-weight: bold; width:50%; float: left">
                                 Please insert the groupname...
                             </div>
