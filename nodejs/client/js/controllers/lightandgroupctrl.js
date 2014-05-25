@@ -7,7 +7,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
     // light control
     $scope.lights = {
 
-        selectedLightId: 0,
+        selectedLightId:0,
 
         /**
          * Change state attributes of a light
@@ -109,12 +109,9 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             $scope.state.lights[lightId].name = name;
         },
 
-        /**
-         * sets the local variable to an id
-         * @param lightId
-         */
         setSelectedLightId: function(lightId){
             $scope.lights.selectedLightId = lightId;
+            console.log(lightId);
         },
 
         /**
@@ -156,27 +153,10 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         },
 
         /**
-         * just a guide to the right functions dependent on the
-         * number of lights which are left
-         * @param lightId
-         * @param groupId
-         */
-        openDeleteMenuLight: function(lightId, groupId){
-            $scope.lights.setSelectedLightId(lightId);
-
-            if($scope.state.groups[groupId].lights.length === 1){
-                $scope.sharedScope.submenu.openSubmenu('deleteLastLightFromGroup');
-            }else{
-                $scope.sharedScope.submenu.openSubmenu('deleteLightFromGroup');
-            }
-        },
-
-        /**
          * counts the faorites and starts the replacing if it's required
          * @param lightId
          */
         checkNumberOfFavorites: function(lightId){
-            console.log("checkNumberOfFavorites");
             var numberOfFavorites=0;
             angular.forEach($scope.state.favorites, function(value){
                 numberOfFavorites = numberOfFavorites + 1;
@@ -282,6 +262,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             },
 
             toggle: function() {
+
                 $scope.lights.adjustAll.display = !$scope.lights.adjustAll.display;
             }
         }
@@ -293,6 +274,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
     $scope.groups = {
 
         selectedGroupId:0,
+        selectedLightId:0,
 
         // placeholder for form data
         forms: {
@@ -398,9 +380,20 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
          * @param groupId
          * @param submenuName
          */
-        openDeleteMenuGroup: function(groupId, submenuName){
+        openDeleteMenuGroup: function(groupId, lightId, menu){
             $scope.groups.setSelectedGroupId(groupId);
-            $scope.sharedScope.submenu.openSubmenu(submenuName);
+            if(menu === 'lightandgroup'){
+                $scope.sharedScope.submenu.openSubmenu('deleteGroup');
+            }
+            else{
+                $scope.groups.setSelectedLightId(lightId);
+                if($scope.state.groups[$scope.groups.selectedGroupId].lights.length === 1){
+                    $scope.sharedScope.submenu.openSubmenu('deleteLastLightFromGroup');
+                }
+                else{
+                    $scope.sharedScope.submenu.openSubmenu('deleteLightFromGroup');
+                }
+            }
         },
 
         /**
@@ -410,22 +403,28 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         setSelectedGroupId: function(groupId){
             $scope.groups.selectedGroupId = groupId;
         },
+        setSelectedLightId: function(lightId){
+          $scope.groups.selectedLightId = lightId;
+        },
 
         /**
          * removes a light from a group (from its array)
          * @param groupId
          * @param lightId
          */
-        removeLight: function(groupId, lightId){
-            $scope.state.groups[groupId].lights.splice($scope.state.groups[groupId].lights.indexOf(lightId), 1);
-            if($scope.state.groups[groupId].lights.length === 0){
-                $scope.groups.remove(groupId);
-                $scope.sharedScope.submenu.closeSubmenu();
-                window.location.href = 'lightandgroup.html';
+        removeLight: function(menu, submenu){
+            $scope.sharedScope.submenu.closeSubmenu();
+            if(submenu === 'deleteLastLightFromGroup'){
+                $scope.groups.remove($scope.groups.selectedGroupId);
+                if(menu === 'groupmenu'){
+                    window.location.href = 'lightandgroup.html';
+                }
+                $scope.sharedScope.submenu.openSubmenu("notificationGroupDeleted");
             }
             else{
-                $scope.groups.update(groupId, $scope.state.groups[groupId]);
-                $scope.sharedScope.submenu.closeSubmenu();
+                $scope.state.groups[$scope.groups.selectedGroupId].lights.splice($scope.state.groups[$scope.groups.selectedGroupId].lights.indexOf($scope.groups.selectedLightId), 1);
+                $scope.groups.update($scope.groups.selectedGroupId, $scope.state.groups[$scope.groups.selectedGroupId]);
+                $scope.sharedScope.submenu.openSubmenu(["notificationGroupRemoved", "notificationLightRemoved"]);
             }
         },
 

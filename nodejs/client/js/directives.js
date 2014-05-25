@@ -1220,9 +1220,12 @@ directive('hueperColorpickerRange', function() {
     };
 }).
 
-
-
-
+/*
+ * Checkbox
+ *
+ *
+ *
+ */
 directive('hueperCheckbox', function(){
         return {
             template: '<div class="checkbox_container"><div class="checkbox_box">\
@@ -1247,14 +1250,13 @@ directive('hueperCheckbox', function(){
 
                         if(scope.list === undefined){
                             var trueVal = attrs.trueval || true;
-                            console.log("if");
                             var falseVal = attrs.falseval || false;
 
-                            if(scope.hueperCheckbox === trueValue){
-                                scope.hueperCheckbox = falseValue;
+                            if(scope.hueperCheckbox === trueVal){
+                                scope.hueperCheckbox = falseVal;
                             }
                             else{
-                                scope.hueperCheckbox = trueValue;
+                                scope.hueperCheckbox = trueVal;
                             }
                         }
                         else{
@@ -1277,7 +1279,7 @@ directive('hueperCheckbox', function(){
                 }
                 else{
                     scope.$watch('list', function(){
-                        if(list.indexOf(scope.hueperCheckbox) > -1){
+                        if(scope.list.indexOf(scope.hueperCheckbox) > -1){
                             scope.show = true;
                         }
                         else{
