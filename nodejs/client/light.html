@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="de" ng-app="hueApp">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,25 +48,51 @@
     <meta name="msapplication-TileColor" content="#141414" />
 
 </head>
-
 <body>
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl" class="background_stars" data-theme="b">
 <!-- HEADER -->
-    <div data-role="header" data-position="fixed">
-        <div class="header_container">
-            <div><a href="index.html">
-                <img src="css/images/icons/icon-menu-red.png" class="header_right_icon">
-            </a></div>
-                <h1 class="ui-title">Smart Lights</h1>
-        </div>
+<div data-role="header" data-position="fixed">
+    <div class="header_container tablet_hide">
+        <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
+             ng-show="sharedScope.state.user.loginRequired">
+        <h1 class="ui-title">Smart Lights</h1>
     </div>
+    <!---------------------------------------- MOBILE MENU -------------------------------------------------------->
+    <div class="tablet_show mobile_menu_wrapper">
+        <a href="lightandgroup.html" class="smallmenu_wrapper">
+            <div class="smallmenu_icon">
+                <img src="./css/images/icons/icon-light-dark-40.png">
+            </div>
+        </a>
+        <a href="sceneoverview.html" class="smallmenu_wrapper">
+            <div class="smallmenu_icon">
+                <img src="./css/images/icons/icon-scene-40.png">
+            </div>
+        </a>
+        <a href="automation.html" class="smallmenu_wrapper">
+            <div class="smallmenu_icon">
+                <img src="./css/images/icons/icon-automation-40.png">
+            </div>
+        </a>
+        <a href="party.html" class="smallmenu_wrapper">
+            <div class="smallmenu_icon">
+                <img src="./css/images/icons/icon-party-40.png">
+            </div>
+        </a>
+        <a href="settings.html" class="smallmenu_wrapper">
+            <div class="smallmenu_icon">
+                <img src="./css/images/icons/icon-settings-40.png">
+            </div>
+        </a>
+    </div>
+</div>
 
 
 <!-- CONTENT -->
     <div data-role="content" ng-controller="LightAndGroupCtrl" class="content_container">
     <!---------------------------------------- DESKTOP MENU ----------------------------------------------------------->
-        <div class="content_left_subcontainer mobile_hide">
+        <div class="content_left_subcontainer tablet_hide">
             <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button checked_menubox">
                 <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
                 <div class="main_menu_text panel">
@@ -99,59 +124,45 @@
                 </div>
             </a>
 
-            <!---------------------------------------- NOTIFICATIONS ------------------------------------------------------>
-            <div class="notification" ng-if="sharedScope.submenu.visible.notificationGroupDeleted">
+            <!---------------------------------------- NOTIFICATIONS -------------------------------------------------->
+            <div class="notification tablet_hide" ng-if="sharedScope.submenu.visible.notificationGroupRemoved"
+                 ng-click="sharedScope.submenu.closeSubmenu()">
                 <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                Group deleted.
+                Group removed.
             </div>
-            <div class="notification" ng-if="sharedScope.submenu.visible.notificationGroupDeletedNoLightLeft">
+            <div class="notification tablet_hide" ng-if="sharedScope.submenu.visible.notificationGroupDeleted"
+                 ng-click="sharedScope.submenu.closeSubmenu()">
                 <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                The selected group was deleted, because there was no light left.
+                Group deleted completely.
+            </div>
+            <div class="notification tablet_hide" ng-if="sharedScope.submenu.visible.notificationNoGroupToAdd"
+                 ng-click="sharedScope.submenu.closeSubmenu()">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                All groups are included.
             </div>
         </div>
 
 
         <div class="content_right_subcontainer ">
-            <!---------------------------------------- MOBILE MENU -------------------------------------------------------->
-            <div class="mobile_show mobile_menu_wrapper">
-                <a href="lightandgroup.html" class="smallmenu_wrapper">
-                    <div class="smallmenu_icon">
-                        <img src="./css/images/icons/icon-light-40.png">
-                    </div>
-                </a>
-                <a href="sceneoverview.html" class="smallmenu_wrapper">
-                    <div class="smallmenu_icon">
-                        <img src="./css/images/icons/icon-scene-40.png">
-                    </div>
-                </a>
-                <a href="automation.html" class="smallmenu_wrapper">
-                    <div class="smallmenu_icon">
-                        <img src="./css/images/icons/icon-automation-40.png">
-                    </div>
-                </a>
-                <a href="party.html" class="smallmenu_wrapper">
-                    <div class="smallmenu_icon">
-                        <img src="./css/images/icons/icon-party-40.png">
-                    </div>
-                </a>
-                <a href="settings.html" class="smallmenu_wrapper">
-                    <div class="smallmenu_icon">
-                        <img src="./css/images/icons/icon-settings-40.png">
-                    </div>
-                </a>
+
+            <!----------------------------------------  NOTIFICATIONS ------------------------------------------------->
+            <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.notificationGroupRemoved"
+                 ng-click="sharedScope.submenu.closeSubmenu()">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                Group removed.
+            </div>
+            <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.notificationGroupDeleted"
+                 ng-click="sharedScope.submenu.closeSubmenu()">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                Group deleted completely.
+            </div>
+            <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.notificationNoGroupToAdd"
+                 ng-click="sharedScope.submenu.closeSubmenu()">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+               All groups are included.
             </div>
 
-            <!----------------------------------------  NOTIFICATIONS ----------------------------------------------------->
-            <div class="notification mobile_show" ng-if="sharedScope.submenu.visible.notificationGroupDeleted">
-                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                Group deleted.
-            </div>
-            <div class="notification mobile_show" ng-if="sharedScope.submenu.visible.notificationGroupDeletedNoLightLeft">
-                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                The selected group was deleted, because there was no light left.
-            </div>
-
-            <!---------------------------------------- NAME --------------------------------------------------------------->
+            <!---------------------------------------- NAME ----------------------------------------------------------->
             <div class="subcontent_a">
                 <div class="lightgroup_name_edit">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline"
@@ -160,7 +171,7 @@
                 <div class="lightgroup_name_input"><input type="text" ng-model="state.lights[helpers.urlId].name"></div>
             </div>
 
-            <!---------------------------------------- COLOR / FAVORITES / BUTTONS: save fav, add group ------------------->
+            <!---------------------------------------- COLOR / FAVORITES / BUTTONS: save fav, add group --------------->
             <div class="subcontent_b">
                 <!-- color -->
                 <div class="light_wrapper">
@@ -181,19 +192,21 @@
                 </div>
                 <!-- buttons: save color, add group -->
                 <button class="ui-btn ui-icon-star ui-btn-icon-left btn-round-corner transparent_bg button"
-                        ng-click="lights.checkNumberOfFavorites(helpers.urlId)">save color</button>
-                <button class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
-                        ng-click="sharedScope.submenu.openSubmenu('addGroupToLight')">add group</button>
+                    ng-click="lights.checkNumberOfFavorites(helpers.urlId)" style="text-align: center; margin:auto">
+                    save color
+                </button>
             </div>
 
-            <!---------------------------------------- GROUPS ------------------------------------------------------------->
+            <!---------------------------------------- GROUPS --------------------------------------------------------->
             <div class="subcontent_c">
                 <!-- groups -->
                 <div class="transparent_bg listing_box">
-                    <h2 style="text-align:left; padding:20px; margin-bottom: 0px; margin-top:0px">Groups</h2>
+                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('addGroupToLight')"></span>
+                    <h2 class="listing_box_title">Groups</h2>
                     <div class="light_group" ng-repeat="groupId in lights.getGroups(helpers.urlId)">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
-                            light_group_a" ng-click="groups.openDeleteMenuGroup(groupId, 'deleteLightFromGroup')"></span>
+                            light_group_a" ng-click="groups.openDeleteMenuGroup(groupId, helpers.urlId, '')"></span>
                         <a href="group.html?id={{groupId}}" style="text-decoration: none; padding:8px" class="panel panel_layout_fix">
                             <img src="./css/images/transparent_group_small.png" class="light_group_img">
                             {{sharedScope.state.groups[groupId].name}}
@@ -202,51 +215,67 @@
                 </div>
             </div>
 
-
-            <!-- SUBMENU - change color-->
+            <!------------------- SUBMENUES: change color, choose favorite to replace, add group, remove group -------->
+            <div class="subcontent_d">
+                <!-- change color-->
                 <div ng-if="sharedScope.submenu.visible.changeLightColor">
-                <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()">
-                    <div class="light_wrapper" style="top: 112px">
-                        <div class="light_color" hueper-color="sharedScope.state.lights[helpers.urlId].state">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide ">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title"> Choose your color ...</h2>
+                        <div style="padding:20px">
+                            <div hueper-slider model="sharedScope.state.lights[helpers.urlId].state.bri" min="0" max="254"
+                                 step="5" change="lights.state(helpers.urlId, { bri: value })" class="slider-brightness"></div>
+                            <div hueper-colorpicker state="sharedScope.state.lights[helpers.urlId].state"
+                                 change="lights.state(helpers.urlId, state)"></div>
+                            <div hueper-checkbox="sharedScope.state.lights[helpers.urlId].state.effect" trueval="colorloop"
+                                 falseval="none" change="lights.state(helpers.urlId, {effect : value})"> Activate Colorloop</div>
                         </div>
-                        <div class="light_template">
-                            <img src="./css/images/transparent_light.png">
-                                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-notext
-                                    ui-btn-inline" style="position: absolute; top: 170px; left: 60px"
-                                      ng-click="lights.turnLightOnOff(helpers.urlId)"></span>
+                    </div>
+
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
+                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                            <img src="css/images/icons/icon-arrow-down.png">
+                        </div>
+                        <div style="text-align: center; color: #f9efed">
+                            Choose your color...
+                        </div>
+                        <div style="padding:20px">
+                            <div hueper-slider model="sharedScope.state.lights[helpers.urlId].state.bri" min="0" max="254" step="5"
+                                 change="lights.state(helpers.urlId, { bri: value })" class="slider-brightness"></div>
+                            <div hueper-colorpicker state="sharedScope.state.lights[helpers.urlId].state"
+                                 change="lights.state(helpers.urlId, state)"></div>
+                            <div hueper-checkbox="sharedScope.state.lights[helpers.urlId].state.effect" trueval="colorloop" falseval="none"
+                                 change="lights.state(helpers.urlId, {effect : value})"> Activate Colorloop</div>
                         </div>
                     </div>
                 </div>
-                <div class="overlap_content">
-                    <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
-                        <img src="css/images/icons/icon-arrow-down.png">
-                    </div>
 
-                    <div style="text-align: center; color: #f9efed">
-                        Choose your color...
-                    </div>
 
-                    <div style="padding:20px">
-                        <div hueper-colorpicker state="sharedScope.state.lights[helpers.urlId].state"
-                             change="lights.state(helpers.urlId, state)"></div>
-                        <div hueper-slider model="sharedScope.state.lights[helpers.urlId].state.bri" min="0" max="254" step="5"
-                             change="lights.state(helpers.urlId, { bri: value })" class="slider-brightness"></div>
-
-                        <div hueper-checkbox="sharedScope.state.lights[helpers.urlId].state.effect" true-value="colorloop" false-value="none"
-                             change="lights.state(helpers.urlId, {effect : value})"> Activate Colorloop</div>
-
-                        <label class="transparent_bg button">
-                            <input type="checkbox" name="checkboxColorloop" ng-model="sharedScope.state.lights[helpers.urlId].state.effect" ng-true-value="colorloop"
-                                   ng-false-value="none" ng-change="lights.state(helpers.urlId, {'effect': sharedScope.state.lights[helpers.urlId].state.effect})">activate colorloop
-                        </label>
-                    </div>
-                </div>
-                </div>
-
-            <!-- SUBMENU - choose favorite to replace -->
+                <!-- choose favorite to replace -->
                 <div ng-if="sharedScope.submenu.visible.replaceFavorite">
-                    <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
-                    <div class="overlap_content">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide ">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title">Which color should be replaced?</h2>
+                        <div style="padding:16px; text-align: center">
+                            <div class="favorites_wrapper" ng-repeat="(id, fav) in sharedScope.state.favorites"
+                                 ng-click="lights.updateFavorite(id,helpers.urlId)">
+                                <div class="light_favorites_star_color" hueper-color="fav.state"></div>
+                                <div class="light_favorites">
+                                    <img src="css/images/icons/icon-star-frame-red.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
                         <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
                             <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
                         </div>
@@ -267,10 +296,30 @@
                     </div>
                 </div>
 
-            <!-- SUBMENU - add group/groups -->
+
+                <!-- add group/groups -->
                 <div ng-if="sharedScope.submenu.visible.addGroupToLight">
-                    <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
-                    <div class="overlap_content">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide ">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title">Which groups should be added?</h2>
+                        <div style="padding:7px; width:45%; text-align: center; margin:auto">
+                            <div class="overlap_list" ng-repeat="groupId in lights.getGroupsInverse(helpers.urlId)">
+                                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext
+                                    ui-btn-inline"  style="float:right; margin-top: 3px" ng-click="groups.addLight(groupId, helpers.urlId)"></span>
+                                <div style="margin-top: 10px; margin-bottom: 5px">
+                                    {{sharedScope.state.groups[groupId].name}}
+                                </div>
+                            </div>
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button"
+                                    ng-click="sharedScope.submenu.closeSubmenu()" style="text-align: center; margin:auto; margin-top:10px">done</button>
+                        </div>
+                    </div>
+
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
                         <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
                             <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
                         </div>
@@ -289,25 +338,78 @@
                     </div>
                 </div>
 
-            <!-- SUBMENU - delete from group -->
+
+                <!-- delete from group -->
                 <div ng-if="sharedScope.submenu.visible.deleteLightFromGroup">
-                <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu()"></div>
-                <div class="overlap_content">
-                    <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
-                        <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide " >
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                            ui-btn-inline light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()">
+                        </span>
+                        <h2 class="listing_box_title">Do you want to remove the group "{{sharedScope.state.groups[groups.selectedGroupId].name}}"?</h2>
+                        <div style="text-align: center;margin:auto;">
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                    ng-click="groups.removeLight('lightmenu','deleteLightFromGroup')">YES</button>
+                            <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                        </div>
                     </div>
-                    <div style="text-align: center; color: #f9efed">Do you want to remove the light
-                        "{{sharedScope.state.lights[helpers.urlId].name}}" <br>from the group
-                        "{{sharedScope.state.groups[groups.selectedGroupId].name}}" ?</div>
-                    <div style="padding:20px; text-align: center">
-                        <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button
-                            ui-btn-inline" ng-click="groups.removeLight(groups.selectedGroupId, helpers.urlId)">YES</button>
-                        <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner transparent_bg button
-                            ui-btn-inline" ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
+                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                            <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                        </div>
+                        <div style="text-align: center; color: #f9efed">
+                            Do you want to remove the group<br>"{{sharedScope.state.groups[groups.selectedGroupId].name}}" ?
+                        </div>
+                        <div style="padding:20px; text-align: center">
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button
+                                ui-btn-inline" ng-click="groups.removeLight('lightmenu','deleteLightFromGroup')">YES</button>
+                            <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner transparent_bg button
+                                ui-btn-inline" ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+
+                <!-- delete group -->
+                <div ng-if="sharedScope.submenu.visible.deleteLastLightFromGroup">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide " >
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title">The group "{{sharedScope.state.groups[groups.selectedGroupId].name}}" will be deleted completely...</h2>
+                        <div style="text-align: center;margin:auto;">
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                    ng-click="groups.removeLight('lightmenu','deleteLastLightFromGroup')">YES</button>
+                            <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                    ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                        </div>
+                    </div>
+
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
+                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                            <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                        </div>
+                        <div style="text-align: center; color: #f9efed">
+                            The group "{{sharedScope.state.groups[groups.selectedGroupId].name}}" will be deleted completely...
+                        </div>
+                        <div style="padding:20px; text-align: center">
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button
+                                ui-btn-inline" ng-click="groups.removeLight('lightmenu','deleteLastLightFromGroup')">YES</button>
+                            <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner transparent_bg button
+                                ui-btn-inline" ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
 
         </div>
     </div><!--END OF CONTENT-->

@@ -79,13 +79,25 @@
     float: right;
 }
 
+.subcontent_d{
+    width: 100%;
+    overflow:hidden;
+}
 
-
-
+.subcontent_e{
+    width: 100%;
+    overflow:hidden;
+}
 
 .mobile_show{
     display: none;
 }
+
+.tablet_show{
+    display: none;
+}
+
+
 
 .ui-header .ui-title{
     text-align: left;
@@ -134,20 +146,19 @@
     text-shadow:1px 1px #b3b3b3 !important;
     max-width:300px;
     text-align: center;
-    margin: auto;
     margin-top:10px;
     margin-bottom:10px;
+    min-width:150px;
 }
 
-button:hover
-{
+
+button:hover{
     background-color: rgba(236, 236, 236, 0.8) !important;
     color:white;
 }
 
 button:active{
     background-color: rgba(236, 236, 236, 0.8) !important;
-
 }
 
 .background_red{
@@ -164,7 +175,7 @@ button:active{
 }
 
 .transparent_bg{
-    background-color: rgba(236, 236, 236, 0.5) !important;
+    background-color: rgba(236, 236, 236, 0.4) !important;
 }
 
 .main_menu_transparent_bg{
@@ -182,9 +193,8 @@ button:active{
 
 .mobile_menu_wrapper{
     text-align: center;
-    height:50px;
-    margin-bottom:10px;
-
+    height:46px;
+    padding:3px;
 }
 
 .checked_menubox{
@@ -193,25 +203,21 @@ button:active{
 }
 
 .notification{
-    margin-top: 5px;
-    padding: 6px;
-    border-color: #800000;
-    border-style: dotted;
-    border-width: 1px;
-    background-color: #faeeec;
-    color: #800000;
-    text-align: center;
-    margin-bottom: 10px;
-    min-height: 40px;
-    font-size: 13px;
-    font-weight: normal;
     position: fixed;
     z-index:1000;
+    width:232px;
+    font-size: 14px;
+    line-height:40px;
+    vertical-align: middle;
+    text-align: center;
+    background-color: rgba(236, 236, 236, 0.9) !important;
+    margin-top: 5px;
+    border: 1px dotted #800000;
 }
 
 .overlap{
     z-index:1;
-    background-color: rgba(100, 100, 100, 0.5) !important;
+    background-color: rgba(100, 100, 100, 0.3) !important;
     position: fixed;
     top: 0px;
     left: 0px;
@@ -270,7 +276,9 @@ button:active{
 .lightgroup-all-container {
     padding:1px 8px;
     margin-bottom:2em;
-    background-color:rgba(255,255,255,0.2);
+    margin-top:15px;
+    border-radius:5px;
+    text-align: center;
 }
 
 .light_wrapper{
@@ -313,7 +321,22 @@ button:active{
 .listing_box{
     border-radius: 5px;
     max-width:380px;
-    text-align:right;
+    text-align: left;
+    padding:7px
+}
+
+.listing_box_title{
+    text-align:left;
+    margin:0px;
+    padding-top:10px;
+    padding-left:10px;
+    padding-bottom:15px;
+
+}
+
+.listing_box_icon{
+    float:right;
+    margin-top:10px !important;
 }
 
 .light_group{
@@ -396,7 +419,7 @@ button:active{
 .smallmenu_icon{
     height:40px;
     width:40px;
-    padding:0px
+    padding:0px;
 }
 
 .settings_label{
@@ -566,12 +589,17 @@ button:active{
         margin: auto;
     }
 
-    .mobile_hide{
+    .tablet_hide{
         display: none;
     }
 
-    .mobile_show{
+    .tablet_show{
         display: block;
+    }
+
+
+    .button_small{
+        background-color: rgba(236, 236, 236, 0.8) !important;
     }
 
     .content_right_subcontainer{
@@ -601,13 +629,19 @@ button:active{
         margin:auto;
     }
 
+    .mobile_hide{
+        display: none;
+    }
 
+    .mobile_show{
+        display: block;
+    }
     .subcontent_b{
-        width: 100%
+        width: 100%;
     }
 
     .subcontent_c{
-        width: 100%;
+        width: 100% ;
         float:left;
         padding-top: 5px;
     }
