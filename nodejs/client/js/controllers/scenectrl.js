@@ -1,11 +1,15 @@
 angular.module('hueApp.controllers').
-controller('SceneCtrl', ['$scope', 'stateManager', function($scope, stateManager) {
+controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, socket, stateManager) {
 
         stateManager($scope);
 
         //scenes
 
     $scope.scenes = {
+
+        selectedSceneId:0,
+        selectedLightId:0,
+        activatedScene:0,
 
         // placeholder for form data
         forms: {
@@ -19,15 +23,50 @@ controller('SceneCtrl', ['$scope', 'stateManager', function($scope, stateManager
             socket.emit('scene.create', scene);
             $scope.scenes.forms.create.name = '';
             $scope.scenes.forms.create.lights = [];
+            $scope.sharedScope.submenu.closeSubmenu();
         },
 
-        update: function(scene) {
-            socket.emit('scene.update', scene);
+        update: function(sceneId, scene) {
+            socket.emit('scene.update', {
+                id: sceneId,
+                name: scene.name,
+                lights: scene.lights
+            });
         },
 
         remove: function(id) {
             socket.emit('scene.delete', id);
             delete $scope.state.scenes[id];
+            $scope.sharedScope.submenu.closeSubmenu();
+            $scope.sharedScope.submenu.openSubmenu("notificationSceneDeleted");
+        },
+
+        setSelectedSceneId: function(sceneId){
+            $scope.scenes.selectedSceneId = sceneId;
+        },
+        setSelectedLightId: function(lightId){
+            $scope.scenes.selectedLightId = lightId;
+        },
+
+        openDeleteMenuScene: function(sceneId, lightId, menu){
+            $scope.scenes.setSelectedSceneId(sceneId);
+            if(menu === 'sceneoverview'){
+                $scope.sharedScope.submenu.openSubmenu('deleteScene');
+            }
+            else{
+                $scope.scenes.setSelectedLightId(lightId);
+                if($scope.state.scenes[$scope.scenes.selectedSceneId].lights.length === 1){
+                    $scope.sharedScope.submenu.openSubmenu('deleteLastLightFromScene');
+                }
+                else{
+                    $scope.sharedScope.submenu.openSubmenu('deleteLightFromScene');
+                }
+            }
+
+
+
+
+
         },
 
         /**
@@ -43,6 +82,9 @@ controller('SceneCtrl', ['$scope', 'stateManager', function($scope, stateManager
             }
 
             socket.emit('scene.apply', id);
+
+            $scope.scenes.activatedScene = id;
+            console.log("Scene activated Id: " + id);
 
             for(i = 0; i < scene.lights.length; i++) {
 
@@ -79,6 +121,19 @@ controller('SceneCtrl', ['$scope', 'stateManager', function($scope, stateManager
 
         },
 
+        /*
+         * Return true if incoming SceneId is the active Scene Id.
+         *
+         */
+        activeScene: function(sceneId){
+            if(sceneId === $scope.scenes.activatedScene){
+                return true;
+            }
+            else{
+                 return false;
+             }
+        },
+
         /**
          * Add light to scene
          * @param scene
@@ -107,17 +162,29 @@ controller('SceneCtrl', ['$scope', 'stateManager', function($scope, stateManager
          * @param scene
          * @param id
          */
-        removeLight: function(scene, id) {
-            var i;
-
-            // check if scene already contains this light
-            for(i in scene.lights) {
-                if(scene.lights.hasOwnProperty(i) && scene.lights[i].light == id) {
-                    scene.lights.splice(i, 1);
-                    return;
+        removeLight: function(scene, id, submenu) {
+            $scope.sharedScope.submenu.closeSubmenu();
+            if(submenu === 'deleteLastLightFromGroup'){
+                $scope.scenes.remove($scope.scenes.selectedSceneId);
+                window.location.href = 'lightandgroup.html';
+                $scope.sharedScope.submenu.openSubmenu("notificationSceneDeleted");
+            }else{
+                var i;
+                // check if scene already contains this light
+                for(i in scene.lights) {
+                    if(scene.lights.hasOwnProperty(i) && scene.lights[i].light == id) {
+                        scene.lights.splice(i, 1);
+                    }
                 }
+                $scope.scenes.update($scope.scenes.selectedSceneId, $scope.state.scenes[$scope.scenes.selectedSceneId]);
+                $scope.sharedScope.submenu.openSubmenu(["notificationSceneRemoved"]);
             }
         },
+
+
+
+
+
 
         /**
          * Filter global state.lights object to the lights not contained in the parameter scene.lights array
@@ -222,5 +289,6 @@ controller('SceneCtrl', ['$scope', 'stateManager', function($scope, stateManager
         }
 
     };
+
 
 }]);
