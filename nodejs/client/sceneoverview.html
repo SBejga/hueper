@@ -139,8 +139,8 @@
                 Scene deleted.
             </div>
 
-            <!---------------------------------------- SCENES --------------------------------------------------------->
-            <div class="subcontent_a">
+            <!---------------------------------------- SCENE LIST ----------------------------------------------------->
+            <div class="subcontent_b">
                 <div class="transparent_bg listing_box" style="max-width:100%;">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
                         light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('createNewScene')"></span>
@@ -152,21 +152,45 @@
                              ng-if="scenes.activeScene(id)">
                         <img src="./css/images/icons/icon-startscene-50.png" class="light_group_img" style="margin-top: 10px"
                              ng-if="!scenes.activeScene(id)" ng-click="scenes.apply(id)">
-                        <a href="scene.html?id={{id}}" style="text-decoration: none">
+                        <div ng-click="scenes.setSelectedSceneId(id)">
                             {{scene.name}}
-                        </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!---------------------------------------- SCENE ---------------------------------------------------------->
+            <div class="subcontent_c" ng-if="!(scenes.selectedSceneId === 0)">
+                <div class="lightgroup_name_edit">
+                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline"
+                          ng-click="scenes.update(scenes.selectedSceneId, state.scenes[scenes.selectedSceneId])"></span>
+                </div>
+                <div class="lightgroup_name_input"><input type="text" ng-model="state.scenes[scenes.selectedSceneId].name"></div>
+
+                <div class="transparent_bg listing_box">
+                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('addLightToScene')"></span>
+                    <h2 class="listing_box_title">Lights</h2>
+                    <div class="light_group" ng-repeat="(id, light) in state.scenes[scenes.selectedSceneId].lights">
+                        <div class="light_wrapper_69width" style="float:left" ng-click="sharedScope.submenu.openSubmenu('changeSceneColor');
+                             lights.setSelectedLightId(sharedScope.state.scenes[scenes.selectedSceneId].lights[id].light)">
+                            <div class="light_color_69width" hueper-color="sharedScope.state.scenes[scenes.selectedSceneId].lights[id].state"></div>
+                            <div class="light_template"><img src="./css/images/transparent_light_69width.png"></div>
+                        </div>
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline light_group_a"
+                              ng-click="scenes.openDeleteMenuScene(scenes.selectedSceneId, sharedScope.state.scenes[scenes.selectedSceneId].lights[id].light, '')"></span>
+                        {{sharedScope.state.lights[sharedScope.state.scenes[scenes.selectedSceneId].lights[id].light].name}}
                     </div>
                 </div>
             </div>
 
 
             <!------------------------ SUBMENUES: create new scene ------------------->
-            <div class="subcontent_d">
-
+            <div class="subcontent_c">
                 <!-- create new scene add lights -->
                 <div ng-if="sharedScope.submenu.visible.createNewScene">
                     <!-- desktop/tablet view -->
-                    <div class="lightgroup-all-container transparent_bg mobile_hide" style="overflow: hidden">
+                    <div class="lightgroup-all-container transparent_bg mobile_hide" style="overflow: hidden; margin-top: 0px">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
                             light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
                         <h2 class="listing_box_title">Add Scene</h2>
@@ -181,10 +205,9 @@
                                 ...and add at least one light.
                             </div>
                             <div style="padding:5px; width:45%; float:right; padding-right:0px">
-                                <div style="padding-bottom:10px" ng-repeat="(id, light) in sharedScope.state.lights">
-                                    <div hueper-checkbox="id" list="scenes.forms.create.lights"> {{light.name}}</div>
-                                </div>
-                            </div>
+                                    <button ng-repeat="(id, light) in scenes.filterUnused(scenes.forms.create.lights)"
+                                            ng-click="scenes.addLight(scenes.forms.create, id)">{{light.name}}</button>                               </div>
+
                             <div style="text-align: center; margin: auto; width:100%; float: right; margin-bottom:15px">
                                 <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
                                         ng-disabled="!scenes.forms.create.lights.length" style="max-width: 250px; text-align: center; margin:auto">done</button>

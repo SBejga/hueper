@@ -1119,107 +1119,6 @@ directive('hueperRangeSlider', ['$timeout', function($timeout) {
     };
 }]).
 
-/**
- * Range color picker
- *
- * Attributes
- * - hueper-colorpicker-range: light state with hue.min, hue.max, sat.min and sat.max
- */
-directive('hueperColorpickerRange', function() {
-    return {
-        template: '<div class="colorpicker range" hueper-touch>\
-                <div class="colorpicker-handle"></div>\
-            </div>',
-
-        replace: true,
-
-        scope: {
-            state: '=hueperColorpickerRange'
-        },
-
-        link: function(scope, elm, attrs) {
-
-            var container = elm,
-                handle = elm.find('.colorpicker-handle'),
-
-                containerOffset,
-                containerWidth = container.width(),
-                containerHeight = container.height(),
-
-                hueMin = 0,
-                hueMax = 65535,
-                hueArea = hueMax - hueMin,
-
-                satMin = 0,
-                satMax = 254,
-                satArea = satMax - satMin;
-
-
-            elm.on('down', function(e, pos) {
-                containerOffset = container.offset();
-                containerWidth = container.width();
-                containerHeight = container.height();
-            });
-
-            // change model and execute callback when handle is moved
-
-            elm.on('down up move', function(e, pos) {
-                var propHue = 'min',
-                    propSat = 'min';
-
-                var relX = pos.x - containerOffset.left,
-                    relY = pos.y - containerOffset.top;
-
-                if(relX < 0) {
-                    relX = 0;
-                }
-                else if(relX > containerWidth) {
-                    relX = containerWidth;
-                }
-
-                if(relY < 0) {
-                    relY = 0;
-                }
-                else if(relY > containerHeight) {
-                    relY = containerHeight;
-                }
-
-                var x = relX / containerWidth,
-                    y = relY / containerHeight,
-
-                    hue = Math.round(hueMin + x * hueArea),
-                    sat = Math.round(satMin + y * satArea);
-
-                if(Math.abs(scope.state.hue.max-hue) < Math.abs(scope.state.hue.min-hue)) {
-                    propHue = 'max';
-                }
-
-                if(Math.abs(scope.state.sat.max-sat) < Math.abs(scope.state.sat.min-sat)) {
-                    propSat = 'max';
-                }
-
-                scope.$apply(function() {
-                    scope.state.hue[propHue] = hue;
-                    scope.state.sat[propSat] = sat;
-                });
-            });
-
-
-            // display changes to the model
-
-            scope.$watch('[state.hue, state.sat]', function() {
-                handle.css({
-                    top: 100 * (scope.state.sat.min - satMin) / satArea + '%',
-                    left: 100 * (scope.state.hue.min - hueMin) / hueArea + '%',
-                    bottom: (100 - 100 * (scope.state.sat.max - satMin) / satArea) + '%',
-                    right: (100 - 100 * (scope.state.hue.max - hueMin) / hueArea) + '%'
-                });
-            }, true);
-
-        }
-    };
-}).
-
 /*
  * Checkbox
  *
@@ -1243,14 +1142,15 @@ directive('hueperCheckbox', function(){
 
 
             link: function(scope, elm, attrs){
+                var trueVal = attrs.trueval || true;
+                var falseVal = attrs.falseval || false;
 
                 elm.on('click', function(){
                     scope.$apply(function(){
                         var id = parseInt(scope.hueperCheckbox);
 
                         if(scope.list === undefined){
-                            var trueVal = attrs.trueval || true;
-                            var falseVal = attrs.falseval || false;
+
 
                             if(scope.hueperCheckbox === trueVal){
                                 scope.hueperCheckbox = falseVal;
@@ -1274,7 +1174,7 @@ directive('hueperCheckbox', function(){
 
                 if(scope.list === undefined){
                     scope.$watch('hueperCheckbox', function(){
-                        scope.show = scope.hueperCheckbox;
+                        scope.show = (scope.hueperCheckbox === trueVal);
                     });
                 }
                 else{
