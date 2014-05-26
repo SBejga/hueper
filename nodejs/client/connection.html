@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="de" ng-app="hueApp">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -54,32 +53,27 @@
 <body>
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl" class="background_stars" data-theme="b">
-<!-- HEADER -->
+    <!-- HEADER -->
     <div data-role="header" data-position="fixed" style="position: fixed">
         <div class="header_container">
-            <h1 class="ui-title">SmartLights - Login</h1>
+            <h1 class="ui-title">SmartLights - Connection</h1>
         </div>
 
     </div>
 
-<!-- CONTENT -->
+    <!-- CONTENT -->
     <div data-role="content" class="content_container">
-        <div class="transparent_bg login_mask">
-            <form ng-submit="sharedScope.user.login()" ng-show="!sharedScope.state.user.login && sharedScope.state.user.loginPromptReceived">
-                <p>
-                    <h2>Password</h2>
-                    <span ng-show="sharedScope.state.user.loginWaiting">Check password...</span>
-                <!-- NOTIFICATION password incorrect -->
-                    <div class="notification" ng-show="sharedScope.state.user.loginError">
-                        <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                        This password is incorrect, please enter the right password.
-                    </div>
-                    <input type="password" ng-model="sharedScope.user.password"/>
-                    <div style="min-width:100px;max-width:200px;float: right; padding-right: 20px" >
-                        <input type="submit" value="Login"/>
-                    </div>
-                </p>
-            </form>
+        <div class="bridgeconnection_box" ng-if="!sharedScope.state.connect.hue">
+            <h2 class="listing_box_title" style="text-align: center">Can't find Bridge.</h2>
+            Please make sure that your bridge is connected to your network.
+        </div>
+        <div class="bridgeconnection_box"  ng-if="sharedScope.state.connect.hue && !sharedScope.state.connect.hueRegistered">
+            <h2 class="listing_box_title" style="text-align: center">Bridge is not connected.</h2>
+            Please press the link button on your bridge.
+        </div>
+        <div class="bridgeconnection_box" ng-if="!sharedScope.state.connect.mongodb">
+            <h2 class="listing_box_title" style="text-align: center">Bridge is not connected.</h2>
+            Please press the link button on your bridge.
         </div>
     </div>
 

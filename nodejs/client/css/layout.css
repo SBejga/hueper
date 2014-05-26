@@ -352,6 +352,14 @@ button:active{
     margin-top:10px !important;
 }
 
+.bridgeconnection_box{
+    background-color: rgba(236, 236, 236, 0.5) !important;
+    text-align: center;
+    margin:auto;
+    max-width: 400px;
+    min-height: 100px;
+}
+
 .light_group{
     padding:5px;
     font-weight: bold;
