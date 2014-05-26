@@ -209,7 +209,7 @@
             If there are new lights, they will be added automatically.
         </div>
 
-        <!-- Change Password-->
+        <!-- Switch Status, Choose Interpreter-->
         <div class="subcontent_b">
             <div class="transparent_bg listing_box">
                 <h2 class="listing_box_title">Switch Status</h2>
@@ -217,22 +217,22 @@
                      change="sharedScope.config.change({speechRecognition : value})">Speech Recognition</div>
 
                 <h2 class="listing_box_title">Choose Interpreter</h2>
-                <div class="settings_standard" style="vertical-align: middle">
-                    <div style="line-height: 30px">
+                <div class="settings_standard" style="vertical-align: middle; text-align: center; margin: auto">
+                    <div class="button transparent_bg radio_button">
                         <input type="radio" value="julius" ng-model="sharedScope.state.appConfig.speechRecognitionEngine"
-                               ng-change="sharedScope.config.change(sharedScope.state.appConfig)"  style="margin-top: 5px">
+                               ng-change="sharedScope.config.change(sharedScope.state.appConfig)"  style="margin-top: 10px">
                         <div style="padding-left:50px;">Julius</div>
                     </div>
-                    <div style="line-height: 30px">
+                    <div class="button transparent_bg radio_button">
                         <input type="radio" value="google" ng-model="sharedScope.state.appConfig.speechRecognitionEngine"
-                               ng-change="sharedScope.config.change(sharedScope.state.appConfig)" style="margin-top: 3px">
+                               ng-change="sharedScope.config.change(sharedScope.state.appConfig)" style="margin-top: 10px">
                         <div style="padding-left:50px;">Google</div>
                     </div>
                 </div>
             </div>
         </div>
 
-
+        <!-- Sensitivity, Test Mode -->
         <div class="subcontent_c">
             <div class="transparent_bg listing_box">
                 <h2 class="listing_box_title">Sensitivity</h2>

@@ -605,6 +605,14 @@ button:active{
         background-color: rgba(236, 236, 236, 0.8) !important;
     }
 
+    .radio_button{
+        vertical-align:middle;
+        line-height: 40px;
+        border-radius: 5px;
+        margin-right: 0px;
+    }
+
+
     .content_right_subcontainer{
         float: none;
     }

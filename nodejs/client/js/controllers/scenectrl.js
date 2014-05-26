@@ -69,6 +69,8 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
 
         },
 
+
+
         /**
          * Apply scene and change light state accordingly
          * @param id
