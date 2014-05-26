@@ -9,6 +9,8 @@ controller('SpeechCtrl', ['$scope','socket', 'stateManager', function($scope, so
 
         activateTestMode: function() {
             if($scope.state.speech.testMode) {
+
+                $scope.sharedScope.config.change({speechRecognition : true});
                 return;
             }
 

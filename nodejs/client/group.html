@@ -50,7 +50,7 @@
 </head>
 <body>
 
-<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl" class="background_stars" data-theme="b">
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl"  class="background_stars" data-theme="b">
     <!---------------------------------------- HEADER ----------------------------------------------------------------->
     <div data-role="header" data-position="fixed" style="position: fixed">
         <div class="header_container tablet_hide">
@@ -117,11 +117,11 @@
                 </div>
             </a>
             <a href="settings.html" class="ui-btn main_menu_transparent_bg button">
-            <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
-            <div class="main_menu_text panel">
-                Settings
-            </div>
-        </a>
+                <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Settings
+                </div>
+            </a>
 
             <!---------------------------------------- NOTIFICATIONS -------------------------------------------------->
             <div class="notification" ng-if="sharedScope.submenu.visible.notificationNoLightToAdd"

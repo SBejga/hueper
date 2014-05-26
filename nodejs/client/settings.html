@@ -50,323 +50,126 @@
 </head>
 <body>
 
-<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl" class="background_stars" data-theme="b">
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl"  class="background_stars" data-theme="b">
 <!-- HEADER -->
-    <div data-role="header" data-position="fixed">
-        <div><a href="index.html">
-            <img src="css/images/icons/icon-menu-red.png" class="header_right_icon">
-        </a></div>
-        <h2 class="header_title">Settings</h2>
+    <div data-role="header" data-position="fixed" style="position: fixed">
+        <div class="header_container tablet_hide">
+            <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
+                 ng-show="sharedScope.state.user.loginRequired">
+            <h1 class="ui-title">Smart Lights</h1>
+        </div>
+        <!---------------------------------------- MOBILE MENU -------------------------------------------------------->
+        <div class="tablet_show mobile_menu_wrapper">
+            <a href="lightandgroup.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-light-40.png">
+                </div>
+            </a>
+            <a href="sceneoverview.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-scene-40.png">
+                </div>
+            </a>
+            <a href="automation.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-automation-40.png">
+                </div>
+            </a>
+            <a href="party.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-party-40.png">
+                </div>
+            </a>
+            <a href="settings.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-settings-dark-40.png">
+                </div>
+            </a>
+        </div>
     </div>
 
-<!-- CONTENT -->
-    <div data-role="content" ng-controller="LightAndGroupCtrl">
-    <!-- ACCOUNT Settings -->
-        <div class="settings_wrapper"  ng-click="sharedScope.submenu.openSubmenu(['smallMenu', 'accountSettings'])"
-             ng-if="!sharedScope.submenu.visible.smallMenu">
-            <div class="settings_icon">
-                <img src="./css/images/icons/icon-account-settings-80.png">
-            </div>
-            <div class="transparent_bg settings_label">Account</div>
-        </div>
 
-    <!-- LIGHT Settings -->
-        <div class="settings_wrapper"  ng-click="sharedScope.submenu.openSubmenu(['smallMenu', 'lightSettings']); helpers.getFadingTimeFromBridge()"
-             ng-if="!sharedScope.submenu.visible.smallMenu">
-            <div class="settings_icon">
-                <img src="./css/images/icons/icon-light-settings-80.png">
-            </div>
-            <div class="transparent_bg settings_label" >Light</div>
-        </div>
-
-    <!-- VOICE Settings -->
-        <div class="settings_wrapper"  ng-click="sharedScope.submenu.openSubmenu(['smallMenu', 'voiceSettings'])"
-             ng-if="!sharedScope.submenu.visible.smallMenu">
-            <div class="settings_icon">
-                <img src="./css/images/icons/icon-micro-settings-80.png">
-            </div>
-            <div class="transparent_bg settings_label">Voice</div>
-        </div>
-
-    <!-- RFID Settings -->
-        <div class="settings_wrapper"  ng-click="sharedScope.submenu.openSubmenu(['smallMenu', 'rfidSettings'])"
-             ng-if="!sharedScope.submenu.visible.smallMenu">
-            <div class="settings_icon">
-                <img src="./css/images/icons/icon-rfid-settings-80.png">
-            </div>
-            <div class="transparent_bg settings_label">RFID</div>
-        </div>
-
-    <!-- NETWORK Devices -->
-        <div class="settings_wrapper"  ng-click="sharedScope.submenu.openSubmenu(['smallMenu', 'networkDevices'])"
-             ng-if="!sharedScope.submenu.visible.smallMenu">
-            <div class="settings_icon">
-                <img src="./css/images/icons/icon-iphone-80.png">
-            </div>
-            <div class="transparent_bg settings_label" style="line-height:20px">Network Devices</div>
-        </div>
-
-
-    <!-- SMALL SETTINGS MENU -->
-        <div style="text-align: center; height:50px;">
-            <div class="smallmenu_wrapper"  ng-click="sharedScope.submenu.openSubmenu(['smallMenu', 'accountSettings'])"
-                 ng-if="sharedScope.submenu.visible.smallMenu">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-account-settings-40.png">
+    <!-- CONTENT -->
+    <div data-role="content" ng-controller="SettingsCtrl" class="content_container">
+        <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
+        <div class="content_left_subcontainer tablet_hide">
+            <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
+                <img src="./css/images/icons/icon-light-32.png" class="light_group_img no_padding" style="margin-top:8px">
+                <div class="main_menu_text panel">
+                    Lights & Groups
                 </div>
-            </div>
-
-            <div class="smallmenu_wrapper"  ng-click="sharedScope.submenu.openSubmenu(['smallMenu', 'lightSettings']); helpers.getFadingTimeFromBridge()"
-                 ng-if="sharedScope.submenu.visible.smallMenu">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-light-settings-40.png">
+            </a>
+            <a href="sceneoverview.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
+                <img src="./css/images/icons/icon-scene-32.png" class="light_group_img no_padding" style="margin-top:8px">
+                <div class="main_menu_text panel">
+                    Scenes
                 </div>
-            </div>
-
-            <div class="smallmenu_wrapper"  ng-click="sharedScope.submenu.openSubmenu(['smallMenu', 'voiceSettings'])"
-                ng-if="sharedScope.submenu.visible.smallMenu">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-micro-settings-40.png">
+            </a>
+            <a href="automation.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
+                <img src="./css/images/icons/icon-automation-32.png" class="light_group_img no_padding" style="margin-top:8px">
+                <div class="main_menu_text panel">
+                    Automation
                 </div>
-            </div>
-
-            <div class="smallmenu_wrapper"  ng-click="sharedScope.submenu.openSubmenu(['smallMenu', 'rfidSettings'])"
-                 ng-if="sharedScope.submenu.visible.smallMenu">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-rfid-settings-40.png">
+            </a>
+            <a href="party.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
+                <img src="./css/images/icons/icon-party-32.png" class="light_group_img no_padding" style="margin-top:8px">
+                <div class="main_menu_text panel">
+                    Party
                 </div>
-            </div>
-
-            <div class="smallmenu_wrapper"  ng-click="sharedScope.submenu.openSubmenu(['smallMenu', 'networkDevices'])"
-                 ng-if="sharedScope.submenu.visible.smallMenu">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-iphone-40.png">
+            </a>
+            <a href="settings.html" class="ui-btn main_menu_transparent_bg button main_menu_settings checked_menubox">
+                <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Settings
                 </div>
+            </a>
+            <!-- Settings Menu -->
+            <div style="padding-left: 20px;">
+                <a href="account.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
+                    <img src="./css/images/icons/icon-account-32.png" class="light_group_img no_padding">
+                    <div class="main_menu_settings_text panel">Account</div>
+                </a>
+                <a href="speech.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
+                    <img src="./css/images/icons/icon-speech-32.png" class="light_group_img no_padding">
+                    <div class="main_menu_settings_text panel">Speech</div>
+                </a>
+                <a href="rfid.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
+                    <img src="./css/images/icons/icon-rfid-32.png" class="light_group_img no_padding">
+                    <div class="main_menu_settings_text panel">RFID</div>
+                </a>
+                <a href="networkdevices.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
+                    <img src="./css/images/icons/icon-iphone-32.png" class="light_group_img no_padding">
+                    <div class="main_menu_settings_text panel">Network Devices</div>
+                </a>
             </div>
         </div>
 
-
-    <!-- SETTINGS DETAILS -->
-        <div style="clear:both; margin-top: 20px" ng-controller="SpeechCtrl">
-        <!-- ACCOUNT Settings - DETAILS -->
-            <div class="transparent_bg settings_details" ng-show="sharedScope.submenu.visible.accountSettings">
-                <div class="settings_headerline">
-                    <img src="./css/images/icons/icon-account-settings-60.png" style="float:left">Account Settings
+        <div class="index_wrapper tablet_show">
+            <a href="account.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-account-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Account
                 </div>
-
-                <h2 class="settings_subheader">Change Password</h2>
-                <form ng-submit="sharedScope.config.changePassword()" style="padding: 10px; font-weight: bold">
-
-                        <div ng-show="sharedScope.state.user.loginRequired">
-                            old password:
-                            <input type="password" ng-model="sharedScope.user.forms.password.oldPassword"/>
-                        </div>
-                        new password:
-                        <input type="password" ng-model="sharedScope.user.forms.password.newPassword" />
-                        repeat:
-                        <input type="password" ng-model="sharedScope.user.forms.password.newPassword2" />
-                    <div style="margin-top: 30px">
-                        <input type="submit" value="change" />
-                    </div>
-
-                <!-- NOTIFICATION -->
-                    <div class="notification" ng-show="sharedScope.user.forms.password.error === true">
-                        <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                        Old password is wrong!
-                    </div>
-                    <div class="notification" ng-show="sharedScope.user.forms.password.error === 'match'">
-                        <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                        The new passwords don't match!
-                    </div>
-                    <div class="notification" ng-show="sharedScope.user.forms.password.success">
-                        <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                        Password has been changed!
-                    </div>
-
-                </form>
-            </div>
-
-        <!-- LIGHT Settings - DETAILS -->
-            <div class="transparent_bg settings_details" ng-if="sharedScope.submenu.visible.lightSettings">
-                <div class="settings_headerline">
-                    <img src="./css/images/icons/icon-light-settings-60.png" style="float:left">Light Settings
+            </a>
+            <a href="speech.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-speech-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Speech
                 </div>
-                <h2 class="settings_subheader">Add Light</h2>
-                <div class="light_group" style="line-height: 35px;" ng-click="lights.search();
-                     sharedScope.submenu.openSubmenu(['smallMenu', 'lightSettings', 'searchLights'])" ng-if="!sharedScope.submenu.visible.searchLights">
-                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext
-                        ui-btn-inline"></span>
-                    Search for new lights...
+            </a>
+            <a href="rfid.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-rfid-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    RFID
                 </div>
-            <!-- NOTIFICATION -->
-                <div class="notification" ng-if="sharedScope.submenu.visible.searchLights">
-                    <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                    The bridge is looking for new lamps. They will be added automatically.
+            </a>
+            <a href="networkdevices.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-iphone-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Network Devices
                 </div>
-                <h2 class="settings_subheader">Fading Time</h2>
-                <div style="padding: 10px; font-weight: bold; text-align: center">
-                    <div hueper-slider model="sharedScope.state.appConfig.transition" min="0" max="100" class="slider-fading"></div>
-                    <div style="float:right; width:40%; padding-right: 10px;">
-                        <button ng-click="sharedScope.config.change(sharedScope.state.appConfig);">save</button>
-                    </div>
-                    <div style="width:60%; line-height:35px;padding-top:10px; padding-left: 10px; text-align: center">
-                        {{sharedScope.state.appConfig.transition/10}} seconds
-                    </div>
-                </div>
-            </div>
-
-        <!-- VOICE Settings - DETAILS -->
-            <div class="transparent_bg settings_details" ng-if="sharedScope.submenu.visible.voiceSettings">
-                <div class="settings_headerline">
-                    <img src="./css/images/icons/icon-micro-settings-60.png" style="float:left">Voice Settings
-                </div>
-
-                <h2 class="settings_subheader">Switch Status</h2>
-                <div hueper-checkbox="sharedScope.state.appConfig.speechRecognition" change="sharedScope.config.change({speechRecognition : value})">Speech Recognition</div>
-
-
-                <h2 class="settings_subheader">Choose Interpreter</h2>
-                <div class="settings_standard" style="vertical-align: middle">
-                    <div style="line-height: 30px">
-                        <input type="radio" value="julius" ng-model="sharedScope.state.appConfig.speechRecognitionEngine"
-                            ng-change="sharedScope.config.change(sharedScope.state.appConfig)"  style="margin-top: 5px">
-                        <div style="padding-left:50px;">Julius</div>
-                    </div>
-                    <div style="line-height: 30px">
-                        <input type="radio" value="google" ng-model="sharedScope.state.appConfig.speechRecognitionEngine"
-                               ng-change="sharedScope.config.change(sharedScope.state.appConfig)" style="margin-top: 3px">
-                        <div style="padding-left:50px;">Google</div>
-                    </div>
-                </div>
-
-                <h2 class="settings_subheader">Sensitivity</h2>
-                <div class="settings_standard">
-                    <div hueper-slider model="sharedScope.state.appConfig.speechSensitivity" min="0" max="100" class="slider-fading"></div>
-                    <div style="float:right; width:40%; padding-right: 10px;">
-                        <button ng-click="sharedScope.config.change(sharedScope.state.appConfig);">Save</button>
-                    </div>
-                    <div style="width:60%; line-height:35px;padding-top:10px; padding-left: 10px; text-align: center">
-                        {{sharedScope.state.appConfig.speechSensitivity}} %
-                    </div>
-                </div>
-
-                <h2  class="settings_subheader">Test Mode</h2>
-                <button style="vertical-align: middle; line-height: 32px; padding:7px" ng-show="!sharedScope.state.speech.testMode"
-                        ng-click="speech.activateTestMode()">
-                    <img src="./css/images/icons/icon-testmode-settings-32.png" class="light_group_img no_padding">
-                    Start
-                </button>
-                <div ng-show="sharedScope.state.speech.testMode" class="settings_standard" style="line-height: 10px">
-                    <p>Test mode is running for 60 seconds ...</p>
-                    <p>"{{sharedScope.state.speech.recognized}}"</p>
-                </div>
-            </div>
-
-
-        <!-- RFID Settings - DETAILS -->
-            <div class="transparent_bg settings_details" ng-if="sharedScope.submenu.visible.rfidSettings">
-                <div class="settings_headerline">
-                    <img src="./css/images/icons/icon-rfid-settings-60.png" style="float:left">RFID Settings
-                </div>
-
-                <!-- KNOWN RFID list -->
-                <h2>Known RFID Tags</h2>
-                <div class="light_group transparent_bg" style="margin:8px" ng-repeat="id in sharedScope.state.rfid">
-                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                        ui-btn-inline light_group_a" style="margin-top: 27px" ng-click="sharedScope.rfid.remove(id)"></span>
-                    <div style="float: left; line-height: 20px; text-align: left; padding-left:5px"  >
-                        <p>Name</p>
-                        <p>Last Usage</p>
-                    </div>
-                    <div style="line-height: 20px; width: 80%">
-                        <p>{{id.name}}</p>
-                        <p>{{id.lastUsed}}</p>
-                    </div>
-                </div>
-
-
-                <!-- UNKNOWN RFID list -->
-                    <div style="padding-top: 25px">
-                        <h2>Unknown RFID Tags</h2>
-                    </div>
-                    <div class="light_group " style="margin:8px; line-height: 30px; height:30px;"
-                         ng-repeat="id in sharedScope.state.rfidUnknown">
-                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                                 ui-btn-inline" style="float: right;margin-top: 0px"></span>
-                        <div ng-click="sharedScope.submenu.openSubmenu(['rfidSettings', 'smallMenu', 'addRfidTag'])">
-                            <div style="float: left; text-align: left; line-height: 30px; padding-left: 5px">
-                                ID
-                            </div>
-                            <div style="line-height: 30px; width: 80%">
-                                {{id}}
-                            </div>
-                        </div>
-                    </div>
-                <button ng-click="sharedScope.rfid.reset()" style="padding: 7px">Reset Unknown List</button>
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!-- NETWORK Devices - DETAILS -->
-            <div class="transparent_bg settings_details" ng-if="sharedScope.submenu.visible.networkDevices">
-                <div class="settings_headerline">
-                    <img src="./css/images/icons/icon-iphone-60.png" style="float:left">Network Devices
-                </div>
-            </div>
-
+            </a>
         </div>
-
-
-
-    <!-- SUBMENU - add RFID to KNOWN -->
-        <div ng-if="sharedScope.submenu.visible.addRfidTag">
-            <div class="overlap" ng-click="sharedScope.submenu.closeSubmenu(); sharedScope.submenu.openSubmenu(['rfidSettings', 'smallMenu'])"></div>
-            <div class="overlap_content">
-                <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu(); sharedScope.submenu.openSubmenu(['rfidSettings', 'smallMenu'])">
-                    <img src="css/images/icons/icon-arrow-down.png">
-                </div>
-                <div style="text-align: center; color: #f9efed">Please enter a name...</div>
-                <div style="padding:20px">
-
-
-
-
-                    <form ng-init="tag = { tag: sharedScope.state.rfid.id }"
-                          ng-submit="sharedScope.rfid.create(sharedScope.state.rfid.tag)">
-                        <input type="text" ng-model="sharedScope.state.rfid.tag.name" />
-                        <input type="submit" class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button" value="Save">
-                    </form>
-
-
-
-                </div>
-            </div>
-        </div>
-
-
-
-
     </div>
 </div>
 </body>
