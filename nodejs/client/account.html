@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="de" ng-app="hueApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SmartLights</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/redtheme.css"/>
+    <link rel="stylesheet" href="./css/jquery.mobile.icons-1.4.0.css"/>
+    <link rel="stylesheet" href="./css/jquery.mobile.structure-1.4.0.css"/>
+
+    <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
+
+    <!-- JavaScript -->
+    <script src="./js/scripts/jquery-1.10.2.js"></script>
+    <script src="./js/scripts/jquery.mobile-1.4.0.js"></script>
+    <script src="./js/scripts/angular-1.3.0-beta.js"></script>
+    <script src="./js/scripts/angular-route.js"></script>
+    <script src="./js/scripts/jqm-angular-adapter-modified.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Controller -->
+    <script src="./js/app.js"></script>
+    <script src="./js/controllers.js"></script>
+    <script src="./js/filters.js"></script>
+    <script src="./js/services.js"></script>
+    <script src="./js/directives.js"></script>
+    <script src="./js/controllers/lightandgroupctrl.js"></script>
+    <script src="./js/controllers/partyctrl.js"></script>
+    <script src="./js/controllers/scenectrl.js"></script>
+    <script src="./js/controllers/speechctrl.js"></script>
+
+    <!-- Favicon and Touch-Icons -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link rel="apple-touch-icon-precomposed" sizes="152x152"
+          href="css/images/touch/152.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120"
+          href="css/images/touch/120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76"
+          href="css/images/touch/76.png" />
+    <link rel="apple-touch-icon-precomposed"
+          href="css/images/touch/57.png" />
+
+    <meta name="msapplication-TileImage"
+          content="css/images/touch/256.png" />
+    <meta name="msapplication-TileColor" content="#141414" />
+
+</head>
+<body>
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl"  class="background_stars" data-theme="b">
+    <!-- HEADER -->
+    <div data-role="header" data-position="fixed" style="position: fixed">
+        <div class="header_container tablet_hide">
+            <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
+                 ng-show="sharedScope.state.user.loginRequired">
+            <h1 class="ui-title">Smart Lights</h1>
+        </div>
+        <!---------------------------------------- MOBILE MAINMENU ---------------------------------------------------->
+        <div class="tablet_show mobile_menu_wrapper">
+            <a href="lightandgroup.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-light-40.png">
+                </div>
+            </a>
+            <a href="sceneoverview.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-scene-40.png">
+                </div>
+            </a>
+            <a href="automation.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-automation-40.png">
+                </div>
+            </a>
+            <a href="party.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-party-40.png">
+                </div>
+            </a>
+            <a href="settings.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-settings-dark-40.png">
+                </div>
+            </a>
+        </div>
+    </div>
+
+
+    <!-- CONTENT -->
+    <div data-role="content" class="content_container">
+        <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
+        <div class="content_left_subcontainer tablet_hide">
+            <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Lights & Groups
+                </div>
+            </a>
+            <a href="sceneoverview.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-scene-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Scenes
+                </div>
+            </a>
+            <a href="automation.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-automation-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Automation
+                </div>
+            </a>
+            <a href="party.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-party-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Party
+                </div>
+            </a>
+            <a href="settings.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Settings
+                </div>
+            </a>
+            <!-- Settings Menu -->
+            <div style="padding-left: 20px;">
+                <a href="account.html" class="ui-btn main_menu_transparent_bg button main_menu_settings checked_menubox">
+                    <img src="./css/images/icons/icon-account-32.png" class="light_group_img no_padding">
+                    <div class="main_menu_settings_text panel">Account</div>
+                </a>
+                <a href="speech.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
+                    <img src="./css/images/icons/icon-speech-32.png" class="light_group_img no_padding">
+                    <div class="main_menu_settings_text panel">Speech</div>
+                </a>
+                <a href="rfid.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
+                    <img src="./css/images/icons/icon-rfid-32.png" class="light_group_img no_padding">
+                    <div class="main_menu_settings_text panel">RFID</div>
+                </a>
+                <a href="networkdevices.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
+                    <img src="./css/images/icons/icon-iphone-32.png" class="light_group_img no_padding">
+                    <div class="main_menu_settings_text panel">Network Devices</div>
+                </a>
+            </div>
+
+            <!----------------------------------------  NOTIFICATIONS ------------------------------------------------->
+            <div class="notification" ng-show="sharedScope.user.forms.password.error === true">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                Old password is wrong.
+            </div>
+            <div class="notification" ng-show="sharedScope.user.forms.password.error === 'match'">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                The new passwords don't match.
+            </div>
+            <div class="notification" ng-show="sharedScope.user.forms.password.success">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                Password has been changed.
+            </div>
+            <div class="notification" ng-if="sharedScope.submenu.visible.searchLights">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                If there are new lights, they will be added automatically.
+            </div>
+        </div>
+
+
+        <div class="content_right_subcontainer ">
+            <!-- Settings Mobile Menu-->
+            <div class="subcontent_a tablet_show" style="padding-top: 0px">
+                <!-- SMALL SETTINGS MENU -->
+                <div class="mobile_menu_wrapper">
+                    <a href="account.html" class="smallmenu_wrapper">
+                        <div class="smallmenu_icon">
+                            <img src="./css/images/icons/icon-account-dark-40.png">
+                        </div>
+                    </a>
+                    <a href="speech.html" class="smallmenu_wrapper">
+                        <div class="smallmenu_icon">
+                            <img src="./css/images/icons/icon-speech-40.png">
+                        </div>
+                    </a>
+                    <a href="rfid.html" class="smallmenu_wrapper">
+                        <div class="smallmenu_icon">
+                            <img src="./css/images/icons/icon-rfid-40.png">
+                        </div>
+                    </a>
+                    <a href="networkdevices.html" class="smallmenu_wrapper">
+                        <div class="smallmenu_icon">
+                            <img src="./css/images/icons/icon-iphone-40.png">
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+            <!----------------------------------------  NOTIFICATIONS ------------------------------------------------->
+            <div class="notification tablet_show" ng-show="sharedScope.user.forms.password.error === true">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                Old password is wrong.
+            </div>
+            <div class="notification tablet_show" ng-show="sharedScope.user.forms.password.error === 'match'">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                The new passwords don't match.
+            </div>
+            <div class="notification tablet_show" ng-show="sharedScope.user.forms.password.success">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                Password has been changed.
+            </div>
+            <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.searchLights">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                If there are new lights, they will be added automatically.
+            </div>
+
+            <!-- Change Password-->
+            <div class="subcontent_b">
+                <div class="transparent_bg listing_box">
+                    <img src="./css/images/icons/icon-menu-logout.png" style="float:right" ng-click="sharedScope.user.logout()"
+                         ng-show="sharedScope.state.user.loginRequired"></span>
+                    <h2 class="listing_box_title">Change Password</h2>
+                    <form ng-submit="sharedScope.config.changePassword()" style="padding: 10px; font-weight: bold">
+
+                        <div ng-show="sharedScope.state.user.loginRequired">
+                            old password:
+                            <input type="password" ng-model="sharedScope.user.forms.password.oldPassword"/>
+                        </div>
+                        new password:
+                        <input type="password" ng-model="sharedScope.user.forms.password.newPassword" />
+                        repeat:
+                        <input type="password" ng-model="sharedScope.user.forms.password.newPassword2" />
+                        <div style="margin-top: 30px">
+                            <input type="submit" value="change" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Add Light, Fading Time -->
+            <div class="subcontent_c">
+                <div class="transparent_bg listing_box">
+                    <h2 class="listing_box_title">Add Light</h2>
+
+                    <div class="light_group" style="line-height: 35px;" ng-click="lights.search();sharedScope.submenu.openSubmenu('searchLights')">
+                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext
+                        ui-btn-inline"></span>
+                        Search for new lights...
+                    </div>
+
+                    <h2 class="listing_box_title">Fading Time</h2>
+                    <div style="padding: 10px; font-weight: bold; text-align: center">
+                        <div hueper-slider model="sharedScope.state.appConfig.transition" min="0" max="100" class="slider-fading"></div>
+                        <div style="float:right; width:40%; padding-right: 10px;">
+                            <button ng-click="sharedScope.config.change(sharedScope.state.appConfig);">save</button>
+                        </div>
+                        <div style="width:60%; line-height:35px;padding-top:10px; padding-left: 10px; text-align: center">
+                            {{sharedScope.state.appConfig.transition/10}} seconds
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -288,7 +288,14 @@ controller('IndexCtrl', [function() {
         if(window.innerWidth > 1100){
             window.location.href = 'lightandgroup.html';
         }
-}]);
+}]).
 
+
+
+controller('SettingsCtrl', [function() {
+    if(window.innerWidth > 1100){
+        window.location.href = 'account.html';
+    }
+}]);
 
 

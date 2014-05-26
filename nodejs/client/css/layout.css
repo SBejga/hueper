@@ -85,7 +85,7 @@
 }
 
 .subcontent_e{
-    width: 100%;
+    width: 20%;
     overflow:hidden;
 }
 
@@ -189,6 +189,19 @@ button:active{
     padding-top: 6px;
     margin-bottom: 0px !important;
     background-color: rgba(236, 236, 236, 0) !important;
+}
+
+.main_menu_settings_text{
+    font-size:15px;
+    padding-top: 6px;
+    margin-bottom: 0px !important;
+    background-color: rgba(236, 236, 236, 0) !important;
+
+}
+
+.main_menu_settings{
+    padding-bottom: 0px;
+    padding-top: 0px;
 }
 
 .mobile_menu_wrapper{
@@ -433,25 +446,7 @@ button:active{
     font-weight: bold;
 }
 
-.settings_headerline{
-    font-weight: bold;
-    line-height: 50px;
-    vertical-align: middle;
-    text-align: center;
 
-}
-
-.settings_subheader{
-    margin-top:25px;
-    margin-bottom:5px;
-
-}
-
-.settings_details{
-    padding:8px;
-    overflow:hidden;
-
-}
 
 .settings_standard{
     padding: 10px;
