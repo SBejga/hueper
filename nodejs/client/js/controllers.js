@@ -282,13 +282,23 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             $scope.submenu.closeSubmenu();
     });
 
-    /*
-    $scope.$watch('bridgeConnection', function(){
-       if(($location.absUrl().toString().indexOf("connection") < 0) && (!$scope.state.connect.hue || !$scope.state.connect.hueRegistered || !$scope.state.connect.mongodb )){
+
+    $scope.$watch('state.connect', function(){
+        if($scope.state.connect.hue === undefined){
+            return;
+        }
+        var i = $location.absUrl().toString().indexOf("connection");
+        var connectstate = (!$scope.state.connect.hue || !$scope.state.connect.hueRegistered || !$scope.state.connect.mongodb );
+        if((i < 0) && connectstate){
             $window.location.href = 'connection.html';
         }
-    });
-    */
+        else if((i > 0) && !connectstate){
+           $window.location.href = 'index.html';
+        }
+
+
+    }, true);
+
 }]).
 
 

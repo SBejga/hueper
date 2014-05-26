@@ -126,9 +126,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4.0000001"
-     inkscape:cx="-125.76041"
-     inkscape:cy="18.046416"
+     inkscape:zoom="2.8284272"
+     inkscape:cx="-52.087061"
+     inkscape:cy="-92.019495"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -1388,7 +1388,7 @@
     <path
        inkscape:export-ydpi="112.5"
        inkscape:export-xdpi="112.5"
-       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-iphone-40.png"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-iphone-dark-40.png"
        transform="matrix(1.1851851,0,0,1.1851851,-75.48148,1144.3252)"
        d="M 35,24.5 C 35,31.955844 28.955844,38 21.5,38 14.044156,38 8,31.955844 8,24.5 8,17.044156 14.044156,11 21.5,11 28.955844,11 35,17.044156 35,24.5 z"
        sodipodi:ry="13.5"
@@ -1396,7 +1396,7 @@
        sodipodi:cy="24.5"
        sodipodi:cx="21.5"
        id="path3133"
-       style="fill:#a00000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       style="fill:#800000;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-opacity:1"
        sodipodi:type="arc" />
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:none"
@@ -1407,21 +1407,21 @@
        y="1162.3622"
        rx="1"
        ry="1"
-       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-iphone-40.png"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-iphone-dark-40.png"
        inkscape:export-xdpi="112.5"
        inkscape:export-ydpi="112.5" />
     <path
-       style="fill:#a00000;fill-opacity:1;stroke:none"
+       style="fill:#800000;fill-opacity:1;stroke:none"
        d="m -55,1165.3622 10,0 0,15 -10,0 z"
        id="path3909"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc"
-       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-iphone-40.png"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-iphone-dark-40.png"
        inkscape:export-xdpi="112.5"
        inkscape:export-ydpi="112.5" />
     <path
        sodipodi:type="arc"
-       style="fill:#a00000;fill-opacity:1;stroke:none"
+       style="fill:#800000;fill-opacity:1;stroke:none"
        id="path3915"
        sodipodi:cx="16"
        sodipodi:cy="23"
@@ -1429,11 +1429,11 @@
        sodipodi:ry="1"
        d="m 17,23 c 0,0.552285 -0.447715,1 -1,1 -0.552285,0 -1,-0.447715 -1,-1 0,-0.552285 0.447715,-1 1,-1 0.552285,0 1,0.447715 1,1 z"
        transform="translate(-66,1159.3622)"
-       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-iphone-40.png"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-iphone-dark-40.png"
        inkscape:export-xdpi="112.5"
        inkscape:export-ydpi="112.5" />
     <rect
-       style="fill:#a00000;fill-opacity:1;stroke:none"
+       style="fill:#800000;fill-opacity:1;stroke:none"
        id="rect3927"
        width="4"
        height="0.5"
@@ -1441,7 +1441,7 @@
        y="1163.3622"
        rx="0.5"
        ry="0.25"
-       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-iphone-40.png"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-iphone-dark-40.png"
        inkscape:export-xdpi="112.5"
        inkscape:export-ydpi="112.5" />
     <rect
@@ -1453,7 +1453,7 @@
        y="1181.8761"
        rx="0.16666378"
        ry="0.083330445"
-       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-iphone-40.png"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-iphone-dark-40.png"
        inkscape:export-xdpi="112.5"
        inkscape:export-ydpi="112.5" />
     <path
@@ -1652,9 +1652,9 @@
          id="tspan3962"
          sodipodi:role="line">?!</tspan></text>
     <path
-       inkscape:export-ydpi="168.75002"
-       inkscape:export-xdpi="168.75002"
-       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-60.png"
+       inkscape:export-ydpi="111.19421"
+       inkscape:export-xdpi="111.19421"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-dark-40.png"
        transform="matrix(1.1851851,0,0,1.1851851,-161.48148,1091.3252)"
        d="M 35,24.5 C 35,31.955844 28.955844,38 21.5,38 14.044156,38 8,31.955844 8,24.5 8,17.044156 14.044156,11 21.5,11 28.955844,11 35,17.044156 35,24.5 z"
        sodipodi:ry="13.5"
@@ -1662,7 +1662,7 @@
        sodipodi:cy="24.5"
        sodipodi:cx="21.5"
        id="path3159"
-       style="fill:#a00000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       style="fill:#800000;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-opacity:1;stroke-width:0.99984382;stroke-miterlimit:4;stroke-dasharray:none"
        sodipodi:type="arc" />
     <rect
        style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
@@ -1671,27 +1671,27 @@
        height="3"
        x="-138"
        y="1117.3622"
-       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-60.png"
-       inkscape:export-xdpi="168.75002"
-       inkscape:export-ydpi="168.75002" />
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-dark-40.png"
+       inkscape:export-xdpi="111.19421"
+       inkscape:export-ydpi="111.19421" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:none"
        d="m -135,1119.3622 2,0 0,-5 -6,0 -2,2 c 0,2.3333 0,3.6667 0,6 l 10,0 0,-10 -9,0 -3,3 0,9 14,0 0,-1 -13,0 0,-8 2,-2 8,0 0,8 -8,0 0,-5 1,-1 5,0 0,3 -1,0 z"
        id="path3933"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccccccccccccccccccc"
-       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-60.png"
-       inkscape:export-xdpi="168.75002"
-       inkscape:export-ydpi="168.75002" />
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-dark-40.png"
+       inkscape:export-xdpi="111.19421"
+       inkscape:export-ydpi="111.19421" />
     <path
        style="fill:none;stroke:#ffffff;stroke-width:1.13281107px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m -141.66405,1110.4325 -3.39844,3.3985 0,12.4609 18.12498,0 0,-15.8594 z"
        id="path3944"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccc"
-       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-60.png"
-       inkscape:export-xdpi="168.75002"
-       inkscape:export-ydpi="168.75002" />
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-dark-40.png"
+       inkscape:export-xdpi="111.19421"
+       inkscape:export-ydpi="111.19421" />
     <text
        xml:space="preserve"
        style="font-size:21.05454445px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
@@ -1699,9 +1699,9 @@
        y="1133.3622"
        id="text3946"
        sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-60.png"
-       inkscape:export-xdpi="168.75002"
-       inkscape:export-ydpi="168.75002"><tspan
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-dark-40.png"
+       inkscape:export-xdpi="111.19421"
+       inkscape:export-ydpi="111.19421"><tspan
          sodipodi:role="line"
          id="tspan3948"
          x="-142.20816"
@@ -2201,7 +2201,7 @@
        inkscape:export-xdpi="112.5"
        inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-light-transparent-40.png"
        transform="matrix(1.1851851,0,0,1.1851851,-272.08036,1006.682)"
-       d="m 35,24.5 a 13.5,13.5 0 1 1 -27,0 13.5,13.5 0 1 1 27,0 z"
+       d="M 35,24.5 C 35,31.955844 28.955844,38 21.5,38 14.044156,38 8,31.955844 8,24.5 8,17.044156 14.044156,11 21.5,11 28.955844,11 35,17.044156 35,24.5 z"
        sodipodi:ry="13.5"
        sodipodi:rx="13.5"
        sodipodi:cy="24.5"
@@ -2249,7 +2249,7 @@
        sodipodi:cy="24.5"
        sodipodi:rx="13.5"
        sodipodi:ry="13.5"
-       d="m 35,24.5 a 13.5,13.5 0 1 1 -27,0 13.5,13.5 0 1 1 27,0 z"
+       d="M 35,24.5 C 35,31.955844 28.955844,38 21.5,38 14.044156,38 8,31.955844 8,24.5 8,17.044156 14.044156,11 21.5,11 28.955844,11 35,17.044156 35,24.5 z"
        transform="matrix(1.1851851,0,0,1.1851851,-9.4814796,1007.3252)"
        inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-scene-dark-40.png"
        inkscape:export-xdpi="112.5"
@@ -2463,7 +2463,7 @@
        inkscape:export-xdpi="421.875"
        inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-pausescene-150.png"
        transform="matrix(1.1851851,0,0,1.1851851,-229.48148,1042.9502)"
-       d="m 35,24.5 a 13.5,13.5 0 1 1 -27,0 13.5,13.5 0 1 1 27,0 z"
+       d="M 35,24.5 C 35,31.955844 28.955844,38 21.5,38 14.044156,38 8,31.955844 8,24.5 8,17.044156 14.044156,11 21.5,11 28.955844,11 35,17.044156 35,24.5 z"
        sodipodi:ry="13.5"
        sodipodi:rx="13.5"
        sodipodi:cy="24.5"
@@ -2680,7 +2680,7 @@
        inkscape:export-xdpi="421.875"
        inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-pausescene-150.png"
        transform="translate(-206.5,1070.9872)"
-       d="m 11,1.5 a 8.5,8.5 0 1 1 -17,0 8.5,8.5 0 1 1 17,0 z"
+       d="M 11,1.5 C 11,6.1944204 7.1944204,10 2.5,10 -2.1944204,10 -6,6.1944204 -6,1.5 -6,-3.1944204 -2.1944204,-7 2.5,-7 7.1944204,-7 11,-3.1944204 11,1.5 z"
        sodipodi:ry="8.5"
        sodipodi:rx="8.5"
        sodipodi:cy="1.5"
@@ -2719,7 +2719,7 @@
        sodipodi:cy="24.5"
        sodipodi:rx="13.5"
        sodipodi:ry="13.5"
-       d="m 35,24.5 a 13.5,13.5 0 1 1 -27,0 13.5,13.5 0 1 1 27,0 z"
+       d="M 35,24.5 C 35,31.955844 28.955844,38 21.5,38 14.044156,38 8,31.955844 8,24.5 8,17.044156 14.044156,11 21.5,11 28.955844,11 35,17.044156 35,24.5 z"
        transform="matrix(1.1851851,0,0,1.1851851,-109.48148,934.82516)" />
     <g
        inkscape:export-ydpi="112"
@@ -2748,7 +2748,7 @@
        inkscape:export-xdpi="90.000008"
        inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-account-32.png"
        transform="matrix(1.1851851,0,0,1.1851851,-70.981481,964.5752)"
-       d="m 35,24.5 a 13.5,13.5 0 1 1 -27,0 13.5,13.5 0 1 1 27,0 z"
+       d="M 35,24.5 C 35,31.955844 28.955844,38 21.5,38 14.044156,38 8,31.955844 8,24.5 8,17.044156 14.044156,11 21.5,11 28.955844,11 35,17.044156 35,24.5 z"
        sodipodi:ry="13.5"
        sodipodi:rx="13.5"
        sodipodi:cy="24.5"
@@ -2761,7 +2761,7 @@
        inkscape:export-xdpi="90.000008"
        inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-account-32.png"
        transform="matrix(1.747369,0,0,1.747369,-69.089481,966.8859)"
-       d="m 16,11.5 a 2.5,2.5 0 1 1 -5,0 2.5,2.5 0 1 1 5,0 z"
+       d="M 16,11.5 C 16,12.880712 14.880712,14 13.5,14 12.119288,14 11,12.880712 11,11.5 11,10.119288 12.119288,9 13.5,9 14.880712,9 16,10.119288 16,11.5 z"
        sodipodi:ry="2.5"
        sodipodi:rx="2.5"
        sodipodi:cy="11.5"
@@ -2783,7 +2783,7 @@
        inkscape:export-xdpi="112.50001"
        inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-speech-40.png"
        transform="matrix(1.1851851,0,0,1.1851851,-22.731482,1113.8252)"
-       d="m 35,24.5 a 13.5,13.5 0 1 1 -27,0 13.5,13.5 0 1 1 27,0 z"
+       d="M 35,24.5 C 35,31.955844 28.955844,38 21.5,38 14.044156,38 8,31.955844 8,24.5 8,17.044156 14.044156,11 21.5,11 28.955844,11 35,17.044156 35,24.5 z"
        sodipodi:ry="13.5"
        sodipodi:rx="13.5"
        sodipodi:cy="24.5"
@@ -2802,14 +2802,14 @@
        sodipodi:cy="9.5"
        sodipodi:rx="2.5"
        sodipodi:ry="2.5"
-       d="m 16,9.5 a 2.5,2.5 0 1 1 -5,0 2.5,2.5 0 1 1 5,0 z"
+       d="M 16,9.5 C 16,10.880712 14.880712,12 13.5,12 12.119288,12 11,10.880712 11,9.5 11,8.1192881 12.119288,7 13.5,7 14.880712,7 16,8.1192881 16,9.5 z"
        transform="matrix(1.2,0,0,1.2,-13.450002,1123.4622)" />
     <path
        inkscape:export-ydpi="112.50001"
        inkscape:export-xdpi="112.50001"
        inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-speech-40.png"
        transform="matrix(1.2,0,0,1.2,-13.450002,1128.4622)"
-       d="m 16,9.5 a 2.5,2.5 0 1 1 -5,0 2.5,2.5 0 1 1 5,0 z"
+       d="M 16,9.5 C 16,10.880712 14.880712,12 13.5,12 12.119288,12 11,10.880712 11,9.5 11,8.1192881 12.119288,7 13.5,7 14.880712,7 16,8.1192881 16,9.5 z"
        sodipodi:ry="2.5"
        sodipodi:rx="2.5"
        sodipodi:cy="9.5"
@@ -2859,7 +2859,7 @@
        sodipodi:cy="24.5"
        sodipodi:rx="13.5"
        sodipodi:ry="13.5"
-       d="m 35,24.5 a 13.5,13.5 0 1 1 -27,0 13.5,13.5 0 1 1 27,0 z"
+       d="M 35,24.5 C 35,31.955844 28.955844,38 21.5,38 14.044156,38 8,31.955844 8,24.5 8,17.044156 14.044156,11 21.5,11 28.955844,11 35,17.044156 35,24.5 z"
        transform="matrix(1.1851851,0,0,1.1851851,-66.231481,1108.3252)"
        inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-rfid-40.png"
        inkscape:export-xdpi="112.50001"
@@ -2906,5 +2906,169 @@
        id="path4718"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccscczc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#800000;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-opacity:1"
+       id="path4071"
+       sodipodi:cx="21.5"
+       sodipodi:cy="24.5"
+       sodipodi:rx="13.5"
+       sodipodi:ry="13.5"
+       d="m 35,24.5 a 13.5,13.5 0 1 1 -27,0 13.5,13.5 0 1 1 27,0 z"
+       transform="matrix(1.1851851,0,0,1.1851851,-35.481482,963.3252)"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-account-dark-40.png"
+       inkscape:export-xdpi="111.19421"
+       inkscape:export-ydpi="111.19421" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       id="path4073"
+       sodipodi:cx="13.5"
+       sodipodi:cy="11.5"
+       sodipodi:rx="2.5"
+       sodipodi:ry="2.5"
+       d="m 16,11.5 a 2.5,2.5 0 1 1 -5,0 2.5,2.5 0 1 1 5,0 z"
+       transform="matrix(1.747369,0,0,1.747369,-33.589482,965.6359)"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-account-dark-40.png"
+       inkscape:export-xdpi="111.19421"
+       inkscape:export-ydpi="111.19421" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       d="m -10.101927,991.3471 c 3.7443621,0 4.9924831,-2.4962 4.9924831,-2.4962 0,0 1.248122,0 2.496242,1.2481 1.24812,1.2481 1.13628,9.8882 1.13628,9.8882 l -17.0000011,0 c 0,0 -0.361849,-8.6401 0.886272,-9.8882 1.24812,-1.2481 2.496241,-1.2481 2.496241,-1.2481 0,0 1.248121,2.4962 4.992483,2.4962 z"
+       id="path4075"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="zczcczcz"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-account-dark-40.png"
+       inkscape:export-xdpi="111.19421"
+       inkscape:export-ydpi="111.19421" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#800000;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-opacity:1;stroke-width:0.99984382;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path4077"
+       sodipodi:cx="21.5"
+       sodipodi:cy="24.5"
+       sodipodi:rx="13.5"
+       sodipodi:ry="13.5"
+       d="m 35,24.5 a 13.5,13.5 0 1 1 -27,0 13.5,13.5 0 1 1 27,0 z"
+       transform="matrix(1.1851851,0,0,1.1851851,-19.481482,1147.3252)"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-speech-dark-40.png"
+       inkscape:export-xdpi="112.50001"
+       inkscape:export-ydpi="112.50001" />
+    <path
+       transform="matrix(1.2,0,0,1.2,-10.200002,1156.9622)"
+       d="m 16,9.5 a 2.5,2.5 0 1 1 -5,0 2.5,2.5 0 1 1 5,0 z"
+       sodipodi:ry="2.5"
+       sodipodi:rx="2.5"
+       sodipodi:cy="9.5"
+       sodipodi:cx="13.5"
+       id="path4079"
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       sodipodi:type="arc"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-speech-dark-40.png"
+       inkscape:export-xdpi="112.50001"
+       inkscape:export-ydpi="112.50001" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       id="path4081"
+       sodipodi:cx="13.5"
+       sodipodi:cy="9.5"
+       sodipodi:rx="2.5"
+       sodipodi:ry="2.5"
+       d="m 16,9.5 a 2.5,2.5 0 1 1 -5,0 2.5,2.5 0 1 1 5,0 z"
+       transform="matrix(1.2,0,0,1.2,-10.200002,1161.9622)"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-speech-dark-40.png"
+       inkscape:export-xdpi="112.50001"
+       inkscape:export-ydpi="112.50001" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path4083"
+       d="m 8.9999976,1168.3622 0,5 -6,0 0,-5 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-speech-dark-40.png"
+       inkscape:export-xdpi="112.50001"
+       inkscape:export-ydpi="112.50001" />
+    <path
+       sodipodi:nodetypes="czccccc"
+       inkscape:connector-curvature="0"
+       id="path4085"
+       d="m 1.9999976,1172.3622 c 0,0 0,5 4,5 4,0 4,-5 4,-5 l 1.0000004,0 c 0,0 0,6 -5.0000004,6 -4.99999998,0 -4.99999998,-6 -4.99999998,-6 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-speech-dark-40.png"
+       inkscape:export-xdpi="112.50001"
+       inkscape:export-ydpi="112.50001" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="path4087"
+       d="m 4.9999976,1177.3622 0,7 2,0 0,-7 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-speech-dark-40.png"
+       inkscape:export-xdpi="112.50001"
+       inkscape:export-ydpi="112.50001" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path4089"
+       d="m 1.9999976,1184.3622 8,0 0,1 -8,0 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-speech-dark-40.png"
+       inkscape:export-xdpi="112.50001"
+       inkscape:export-ydpi="112.50001" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#a00000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99984384000000004;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path4091"
+       sodipodi:cx="21.5"
+       sodipodi:cy="24.5"
+       sodipodi:rx="13.5"
+       sodipodi:ry="13.5"
+       d="m 35,24.5 a 13.5,13.5 0 1 1 -27,0 13.5,13.5 0 1 1 27,0 z"
+       transform="matrix(1.1851851,0,0,1.1851851,-168.19899,1051.0201)"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-32.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-32.png"
+       y="1077.0571"
+       x="-144.71751"
+       height="3"
+       width="3"
+       id="rect4093"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-32.png"
+       sodipodi:nodetypes="ccccccccccccccccccccccccc"
+       inkscape:connector-curvature="0"
+       id="path4095"
+       d="m -141.71751,1079.0571 2,0 0,-5 -6,0 -2,2 c 0,2.3333 0,3.6667 0,6 l 10,0 0,-10 -9,0 -3,3 0,9 14,0 0,-1 -13,0 0,-8 2,-2 8,0 0,8 -8,0 0,-5 1,-1 5,0 0,3 -1,0 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:none" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-32.png"
+       sodipodi:nodetypes="cccccc"
+       inkscape:connector-curvature="0"
+       id="path4097"
+       d="m -148.38156,1070.1274 -3.39844,3.3985 0,12.4609 18.12498,0 0,-15.8594 z"
+       style="fill:none;stroke:#ffffff;stroke-width:1.13281107px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <text
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icon-rfid-32.png"
+       sodipodi:linespacing="125%"
+       id="text4099"
+       y="1093.0571"
+       x="-148.92567"
+       style="font-size:21.05454445px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         style="font-size:5.26363611px;fill:#ffffff;fill-opacity:1"
+         y="1093.0571"
+         x="-148.92567"
+         id="tspan4101"
+         sodipodi:role="line">RFID</tspan></text>
   </g>
 </svg>

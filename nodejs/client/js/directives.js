@@ -1179,7 +1179,7 @@ directive('hueperCheckbox', function(){
                 }
                 else{
                     scope.$watch('list', function(){
-                        if(scope.list.indexOf(scope.hueperCheckbox) > -1){
+                        if(scope.list.indexOf(parseInt(scope.hueperCheckbox)) > -1){
                             scope.show = true;
                         }
                         else{

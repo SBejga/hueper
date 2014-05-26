@@ -8,6 +8,7 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
     $scope.scenes = {
 
         selectedSceneId:0,
+        selectedArrayId:0,
         selectedLightId:0,
         activatedScene:0,
 
@@ -26,12 +27,8 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
             $scope.sharedScope.submenu.closeSubmenu();
         },
 
-        update: function(sceneId, scene) {
-            socket.emit('scene.update', {
-                id: sceneId,
-                name: scene.name,
-                lights: scene.lights
-            });
+        update: function(scene) {
+            socket.emit('scene.update', scene);
         },
 
         remove: function(id) {
@@ -43,6 +40,9 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
 
         setSelectedSceneId: function(sceneId){
             $scope.scenes.selectedSceneId = sceneId;
+        },
+        setSelectedArrayId: function(sceneId){
+            $scope.scenes.selectedArrayId = sceneId;
         },
         setSelectedLightId: function(lightId){
             $scope.scenes.selectedLightId = lightId;
@@ -56,10 +56,10 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
             else{
                 $scope.scenes.setSelectedLightId(lightId);
                 if($scope.state.scenes[$scope.scenes.selectedSceneId].lights.length === 1){
-                    $scope.sharedScope.submenu.openSubmenu('deleteLastLightFromScene');
+                    $scope.sharedScope.submenu.openSubmenu(['openScene','deleteLastLightFromScene']);
                 }
                 else{
-                    $scope.sharedScope.submenu.openSubmenu('deleteLightFromScene');
+                    $scope.sharedScope.submenu.openSubmenu(['openScene', 'deleteLightFromScene']);
                 }
             }
 
@@ -154,7 +154,9 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
             scene.lights.push({
                 light: id,
                 state: {
-                    isOn: true
+                    isOn: true,
+                    bri: 254,
+                    ct: 359
                 }
             });
         },
@@ -162,28 +164,45 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
         /**
          * Remove light from scene
          * @param scene
-         * @param id
+         * @param lightId
          */
-        removeLight: function(scene, id, submenu) {
+        removeLight: function(scene, lightId, submenu) {
             $scope.sharedScope.submenu.closeSubmenu();
-            if(submenu === 'deleteLastLightFromGroup'){
+            if(submenu === 'deleteLastLightFromScene'){
                 $scope.scenes.remove($scope.scenes.selectedSceneId);
-                window.location.href = 'lightandgroup.html';
-                $scope.sharedScope.submenu.openSubmenu("notificationSceneDeleted");
+                window.location.href = 'sceneoverview.html';
+                $scope.sharedScope.submenu.openSubmenu('notificationSceneDeleted');
             }else{
                 var i;
-                // check if scene already contains this light
+                console.log(scene.lights);
                 for(i in scene.lights) {
-                    if(scene.lights.hasOwnProperty(i) && scene.lights[i].light == id) {
+                    if(scene.lights.hasOwnProperty(i) && scene.lights[i].light == lightId) {
                         scene.lights.splice(i, 1);
+
                     }
                 }
-                $scope.scenes.update($scope.scenes.selectedSceneId, $scope.state.scenes[$scope.scenes.selectedSceneId]);
-                $scope.sharedScope.submenu.openSubmenu(["notificationSceneRemoved"]);
+                $scope.scenes.update($scope.state.scenes[$scope.scenes.selectedSceneId]);
+                $scope.sharedScope.submenu.openSubmenu(['openScene','notificationLightRemoved']);
             }
         },
 
 
+        getLightsInverse: function(sceneId){
+            var lightsOfSceneInverse = [];
+            sceneId = sceneId.toString();
+
+            angular.forEach($scope.state.lights, function(value, key){
+                if($scope.state.scenes[sceneId].lights.indexOf(key) === -1 ){
+                    lightsOfSceneInverse.push(key)
+                }
+            });
+
+            if(lightsOfSceneInverse.length === 0){
+                $scope.sharedScope.submenu.closeSubmenu();
+                $scope.sharedScope.submenu.openSubmenu("notificationNoLightToAdd");
+            }
+            return lightsOfSceneInverse;
+        },
 
 
 

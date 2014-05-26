@@ -128,12 +128,12 @@
             <div class="notification tablet_hide" ng-if="sharedScope.submenu.visible.notificationGroupRemoved"
                  ng-click="sharedScope.submenu.closeSubmenu()">
                 <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                Group removed.
+                Group removed from light.
             </div>
             <div class="notification tablet_hide" ng-if="sharedScope.submenu.visible.notificationGroupDeleted"
                  ng-click="sharedScope.submenu.closeSubmenu()">
                 <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                Group deleted completely.
+                Group deleted.
             </div>
             <div class="notification tablet_hide" ng-if="sharedScope.submenu.visible.notificationNoGroupToAdd"
                  ng-click="sharedScope.submenu.closeSubmenu()">
@@ -149,12 +149,12 @@
             <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.notificationGroupRemoved"
                  ng-click="sharedScope.submenu.closeSubmenu()">
                 <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                Group removed.
+                Group removed from light.
             </div>
             <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.notificationGroupDeleted"
                  ng-click="sharedScope.submenu.closeSubmenu()">
                 <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                Group deleted completely.
+                Group deleted.
             </div>
             <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.notificationNoGroupToAdd"
                  ng-click="sharedScope.submenu.closeSubmenu()">
@@ -346,7 +346,7 @@
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
                             ui-btn-inline light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()">
                         </span>
-                        <h2 class="listing_box_title">Do you want to remove the group "{{sharedScope.state.groups[groups.selectedGroupId].name}}"?</h2>
+                        <h2 class="listing_box_title">Do you want to remove the light from group "{{sharedScope.state.groups[groups.selectedGroupId].name}}"?</h2>
                         <div style="text-align: center;margin:auto;">
                             <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
                                     ng-click="groups.removeLight('lightmenu','deleteLightFromGroup')">YES</button>
@@ -362,7 +362,7 @@
                             <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
                         </div>
                         <div style="text-align: center; color: #f9efed">
-                            Do you want to remove the group<br>"{{sharedScope.state.groups[groups.selectedGroupId].name}}" ?
+                            Do you want to remove the light from group "{{sharedScope.state.groups[groups.selectedGroupId].name}}" ?
                         </div>
                         <div style="padding:20px; text-align: center">
                             <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button
@@ -380,7 +380,7 @@
                     <div class="lightgroup-all-container transparent_bg mobile_hide " >
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
                         light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
-                        <h2 class="listing_box_title">The group "{{sharedScope.state.groups[groups.selectedGroupId].name}}" will be deleted completely...</h2>
+                        <h2 class="listing_box_title">The group "{{sharedScope.state.groups[groups.selectedGroupId].name}}" will be deleted completely.</h2>
                         <div style="text-align: center;margin:auto;">
                             <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
                                     ng-click="groups.removeLight('lightmenu','deleteLastLightFromGroup')">YES</button>
@@ -396,7 +396,7 @@
                             <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
                         </div>
                         <div style="text-align: center; color: #f9efed">
-                            The group "{{sharedScope.state.groups[groups.selectedGroupId].name}}" will be deleted completely...
+                            The group "{{sharedScope.state.groups[groups.selectedGroupId].name}}" will be deleted completely.
                         </div>
                         <div style="padding:20px; text-align: center">
                             <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button
