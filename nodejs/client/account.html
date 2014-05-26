@@ -89,7 +89,7 @@
 
 
     <!-- CONTENT -->
-    <div data-role="content" class="content_container">
+    <div data-role="content" class="content_container" ng-controller="LightAndGroupCtrl">
         <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
         <div class="content_left_subcontainer tablet_hide">
             <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
@@ -204,7 +204,8 @@
                 <img src="css/images/icons/icon-warning.png" class="header_left_icon">
                 Password has been changed.
             </div>
-            <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.searchLights">
+            <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.searchLights"
+                 ng-click="sharedScope.submenu.closeSubmenu()">
                 <img src="css/images/icons/icon-warning.png" class="header_left_icon">
                 If there are new lights, they will be added automatically.
             </div>
