@@ -41,52 +41,6 @@ var socketListeners = function(socket) {
         applyScene(id, undefined, socket);
     });
 
-
-
-
-    //create scene
-    socket.on('scene.create', function(data){
-        console.log('[scenes] Create Scene: ', data);
-
-        // prevent creating empty group as it would result in an API error
-        if(!data.lights || !data.lights.length) {
-            console.log('[scenes] Tried to create empty group. Aborting...');
-            return;
-        }
-
-        app.controllers.hue.makeApiCall(function(api) {
-            api.createScene(data.name, data.lights)
-                .then(function(result) {
-                    // convert lights to strings for representation
-                    // createScene() function needs integers!
-
-                    var i;
-
-                    for(i = 0; i < data.lights.length; i++) {
-                        data.lights[i] = data.lights[i] + "";
-                    }
-
-                    app.state.scenes[result.id] = data;
-                    app.controllers.socket.refreshState(
-                        false,
-                        ['scenes.' + result.id]
-                    );
-                })
-                .fail(app.controllers.hue.errorHandler)
-                .done();
-        });
-
-
-
-
-
-    });
-
-
-
-
-
-
 };
 
 /**
