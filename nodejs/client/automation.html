@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de" ng-app="hueApp">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,10 +49,11 @@
     <meta name="msapplication-TileColor" content="#141414" />
 
 </head>
+
 <body>
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl"  class="background_stars" data-theme="b">
-<!-- HEADER -->
+    <!-- HEADER -->
     <div data-role="header" data-position="fixed" style="position: fixed">
         <div class="header_container tablet_hide">
             <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
@@ -72,7 +74,7 @@
             </a>
             <a href="automationoverview.html" class="smallmenu_wrapper">
                 <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-automation-40.png">
+                    <img src="./css/images/icons/icon-automation-dark-40.png">
                 </div>
             </a>
             <a href="party.html" class="smallmenu_wrapper">
@@ -82,93 +84,79 @@
             </a>
             <a href="settings.html" class="smallmenu_wrapper">
                 <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-settings-dark-40.png">
+                    <img src="./css/images/icons/icon-settings-40.png">
                 </div>
             </a>
         </div>
     </div>
 
 
+
+
     <!-- CONTENT -->
-    <div data-role="content" ng-controller="SettingsCtrl" class="content_container">
+    <div data-role="content" ng-controller="" class="content_container">
         <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
         <div class="content_left_subcontainer tablet_hide">
-            <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
-                <img src="./css/images/icons/icon-light-32.png" class="light_group_img no_padding" style="margin-top:8px">
+            <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
                 <div class="main_menu_text panel">
                     Lights & Groups
                 </div>
             </a>
-            <a href="scenes.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
-                <img src="./css/images/icons/icon-scene-32.png" class="light_group_img no_padding" style="margin-top:8px">
+            <a href="scenes.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-scene-40.png" class="light_group_img no_padding">
                 <div class="main_menu_text panel">
                     Scenes
                 </div>
             </a>
-            <a href="automationoverview.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
-                <img src="./css/images/icons/icon-automation-32.png" class="light_group_img no_padding" style="margin-top:8px">
+            <a href="automationoverview.html" class="ui-btn main_menu_transparent_bg button checked_menubox">
+                <img src="./css/images/icons/icon-automation-40.png" class="light_group_img no_padding">
                 <div class="main_menu_text panel">
                     Automation
                 </div>
             </a>
-            <a href="party.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
-                <img src="./css/images/icons/icon-party-32.png" class="light_group_img no_padding" style="margin-top:8px">
+            <a href="party.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-party-40.png" class="light_group_img no_padding">
                 <div class="main_menu_text panel">
                     Party
                 </div>
             </a>
-            <a href="settings.html" class="ui-btn main_menu_transparent_bg button main_menu_settings checked_menubox">
+            <a href="settings.html" class="ui-btn main_menu_transparent_bg button">
                 <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
                 <div class="main_menu_text panel">
                     Settings
                 </div>
             </a>
-            <!-- Settings Menu -->
-            <div style="padding-left: 20px;">
-                <a href="account.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
-                    <img src="./css/images/icons/icon-account-32.png" class="light_group_img no_padding">
-                    <div class="main_menu_settings_text panel">Account</div>
-                </a>
-                <a href="speech.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
-                    <img src="./css/images/icons/icon-speech-32.png" class="light_group_img no_padding">
-                    <div class="main_menu_settings_text panel">Speech</div>
-                </a>
-                <a href="rfid.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
-                    <img src="./css/images/icons/icon-rfid-32.png" class="light_group_img no_padding">
-                    <div class="main_menu_settings_text panel">RFID</div>
-                </a>
-                <a href="networkdevices.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
-                    <img src="./css/images/icons/icon-iphone-32.png" class="light_group_img no_padding">
-                    <div class="main_menu_settings_text panel">Network Devices</div>
-                </a>
+
+            <!---------------------------------------- NOTIFICATIONS Desktop ------------------------------------------>
+            <div class="notification" ng-if="sharedScope.submenu.visible.notification"
+                 ng-click="sharedScope.submenu.closeSubmenu()">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                Notification
             </div>
         </div>
 
-        <div class="index_wrapper tablet_show">
-            <a href="account.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-account-40.png" class="light_group_img no_padding">
-                <div class="main_menu_text panel">
-                    Account
-                </div>
-            </a>
-            <a href="speech.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-speech-40.png" class="light_group_img no_padding">
-                <div class="main_menu_text panel">
-                    Speech
-                </div>
-            </a>
-            <a href="rfid.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-rfid-40.png" class="light_group_img no_padding">
-                <div class="main_menu_text panel">
-                    RFID
-                </div>
-            </a>
-            <a href="networkdevices.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-iphone-40.png" class="light_group_img no_padding">
-                <div class="main_menu_text panel">
-                    Network Devices
-                </div>
-            </a>
+
+
+
+
+        <div class="content_right_subcontainer" style="text-align: center; margin: auto; overflow:hidden">
+            <!---------------------------------------- NOTIFICATIONS mobile ------------------------------------------->
+            <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.notification"
+                 ng-click="sharedScope.submenu.closeSubmenu()">
+                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                Notification
+            </div>
+
+
+
+            <div class="subcontent_a"></div>
+            <div class="subcontent_b"></div>
+            <div class="subcontent_c"></div>
+            <div class="subcontent_d"></div>
+
+
+
         </div>
     </div>
 </div>
