@@ -282,7 +282,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             $scope.submenu.closeSubmenu();
     });
 
-
+    /*
     $scope.$watch('state.connect', function(){
         if($scope.state.connect.hue === undefined){
             return;
@@ -298,6 +298,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
 
     }, true);
+    */
 
 }]).
 
