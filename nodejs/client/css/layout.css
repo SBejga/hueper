@@ -543,6 +543,13 @@ button:active{
     margin-right: 32px;
 }
 
+.vertical_checkbox_list{
+    min-width:130px;
+    width:160px;
+    margin-left:0px;
+    margin-right: 0px;
+}
+
 .icon {
     display:inline-block;
     width:18px;
