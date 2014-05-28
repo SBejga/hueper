@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="de" ng-app="hueApp">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,7 +48,6 @@
     <meta name="msapplication-TileColor" content="#141414" />
 
 </head>
-
 <body>
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl"  class="background_stars" data-theme="b">
@@ -94,7 +92,7 @@
 
 
     <!-- CONTENT -->
-    <div data-role="content" ng-controller="" class="content_container">
+    <div data-role="content" ng-controller="SceneCtrl" class="content_container">
         <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
         <div class="content_left_subcontainer tablet_hide">
             <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
@@ -150,8 +148,88 @@
 
 
 
-            <div class="subcontent_a"></div>
-            <div class="subcontent_b"></div>
+
+
+
+            <div class="subcontent_a">
+                <!---------------------------------------- NAME ------------------------------------------------------->
+                <div class="lightgroup_name_edit">
+                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline"
+                          ng-click="automation.update(helpers.urlId, state.automation[helpers.urlId])"></span>
+                </div>
+                <div class="lightgroup_name_input"><input type="text" ng-model="state.automation[helpers.urlId].name"></div>
+
+
+
+                <!---------------------------------------- CHECKBOX MENU ---------------------------------------------->
+                <div style="width:100%; height:30px;">
+                    <div class="checkbox_container vertical_checkbox_list" style="float:left" ng-click="automation.toggleActive(helpers.urlId)">
+                        <div class="checkbox_box">
+                            <img src="./css/images/checkbox-true.png" style="float: left" ng-show="state.automation[helpers.urlId].active">
+                        </div>
+                        <div style="margin-left: 30px">
+                            Active
+                        </div>
+                    </div>
+                    <div class="checkbox_container vertical_checkbox_list" style="float:right; min-width:220px !important;" ng-click="automation.toggleAllConditionsNeeded(helpers.urlId)">
+                        <div class="checkbox_box">
+                            <img src="./css/images/checkbox-true.png" style="float: left" ng-show="state.automation[helpers.urlId].allConditionsNeeded">
+                        </div>
+                        <div style="margin-left: 30px">
+                            All Conditions Needed
+                        </div>
+                    </div>
+                    <div class="checkbox_container vertical_checkbox_list" style="text-align: center; margin: auto" ng-click="automation.toggleSingle(helpers.urlId)">
+                        <div class="checkbox_box">
+                            <img src="./css/images/checkbox-true.png" style="float: left" ng-show="state.automation[helpers.urlId].single">
+                        </div>
+                        <div style="margin-left: 30px">
+                            Single Use
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!---------------------------------------- TRIGGER, CONDITIONS, ACTIONS LIST ------------------------------>
+            <div class="subcontent_b">
+                <!-- trigger -->
+                <div class="transparent_bg listing_box">
+                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('editTrigger')"></span>
+                    <h2 class="listing_box_title">Trigger</h2>
+                    <div class="light_group" ng-repeat="trigger state.automation[helpers.urlId].triggers">
+                        k
+
+
+
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                            light_group_a" ng-click="groups.openDeleteMenuGroup(groupId, helpers.urlId, '')"></span>
+                        <a href="group.html?id={{groupId}}" style="text-decoration: none; padding:8px" class="panel panel_layout_fix">
+                            <img src="./css/images/transparent_group_small.png" class="light_group_img">
+                            {{sharedScope.state.groups[groupId].name}}
+                        </a>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
             <div class="subcontent_c"></div>
             <div class="subcontent_d"></div>
 

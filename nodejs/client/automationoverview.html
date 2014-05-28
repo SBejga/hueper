@@ -159,21 +159,20 @@
                     <div class="light_group" ng-repeat="(id,a) in sharedScope.state.automation"
                          style="background-color: rgba(236, 236, 236, 0.2) !important; border-radius:5px;">
 
+                        <div style="width:70%;max-width:800px;float:right">
+                            <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                                ui-btn-inline light_group_a" style="margin-top: 9px; float:right">
+                            </span>
+                            <a href="automation.html?id={{id}}" class="panel panel_layout_fix" style="margin-right:50px; margin-top: 0px;line-height: 46px; padding: 0px; text-decoration:none">
+                                {{a.name}}
+                            </a>
+                        </div>
                         <div class="checkbox_container" style="min-width:140px;width:200px;max-width:40%; float:left" ng-click="automation.toggleActive(id)">
                             <div class="checkbox_box">
                                 <img src="./css/images/checkbox-true.png" style="float: left" ng-show="a.active">
                             </div>
                             <div style="margin-left: 40px">
-                                Activate
-                            </div>
-                        </div>
-
-                        <div style="width:70%;max-width:800px;float:right">
-                            <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                                ui-btn-inline light_group_a" style="margin-top: 9px; float:right">
-                            </span>
-                            <div ng-click="" class="panel panel_layout_fix" style="margin-right:50px; margin-top: 0px;line-height: 46px; padding: 0px">
-                                {{a.name}}
+                                Active
                             </div>
                         </div>
                     </div>

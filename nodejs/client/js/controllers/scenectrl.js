@@ -354,7 +354,18 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
         toggleActive: function(id){
             $scope.state.automation[id].active = !$scope.state.automation[id].active;
             $scope.automation.update($scope.state.automation[id]);
+        },
+
+        toggleSingle: function(id){
+            $scope.state.automation[id].single = !$scope.state.automation[id].single;
+            $scope.automation.update($scope.state.automation[id]);
+        },
+
+        toggleAllConditionsNeeded: function(id){
+            $scope.state.automation[id].allConditionsNeeded = !$scope.state.automation[id].allConditionsNeeded;
+            $scope.automation.update($scope.state.automation[id]);
         }
+
 
 
     };
