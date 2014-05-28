@@ -295,8 +295,6 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         else if((i > 0) && !connectstate){
            $window.location.href = 'index.html';
         }
-
-
     }, true);
     */
 
