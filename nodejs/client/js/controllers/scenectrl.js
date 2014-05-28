@@ -1,5 +1,5 @@
 angular.module('hueApp.controllers').
-controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, socket, stateManager) {
+controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', function($scope, $location, socket, stateManager) {
 
         stateManager($scope);
 
@@ -10,7 +10,7 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
         selectedSceneId:0,
         selectedArrayId:0,
         selectedLightId:0,
-        activatedScene:0,
+        activatedSceneId:0,
 
         // placeholder for form data
         forms: {
@@ -36,6 +36,7 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
             delete $scope.state.scenes[id];
             $scope.sharedScope.submenu.closeSubmenu();
             $scope.sharedScope.submenu.openSubmenu("notificationSceneDeleted");
+            window.location.href = 'scenes.html';
         },
 
         setSelectedSceneId: function(sceneId){
@@ -47,7 +48,23 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
         setSelectedLightId: function(lightId){
             $scope.scenes.selectedLightId = lightId;
         },
+        setActivatedSceneId: function(sceneId){
+            $scope.scenes.activatedSceneId = sceneId;
+        },
 
+        activeScene: function(sceneId){
+          if(sceneId === $scope.scenes.activatedSceneId){
+              return true;
+          }
+          return false;
+        },
+
+        /**
+         * guide which opens the required submenu
+         * @param sceneId
+         * @param lightId
+         * @param menu
+         */
         openDeleteMenuScene: function(sceneId, lightId, menu){
             $scope.scenes.setSelectedSceneId(sceneId);
             if(menu === 'sceneoverview'){
@@ -68,8 +85,6 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
 
 
         },
-
-
 
         /**
          * Apply scene and change light state accordingly
@@ -123,18 +138,6 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
 
         },
 
-        /*
-         * Return true if incoming SceneId is the active Scene Id.
-         *
-         */
-        activeScene: function(sceneId){
-            if(sceneId === $scope.scenes.activatedScene){
-                return true;
-            }
-            else{
-                 return false;
-             }
-        },
 
         /**
          * Add light to scene
@@ -187,32 +190,14 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
         },
 
 
-        getLightsInverse: function(sceneId){
-            var lightsOfSceneInverse = [];
-            sceneId = sceneId.toString();
-
-            angular.forEach($scope.state.lights, function(value, key){
-                if($scope.state.scenes[sceneId].lights.indexOf(key) === -1 ){
-                    lightsOfSceneInverse.push(key)
-                }
-            });
-
-            if(lightsOfSceneInverse.length === 0){
-                $scope.sharedScope.submenu.closeSubmenu();
-                $scope.sharedScope.submenu.openSubmenu("notificationNoLightToAdd");
-            }
-            return lightsOfSceneInverse;
-        },
-
-
-
 
         /**
          * Filter global state.lights object to the lights not contained in the parameter scene.lights array
          * @param {array} lights { light: ..., state: { ... } }
          * @returns {object}
          */
-        filterUnused: function(lights) {
+        filterUnused: function(lights, submenu) {
+            var emptyObject = true;
             var i,
                 result = {};
 
@@ -234,10 +219,71 @@ controller('SceneCtrl', ['$scope', 'socket', 'stateManager', function($scope, so
                 }
             }
 
+            if((submenu === 'addLightToScene')){
+                for(var j in result){
+                    emptyObject = false;
+                }
+                if(emptyObject){
+                    $scope.sharedScope.submenu.closeSubmenu();
+                    $scope.sharedScope.submenu.openSubmenu(['openScene','notificationNoLightToAdd']);
+                }
+            }
+            console.log(result);
             return result;
         }
 
+
+
+
+
+
     };
+
+    $scope.$watch('state.lights', function(){
+        $scope.scenes.setActivatedSceneId(0);
+        angular.forEach($scope.state.scenes, function(value, key){
+            var active = true;
+            angular.forEach($scope.state.scenes[key].lights ,function(sceneValue){
+                /*
+                    console.log("[SZENE] name: ",value.name, "state: ", sceneValue.state);
+                    console.log("[LIGHT] name: ", $scope.state.lights[sceneValue.light].name, "state: ", $scope.state.lights[sceneValue.light].state);
+                */
+
+                if(($scope.state.lights[sceneValue.light].state.on === sceneValue.state.isOn)){
+                     if($scope.state.lights[sceneValue.light].state.effect === sceneValue.state.effect === "colorloop"){
+                         active = true;
+
+                     }else if($scope.state.lights[sceneValue.light].state.bri === sceneValue.state.bri){
+
+                         if(($scope.state.lights[sceneValue.light].state.colormode === 'ct') && ($scope.state.lights[sceneValue.light].state.ct === sceneValue.state.ct)){
+                             active = true;
+
+
+
+                         }else if(($scope.state.lights[sceneValue.light].state.colormode === 'hs') &&
+                                    ($scope.state.lights[sceneValue.light].state.hue === sceneValue.state.hue) &&
+                                    ($scope.state.lights[sceneValue.light].state.sat === sceneValue.state.sat)){
+                            active = true;
+                        }
+                        else{
+                            active = false;
+                        }
+                     }else{
+                        active = false;
+                     }
+                }else{
+                    active = false;
+                }
+            });
+
+            if(active){
+                $scope.scenes.setActivatedSceneId(key);
+            }
+            /*
+                console.log("[Result] Szene: ", value.name, active)
+            */
+        });
+    }, true);
 
 
 
