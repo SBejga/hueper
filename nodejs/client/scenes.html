@@ -190,10 +190,12 @@
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
                             ui-btn-inline light_group_a" ng-click="scenes.openDeleteMenuScene(id, '', 'sceneoverview')">
                         </span>
-                        <img src="./css/images/icons/icon-pausescene-50.png" class="light_group_img" style="margin-top: 10px"
-                             ng-if="scenes.activeScene(id)">
+                        <!-- Scene NOT "active" -->
                         <img src="./css/images/icons/icon-startscene-50.png" class="light_group_img"
-                             style="margin-top: 10px" ng-if="!scenes.activeScene(id)" ng-click="scenes.apply(id)">
+                             style="margin-top: 10px" ng-show="!scenes.activeScene(id)" ng-click="scenes.apply(id)">
+                        <!-- Scene "active" -->
+                        <img src="./css/images/icons/icon-startscene-active-50.png" class="light_group_img" style="margin-top: 10px"
+                             ng-show="scenes.activeScene(id)" ng-click="scenes.setActivatedSceneId(0)">
                         <a href="scenemobile.html?id={{id}}" style="margin-right:50px;text-decoration: none">
                             {{scene.name}}
                         </a>
