@@ -155,7 +155,7 @@
 
             <!---------------------------------------------------- SCENE LIST ----------------------------------------->
             <!-- DESKTOP TABLET -->
-            <div class="subcontent_b mobile_hide">
+            <div class="subcontent_b">
                 <div class="transparent_bg listing_box" style="max-width:100%;">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
                         light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('createNewScene')">
@@ -172,37 +172,15 @@
                         <img src="./css/images/icons/icon-startscene-active-50.png" class="light_group_img" style="margin-top: 10px"
                              ng-show="scenes.activeScene(id)" ng-click="scenes.setActivatedSceneId(0)">
                         <div ng-click="scenes.setSelectedSceneId(id); sharedScope.submenu.openSubmenu('openScene')"
-                             style="margin-right:50px;">
+                             class="mobile_hide" style="margin-right:50px;">
                             {{scene.name}}
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MOBILE -->
-            <div class="subcontent_b mobile_show">
-                <div class="transparent_bg listing_box" style="max-width:100%;">
-                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('createNewScene')">
-                    </span>
-                    <h2 class="listing_box_title">Scenes</h2>
-                    <div class="light_group" ng-repeat="(id, scene) in sharedScope.state.scenes">
-                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                            ui-btn-inline light_group_a" ng-click="scenes.openDeleteMenuScene(id, '', 'sceneoverview')">
-                        </span>
-                        <!-- Scene NOT "active" -->
-                        <img src="./css/images/icons/icon-startscene-50.png" class="light_group_img"
-                             style="margin-top: 10px" ng-show="!scenes.activeScene(id)" ng-click="scenes.apply(id)">
-                        <!-- Scene "active" -->
-                        <img src="./css/images/icons/icon-startscene-active-50.png" class="light_group_img" style="margin-top: 10px"
-                             ng-show="scenes.activeScene(id)" ng-click="scenes.setActivatedSceneId(0)">
-                        <a href="scenemobile.html?id={{id}}" style="margin-right:50px;text-decoration: none">
+                        <a href="scenemobile.html?id={{id}}" class="mobile_show" style="margin-right:50px;text-decoration: none">
                             {{scene.name}}
                         </a>
                     </div>
                 </div>
             </div>
-
 
             <!-- SUBMENU ----------------------------------------- OPEN SCENE ----------------------------------------->
             <!-- just DESKTOP TABLET -->
