@@ -250,20 +250,16 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
                 */
 
                 if(($scope.state.lights[sceneValue.light].state.on === sceneValue.state.isOn)){
-                     if($scope.state.lights[sceneValue.light].state.effect === sceneValue.state.effect === "colorloop"){
-                         active = true;
+                     if(($scope.state.lights[sceneValue.light].state.effect === sceneValue.state.effect) && ($scope.state.lights[sceneValue.light].state.effect === "colorloop")){
+                        <!-- colorloop is active -->
 
                      }else if($scope.state.lights[sceneValue.light].state.bri === sceneValue.state.bri){
-
-                         if(($scope.state.lights[sceneValue.light].state.colormode === 'ct') && ($scope.state.lights[sceneValue.light].state.ct === sceneValue.state.ct)){
-                             active = true;
-
-
-
-                         }else if(($scope.state.lights[sceneValue.light].state.colormode === 'hs') &&
+                        if(($scope.state.lights[sceneValue.light].state.colormode === 'ct') && ($scope.state.lights[sceneValue.light].state.ct === sceneValue.state.ct)){
+                             <!-- bri and ct is the same -->
+                        }else if(($scope.state.lights[sceneValue.light].state.colormode === 'hs') &&
                                     ($scope.state.lights[sceneValue.light].state.hue === sceneValue.state.hue) &&
                                     ($scope.state.lights[sceneValue.light].state.sat === sceneValue.state.sat)){
-                            active = true;
+                            <!-- bri and hue and sat is the same -->
                         }
                         else{
                             active = false;
