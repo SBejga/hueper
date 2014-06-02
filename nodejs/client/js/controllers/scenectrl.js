@@ -286,6 +286,13 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
     // automation control
 
     $scope.automation = {
+        selectedProperty:{
+            type:'',
+            value:[]
+        },
+
+
+
 
         // placeholder for form data
         forms: {
@@ -319,6 +326,11 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
         remove: function(id) {
             socket.emit('automation.delete', id);
             delete $scope.state.automation[id];
+        },
+
+        setSelectedProperty: function(property){
+            $scope.automation.selectedProperty = property;
+            console.log($scope.automation.selectedProperty);
         },
 
         resetTriggerValue: function(t) {

@@ -194,43 +194,168 @@
 
             <!---------------------------------------- TRIGGER, CONDITIONS, ACTIONS LIST ------------------------------>
             <div class="subcontent_b">
-                <!-- trigger -->
-                <div class="transparent_bg listing_box">
-                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('editTrigger')"></span>
-                    <h2 class="listing_box_title">Trigger</h2>
-                    <div class="light_group" ng-repeat="trigger state.automation[helpers.urlId].triggers">
-                        k
+                <div class="transparent_bg listing_box" style="overflow: hidden">
+                    <!-- trigger -->
+                    <div style="width:100%; overflow:hidden">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                            light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('editTrigger')"></span>
+                        <h2 class="listing_box_title">Trigger</h2>
+                        <div ng-repeat="trigger in state.automation[helpers.urlId].triggers" ng-click="sharedScope.submenu.openSubmenu('editTrigger');
+                            automation.setSelectedProperty({'type': trigger.type.toString(), 'value' : trigger.value})">
+                            <img src="./css/images/icons/trigger-40.png" class="light_group_img" style="margin:5px">
+                        </div>
+                    </div>
 
 
 
-                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
-                            light_group_a" ng-click="groups.openDeleteMenuGroup(groupId, helpers.urlId, '')"></span>
-                        <a href="group.html?id={{groupId}}" style="text-decoration: none; padding:8px" class="panel panel_layout_fix">
-                            <img src="./css/images/transparent_group_small.png" class="light_group_img">
-                            {{sharedScope.state.groups[groupId].name}}
-                        </a>
+
+
+
+
+
+                    <!-- conditions -->
+                    <div style="width:100%; overflow:hidden">
+                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                            light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('editCondition')"></span>
+                        <h2 class="listing_box_title">Conditions</h2>
+                        <div ng-repeat="condition in state.automation[helpers.urlId].conditions" ng-click="sharedScope.submenu.openSubmenu('editCondition');">
+                            <img src="./css/images/icons/trigger-40.png" class="light_group_img" style="margin:5px">
+                        </div>
+                    </div>
+
+                    <!-- actions -->
+                    <div style="width:100%; overflow:hidden">
+                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                            light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('editAction')"></span>
+                        <h2 class="listing_box_title">Actions</h2>
+                        <div ng-repeat="action in state.automation[helpers.urlId].actions" ng-click="sharedScope.submenu.openSubmenu('editAction');">
+                            <img src="./css/images/icons/trigger-40.png" class="light_group_img" style="margin:5px">
+                        </div>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
-            <div class="subcontent_c"></div>
+
+
+
+
+
+
+            <div class="subcontent_c">
+                <div ng-if="sharedScope.submenu.visible.editTrigger">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title">Edit Trigger</h2>
+
+                        Typ:
+                        <select ng-model="automation.selectedProperty.type" ng-change="automation.resetTriggerValue(automation.selectedProperty)">
+                            <option>light</option>
+                            <option>motion</option>
+                            <option>speech</option>
+                            <option>schedule</option>
+                            <option>periodical</option>
+                            <option>rfid</option>
+                            <option>device</option>
+                            <option>custom</option>
+                        </select>
+                        <div ng-switch="automation.selectedProperty.type">
+                            <div ng-switch-when="light">
+                                <select ng-model="automation.selectedProperty.value.relation">
+                                    <option>&lt;</option>
+                                    <option>&gt;</option>
+                                </select>
+                                <input type="number" ng-model="automation.selectedProperty.value.threshold" placeholder="Schwelle (0-100)" />
+                            </div>
+                            <!-- motion does not have a value -->
+                            <div ng-switch-when="speech">
+                                <input type="text" ng-model="automation.selectedProperty.value" placeholder="Sprachbefehl" />
+                            </div>
+                            <div ng-switch-when="schedule">
+                                <input type="number" ng-model="automation.selectedProperty.value.hour" placeholder="Stunde" />
+                                <input type="number" ng-model="automation.selectedProperty.value.minute" placeholder="Minute" />
+                            </div>
+                            <div ng-switch-when="periodical">
+                                <input type="number" ng-model="automation.selectedProperty.value" placeholder="Minuten" />
+                            </div>
+                            <div ng-switch-when="rfid">
+                                <select ng-model="automation.selectedProperty.value" ng-options="tag.tag as tag.name for (id , tag) in state.rfid"></select>
+                            </div>
+                            <div ng-switch-when="device">
+                                <select ng-model="automation.selectedProperty.value.address" ng-options="device.address as device.name for (id , device) in state.devices"></select>
+                                <select ng-model="automation.selectedProperty.value.action">
+                                    <option>login</option>
+                                    <option>logout</option>
+                                </select>
+                            </div>
+                            <div ng-switch-when="custom">
+                                <input type="text" ng-model="automation.selectedProperty.value" placeholder="Eigenes Kommando" />
+                            </div>
+                        </div>
+                        <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                ng-click="automation.update(automation.selectedProperty);sharedScope.submenu.closeSubmenu()">Save</button>
+                        <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                ng-click="sharedScope.submenu.closeSubmenu()">Delete</button>
+                    </div>
+                </div>
+            </div>
+            <!-- mobile view -->
+            <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+            <div class="overlap_content mobile_show">
+                <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                    <a href="automation.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                </div>
+                Typ:
+                <select ng-model="automation.selectedProperty.type" ng-change="automation.resetTriggerValue(automation.selectedProperty)">
+                    <option>light</option>
+                    <option>motion</option>
+                    <option>speech</option>
+                    <option>schedule</option>
+                    <option>periodical</option>
+                    <option>rfid</option>
+                    <option>device</option>
+                    <option>custom</option>
+                </select>
+                <div ng-switch="automation.selectedProperty.type">
+                    <div ng-switch-when="light">
+                        <select ng-model="automation.selectedProperty.value.relation">
+                            <option>&lt;</option>
+                            <option>&gt;</option>
+                        </select>
+                        <input type="number" ng-model="automation.selectedProperty.value.threshold" placeholder="Schwelle (0-100)" />
+                    </div>
+                    <!-- motion does not have a value -->
+                    <div ng-switch-when="speech">
+                        <input type="text" ng-model="automation.selectedProperty.value" placeholder="Sprachbefehl" />
+                    </div>
+                    <div ng-switch-when="schedule">
+                        <input type="number" ng-model="automation.selectedProperty.value.hour" placeholder="Stunde" />
+                        <input type="number" ng-model="automation.selectedProperty.value.minute" placeholder="Minute" />
+                    </div>
+                    <div ng-switch-when="periodical">
+                        <input type="number" ng-model="automation.selectedProperty.value" placeholder="Minuten" />
+                    </div>
+                    <div ng-switch-when="rfid">
+                        <select ng-model="automation.selectedProperty.value" ng-options="tag.tag as tag.name for (id , tag) in state.rfid"></select>
+                    </div>
+                    <div ng-switch-when="device">
+                        <select ng-model="automation.selectedProperty.value.address" ng-options="device.address as device.name for (id , device) in state.devices"></select>
+                        <select ng-model="automation.selectedProperty.value.action">
+                            <option>login</option>
+                            <option>logout</option>
+                        </select>
+                    </div>
+                    <div ng-switch-when="custom">
+                        <input type="text" ng-model="automation.selectedProperty.value" placeholder="Eigenes Kommando" />
+                    </div>
+                </div>
+                <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                        ng-click=";sharedScope.submenu.closeSubmenu()">Save</button>
+                <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                        ng-click="sharedScope.submenu.closeSubmenu()">Delete</button>
+            </div>
+
+
             <div class="subcontent_d"></div>
 
 
