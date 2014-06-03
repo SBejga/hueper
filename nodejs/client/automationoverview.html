@@ -30,6 +30,7 @@
     <script src="./js/controllers/partyctrl.js"></script>
     <script src="./js/controllers/scenectrl.js"></script>
     <script src="./js/controllers/speechctrl.js"></script>
+    <script src="./js/controllers/automationctrl.js"></script>
 
     <!-- Favicon and Touch-Icons -->
     <link rel="shortcut icon" href="favicon.ico">
@@ -52,7 +53,7 @@
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl"  class="background_stars" data-theme="b">
     <!-- HEADER -->
-    <div data-role="header" data-position="fixed" style="position: fixed">
+    <div data-role="header" class="header">
         <div class="header_container tablet_hide">
             <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
                  ng-show="sharedScope.state.user.loginRequired">
@@ -92,10 +93,10 @@
 
 
     <!-- CONTENT -->
-    <div data-role="content" ng-controller="SceneCtrl" class="content_container">
+    <div data-role="content" ng-controller="AutomationCtrl" class="content_container">
         <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
         <div class="content_left_subcontainer tablet_hide">
-            <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
+            <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button" style="margin-top: 0px">
                 <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
                 <div class="main_menu_text panel">
                     Lights & Groups
@@ -125,28 +126,18 @@
                     Settings
                 </div>
             </a>
+        </div>
 
-            <!---------------------------------------- NOTIFICATIONS Desktop ------------------------------------------>
-            <div class="notification" ng-if="sharedScope.submenu.visible.notification"
-                 ng-click="sharedScope.submenu.closeSubmenu()">
-                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                Notification
-            </div>
+        <!---------------------------------------- NOTIFICATIONS Desktop ------------------------------------------>
+        <div class="notification" ng-if="sharedScope.submenu.visible.notification"
+             ng-click="sharedScope.submenu.closeSubmenu()">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            Notification
         </div>
 
 
 
-
-
         <div class="content_right_subcontainer" style="text-align: center; margin: auto; overflow:hidden">
-            <!---------------------------------------- NOTIFICATIONS mobile ------------------------------------------->
-            <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.notification"
-                 ng-click="sharedScope.submenu.closeSubmenu()">
-                <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-                Notification
-            </div>
-
-
             <div class="subcontent_a">
                 <div class="transparent_bg listing_box" style="max-width:100%;">
                     <a href="automation.html?id={{0}}" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline

@@ -30,6 +30,8 @@
     <script src="./js/controllers/partyctrl.js"></script>
     <script src="./js/controllers/scenectrl.js"></script>
     <script src="./js/controllers/speechctrl.js"></script>
+    <script src="./js/controllers/automationctrl.js"></script>
+
 
     <!-- Favicon and Touch-Icons -->
     <link rel="shortcut icon" href="favicon.ico">
@@ -52,7 +54,7 @@
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl"  class="background_stars" data-theme="b">
     <!-- HEADER -->
-    <div data-role="header" data-position="fixed" style="position: fixed">
+    <div data-role="header" class="header">
         <div class="header_container tablet_hide">
             <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
                  ng-show="sharedScope.state.user.loginRequired">
@@ -95,7 +97,7 @@
     <div data-role="content" ng-controller="SceneCtrl" class="content_container">
         <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
         <div class="content_left_subcontainer tablet_hide">
-            <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
+            <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button" style="margin-top: 0px">
                 <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
                 <div class="main_menu_text panel">Lights & Groups</div>
             </a>
@@ -103,12 +105,12 @@
                 <img src="./css/images/icons/icon-scene-40.png" class="light_group_img no_padding">
                 <div class="main_menu_text panel">Scenes</div>
             </a>
-            <div class="ui-btn main_menu_transparent_bg button">
+            <a href="automationoverview.html" class="ui-btn main_menu_transparent_bg button">
                 <img src="./css/images/icons/icon-automation-40.png" class="light_group_img no_padding">
                 <div class="main_menu_text panel">
                     Automation
                 </div>
-            </div>
+            </a>
             <a href="party.html" class="ui-btn main_menu_transparent_bg button">
                 <img src="./css/images/icons/icon-party-40.png" class="light_group_img no_padding">
                 <div class="main_menu_text panel">
@@ -121,37 +123,23 @@
                     Settings
                 </div>
             </a>
-
-
-
-
-
-            <!---------------------------------------- NOTIFICATIONS -------------------------------------------------->
-            <div class="notification" ng-if="sharedScope.submenu.visible.notificationSceneDeleted" ng-click="sharedScope.submenu.closeSubmenu()">
-                <img src="css/images/icons/icon-warning.png" class="header_left_icon">Scene deleted.
-            </div>
-            <div class="notification" ng-if="sharedScope.submenu.visible.notificationLightRemoved" ng-click="sharedScope.submenu.closeSubmenu()">
-                <img src="css/images/icons/icon-warning.png" class="header_left_icon">Light removed.
-            </div>
-            <div class="notification" ng-if="sharedScope.submenu.visible.notificationNoLightToAdd" ng-click="sharedScope.submenu.closeSubmenu()">
-                <img src="css/images/icons/icon-warning.png" class="header_left_icon">All lights included.
-            </div>
         </div>
 
 
+        <!---------------------------------------- NOTIFICATIONS -------------------------------------------------->
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationSceneDeleted" ng-click="sharedScope.submenu.closeSubmenu()">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">Scene deleted.
+        </div>
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationLightRemoved" ng-click="sharedScope.submenu.closeSubmenu()">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">Light removed.
+        </div>
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationNoLightToAdd" ng-click="sharedScope.submenu.closeSubmenu()">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">All lights included.
+        </div>
+
+
+
         <div class="content_right_subcontainer" style="text-align: center; margin: auto; overflow:hidden">
-            <!---------------------------------------- NOTIFICATIONS -------------------------------------------------->
-            <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.notificationSceneDeleted" ng-click="sharedScope.submenu.closeSubmenu()">
-                <img src="css/images/icons/icon-warning.png" class="header_left_icon">Scene deleted.
-            </div>
-            <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.notificationLightRemoved" ng-click="sharedScope.submenu.closeSubmenu()">
-                <img src="css/images/icons/icon-warning.png" class="header_left_icon">Light removed.
-            </div>
-            <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.notificationNoLightToAdd" ng-click="sharedScope.submenu.closeSubmenu()">
-                <img src="css/images/icons/icon-warning.png" class="header_left_icon">All lights included.
-            </div>
-
-
 
             <!---------------------------------------------------- SCENE LIST ----------------------------------------->
             <!-- DESKTOP TABLET -->
