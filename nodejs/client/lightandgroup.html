@@ -147,7 +147,7 @@
             <div class="subcontent_b">
                 <div class="transparent_bg listing_box">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext
-                        ui-btn-inline light_group_a listing_box_icon mobile_hide" ng-click="lights.adjustAll.toggle();
+                        ui-btn-inline light_group_a listing_box_icon" ng-click="lights.adjustAll.toggle();
                         sharedScope.submenu.closeSubmenu()"></span>
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-notext
                         ui-btn-inline light_group_a listing_box_icon" ng-click="lights.turnAllLightsOnOff()"></span>
@@ -281,19 +281,40 @@
             <!------------------------ SUBMENUES: adjust all lights, delete group, create new group ------------------->
             <div class="subcontent_d">
                 <!-- adjust all lights (just for desktop/tablet view) -->
-                <div ng-if="lights.adjustAll.display" class="lightgroup-all-container transparent_bg mobile_hide"
-                        style="border-radius:5px; margin-top:15px">
-                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="lights.adjustAll.toggle()"></span>
-                    <h2 class="listing_box_title">Adjust All Lights</h2>
-                    <div class="slider-brightness" hueper-slider model="lights.adjustAll.dummyState.bri" min="0" max="254"
-                         step="5" change="lights.stateAll({ bri: value })"></div>
-                    <div hueper-colorpicker ng-if="!lights.adjustAll.separate" state="lights.adjustAll.dummyState"
-                         change="lights.stateAll(state)"></div>
-                    <div hueper-colorpicker-separate ng-if="lights.adjustAll.separate" state="lights.adjustAll.dummyState"
-                         lights="state.lights" change="lights.state(id, state)"></div>
-                    <p><div hueper-checkbox="lights.adjustAll.separate">Separate Colors</div></p>
+                <div ng-if="lights.adjustAll.display">
+
+                     <div class="lightgroup-all-container transparent_bg mobile_hide" style="border-radius:5px; margin-top:15px">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                            light_group_a listing_box_icon" ng-click="lights.adjustAll.toggle()"></span>
+                        <h2 class="listing_box_title">Adjust All Lights</h2>
+                        <div class="slider-brightness" hueper-slider model="lights.adjustAll.dummyState.bri" min="0" max="254"
+                             step="5" change="lights.stateAll({ bri: value })"></div>
+                        <div hueper-colorpicker ng-if="!lights.adjustAll.separate" state="lights.adjustAll.dummyState"
+                             change="lights.stateAll(state)"></div>
+                        <div hueper-colorpicker-separate ng-if="lights.adjustAll.separate" state="lights.adjustAll.dummyState"
+                             lights="state.lights" change="lights.state(id, state)"></div>
+                        <p><div hueper-checkbox="lights.adjustAll.separate">Separate Colors</div></p>
+                    </div>
+
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="lights.adjustAll.toggle()"></div>
+                    <div class="overlap_content mobile_show">
+                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                            <a href="lightandgroup.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                        </div>
+                        <div style="text-align: center; color: #f9efed">Adjust All Lights</div>
+                        <div class="slider-brightness" hueper-slider model="lights.adjustAll.dummyState.bri" min="0" max="254"
+                             step="5" change="lights.stateAll({ bri: value })"></div>
+                        <div hueper-colorpicker ng-if="!lights.adjustAll.separate" state="lights.adjustAll.dummyState"
+                             change="lights.stateAll(state)"></div>
+                        <div hueper-colorpicker-separate ng-if="lights.adjustAll.separate" state="lights.adjustAll.dummyState"
+                             lights="state.lights" change="lights.state(id, state)"></div>
+                        <p><div hueper-checkbox="lights.adjustAll.separate">Separate Colors</div></p>
+
+                    </div>
                 </div>
+
+
 
                 <!-- delete group -->
                 <div ng-if="sharedScope.submenu.visible.deleteGroup">
