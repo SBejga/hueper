@@ -305,14 +305,10 @@
                         light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
                         <h2 class="listing_box_title">Which groups should be added?</h2>
                         <div style="padding:7px; width:45%; text-align: center; margin:auto">
-                            <div class="overlap_list" ng-repeat="groupId in lights.getGroupsInverse(helpers.urlId)">
-                                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext
-                                    ui-btn-inline"  style="float:right; margin-top: 3px" ng-click="groups.addLight(groupId, helpers.urlId)"></span>
-                                <div style="margin-top: 10px; margin-bottom: 5px">
-                                    {{sharedScope.state.groups[groupId].name}}
-                                </div>
-                            </div>
-                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button"
+                            <button class="button transparent_bg" style="text-align: center;margin: auto;margin-bottom: 10px"
+                                    ng-repeat="groupId in lights.getGroupsInverse(helpers.urlId)"
+                                    ng-click="groups.addLight(groupId, helpers.urlId)">{{sharedScope.state.groups[groupId].name}}</button>
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button ui-btn-inline"
                                     ng-click="sharedScope.submenu.closeSubmenu()" style="text-align: center; margin:auto; margin-top:10px">done</button>
                         </div>
                     </div>
@@ -324,16 +320,12 @@
                             <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
                         </div>
                         <div style="text-align: center; color: #f9efed">Which groups should be added?</div>
-                        <div style="padding:20px">
-                            <div class="overlap_list" ng-repeat="groupId in lights.getGroupsInverse(helpers.urlId)">
-                                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext
-                                    ui-btn-inline"  style="float:right" ng-click="groups.addLight(groupId, helpers.urlId)"></span>
-                                <div style="margin-top: 12px">
-                                    {{sharedScope.state.groups[groupId].name}}
-                                </div>
-                            </div>
-                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button"
-                                    ng-click="sharedScope.submenu.closeSubmenu()">done</button>
+                        <div style="padding:20px; text-align: center">
+                            <button class="button transparent_bg" style="text-align: center;margin: auto;margin-bottom: 10px"
+                                    ng-repeat="groupId in lights.getGroupsInverse(helpers.urlId)"
+                                    ng-click="groups.addLight(groupId, helpers.urlId)">{{sharedScope.state.groups[groupId].name}}</button>
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button ui-btn-inline"
+                                    ng-click="sharedScope.submenu.closeSubmenu()" style="text-align: center; margin:auto; margin-top:10px">done</button>
                         </div>
                     </div>
                 </div>
