@@ -290,10 +290,10 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         var i = $location.absUrl().toString().indexOf("connection");
         var connectstate = (!$scope.state.connect.hue || !$scope.state.connect.hueRegistered || !$scope.state.connect.mongodb );
         if((i < 0) && connectstate){
-            $window.location.href = 'connection.html';
+            $.mobile.changePage( "connection.html", {changeHash: false});
         }
         else if((i > 0) && !connectstate){
-           $window.location.href = 'index.html';
+            $.mobile.changePage( "index.html", {changeHash: false});
         }
     }, true);
     */
@@ -304,13 +304,13 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
 controller('IndexCtrl', [function() {
         if(window.innerWidth > 1100){
-            window.location.href = 'lightandgroup.html';
+            $( ":mobile-pagecontainer" ).pagecontainer( "change", "lightandgroup.html");
         }
 }]).
 
 controller('SettingsCtrl', [function() {
     if(window.innerWidth > 1100){
-        window.location.href = 'account.html';
+        $.mobile.changePage( "account.html", {changeHash: false});
     }
 }]);
 
