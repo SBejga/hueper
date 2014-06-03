@@ -30,6 +30,8 @@
     <script src="./js/controllers/partyctrl.js"></script>
     <script src="./js/controllers/scenectrl.js"></script>
     <script src="./js/controllers/speechctrl.js"></script>
+    <script src="./js/controllers/automationctrl.js"></script>
+
 
     <!-- Favicon and Touch-Icons -->
     <link rel="shortcut icon" href="favicon.ico">
@@ -52,7 +54,7 @@
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl" class="background_stars" data-theme="b">
 <!-- HEADER -->
-    <div data-role="header" data-position="fixed" style="position: fixed">
+    <div data-role="header" class="header">
         <div class="header_container">
             <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon mobile_hide" ng-click="sharedScope.user.logout()"
                  ng-show="sharedScope.state.user.loginRequired">

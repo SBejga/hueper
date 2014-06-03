@@ -30,6 +30,8 @@
     <script src="./js/controllers/partyctrl.js"></script>
     <script src="./js/controllers/scenectrl.js"></script>
     <script src="./js/controllers/speechctrl.js"></script>
+    <script src="./js/controllers/automationctrl.js"></script>
+
 
     <!-- Favicon and Touch-Icons -->
     <link rel="shortcut icon" href="favicon.ico">
@@ -51,7 +53,7 @@
 <body>
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl"  class="background_stars" data-theme="b">
 <!-- HEADER -->
-<div data-role="header" data-position="fixed" style="position: fixed">
+<div data-role="header" class="header">
     <div class="header_container tablet_hide">
         <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
              ng-show="sharedScope.state.user.loginRequired">
@@ -92,7 +94,7 @@
 <div data-role="content" class="content_container" ng-controller="SpeechCtrl">
     <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
     <div class="content_left_subcontainer tablet_hide">
-        <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
+        <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button" style="margin-top: 0px">
             <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
             <div class="main_menu_text panel">
                 Lights & Groups
@@ -116,7 +118,7 @@
                 Party
             </div>
         </a>
-        <a href="settings.html" class="ui-btn main_menu_transparent_bg button">
+        <a href="settings.html" class="ui-btn main_menu_transparent_bg button checked_menubox">
             <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
             <div class="main_menu_text panel">
                 Settings
@@ -141,25 +143,26 @@
                 <div class="main_menu_settings_text panel">Network Devices</div>
             </a>
         </div>
-
-        <!----------------------------------------  NOTIFICATIONS ------------------------------------------------->
-        <div class="notification" ng-show="sharedScope.user.forms.password.error === true">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-            Old password is wrong.
-        </div>
-        <div class="notification" ng-show="sharedScope.user.forms.password.error === 'match'">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-            The new passwords don't match.
-        </div>
-        <div class="notification" ng-show="sharedScope.user.forms.password.success">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-            Password has been changed.
-        </div>
-        <div class="notification" ng-if="sharedScope.submenu.visible.searchLights">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-            If there are new lights, they will be added automatically.
-        </div>
     </div>
+
+    <!----------------------------------------  NOTIFICATIONS ------------------------------------------------->
+    <div class="notification" ng-show="sharedScope.user.forms.password.error === true">
+        <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+        Old password is wrong.
+    </div>
+    <div class="notification" ng-show="sharedScope.user.forms.password.error === 'match'">
+        <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+        The new passwords don't match.
+    </div>
+    <div class="notification" ng-show="sharedScope.user.forms.password.success">
+        <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+        Password has been changed.
+    </div>
+    <div class="notification" ng-if="sharedScope.submenu.visible.searchLights">
+        <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+        If there are new lights, they will be added automatically.
+    </div>
+
 
 
     <div class="content_right_subcontainer ">
@@ -191,23 +194,6 @@
         </div>
 
 
-        <!----------------------------------------  NOTIFICATIONS ------------------------------------------------->
-        <div class="notification tablet_show" ng-show="sharedScope.user.forms.password.error === true">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-            Old password is wrong.
-        </div>
-        <div class="notification tablet_show" ng-show="sharedScope.user.forms.password.error === 'match'">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-            The new passwords don't match.
-        </div>
-        <div class="notification tablet_show" ng-show="sharedScope.user.forms.password.success">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-            Password has been changed.
-        </div>
-        <div class="notification tablet_show" ng-if="sharedScope.submenu.visible.searchLights">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-            If there are new lights, they will be added automatically.
-        </div>
 
         <!-- Switch Status, Choose Interpreter-->
         <div class="subcontent_b">
