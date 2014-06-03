@@ -2,9 +2,7 @@
 
 /* Directives */
 
-
 angular.module('hueApp.directives', []).
-
 
 /**
  * Mouse, touch, and pointer event abstraction
