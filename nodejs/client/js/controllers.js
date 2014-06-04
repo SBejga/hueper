@@ -148,6 +148,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
         urlId: 0,
         transitionTime: 0,
+        ready: false,
 
         /**
              * toggle add/remove element to array
@@ -250,6 +251,26 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             }
 
             return sum;
+        },
+
+        /**
+         * jQuery Mobile redirect abstraction to ensure that a redirect is
+         * fired only when the first page has loaded completely
+         * @param url
+         */
+        redirect: function(url) {
+            if($rootScope.helpers.ready) {
+                $.mobile.changePage(url, {changeHash: false});
+            }
+            else {
+                var redirectWatch = $rootScope.$watch('helpers.ready', function() {
+                    window.setTimeout(function() {
+                        $.mobile.changePage(url, {changeHash: false});
+                    }, 300);
+
+                    redirectWatch();
+                });
+            }
         }
 
     };
@@ -278,8 +299,9 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
 
     $scope.$on("$locationChangeSuccess", function(){
-            $rootScope.helpers.getIdFromUrl();
-            $scope.submenu.closeSubmenu();
+        $rootScope.helpers.ready = true;
+        $rootScope.helpers.getIdFromUrl();
+        $scope.submenu.closeSubmenu();
     });
 
     /*
@@ -302,15 +324,15 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
 
 
-controller('IndexCtrl', [function() {
+controller('IndexCtrl', ['$rootScope', function($rootScope) {
     if(window.innerWidth > 1100){
-        $.mobile.changePage( "lightandgroup.html", {changeHash: false});
+        $rootScope.helpers.redirect("lightandgroup.html");
     }
 }]).
 
-controller('SettingsCtrl', [function() {
+controller('SettingsCtrl', ['$rootScope', function($rootScope) {
     if(window.innerWidth > 1100){
-        $.mobile.changePage( "account.html", {changeHash: false});
+        $rootScope.helpers.redirect("account.html");
     }
 }]);
 
