@@ -126,6 +126,11 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
                     $scope.state.lights[scene.lights[i].light].state.on = true;
                 }
 
+                // deactivate colorloop when changing colors
+                if(typeof(scene.lights[i].state.hue) !== 'undefined' || typeof(scene.lights[i].state.sat) !== 'undefined' || typeof(scene.lights[i].state.ct) !== 'undefined') {
+                    $scope.state.lights[scene.lights[i].light].state.effect = 'none';
+                }
+
                 // change colormode
                 if(typeof(scene.lights[i].state.ct) !== 'undefined') {
                     $scope.state.lights[scene.lights[i].light].state.colormode = 'ct';

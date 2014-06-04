@@ -37,6 +37,11 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
                 $scope.state.lights[lightId].state.on = true;
             }
 
+            // deactivate colorloop when changing colors
+            if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
+                $scope.state.lights[lightId].state.effect = 'none';
+            }
+
             // change colormode
             $scope.helpers.setColorMode(state, $scope.state.lights[lightId].state);
         },
@@ -72,6 +77,11 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
                     // turn on when changing other properties
                     if(typeof(state.on) === 'undefined') {
                         $scope.state.lights[i].state.on = true;
+                    }
+
+                    // deactivate colorloop when changing colors
+                    if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
+                        $scope.state.lights[i].state.effect = 'none';
                     }
 
                     // change colormode
@@ -330,6 +340,11 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
                 // turn light on when changing other properties
                 if(typeof(state.on) === 'undefined') {
                     $scope.state.lights[$scope.state.groups[groupId].lights[i]].state.on = true;
+                }
+
+                // deactivate colorloop when changing colors
+                if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
+                    $scope.state.lights[$scope.state.groups[groupId].lights[i]].state.effect = 'none';
                 }
 
                 // change light colormode
