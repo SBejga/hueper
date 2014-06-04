@@ -329,6 +329,11 @@ var cleanClientState = function(state) {
         state.on = true;
     }
 
+    // deactivate colorloop when changing colors
+    if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
+        state.effect = 'none';
+    }
+
     // insert default transition time
     // don't insert when turning off as then the brightness would change to 1 (bug?)
     if(typeof(state.transitiontime) === 'undefined' && state.on !== false) {
