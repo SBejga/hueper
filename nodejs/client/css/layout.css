@@ -2,6 +2,17 @@
     cursor:pointer;
 }
 
+@font-face{
+    font-family: 'PersonalFont';
+    src: url('./font-faces/Roboto-Regular.ttf');
+}
+
+@font-face{
+    font-family: 'PersonalFont';
+    src: url('./font-faces/Roboto-Bold.ttf');
+    font-weight:bold;
+}
+
 .wrapper {
     position: relative;
     width:1000px;
@@ -100,6 +111,7 @@
 .ui-header .ui-title{
     text-align: left;
     margin-left:100px;
+    font-size:18px
 }
 
 .ui-page-theme-b .ui-bar-inherit{
@@ -142,11 +154,12 @@
     border: none !important;
     color: #800000 !important;
     text-shadow:1px 1px #b3b3b3 !important;
+    background-color: rgba(236, 236, 236, 0.6) !important;
     max-width:300px;
     text-align: center;
     margin-top:10px;
     margin-bottom:10px;
-    min-width:150px;
+    min-width:130px;
 }
 
 
@@ -157,6 +170,13 @@ button:hover{
 
 button:active{
     background-color: rgba(236, 236, 236, 0.8) !important;
+}
+
+.radio_button{
+    vertical-align:middle;
+    line-height: 40px;
+    border-radius: 5px;
+    margin-right: 0px;
 }
 
 .background_red{
@@ -170,6 +190,7 @@ button:active{
     background-size:cover;
     background-repeat:no-repeat;
     background-attachment:fixed;
+    font-family:'PersonalFont', Fallback, sans-serif !important;
 }
 
 .transparent_bg{
@@ -229,6 +250,7 @@ button:active{
 .overlap{
     z-index:1;
     background-color: rgba(100, 100, 100, 0.3) !important;
+
     position: fixed;
     top: 0px;
     left: 0px;
@@ -237,8 +259,8 @@ button:active{
 }
 
 .overlap_content{
-    z-index:2;
-    background-color: rgba(128, 0, 0, 0.8) !important;
+    z-index:3;
+    background-image:url(images/himmel.png) !important;
     position: fixed;
     bottom: 0px;
     left: 0px;
@@ -609,14 +631,6 @@ button:active{
     .button_small{
         background-color: rgba(236, 236, 236, 0.8) !important;
     }
-
-    .radio_button{
-        vertical-align:middle;
-        line-height: 40px;
-        border-radius: 5px;
-        margin-right: 0px;
-    }
-
 
     .content_right_subcontainer{
         float: none;

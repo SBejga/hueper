@@ -174,6 +174,7 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
             if(submenu === 'deleteLastLightFromScene'){
                 $scope.scenes.remove($scope.scenes.selectedSceneId);
                 $.mobile.changePage( "scenes.html", {changeHash: false});
+
                 $scope.sharedScope.submenu.openSubmenu('notificationSceneDeleted');
             }else{
                 var i;
