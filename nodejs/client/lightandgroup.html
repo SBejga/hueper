@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="de" ng-app="hueApp">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,7 +49,6 @@
     <meta name="msapplication-TileColor" content="#141414" />
 
 </head>
-
 <body>
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl"  class="background_stars" data-theme="b">
@@ -221,52 +219,53 @@
             <!---------------------------------------- GROUPS --------------------------------------------------------->
             <div class="subcontent_c ">
                 <div class="transparent_bg listing_box">
-                                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                                    light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('createNewGroup')"></span>
+                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('createNewGroup')"></span>
                     <h2 class="listing_box_title">Groups</h2>
                     <div class="light_group" ng-repeat="(id, group) in sharedScope.state.groups">
-                                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                                        ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, '', 'lightandgroup')"></span>
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                            ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, '', 'lightandgroup')"></span>
                         <a href="group.html?id={{id}}" style="text-decoration: none">
                             <img src="./css/images/transparent_group_small.png" class="light_group_img">
                             <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">{{group.name}}</div>
                         </a>
                     </div>
+
+                    <!--START TEST AREA GROUP
+                    <div class="light_group">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                            ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, '', 'lightandgroup')"></span>
+                        <a href="group.html?id={{1}}" style="text-decoration: none">
+                            <img src="./css/images/transparent_group_small.png" class="light_group_img">
+                            <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">Gruppe1</div>
+                        </a>
+                    </div>
+                    <div class="light_group">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                            ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, '', 'lightandgroup')"></span>
+                        <a href="group.html?id={{1}}" style="text-decoration: none">
+                            <img src="./css/images/transparent_group_small.png" class="light_group_img">
+                            <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">Gruppe2</div>
+                        </a>
+                    </div>
+                    <div class="light_group">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                            ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, '', 'lightandgroup')"></span>
+                        <a href="group.html?id={{1}}" style="text-decoration: none">
+                            <img src="./css/images/transparent_group_small.png" class="light_group_img">
+                            <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">Gruppe3</div>
+                        </a>
+                    </div>
+                    <div class="light_group">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                            ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, '', 'lightandgroup')"></span>
+                        <a href="group.html?id={{1}}" style="text-decoration: none">
+                            <img src="./css/images/transparent_group_small.png" class="light_group_img">
+                            <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">Gruppe4</div>
+                        </a>
+                    </div>
+                    <!-- END TEST AREA-->
                 </div>
-                <!--START TEST AREA GROUP
-    <div class="light_group">
-        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-            ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, 'deleteGroup')"></span>
-        <a href="group.html?id={{id}}" style="text-decoration: none">
-            <img src="./css/images/transparent_group_small.png" class="light_group_img">
-            <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">Group1dnkasfkä</div>
-        </a>
-    </div>
-    <div class="light_group">
-        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-            ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, 'deleteGroup')"></span>
-        <a href="group.html?id={{id}}" style="text-decoration: none">
-            <img src="./css/images/transparent_group_small.png" class="light_group_img">
-            <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">Group1dnkasfkä</div>
-        </a>
-    </div>
-    <div class="light_group">
-        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-            ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, 'deleteGroup')"></span>
-        <a href="group.html?id={{id}}" style="text-decoration: none">
-            <img src="./css/images/transparent_group_small.png" class="light_group_img">
-            <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">Group1dnkasfkä</div>
-        </a>
-    </div>
-    <div class="light_group">
-        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-            ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(id, 'deleteGroup')"></span>
-        <a href="group.html?id={{id}}" style="text-decoration: none">
-            <img src="./css/images/transparent_group_small.png" class="light_group_img">
-            <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">Group1dnkasfkä</div>
-        </a>
-    </div>
-     <!-- END TEST AREA-->
             </div>
 
 
@@ -328,13 +327,15 @@
                         <div style="text-align: center; color: #f9efed">
                             Do you want to remove the group "{{sharedScope.state.groups[groups.selectedGroupId].name}}"?
                         </div>
-                        <div style="padding:20px; text-align: center">
-                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button
-                                            ui-btn-inline" ng-click="groups.remove(groups.selectedGroupId)">YES</button>
-                            <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner transparent_bg button
-                                            ui-btn-inline" ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                        <div style="padding:15px; text-align: center">
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner button ui-btn-inline"
+                                    ng-click="groups.remove(groups.selectedGroupId)">YES</button>
+                            <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner button ui-btn-inline"
+                                    ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
                         </div>
                     </div>
+
+
                 </div>
 
 
@@ -384,7 +385,7 @@
                                 <div class="overlap_list" ng-repeat="(id, light) in sharedScope.state.lights" style="padding:10px; margin-top:10px;">
                                     <div hueper-checkbox="id" list="groups.forms.create.lights"> {{light.name}}</div>
                                 </div>
-                                <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
+                                <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner button"
                                         ng-disabled="!groups.forms.create.lights.length" style="text-align: center; margin:auto">done</button>
                             </form>
                         </div>

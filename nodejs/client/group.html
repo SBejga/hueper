@@ -286,9 +286,9 @@
                         </div>
                         <div style="text-align: center; color: #f9efed">Do you want to remove the light "{{sharedScope.state.lights[groups.selectedLightId].name}}"?</div>
                         <div style="padding:20px; text-align: center">
-                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline button"
                                     ng-click="groups.removeLight('groupmenu','deleteLightFromGroup')">YES</button>
-                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline button"
                                     ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
                         </div>
                     </div>
@@ -315,9 +315,9 @@
                         </div>
                         <div style="text-align: center; color: #f9efed">This group will be deleted completely.
                             <div style="padding:20px; text-align: center">
-                                <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline button"
                                         ng-click="groups.removeLight('groupmenu','deleteLastLightFromGroup')">delete group</button>
-                                <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline button"
                                         ng-click="sharedScope.submenu.closeSubmenu()">keep group</button>
                             </div>
                         </div>
@@ -348,10 +348,10 @@
                         </div>
                         <div style="text-align: center; color: #f9efed">Which lights should be added?</div>
                         <div style="padding:20px; text-align: center">
-                            <button class="button transparent_bg" style="text-align: center;margin: auto;margin-bottom: 10px"
+                            <button class="button" style="text-align: center;margin: auto;margin-bottom: 10px"
                                     ng-repeat="lightId in groups.getLightsInverse(helpers.urlId)"
                                     ng-click="groups.addLight(helpers.urlId, lightId)">{{sharedScope.state.lights[lightId].name}}</button>
-                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner transparent_bg button ui-btn-inline"
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner button ui-btn-inline"
                                     ng-click="sharedScope.submenu.closeSubmenu()" style="text-align: center; margin:auto; margin-top:10px">done</button>
                         </div>
                     </div>

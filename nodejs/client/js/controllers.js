@@ -303,9 +303,9 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
 
 controller('IndexCtrl', [function() {
-        if(window.innerWidth > 1100){
-            $( ":mobile-pagecontainer" ).pagecontainer( "change", "lightandgroup.html");
-        }
+    if(window.innerWidth > 1100){
+        $.mobile.changePage( "lightandgroup.html", {changeHash: false});
+    }
 }]).
 
 controller('SettingsCtrl', [function() {
