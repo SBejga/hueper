@@ -485,6 +485,11 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', f
                 $scope.state.lights[id].state.on = true;
             }
 
+            // deactivate colorloop when changing colors
+            if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
+                $scope.state.lights[id].state.effect = 'none';
+            }
+
             // change colormode
             $scope.helpers.setColorMode(state, $scope.state.lights[id].state);
         },
@@ -522,6 +527,11 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', f
                     // turn on when changing other properties
                     if(typeof(state.on) === 'undefined') {
                         $scope.state.lights[i].state.on = true;
+                    }
+
+                    // deactivate colorloop when changing colors
+                    if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
+                        $scope.state.lights[i].state.effect = 'none';
                     }
 
                     // change colormode
@@ -634,6 +644,11 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', f
                 // turn light on when changing other properties
                 if(typeof(state.on) === 'undefined') {
                     $scope.state.lights[$scope.state.groups[id].lights[i]].state.on = true;
+                }
+
+                // deactivate colorloop when changing colors
+                if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
+                    $scope.state.lights[$scope.state.groups[id].lights[i]].state.effect = 'none';
                 }
 
                 // change light colormode
@@ -773,6 +788,11 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', f
                 // turn light on when changing other properties
                 if(typeof(scene.lights[i].state.isOn) === 'undefined') {
                     $scope.state.lights[scene.lights[i].light].state.on = true;
+                }
+
+                // deactivate colorloop when changing colors
+                if(typeof(scene.lights[i].state.hue) !== 'undefined' || typeof(scene.lights[i].state.sat) !== 'undefined' || typeof(scene.lights[i].state.ct) !== 'undefined') {
+                    $scope.state.lights[scene.lights[i].light].state.effect = 'none';
                 }
 
                 // change colormode
