@@ -190,7 +190,7 @@ button:active{
     background-size:cover;
     background-repeat:no-repeat;
     background-attachment:fixed;
-    font-family:'PersonalFont', Fallback, sans-serif !important;
+    font-family:'PersonalFont', sans-serif !important;
 }
 
 .transparent_bg{
@@ -675,11 +675,26 @@ button:active{
         float:left;
         padding-top: 5px;
     }
+}
 
+/* small height */
+@media screen and (max-height:400px) {
 
+    .content_left_subcontainer{
+        position: absolute;
+    }
+
+    .header{
+        position: absolute;
+
+    }
 
 
 }
+
+
+
+
 
 
 
@@ -708,6 +723,7 @@ button:active{
 .slider-brightness .slider-track{
     background-color: transparent;
     background: linear-gradient(90deg, #000000, #ffffff);
+
 }
 
 

@@ -271,7 +271,14 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
                     redirectWatch();
                 });
             }
+        },
+
+        scrollToSubmenu: function(){
+            if(window.innerWidth > 550){
+                window.scrollTo(0,500);
+            }
         }
+
 
     };
 
@@ -280,7 +287,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
     //Submenu functions
     $scope.submenu = {
         visible:{},
-        openSubmenu: function(menuname){
+        openSubmenu: function(menuname, verticalPosition){
             $scope.submenu.visible = {};
             if(angular.isArray(menuname)){
                 angular.forEach(menuname, function(value){
