@@ -117,7 +117,7 @@
                     Party
                 </div>
             </a>
-            <a href="settings.html" class="ui-btn main_menu_transparent_bg button">
+            <a href="account.html" class="ui-btn main_menu_transparent_bg button">
                 <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
                 <div class="main_menu_text panel">
                     Settings
@@ -136,9 +136,8 @@
             <!---------------------------------------- LIGHTS --------------------------------------------------------->
             <div class="subcontent_b">
                 <div class="transparent_bg listing_box">
-                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext
-                        ui-btn-inline light_group_a listing_box_icon" ng-click="lights.adjustAll.toggle();
-                        sharedScope.submenu.closeSubmenu()"></span>
+                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="lights.adjustAll.toggle();sharedScope.submenu.closeSubmenu(); sharedScope.helpers.scrollToSubmenu();"></span>
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-notext
                         ui-btn-inline light_group_a listing_box_icon" ng-click="lights.turnAllLightsOnOff()"></span>
                     <h2 class="listing_box_title">Lights</h2>
@@ -294,14 +293,15 @@
                             <a href="lightandgroup.html"><img src="css/images/icons/icon-arrow-down.png"></a>
                         </div>
                         <div style="text-align: center; color: #f9efed">Adjust All Lights</div>
-                        <div class="slider-brightness" hueper-slider model="lights.adjustAll.dummyState.bri" min="0" max="254"
-                             step="5" change="lights.stateAll({ bri: value })"></div>
-                        <div hueper-colorpicker ng-if="!lights.adjustAll.separate" state="lights.adjustAll.dummyState"
-                             change="lights.stateAll(state)"></div>
-                        <div hueper-colorpicker-separate ng-if="lights.adjustAll.separate" state="lights.adjustAll.dummyState"
-                             lights="state.lights" change="lights.state(id, state)"></div>
-                        <p><div hueper-checkbox="lights.adjustAll.separate">Separate Colors</div></p>
-
+                        <div style="padding:20px">
+                            <div class="slider-brightness" hueper-slider model="lights.adjustAll.dummyState.bri" min="0" max="254"
+                                 step="5" change="lights.stateAll({ bri: value })"></div>
+                            <div hueper-colorpicker ng-if="!lights.adjustAll.separate" state="lights.adjustAll.dummyState"
+                                 change="lights.stateAll(state)"></div>
+                            <div hueper-colorpicker-separate ng-if="lights.adjustAll.separate" state="lights.adjustAll.dummyState"
+                                 lights="state.lights" change="lights.state(id, state)"></div>
+                            <p><div hueper-checkbox="lights.adjustAll.separate">Separate Colors</div></p>
+                        </div>
                     </div>
                 </div>
 

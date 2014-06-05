@@ -234,7 +234,6 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
                     $scope.sharedScope.submenu.openSubmenu(['openScene','notificationNoLightToAdd']);
                 }
             }
-            console.log(result);
             return result;
         }
 
