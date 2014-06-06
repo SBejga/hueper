@@ -13,10 +13,8 @@ cd /home/pi
 mkdir /var/log/hue
 chown pi /var/log/hue
 
-# System update and dependency installation
+# Dependency installation
 
-apt-get update
-apt-get -y upgrade
 apt-get -y install git python build-essential sox nmap alsa-tools alsa-oss flex zlib1g-dev libc-bin libc-dev-bin python-pexpect libasound2 libasound2-dev cvs
 
 

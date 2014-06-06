@@ -113,6 +113,10 @@ Nachteile:
 
 Danach ist ein Neustart nötig, um die neue Firmware zu aktivieren.
 
+### Software-Updates einspielen
+
+    sudo apt-get update
+    sudo apt-get -y upgrade
 
 ### USB-Soundkarte einrichten
 
@@ -132,18 +136,11 @@ Die Aufnahme-Lautstärke kann über das Programm `alsamixer` geändert werden. U
 
     sudo alsactl store 1
 
-
 __________________
 **Die nachfolgenden Schritte können automatisiert werden**
 
 Dazu einfach die *raspberry/setup.sh* auf den Raspberry laden, mit `chmod +x setup.sh` ausführbar machen und mit `sudo ./setup.sh` starten
 __________________
-
-
-### Software-Updates einspielen
-
-    sudo apt-get update
-    sudo apt-get -y upgrade
 
 
 ## Einrichten des Projekts
