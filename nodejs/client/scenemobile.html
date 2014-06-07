@@ -285,7 +285,7 @@
                                  trueval="colorloop" falseval="none"> Activate Colorloop</div>
                         </div>
                         <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
-                                ng-click="scenes.update(sharedScope.state.scenes[helpers.urlId])">Save</button>
+                                ng-click="scenes.update(sharedScope.state.scenes[helpers.urlId]); sharedScope.submenu.openSubmenu('openScene')">Save</button>
 
                     </div>
 
@@ -304,7 +304,7 @@
                                  trueval="colorloop" falseval="none"> Activate Colorloop</div>
                         </div>
                         <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline button"
-                                ng-click="scenes.update(sharedScope.state.scenes[helpers.urlId])">Save</button>
+                                ng-click="scenes.update(sharedScope.state.scenes[helpers.urlId]); sharedScope.submenu.openSubmenu('openScene')">Save</button>
                     </div>
                 </div>
 

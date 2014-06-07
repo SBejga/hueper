@@ -382,11 +382,11 @@
                                 <div style="text-align: center; color: #f9efed;">
                                     ...and add at least one light.
                                 </div>
-                                <div class="overlap_list" ng-repeat="(id, light) in sharedScope.state.lights" style="padding:10px; margin-top:10px;">
+                                <div ng-repeat="(id, light) in sharedScope.state.lights" style="padding:5px; margin-top:5px;">
                                     <div hueper-checkbox="id" list="groups.forms.create.lights"> {{light.name}}</div>
                                 </div>
                                 <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner button"
-                                        ng-disabled="!groups.forms.create.lights.length" style="text-align: center; margin:auto">done</button>
+                                        ng-disabled="!groups.forms.create.lights.length" style="text-align: center; margin:auto; margin-top:15px;">done</button>
                             </form>
                         </div>
                     </div>
