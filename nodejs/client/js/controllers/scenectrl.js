@@ -36,7 +36,7 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
             delete $scope.state.scenes[id];
             $scope.sharedScope.submenu.closeSubmenu();
             $scope.sharedScope.submenu.openSubmenu("notificationSceneDeleted");
-            $.mobile.changePage( "scenes.html", {changeHash: false});
+            $scope.helpers.redirect("scenes.html");
         },
 
         setSelectedSceneId: function(sceneId){
@@ -178,7 +178,7 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
             $scope.sharedScope.submenu.closeSubmenu();
             if(submenu === 'deleteLastLightFromScene'){
                 $scope.scenes.remove($scope.scenes.selectedSceneId);
-                $.mobile.changePage( "scenes.html", {changeHash: false});
+                $scope.helpers.redirect("scenes.html");
 
                 $scope.sharedScope.submenu.openSubmenu('notificationSceneDeleted');
             }else{

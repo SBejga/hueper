@@ -425,7 +425,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             if(submenu === 'deleteLastLightFromGroup'){
                 $scope.groups.remove($scope.groups.selectedGroupId);
                 if(menu === 'groupmenu'){
-                   $.mobile.changePage( "lightandgroup.html", {changeHash: false});
+                    $scope.helpers.redirect("lightandgroup.html");
                 }
                 $scope.sharedScope.submenu.openSubmenu("notificationGroupDeleted");
             }
