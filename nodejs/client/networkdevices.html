@@ -134,16 +134,23 @@
                     <img src="./css/images/icons/icon-speech-32.png" class="light_group_img no_padding">
                     <div class="main_menu_settings_text panel">Speech</div>
                 </a>
-                <a href="rfid.html" class="ui-btn main_menu_transparent_bg button main_menu_settings checked_menubox" >
+                <a href="rfid.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
                     <img src="./css/images/icons/icon-rfid-32.png" class="light_group_img no_padding">
                     <div class="main_menu_settings_text panel">RFID</div>
                 </a>
-                <a href="networkdevices.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
+                <a href="networkdevices.html" class="ui-btn main_menu_transparent_bg button main_menu_settings checked_menubox" >
                     <img src="./css/images/icons/icon-iphone-32.png" class="light_group_img no_padding">
                     <div class="main_menu_settings_text panel">Network Devices</div>
                 </a>
             </div>
         </div>
+
+        <!----------------------------------------  NOTIFICATIONS ------------------------------------------------->
+        <div class="notification" ng-show="sharedScope.submenu.visible.notification">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            Notification
+        </div>
+
 
 
 
@@ -164,142 +171,124 @@
                     </a>
                     <a href="rfid.html" class="smallmenu_wrapper">
                         <div class="smallmenu_icon">
-                            <img src="./css/images/icons/icon-rfid-dark-40.png">
+                            <img src="./css/images/icons/icon-rfid-40.png">
                         </div>
                     </a>
                     <a href="networkdevices.html" class="smallmenu_wrapper">
                         <div class="smallmenu_icon">
-                            <img src="./css/images/icons/icon-iphone-40.png">
+                            <img src="./css/images/icons/icon-iphone-dark-40.png">
                         </div>
                     </a>
                 </div>
             </div>
 
-            <!-- soll nur angezeigt werden, wenn weder bekannte noch unbekannte tags gefunden wurden
-            <div class="subcontent_a">
-                <div class="transparent_bg listing_box" style="text-align: center; margin:auto">
-                    <h2 class="listing_box_title" style="text-align: center;margin:auto">There are no RFID-Tags</h2>
-                </div>
-            </div>
-            -->
 
 
-
-            <!-- Known RFID-->
+            <!-- Network Devices -->
             <div class="subcontent_b">
                 <div class="transparent_bg listing_box">
-
-                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.rfid.testfkt()"></span>
-
-                    <h2 class="listing_box_title">Known RFID</h2>
-
-                    <div class="light_group" ng-repeat="(id, tag) in sharedScope.state.rfid">
+                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('addDevice')"
+                        ng-if="sharedScope.devices.isOwnRegistered() === false"></span>
+                    <h2 class="listing_box_title">Network Devices</h2>
+                    <div class="light_group" ng-repeat="(id, device) in sharedScope.state.devices">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                            ui-btn-inline light_group_a" ng-click="sharedScope.rfid.remove(id)"></span>
-                        <div ng-click="sharedScope.rfid.setSelectedRfidId(id);sharedScope.submenu.openSubmenu('editRfid')">
-                            {{tag.name}}
+                                    ui-btn-inline light_group_a" ng-click="sharedScope.devices.remove(id)"></span>
+                        <div ng-click="sharedScope.devices.setSelectedDeviceId(id);sharedScope.submenu.openSubmenu('editDevice')">
+                            {{device.name}}
                         </div>
                     </div>
 
                 </div>
             </div>
 
-            <!-- Unknown RFID-->
-            <div class="subcontent_c" ng-show="sharedScope.state.rfidUnknown.length > 0">
-                <div class="transparent_bg listing_box">
-                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.rfid.reset()"></span>
-
-                    <h2 class="listing_box_title">Unknown RFID</h2>
-
-                    <div class="light_group" ng-repeat="id in sharedScope.state.rfidUnknown">
-                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                            light_group_a" ng-click="sharedScope.rfid.setFormTag(id);sharedScope.submenu.openSubmenu('createRfid')">
-                        </span>
-                        <div ng-click="sharedScope.rfid.setFormTag(id);sharedScope.submenu.openSubmenu('createRfid')">
-                            {{id}}
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
 
 
-
-            <!------------------------ SUBMENUES: create and edit RFID ------------------------------------------------>
-            <div class="subcontent_d">
-                <!-- create RFID -->
-                <div ng-if="sharedScope.submenu.visible.createRfid">
+            <!------------------------ SUBMENUES: add/edit Device ---------------------------------------------------------------------->
+            <div class="subcontent_c" >
+                <!-- add Device -->
+                <div  ng-if="sharedScope.submenu.visible.addDevice">
                     <!-- desktop/tablet view -->
-                    <div class="lightgroup-all-container transparent_bg mobile_hide">
+                    <div class="lightgroup-all-container transparent_bg mobile_hide" style="margin-top: 0px">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
-                        <h2 class="listing_box_title">Create RFID</h2>
+                            light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title">Add Device</h2>
                         <div style="max-width:80%; text-align: center; margin: auto; margin-bottom: 10px">
-                            <form ng-submit="sharedScope.rfid.create(sharedScope.rfid.forms.create)">
-                                <input type="text" ng-model="sharedScope.rfid.forms.create.name" required />
-                                <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
-                                        ng-disabled="!sharedScope.rfid.forms.create.name.length" style="max-width: 250px; text-align: center; margin:auto">save</button>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- mobile view -->
-                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
-                    <div class="overlap_content mobile_show">
-                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
-                            <a href="rfid.html"><img src="css/images/icons/icon-arrow-down.png"></a>
-                        </div>
-                        <div style="text-align: center; color: #f9efed">Create RFID</div>
-                        <div style="padding:20px; text-align: center">
-                            <form ng-submit="sharedScope.rfid.create(sharedScope.rfid.forms.create)">
-                                <input type="text" ng-model="sharedScope.rfid.forms.create.name" required />
-                                <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
-                                        ng-disabled="!sharedScope.rfid.forms.create.name.length" style="max-width: 250px; text-align: center; margin:auto">save</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- edit RFID -->
-                <div ng-if="sharedScope.submenu.visible.editRfid">
-                    <!-- desktop/tablet view -->
-                    <div class="lightgroup-all-container transparent_bg mobile_hide">
-                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
-                        <h2 class="listing_box_title">Edit RFID</h2>
-                        <div style="max-width:80%; text-align: center; margin: auto; margin-bottom: 10px">
-                            <form ng-submit="sharedScope.rfid.update(sharedScope.state.rfid[sharedScope.rfid.selectedRfidId])">
-                                <input type="text" ng-model="sharedScope.state.rfid[sharedScope.rfid.selectedRfidId].name" required />
+                            <form ng-submit="sharedScope.devices.create(sharedScope.devices.forms.create)">
+                                <input type="text" ng-model="sharedScope.devices.forms.create.name" required />
                                 <div style="text-align: center;line-height: 50px; font-weight: bold;">
-                                    Last Use: {{sharedScope.state.rfid[sharedScope.rfid.selectedRfidId].lastUsed | date:'dd-MM-yyyy, HH:mm'}}
+                                   MAC-address: {{sharedScope.client.address}}
                                 </div>
                                 <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
-                                        ng-disabled="!sharedScope.state.rfid[sharedScope.rfid.selectedRfidId].name.length" style="max-width: 250px; text-align: center; margin:auto">save</button>
+                                    ng-disabled="!sharedScope.devices.forms.create.name.length" style="max-width: 250px;
+                                    text-align: center; margin:auto">save</button>
                             </form>
                         </div>
                     </div>
+
                     <!-- mobile view -->
                     <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
                     <div class="overlap_content mobile_show">
                         <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
-                            <a href="rfid.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                            <a href="networkdevices.html"><img src="css/images/icons/icon-arrow-down.png"></a>
                         </div>
-                        <div style="text-align: center; color: #f9efed">Edit RFID</div>
+                        <div style="text-align: center; color: #f9efed">Add Device</div>
                         <div style="padding:20px; text-align: center">
-                            <form ng-submit="sharedScope.rfid.update(sharedScope.state.rfid[sharedScope.rfid.selectedRfidId])">
-                                <input type="text" ng-model="sharedScope.state.rfid[sharedScope.rfid.selectedRfidId].name" required />
+                            <form ng-submit="sharedScope.devices.create(sharedScope.devices.forms.create)">
+                                <input type="text" ng-model="sharedScope.devices.forms.create.name" required />
                                 <div style="text-align: center; color: #f9efed; margin: 15px">
-                                    Last Use: {{sharedScope.state.rfid[sharedScope.rfid.selectedRfidId].lastUsed | date:'dd-MM-yyyy, HH:mm'}}
+                                    MAC-address: {{sharedScope.client.address}}
                                 </div>
                                 <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
-                                        ng-disabled="!sharedScope.state.rfid[sharedScope.rfid.selectedRfidId].name.length" style="max-width: 250px; text-align: center; margin:auto">save</button>
+                                        ng-disabled="!sharedScope.devices.forms.create.name.length" style="max-width: 250px;
+                                    text-align: center; margin:auto">save</button>
                             </form>
                         </div>
                     </div>
                 </div>
+
+                <!-- edit Device -->
+                <div  ng-if="sharedScope.submenu.visible.editDevice">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide" style="margin-top: 0px">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                            light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title">Edit Device</h2>
+                        <div style="max-width:80%; text-align: center; margin: auto; margin-bottom: 10px">
+                            <form ng-submit="sharedScope.devices.update(sharedScope.state.devices[sharedScope.devices.selectedDeviceId])">
+                                <input type="text" ng-model="sharedScope.state.devices[sharedScope.devices.selectedDeviceId].name" required />
+                                <div style="text-align: center;line-height: 50px; font-weight: bold;">
+                                    MAC-address: {{sharedScope.state.devices[sharedScope.devices.selectedDeviceId].address}}
+                                </div>
+                                <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
+                                        ng-disabled="!sharedScope.state.devices[sharedScope.devices.selectedDeviceId].name.length" style="max-width: 250px;
+                                    text-align: center; margin:auto">save</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
+                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                            <a href="networkdevices.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                        </div>
+                        <div style="text-align: center; color: #f9efed">Edit Device</div>
+                        <div style="padding:20px; text-align: center">
+                            <form ng-submit="sharedScope.devices.update(sharedScope.state.devices[sharedScope.devices.selectedDeviceId])">
+                                <input type="text" ng-model="sharedScope.state.devices[sharedScope.devices.selectedDeviceId].name" required />
+                                <div style="text-align: center; color: #f9efed; margin: 15px">
+                                    MAC-address: {{sharedScope.state.devices[sharedScope.devices.selectedDeviceId].address}}
+                                </div>
+                                <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
+                                        ng-disabled="!sharedScope.state.devices[sharedScope.devices.selectedDeviceId].name.length" style="max-width: 250px;
+                                    text-align: center; margin:auto">save</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
 
             </div>
         </div>

@@ -213,7 +213,6 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
          * @param lightId
          */
         updateFavorite: function(favId, lightId){
-            console.log("updatefav");
             $scope.state.favorites[favId].state = $scope.lights.getCurrentStateForFavorite(lightId).state;
             $scope.favorites.update($scope.state.favorites[favId]);
 
