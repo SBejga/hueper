@@ -26,20 +26,13 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
                 state: state
             });
 
+            // turn lights on and deactivate colorloop
+            $scope.helpers.autocorrectState(state);
+
             for(i in state) {
                 if(state.hasOwnProperty(i) && i !== 'transitiontime') {
                     $scope.state.lights[lightId].state[i] = state[i];
                 }
-            }
-
-            // turn on when changing other properties
-            if(typeof(state.on) === 'undefined') {
-                $scope.state.lights[lightId].state.on = true;
-            }
-
-            // deactivate colorloop when changing colors
-            if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
-                $scope.state.lights[lightId].state.effect = 'none';
             }
 
             // change colormode
@@ -66,6 +59,9 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             var i, j;
             socket.emit('light.stateAll', state);
 
+            // turn lights on and deactivate colorloop
+            $scope.helpers.autocorrectState(state);
+
             for(i in $scope.state.lights) {
                 if($scope.state.lights.hasOwnProperty(i) && $scope.state.lights[i].state.reachable) {
                     for(j in state) {
@@ -74,18 +70,22 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
                         }
                     }
 
-                    // turn on when changing other properties
-                    if(typeof(state.on) === 'undefined') {
-                        $scope.state.lights[i].state.on = true;
-                    }
+                    // change colormode
+                    $scope.helpers.setColorMode(state, $scope.state.lights[i].state);
+                }
+            }
 
-                    // deactivate colorloop when changing colors
-                    if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
-                        $scope.state.lights[i].state.effect = 'none';
+            // set state for all groups
+            for(i in $scope.state.groups) {
+                if($scope.state.groups.hasOwnProperty(i)) {
+                    for(j in state) {
+                        if(state.hasOwnProperty(j) && j !== 'transitiontime') {
+                            $scope.state.groups[i].action[j] = state[j];
+                        }
                     }
 
                     // change colormode
-                    $scope.helpers.setColorMode(state, $scope.state.lights[i].state);
+                    $scope.helpers.setColorMode(state, $scope.state.groups[i].action);
                 }
             }
         },
@@ -315,6 +315,9 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
 
             // change group state
 
+            // turn lights on and deactivate colorloop
+            $scope.helpers.autocorrectState(state);
+
             if(typeof($scope.state.groups[groupId].action) === 'undefined') {
                 $scope.state.groups[groupId].action = {};
             }
@@ -335,16 +338,6 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
                     if(state.hasOwnProperty(j) && j !== 'transitiontime') {
                         $scope.state.lights[$scope.state.groups[groupId].lights[i]].state[j] = state[j];
                     }
-                }
-
-                // turn light on when changing other properties
-                if(typeof(state.on) === 'undefined') {
-                    $scope.state.lights[$scope.state.groups[groupId].lights[i]].state.on = true;
-                }
-
-                // deactivate colorloop when changing colors
-                if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
-                    $scope.state.lights[$scope.state.groups[groupId].lights[i]].state.effect = 'none';
                 }
 
                 // change light colormode

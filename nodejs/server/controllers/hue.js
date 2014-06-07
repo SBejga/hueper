@@ -329,11 +329,6 @@ var cleanClientState = function(state) {
         state.on = true;
     }
 
-    // deactivate colorloop when changing colors
-    if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
-        state.effect = 'none';
-    }
-
     // insert default transition time
     // don't insert when turning off as then the brightness would change to 1 (bug?)
     if(typeof(state.transitiontime) === 'undefined' && state.on !== false) {
@@ -381,6 +376,14 @@ var setLightState = function(id, state, broadcast) {
 
         cleanClientState(state);
 
+        // deactivate colorloop when changing colors
+        if(app.state.lights[id].state.effect === 'colorloop' && state.effect !== 'colorloop' && (typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined')) {
+            api.setLightState(id, {
+                effect: 'none'
+            });
+            state.effect = 'none';
+        }
+
         api.setLightState(id, state);
 
         for(i in state) {
@@ -409,6 +412,19 @@ var setLightStateAll = function(state, broadcast) {
 
         cleanClientState(state);
 
+        // deactivate colorloop when changing colors
+        if(state.effect !== 'colorloop' && (typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined')) {
+            for(i in app.state.lights) {
+                if(app.state.lights.hasOwnProperty(i) && app.state.lights[i].state.reachable && app.state.lights[i].state.effect === 'colorloop') {
+                    api.setGroupLightState(0, {
+                        effect: 'none'
+                    });
+                    state.effect = 'none';
+                    break;
+                }
+            }
+        }
+
         api.setGroupLightState(0, state);
 
         for(i in app.state.lights) {
@@ -422,6 +438,20 @@ var setLightStateAll = function(state, broadcast) {
                 setColorMode(state, app.state.lights[i].state);
 
                 areas.push('lights.' + i + '.state');
+            }
+        }
+
+        // set state for all groups
+        for(i in app.state.groups) {
+            if(app.state.groups.hasOwnProperty(i)) {
+
+                for(j in state) {
+                    if(state.hasOwnProperty(j) && j !== 'transitiontime') {
+                        app.state.groups[i].action[j] = state[j];
+                    }
+                }
+
+                areas.push('groups.' + i + '.action');
             }
         }
 
@@ -447,6 +477,19 @@ var setGroupLightState = function(id, state, broadcast) {
         }
 
         cleanClientState(state);
+
+        // deactivate colorloop when changing colors
+        if(state.effect !== 'colorloop' && (typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined')) {
+            for(i = 0; i < app.state.groups[id].lights.length; i++) {
+                if(app.state.lights[app.state.groups[id].lights[i]].state.reachable && app.state.lights[app.state.groups[id].lights[i]].state.effect === 'colorloop') {
+                    api.setGroupLightState(id, {
+                        effect: 'none'
+                    });
+                    state.effect = 'none';
+                    break;
+                }
+            }
+        }
 
         api.setGroupLightState(id, state);
 

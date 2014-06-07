@@ -127,7 +127,7 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
                 }
 
                 // deactivate colorloop when changing colors
-                if(typeof(scene.lights[i].state.hue) !== 'undefined' || typeof(scene.lights[i].state.sat) !== 'undefined' || typeof(scene.lights[i].state.ct) !== 'undefined') {
+                if(scene.lights[i].state.effect !== 'colorloop' && (typeof(scene.lights[i].state.hue) !== 'undefined' || typeof(scene.lights[i].state.sat) !== 'undefined' || typeof(scene.lights[i].state.ct) !== 'undefined')) {
                     $scope.state.lights[scene.lights[i].light].state.effect = 'none';
                 }
 
