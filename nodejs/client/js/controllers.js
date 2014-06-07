@@ -277,17 +277,32 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
          * @param url
          */
         redirect: function(url) {
+            // used to remove the scope's event listener after the redirect
+            var listener = function() {};
+
+            console.log("redirect " + url);
+
+            // remove slash from the start
+            if(url.indexOf('/') === 0) {
+                url = url.slice(1);
+            }
+
+            // redirection function modified from the jQuery Mobile Angular adapter
+            var redirection = function() {
+                var basePath = $location.absUrl().split("/");
+                basePath.pop();
+                basePath = basePath.join("/") + "/";
+
+                $location.$$parse(basePath + url);
+
+                listener();
+            };
+
             if($rootScope.helpers.ready) {
-                $.mobile.changePage(url, {changeHash: false});
+                redirection();
             }
             else {
-                var redirectWatch = $rootScope.$watch('helpers.ready', function() {
-                    window.setTimeout(function() {
-                        $.mobile.changePage(url, {changeHash: false});
-                    }, 300);
-
-                    redirectWatch();
-                });
+                listener = $scope.$on("jqmInit", redirection);
             }
         },
 
@@ -324,12 +339,16 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
 
     $scope.$on("$locationChangeSuccess", function(){
-        $rootScope.helpers.ready = true;
         $rootScope.helpers.getIdFromUrl();
         $scope.submenu.closeSubmenu();
     });
 
-    /*
+    var jqmInitListener = $scope.$on("jqmInit", function() {
+        $rootScope.helpers.ready = true;
+        jqmInitListener();
+    });
+
+
     $scope.$watch('state.connect', function(){
         if($scope.state.connect.hue === undefined){
             return;
@@ -337,13 +356,13 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         var i = $location.absUrl().toString().indexOf("connection");
         var connectstate = (!$scope.state.connect.hue || !$scope.state.connect.hueRegistered || !$scope.state.connect.mongodb );
         if((i < 0) && connectstate){
-            $.mobile.changePage( "connection.html", {changeHash: false});
+            $rootScope.helpers.redirect("connection.html");
         }
         else if((i > 0) && !connectstate){
-            $.mobile.changePage( "index.html", {changeHash: false});
+            $rootScope.helpers.redirect("index.html");
         }
     }, true);
-    */
+
 
 }]).
 

@@ -35,7 +35,7 @@ factory('socket', ['$rootScope', function ($rootScope) {
  * Manages Notifications
  * Adds the following properties to a given (scope) object: state, notifications, clientConfig, client, user
  */
-factory('stateManager', ['socket', '$timeout', '$window', '$location', function(socket, $timeout, $window, $location) {
+factory('stateManager', ['socket', '$timeout', '$window', '$location', '$rootScope', function(socket, $timeout, $window, $location, $rootScope) {
 
     var $scope = {};
 
@@ -147,13 +147,13 @@ factory('stateManager', ['socket', '$timeout', '$window', '$location', function(
         }
         else {
             if($location.absUrl().toString().indexOf("login") === -1 && $scope.state.user.loginRequired === true){
-                $window.location.href = 'login.html';
+                $rootScope.helpers.redirect("login.html");
             }
             $scope.state.ready = true;
         }
 
         if(!required && $location.absUrl().toString().indexOf("login") > -1){
-            $window.location.href = 'index.html';
+            $rootScope.helpers.redirect("index.html");
         }
     });
 
@@ -203,7 +203,7 @@ factory('stateManager', ['socket', '$timeout', '$window', '$location', function(
         if(login) {
             localStorage.huePassword = $scope.user.password;
             if($location.absUrl().toString().indexOf("login") > -1){
-                $window.location.href = 'index.html';
+                $rootScope.helpers.redirect("index.html");
             }
         }
     });
