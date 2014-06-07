@@ -83,63 +83,128 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
     // rfid/nfc tags
 
     $scope.rfid = {
+        selectedRfidId:0,
 
-            create: function(rfid) {
-                socket.emit('rfid.create', rfid);
-            },
+        forms: {
+            create:{
+                name:'',
+                tag:'',
+                lastUsed:''
+            }
+        },
 
-            update: function(rfid) {
-                socket.emit('rfid.update', rfid);
-            },
+        create: function(rfid) {
+            $scope.rfid.forms.create.lastUsed = '';
+            socket.emit('rfid.create', rfid);
+            $scope.rfid.forms.create.name = '';
+            $scope.rfid.forms.create.tag = '';
+            $scope.rfid.forms.create.lastUsed = '';
+            $scope.submenu.closeSubmenu();
+        },
 
-            remove: function(id) {
-                socket.emit('rfid.delete', id);
-                delete $scope.state.rfid[id];
-            },
+        update: function(rfid) {
+            socket.emit('rfid.update', rfid);
+            $scope.submenu.closeSubmenu();
+        },
 
-            reset: function() {
-                socket.emit('rfid.reset');
-                $scope.state.rfidUnknown = [];
+        remove: function(id) {
+            socket.emit('rfid.delete', id);
+            delete $scope.state.rfid[id];
+        },
+
+        reset: function() {
+            socket.emit('rfid.reset');
+            $scope.state.rfidUnknown = [];
+        },
+
+        setFormTag: function(tag){
+            $scope.rfid.forms.create.tag = tag;
+        },
+
+        setSelectedRfidId: function(id){
+            $scope.rfid.selectedRfidId = id;
+        },
+
+        testfkt: function(){
+
+            console.log($scope.state.rfid);
+
+            if(!$scope.state.rfid === {}){
+                console.log("testfkt");
+
             }
 
-        };
+
+
+
+        }
+
+
+
+    };
+
+
+
 
     // network devices
 
     $scope.devices = {
 
-            create: function(device) {
-                socket.emit('device.create', device);
-            },
+        selectedDeviceId:0,
 
-            update: function(device) {
-                socket.emit('device.update', device);
-            },
+        forms:{
+            create:{
+                address: '',
+                name:'',
+                lastActivity:''
+            }
+        },
 
-            remove: function(id) {
-                socket.emit('device.delete', id);
-                delete $scope.state.devices[id];
-            },
+        create: function(device) {
+            $scope.devices.forms.create.address = $scope.client.address;
+            socket.emit('device.create', device);
+            $scope.devices.forms.create.address = '';
+            $scope.devices.forms.create.name = '';
+            $scope.devices.forms.create.lastActivity = '';
+            $scope.submenu.closeSubmenu();
+        },
 
-            isOwnRegistered: function() {
-                var i;
+        update: function(device) {
+            socket.emit('device.update', device);
+            $scope.submenu.closeSubmenu();
+        },
 
-                if(!$scope.client.address) {
-                    return undefined;
-                }
+        remove: function(id) {
+            socket.emit('device.delete', id);
+            delete $scope.state.devices[id];
+        },
 
-                for(i in $scope.state.devices) {
-                    if($scope.state.devices.hasOwnProperty(i)) {
-                        if($scope.state.devices[i].address === $scope.client.address) {
-                            return true;
-                        }
-                    }
-                }
+        isOwnRegistered: function() {
+            var i;
 
-                return false;
+            if(!$scope.client.address) {
+                return undefined;
             }
 
-        };
+            for(i in $scope.state.devices) {
+                if($scope.state.devices.hasOwnProperty(i)) {
+                    if($scope.state.devices[i].address === $scope.client.address) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        },
+
+        setSelectedDeviceId: function(id){
+            $scope.devices.selectedDeviceId = id;
+        }
+
+
+
+
+    };
 
     // helper functions
     // checkbox list to array conversion
@@ -367,6 +432,11 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         else if((i > 0) && !connectstate){
             $rootScope.helpers.redirect("index.html");
         }
+    }, true);
+
+
+    $scope.$watch('state.rfidUnknown', function(){
+        $scope.submenu.openSubmenu('newRfid');
     }, true);
 
 
