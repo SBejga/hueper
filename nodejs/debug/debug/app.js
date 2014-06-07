@@ -474,20 +474,13 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', f
                 state: state
             });
 
+            // turn lights on and deactivate colorloop
+            $scope.helpers.autocorrectState(state);
+
             for(i in state) {
                 if(state.hasOwnProperty(i) && i !== 'transitiontime') {
                     $scope.state.lights[id].state[i] = state[i];
                 }
-            }
-
-            // turn on when changing other properties
-            if(typeof(state.on) === 'undefined') {
-                $scope.state.lights[id].state.on = true;
-            }
-
-            // deactivate colorloop when changing colors
-            if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
-                $scope.state.lights[id].state.effect = 'none';
             }
 
             // change colormode
@@ -516,6 +509,9 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', f
 
             socket.emit('light.stateAll', state);
 
+            // turn lights on and deactivate colorloop
+            $scope.helpers.autocorrectState(state);
+
             for(i in $scope.state.lights) {
                 if($scope.state.lights.hasOwnProperty(i) && $scope.state.lights[i].state.reachable) {
                     for(j in state) {
@@ -524,18 +520,19 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', f
                         }
                     }
 
-                    // turn on when changing other properties
-                    if(typeof(state.on) === 'undefined') {
-                        $scope.state.lights[i].state.on = true;
-                    }
-
-                    // deactivate colorloop when changing colors
-                    if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
-                        $scope.state.lights[i].state.effect = 'none';
-                    }
-
                     // change colormode
                     $scope.helpers.setColorMode(state, $scope.state.lights[i].state);
+                }
+            }
+
+            // set state for all groups
+            for(i in $scope.state.groups) {
+                if($scope.state.groups.hasOwnProperty(i)) {
+                    for(j in state) {
+                        if(state.hasOwnProperty(j) && j !== 'transitiontime') {
+                            $scope.state.groups[i].action[j] = state[j];
+                        }
+                    }
                 }
             }
         },
@@ -619,6 +616,9 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', f
 
             // change group state
 
+            // turn lights on and deactivate colorloop
+            $scope.helpers.autocorrectState(state);
+
             if(typeof($scope.state.groups[id].action) === 'undefined') {
                 $scope.state.groups[id].action = {};
             }
@@ -639,16 +639,6 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', f
                     if(state.hasOwnProperty(j) && j !== 'transitiontime') {
                         $scope.state.lights[$scope.state.groups[id].lights[i]].state[j] = state[j];
                     }
-                }
-
-                // turn light on when changing other properties
-                if(typeof(state.on) === 'undefined') {
-                    $scope.state.lights[$scope.state.groups[id].lights[i]].state.on = true;
-                }
-
-                // deactivate colorloop when changing colors
-                if(typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined') {
-                    $scope.state.lights[$scope.state.groups[id].lights[i]].state.effect = 'none';
                 }
 
                 // change light colormode
@@ -791,7 +781,7 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', f
                 }
 
                 // deactivate colorloop when changing colors
-                if(typeof(scene.lights[i].state.hue) !== 'undefined' || typeof(scene.lights[i].state.sat) !== 'undefined' || typeof(scene.lights[i].state.ct) !== 'undefined') {
+                if(scene.lights[i].state.effect !== 'colorloop' && (typeof(scene.lights[i].state.hue) !== 'undefined' || typeof(scene.lights[i].state.sat) !== 'undefined' || typeof(scene.lights[i].state.ct) !== 'undefined')) {
                     $scope.state.lights[scene.lights[i].light].state.effect = 'none';
                 }
 
@@ -1192,6 +1182,24 @@ module.controller('MainCtrl', ['$scope', 'socket', '$timeout', 'stateManager', f
 
         removeFromArray: function(arr, index) {
             arr.splice(index, 1);
+        },
+
+        /**
+         * automatic state changes
+         * - turn light on when changing other properties
+         * - deactivate colorloop when changing colors
+         * @param state
+         */
+        autocorrectState: function(state) {
+            // turn on when changing other properties
+            if(typeof(state.on) === 'undefined') {
+                state.on = true;
+            }
+
+            // deactivate colorloop when changing colors
+            if(state.effect !== 'colorloop' && (typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined')) {
+                state.effect = 'none';
+            }
         }
 
     };

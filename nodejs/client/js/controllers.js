@@ -194,6 +194,24 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             return (arr.indexOf(el) !== -1);
         },
 
+        /**
+         * automatic state changes
+         * - turn light on when changing other properties
+         * - deactivate colorloop when changing colors
+         * @param state
+         */
+        autocorrectState: function(state) {
+            // turn on when changing other properties
+            if(typeof(state.on) === 'undefined') {
+                state.on = true;
+            }
+
+            // deactivate colorloop when changing colors
+            if(state.effect !== 'colorloop' && (typeof(state.hue) !== 'undefined' || typeof(state.sat) !== 'undefined' || typeof(state.ct) !== 'undefined')) {
+                state.effect = 'none';
+            }
+        },
+
         setColorMode: function(state, lightState) {
 
             // ct: remove hue/sat
