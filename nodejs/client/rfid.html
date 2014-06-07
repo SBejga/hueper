@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="de" ng-app="hueApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SmartLights</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/redtheme.css"/>
+    <link rel="stylesheet" href="./css/jquery.mobile.icons-1.4.0.css"/>
+    <link rel="stylesheet" href="./css/jquery.mobile.structure-1.4.0.css"/>
+
+    <link type="text/css" rel="stylesheet" href="./css/layout.css"/>
+
+    <!-- JavaScript -->
+    <script src="./js/scripts/jquery-1.10.2.js"></script>
+    <script src="./js/scripts/jquery.mobile-1.4.0.js"></script>
+    <script src="./js/scripts/angular-1.3.0-beta.js"></script>
+    <script src="./js/scripts/angular-route.js"></script>
+    <script src="./js/scripts/jqm-angular-adapter-modified.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Controller -->
+    <script src="./js/app.js"></script>
+    <script src="./js/controllers.js"></script>
+    <script src="./js/filters.js"></script>
+    <script src="./js/services.js"></script>
+    <script src="./js/directives.js"></script>
+    <script src="./js/controllers/lightandgroupctrl.js"></script>
+    <script src="./js/controllers/partyctrl.js"></script>
+    <script src="./js/controllers/scenectrl.js"></script>
+    <script src="./js/controllers/speechctrl.js"></script>
+    <script src="./js/controllers/automationctrl.js"></script>
+
+
+    <!-- Favicon and Touch-Icons -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link rel="apple-touch-icon-precomposed" sizes="152x152"
+          href="css/images/touch/152.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120"
+          href="css/images/touch/120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76"
+          href="css/images/touch/76.png" />
+    <link rel="apple-touch-icon-precomposed"
+          href="css/images/touch/57.png" />
+
+    <meta name="msapplication-TileImage"
+          content="css/images/touch/256.png" />
+    <meta name="msapplication-TileColor" content="#141414" />
+
+</head>
+<body>
+<div data-role="page" ngm-shared-controller="sharedScope:MainCtrl"  class="background_stars" data-theme="b">
+    <!-- HEADER -->
+    <div data-role="header" class="header">
+        <div class="header_container tablet_hide">
+            <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
+                 ng-show="sharedScope.state.user.loginRequired">
+            <h1 class="ui-title">Smart Lights</h1>
+        </div>
+        <!---------------------------------------- MOBILE MAINMENU ---------------------------------------------------->
+        <div class="tablet_show mobile_menu_wrapper">
+            <a href="lightandgroup.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-light-40.png">
+                </div>
+            </a>
+            <a href="scenes.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-scene-40.png">
+                </div>
+            </a>
+            <a href="automationoverview.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-automation-40.png">
+                </div>
+            </a>
+            <a href="party.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-party-40.png">
+                </div>
+            </a>
+            <a href="settings.html" class="smallmenu_wrapper">
+                <div class="smallmenu_icon">
+                    <img src="./css/images/icons/icon-settings-dark-40.png">
+                </div>
+            </a>
+        </div>
+    </div>
+
+
+    <!-- CONTENT -->
+    <div data-role="content" class="content_container" ng-controller="SpeechCtrl">
+        <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
+        <div class="content_left_subcontainer tablet_hide">
+            <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button" style="margin-top: 0px">
+                <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Lights & Groups
+                </div>
+            </a>
+            <a href="scenes.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-scene-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Scenes
+                </div>
+            </a>
+            <a href="automationoverview.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-automation-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Automation
+                </div>
+            </a>
+            <a href="party.html" class="ui-btn main_menu_transparent_bg button">
+                <img src="./css/images/icons/icon-party-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Party
+                </div>
+            </a>
+            <a href="account.html" class="ui-btn main_menu_transparent_bg button checked_menubox">
+                <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
+                <div class="main_menu_text panel">
+                    Settings
+                </div>
+            </a>
+            <!-- Settings Menu -->
+            <div style="padding-left: 20px;">
+                <a href="account.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
+                    <img src="./css/images/icons/icon-account-32.png" class="light_group_img no_padding">
+                    <div class="main_menu_settings_text panel">Account</div>
+                </a>
+                <a href="speech.html" class="ui-btn main_menu_transparent_bg button main_menu_settings checked_menubox" >
+                    <img src="./css/images/icons/icon-speech-32.png" class="light_group_img no_padding">
+                    <div class="main_menu_settings_text panel">Speech</div>
+                </a>
+                <a href="rfid.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
+                    <img src="./css/images/icons/icon-rfid-32.png" class="light_group_img no_padding">
+                    <div class="main_menu_settings_text panel">RFID</div>
+                </a>
+                <a href="networkdevices.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
+                    <img src="./css/images/icons/icon-iphone-32.png" class="light_group_img no_padding">
+                    <div class="main_menu_settings_text panel">Network Devices</div>
+                </a>
+            </div>
+        </div>
+
+        <!----------------------------------------  NOTIFICATIONS ------------------------------------------------->
+        <div class="notification" ng-show="sharedScope.submenu.visible.notification">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            Notification
+        </div>
+
+
+
+
+        <div class="content_right_subcontainer ">
+            <!-- Settings Mobile Menu-->
+            <div class="subcontent_a tablet_show" style="padding-top: 0px">
+                <!-- SMALL SETTINGS MENU -->
+                <div class="mobile_menu_wrapper">
+                    <a href="account.html" class="smallmenu_wrapper">
+                        <div class="smallmenu_icon">
+                            <img src="./css/images/icons/icon-account-40.png">
+                        </div>
+                    </a>
+                    <a href="speech.html" class="smallmenu_wrapper">
+                        <div class="smallmenu_icon">
+                            <img src="./css/images/icons/icon-speech-40.png">
+                        </div>
+                    </a>
+                    <a href="rfid.html" class="smallmenu_wrapper">
+                        <div class="smallmenu_icon">
+                            <img src="./css/images/icons/icon-rfid-dark-40.png">
+                        </div>
+                    </a>
+                    <a href="networkdevices.html" class="smallmenu_wrapper">
+                        <div class="smallmenu_icon">
+                            <img src="./css/images/icons/icon-iphone-40.png">
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+
+            <!-- Known RFID-->
+            <div class="subcontent_b">
+                <div class="transparent_bg listing_box">
+                    <h2 class="listing_box_title">Known RFID</h2>
+
+                    <div class="light_group" ng-repeat="(id, tag) in sharedScope.state.rfid">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                            ui-btn-inline light_group_a" ng-click="sharedScope.rfid.remove(id)"></span>
+                        <div ng-click="sharedScope.submenu.openSubmenu('editRfid')">
+                            {{tag.name}}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Unknown RFID-->
+            <div class="subcontent_c">
+                <div class="transparent_bg listing_box">
+                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.rfid.reset()" ng-show="sharedScope.state.rfidUnknown.length > 0"></span>
+
+                    <h2 class="listing_box_title">Unknown RFID</h2>
+
+                    <div class="light_group" ng-repeat="id in sharedScope.state.rfidUnknown">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext
+                            ui-btn-inline light_group_a" ng-click="sharedScope.submenu.openSubmenu('editRfid')"></span>
+                        <div ng-click="sharedScope.submenu.openSubmenu('editRfid')">
+                            {{id}}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!------------------------ SUBMENUES ------------------->
+            <div class="subcontent_d">
+                <div ng-if="sharedScope.submenu.visible.editRfid">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title">Edit RFID</h2>
+                        <div style="max-width:80%; text-align: center; margin: auto; margin-bottom: 10px">
+                            <form ng-submit="sharedScope.rfid.create()"></form>
+                                <input type="text" ng-model="sharedScope.rfid.forms.create.name" required />
+
+                                <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
+                                        ng-disabled="!sharedScope.rfid.forms.create.name.length"
+                                        style="max-width: 250px; text-align: center; margin:auto">save</button>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
+                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                            <a href="rfid.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -294,9 +294,12 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
                 basePath = basePath.join("/") + "/";
 
                 $location.$$parse(basePath + url);
-
                 listener();
             };
+
+
+
+
 
             if($rootScope.helpers.ready) {
                 redirection();
@@ -343,10 +346,13 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         $scope.submenu.closeSubmenu();
     });
 
+
     var jqmInitListener = $scope.$on("jqmInit", function() {
         $rootScope.helpers.ready = true;
         jqmInitListener();
     });
+
+
 
 
     $scope.$watch('state.connect', function(){
