@@ -678,7 +678,7 @@ button:active{
 }
 
 /* small height */
-@media screen and (max-height:400px) {
+@media screen and (max-height:610px) {
 
     .content_left_subcontainer{
         position: absolute;
