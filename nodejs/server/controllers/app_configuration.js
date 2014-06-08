@@ -105,7 +105,7 @@ var change = function(data, socket) {
     console.log('[app_configuration] Change application configuration', data);
 
     for(i in data) {
-        if(data.hasOwnProperty(i) && typeof(app.state.appConfig[i]) !== 'undefined') {
+        if(data.hasOwnProperty(i) && typeof(app.state.appConfig[i]) !== 'undefined' && app.state.appConfig[i] !== data[i]) {
             Config.update(
                 { name: i },
                 { value: data[i] },

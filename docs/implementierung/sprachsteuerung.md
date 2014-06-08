@@ -5,7 +5,7 @@
 -   Das Soundprocessing-Programm SoX beginnt eine Audio-Datei aufzunehmen, sobald die Mikrofon-Lautstärke einen einstellbaren Schwellwert übersteigt
 -   Fällt die Lautstärke danach für mindestens 0.75 Sekunden unter diesen Schwellwert, wird die Aufnahme beendet
 -   Die Aufgenommene Datei wird zu Analyse an die Google Speech API geschickt
--   Konnte der Inhalt erkannt werden (Standard-Einstellung Englisch!), liefert die API den gesprochenen Text als String zurück
+-   Konnte der Inhalt erkannt werden (Eingestellte Sprache beachten!), liefert die API den gesprochenen Text als String zurück
 
 
 ## mit Julius

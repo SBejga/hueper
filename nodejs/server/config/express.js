@@ -4,7 +4,7 @@ module.exports = function(app) {
 	
 	app.server.express.configure(function() {
 
-        app.server.express.use(express.logger());
+        //app.server.express.use(express.logger());
 
         app.server.express.use(express.compress());
 

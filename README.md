@@ -54,6 +54,14 @@ Complete hardware list in *docs/planung/hardware.md* (German)
 -   Start NodeJS: `node <Project path>/nodejs/server.js`
 -   Frontend is accessible at http://localhost:8080
 
+### Get Google API Key for speech recognition
+
+In order to use the Google speech recognition engine you have to generate a key with a Google account. Please follow the steps provided here: http://www.chromium.org/developers/how-tos/api-keys
+
+-   In the [Google Developers Console](https://cloud.google.com/console) / **APIs** activate **Speech API**
+-   In **Credentials** / **Public API access** create a **Server Key**
+-   Save it in the application settings
+
 ### Arduino setup
 
 Hardware needed:
@@ -75,6 +83,7 @@ Installation:
 Hardware needed: External USB sound card with microphone
 
 -   Flash your Raspberry Pi with Raspbian
+-   Connect it to the internet, make sure all packages are up to date
 -   Copy the files in the *raspberry* folder to */home/pi*
 -   Make the *setup.sh* executable and execute it (as root)
 -   wait :)
