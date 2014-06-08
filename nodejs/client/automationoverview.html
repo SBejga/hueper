@@ -140,8 +140,8 @@
         <div class="content_right_subcontainer" style="text-align: center; margin: auto; overflow:hidden">
             <div class="subcontent_a">
                 <div class="transparent_bg listing_box" style="max-width:100%;">
-                    <a href="automation.html?id={{0}}" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon">
+                    <a href="automation.html?{{}}" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus
+                        ui-btn-icon-notext ui-btn-inline light_group_a listing_box_icon">
                     </a>
                     <h2 class="listing_box_title">Automations</h2>
                     <!-- AUTOMATION LIST-->
@@ -150,7 +150,8 @@
 
                         <div style="width:70%;max-width:800px;float:right">
                             <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                                ui-btn-inline light_group_a" style="margin-top: 9px; float:right">
+                                ui-btn-inline light_group_a" style="margin-top: 9px; float:right"
+                                  ng-click="sharedScope.automation.setSelectedAutomationId();">
                             </span>
                             <a href="automation.html?id={{id}}" class="panel panel_layout_fix" style="margin-right:50px; margin-top: 0px;line-height: 46px; padding: 0px; text-decoration:none">
                                 {{a.name}}
@@ -167,6 +168,49 @@
                     </div>
 
                 </div>
+            </div>
+
+
+
+
+            <!------------------------ SUBMENUES ------------------->
+            <div class="subcontent_d">
+                <!-- delete automation -->
+                <div ng-if="sharedScope.submenu.visible.deleteGroup">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title">Do you want to remove the group "{{sharedScope.state.groups[groups.selectedGroupId].name}}"?</h2>
+                        <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                ng-click="groups.remove(groups.selectedGroupId)">YES</button>
+                        <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                    </div>
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
+                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                            <a href="lightandgroup.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                        </div>
+                        <div style="text-align: center; color: #f9efed">
+                            Do you want to remove the group "{{sharedScope.state.groups[groups.selectedGroupId].name}}"?
+                        </div>
+                        <div style="padding:15px; text-align: center">
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner button ui-btn-inline"
+                                    ng-click="groups.remove(groups.selectedGroupId)">YES</button>
+                            <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner button ui-btn-inline"
+                                    ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
             </div>
 
 
