@@ -140,9 +140,9 @@
         <div class="content_right_subcontainer" style="text-align: center; margin: auto; overflow:hidden">
             <!---------------------------------------------------- SCENE NAME ----------------------------------------->
             <div class="subcontent_a">
-                <div class="lightgroup_name_edit">
+                <div class="lightgroup_name_edit" ng-if="state.scenes[helpers.urlId].name.length">
                                 <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline"
-                                      ng-click="scenes.update(helpers.urlId, state.scenes[helpers.urlId])"></span>
+                                      ng-click="scenes.update(state.scenes[helpers.urlId])"></span>
                 </div>
                 <div class="lightgroup_name_input"><input type="text" ng-model="state.scenes[helpers.urlId].name"></div>
             </div>

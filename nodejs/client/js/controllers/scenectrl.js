@@ -41,6 +41,7 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
 
         setSelectedSceneId: function(sceneId){
             $scope.scenes.selectedSceneId = sceneId;
+            console.log($scope.scenes.selectedSceneId);
         },
         setSelectedArrayId: function(sceneId){
             $scope.scenes.selectedArrayId = sceneId;
