@@ -139,9 +139,9 @@
 
             <div class="subcontent_a">
                 <!---------------------------------------- NAME ------------------------------------------------------->
-                <div class="lightgroup_name_edit">
+                <div class="lightgroup_name_edit" ng-if="state.automation[helpers.urlId].name.length">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline"
-                          ng-click="automation.update(helpers.urlId, state.automation[helpers.urlId])"></span>
+                          ng-click="automation.update(state.automation[helpers.urlId])"></span>
                 </div>
                 <div class="lightgroup_name_input"><input type="text" ng-model="state.automation[helpers.urlId].name"></div>
 

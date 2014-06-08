@@ -142,7 +142,7 @@
         <div class="content_right_subcontainer ">
             <!---------------------------------------- NAME ----------------------------------------------------------->
             <div class="subcontent_a">
-                <div class="lightgroup_name_edit">
+                <div class="lightgroup_name_edit" ng-if="state.groups[helpers.urlId].name.length">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline"
                         ng-click="groups.update(helpers.urlId,state.groups[helpers.urlId])"></span>
                 </div>
@@ -201,7 +201,7 @@
                     <div class="lightgroup-all-container transparent_bg mobile_hide ">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
                         light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
-                        <h2 class="listing_box_title"> Choose your color ...</h2>
+                        <h2 class="listing_box_title">Color of Group "{{sharedScope.state.groups[helpers.urlId].name}}"</h2>
                         <div style="padding:20px">
                             <div hueper-slider model="sharedScope.state.groups[helpers.urlId].action.bri" min="0" max="254"
                                  step="5" change="groups.state(helpers.urlId, { bri: value })" class="slider-brightness"></div>
@@ -218,7 +218,7 @@
                         <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
                             <img src="css/images/icons/icon-arrow-down.png">
                         </div>
-                        <div style="text-align: center; color: #f9efed">Choose your color...</div>
+                        <div style="text-align: center; color: #f9efed">Color of Group "{{sharedScope.state.groups[helpers.urlId].name}}"</div>
                         <div style="padding:20px">
                             <div hueper-slider model="sharedScope.state.groups[helpers.urlId].action.bri" min="0" max="254"
                                  step="5" change="groups.state(helpers.urlId, { bri: value })" class="slider-brightness"></div>
@@ -236,7 +236,7 @@
                     <div class="lightgroup-all-container transparent_bg mobile_hide ">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
                         light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
-                        <h2 class="listing_box_title"> Choose your color ...</h2>
+                        <h2 class="listing_box_title">Color of Light "{{sharedScope.state.lights[lights.selectedLightId].name}}"</h2>
                         <div style="padding:20px">
                             <div hueper-slider model="sharedScope.state.lights[lights.selectedLightId].state.bri" min="0" max="254" step="5"
                                  change="lights.state(lights.selectedLightId, { bri: value })" class="slider-brightness"></div>
@@ -253,7 +253,7 @@
                         <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
                             <img src="css/images/icons/icon-arrow-down.png">
                         </div>
-                        <div style="text-align: center; color: #f9efed">Choose your color...</div>
+                        <div style="text-align: center; color: #f9efed">Color of Light "{{sharedScope.state.lights[lights.selectedLightId].name}}"</div>
                         <div style="padding:20px">
                             <div hueper-slider model="sharedScope.state.lights[lights.selectedLightId].state.bri" min="0" max="254" step="5"
                                  change="lights.state(lights.selectedLightId, { bri: value })" class="slider-brightness"></div>

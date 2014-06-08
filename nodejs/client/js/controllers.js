@@ -124,23 +124,6 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         setSelectedRfidId: function(id){
             $scope.rfid.selectedRfidId = id;
         },
-
-        testfkt: function(){
-
-            console.log($scope.state.rfid);
-
-            if(!$scope.state.rfid === {}){
-                console.log("testfkt");
-
-            }
-
-
-
-
-        }
-
-
-
     };
 
 

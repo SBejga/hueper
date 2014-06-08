@@ -6,6 +6,8 @@ angular.module('hueApp.controllers').
         // automation control
 
         $scope.automation = {
+            selectedAutomationId:0,
+
             selectedProperty:{
                 type:'',
                 value:[]
@@ -96,10 +98,12 @@ angular.module('hueApp.controllers').
             toggleAllConditionsNeeded: function(id){
                 $scope.state.automation[id].allConditionsNeeded = !$scope.state.automation[id].allConditionsNeeded;
                 $scope.automation.update($scope.state.automation[id]);
+            },
+
+
+            setSelectedAutomationId: function(id){
+             $scope.automation.selectedAutomationId = id;
             }
-
-
-
         };
 
 
