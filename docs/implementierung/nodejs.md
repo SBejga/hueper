@@ -45,6 +45,8 @@ Installation über `npm install` im Projekt-Ordner *nodejs*, aktualisieren über
         -   **speechRecognition**: Spracherkennung aktiv
         -   **speechSensitivity**: Schwelle der Spracherkennung in Prozent, default 20
         -   **speechRecognitionEngine**: Verwendete Spracherkennungs-Methode, mögliche Werte sind *google* und *julius*
+        -   **speechGoogleKey**: Verwendeter Google API-Key
+        -   **speechGoogleLanguage**: Sprache für die Google-Spracherkennung (z.B. de-DE)
     -   **automation**: Automatisierung *(Controller automation)*
         Die Werte für Trigger, Conditions und Actions sind getrennt dokumentiert!
         -   name

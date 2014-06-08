@@ -65,6 +65,16 @@ Ist der NodeJS-Server gestartet, kann der WebClient im Browser über folgende Ad
 
 http://localhost:8080/
 
+### Google API Key erzeugen
+
+Für die Nutzung der Google-Spracherkennung ist ein API Key erforderlich, der über einen Google-Account generiert werden kann.
+
+Dazu bitte folgender Anleitung folgen: http://www.chromium.org/developers/how-tos/api-keys
+
+-   In der [Google Developers Console](https://cloud.google.com/console) unter **APIs** die **Speech API** aktivieren
+-   Unter **Credentials** bei **Public API access** einen **Server Key** erzeugen
+-   In den Einstellungen der Anwendung speichern
+
 
 
 # Einrichten unter Linux

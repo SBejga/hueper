@@ -31,6 +31,7 @@ var init = function() {
                 speakable.start();
             }, 5000);
         }
+
     });
 
     speakable.on('speechResult', function(recognizedWords) {
@@ -151,8 +152,10 @@ var setActive = function(active) {
  * @param {string} engine google or julius
  */
 var setEngine = function(engine) {
+    console.log('[speech] Set speech engine to ' + engine);
 
     if(engine === speechEngine || !speechActive) {
+        speechEngine = engine;
         return;
     }
 

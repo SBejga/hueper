@@ -21,7 +21,6 @@ var Speakable = function Speakable(globalApp, options) {
     this.recBuffer = [];
     this.recRunning = false;
     this.apiResult = {};
-    this.apiLang = options.lang || "en-US";
 
 
     if(process.platform.indexOf('win') === 0) {
@@ -51,44 +50,48 @@ util.inherits(Speakable, EventEmitter);
 Speakable.prototype.postVoiceData = function() {
     var self = this;
 
-    var options = {
-        hostname: 'www.google.com',
-        path: '/speech-api/v1/recognize?xjerr=1&client=chromium&pfilter=0&maxresults=1&lang="' + self.apiLang + '"',
-        method: 'POST',
-        headers: {
-            'Content-type': 'audio/x-flac; rate=16000'
-        }
-    };
+    if(app.state.appConfig.speechGoogleKey) {
 
-    var req = http.request(options, function(res) {
-        if(res.statusCode !== 200) {
-            return self.emit(
-                'error',
-                'Non-200 answer from Google Speech API (' + res.statusCode + ')'
-            );
-        }
-        res.setEncoding('utf8');
-        res.on('data', function (chunk) {
-            self.apiResult = JSON.parse(chunk);
+        var options = {
+            hostname: 'www.google.com',
+            path: '/speech-api/v2/recognize?client=chromium&key=' + app.state.appConfig.speechGoogleKey + '&maxresults=1&lang=' + app.state.appConfig.speechGoogleLanguage,
+            method: 'POST',
+            headers: {
+                'Content-type': 'audio/x-flac; rate=16000'
+            }
+        };
+
+        var req = http.request(options, function(res) {
+            if(res.statusCode !== 200) {
+                console.log('[speech_google] Non-200 answer from Google Speech API (' + res.statusCode + ')');
+                return;
+            }
+            res.setEncoding('utf8');
+            res.on('data', function (chunk) {
+                self.apiResult = JSON.parse(chunk);
+            });
+            res.on('end', function() {
+                self.parseResult();
+            });
         });
-        res.on('end', function() {
-            self.parseResult();
+
+        req.on('error', function(e) {
+            self.emit('error', e);
         });
-    });
 
-    req.on('error', function(e) {
-        self.emit('error', e);
-    });
+        // write data to request body
+        console.log('[speech_google] Speakable: Posting voice data...');
 
-    // write data to request body
-    console.log('[speech] Speakable: Posting voice data...');
-
-    for(var i in self.recBuffer) {
-        if(self.recBuffer.hasOwnProperty(i)) {
-            req.write(new Buffer(self.recBuffer[i],'binary'));
+        for(var i in self.recBuffer) {
+            if(self.recBuffer.hasOwnProperty(i)) {
+                req.write(new Buffer(self.recBuffer[i],'binary'));
+            }
         }
+        req.end();
     }
-    req.end();
+    else {
+        console.log('[speech_google] ABORTING: NO GOOGLE API KEY PROVIDED!');
+    }
 
 
     if(self.active) {
@@ -116,7 +119,7 @@ Speakable.prototype.recordVoice = function() {
     self.rec = spawn(self.cmd, args, 'pipe');
 
     self.rec.on('error', function() {
-        console.log('[speech] ERROR INITIALIZING SOX BINARY, ABORTING!');
+        console.log('[speech_google] ERROR INITIALIZING SOX BINARY, ABORTING!');
         self.active = false;
     });
 
@@ -160,9 +163,9 @@ Speakable.prototype.resetVoice = function() {
 };
 
 Speakable.prototype.parseResult = function() {
-    var recognizedWords = [], apiResult = this.apiResult;
-    if(apiResult && apiResult.hypotheses && apiResult.hypotheses[0]) {
-        recognizedWords = apiResult.hypotheses[0].utterance;
+    var recognizedWords = [], apiResult = this.apiResult.result;
+    if(apiResult && apiResult[0] && apiResult[0].alternative && apiResult[0].alternative[0]) {
+        recognizedWords = apiResult[0].alternative[0].transcript;
         this.emit('speechResult', recognizedWords);
     } else {
         this.emit('speechResult', false);
@@ -171,15 +174,19 @@ Speakable.prototype.parseResult = function() {
 };
 
 Speakable.prototype.start = function() {
+    console.log('[speech_google] Start Google speech recognition');
+
     this.active = true;
     this.recordVoice();
 };
 
 Speakable.prototype.stop = function() {
+    console.log('[speech_google] Stop Google speech recognition');
+
     this.active = false;
 
     if(this.rec) {
-        console.log('[speech] Killing sox process');
+        console.log('[speech_google] Killing sox process');
         this.rec.kill();
         this.rec = false;
     }

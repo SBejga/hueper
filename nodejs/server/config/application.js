@@ -40,7 +40,19 @@ module.exports = function(app) {
 
             {
                 name: 'speechSensitivity',
-                value: 20,
+                value: 20,          // Google key for Speech API; http://www.chromium.org/developers/how-tos/api-keys
+                hidden: false
+            },
+
+            {
+                name: 'speechGoogleKey',
+                value: null,
+                hidden: false
+            },
+
+            {
+                name: 'speechGoogleLanguage',
+                value: 'en-US',
                 hidden: false
             },
 

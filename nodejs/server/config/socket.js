@@ -5,4 +5,6 @@
         ['websocket', 'flashsocket', 'htmlfile', 'xhr-polling', 'jsonp-polling']
     );
 
+    app.server.io.disable('log');
+
 };

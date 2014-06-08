@@ -125,6 +125,15 @@
     <br />
     Spracherkennungs-Schwelle (%): <input type="number" ng-model="state.appConfig.speechSensitivity" />
     <br />
+    Google-API-Key: <input type="text" ng-model="state.appConfig.speechGoogleKey" />
+    <br />
+    Google Sprache:
+    <select ng-model="state.appConfig.speechGoogleLanguage">
+        <option value="en-US">Englisch</option>
+        <option value="de-DE">Deutsch</option>
+    </select>
+    oder beliebig: <input type="text" ng-model="state.appConfig.speechGoogleLanguage" />
+    <br />
     Spracherkennungs-Methode:
     <select ng-model="state.appConfig.speechRecognitionEngine">
         <option>google</option>
