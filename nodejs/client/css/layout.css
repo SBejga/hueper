@@ -159,7 +159,7 @@
     text-align: center;
     margin-top:10px;
     margin-bottom:10px;
-    min-width:130px;
+    min-width:110px;
 }
 
 
@@ -570,11 +570,57 @@ button:active{
     margin-right: 0px;
 }
 
+.automationoverview_activecheckbox{
+    min-width:140px;
+    width:200px;
+    max-width:40%;
+    float:left;
+}
+
+.automationoverview_name{
+    width:70%;
+    max-width:800px;
+    float:right
+}
+
+.automation_checkboxlist_container{
+    width:100%;
+    height:50px;
+
+}
+
+.automation_triggerconditionsactions{
+    width:100%;
+    overflow:hidden;
+}
+
+.automation_text{
+    width:35%;
+    float:left;
+    margin-top:20px;
+    margin-bottom:20px;
+    font-weight: bold;
+    overflow:hidden
+}
+
+.automation_field{
+    width:60%;
+    float:right;
+    overflow:hidden
+}
+
+
 .icon {
     display:inline-block;
     width:18px;
     height:18px;
     background-size:18px 18px;
+}
+
+.icon_40px{
+    margin:5px;
+    width:40px;
+    height:40px
 }
 
 .icon.large {
@@ -675,6 +721,45 @@ button:active{
         float:left;
         padding-top: 5px;
     }
+
+    .automationoverview_activecheckbox{
+        max-width: 95%;
+        width:95%
+    }
+
+    .automationoverview_name{
+        text-align: center;
+        margin:auto;
+        width:95%;
+        max-width: 95%;
+    }
+
+    .automation_checkboxlist_container{
+        text-align: center;
+        margin:auto;
+        height:160px;
+        width:225px;
+    }
+
+    .automation_checkboxlist{
+        min-width:200px;
+        float: left !important;
+        margin:5px !important;
+
+    }
+
+    .automation_text{
+        width:35%;
+        float:left;
+        margin-top:20px;
+        margin-bottom:20px;
+        font-weight: bold;
+        overflow:hidden;
+        color: #f9efed;
+        font-weight: normal;
+    }
+
+
 }
 
 /* small height */

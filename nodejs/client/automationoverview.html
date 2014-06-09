@@ -138,26 +138,26 @@
 
 
         <div class="content_right_subcontainer" style="text-align: center; margin: auto; overflow:hidden">
+            <!-- AUTOMATION LIST -------------------------------------------------------------------------------------->
             <div class="subcontent_a">
                 <div class="transparent_bg listing_box" style="max-width:100%;">
-                    <a href="automation.html?{{}}" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus
-                        ui-btn-icon-notext ui-btn-inline light_group_a listing_box_icon">
-                    </a>
+                    <div class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('createAutomation')">
+                    </div>
                     <h2 class="listing_box_title">Automations</h2>
-                    <!-- AUTOMATION LIST-->
                     <div class="light_group" ng-repeat="(id,a) in sharedScope.state.automation"
-                         style="background-color: rgba(236, 236, 236, 0.2) !important; border-radius:5px;">
+                         style="background-color: rgba(236, 236, 236, 0.2) !important; border-radius:5px;margin:5px">
 
-                        <div style="width:70%;max-width:800px;float:right">
+                        <div class="automationoverview_name">
                             <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
                                 ui-btn-inline light_group_a" style="margin-top: 9px; float:right"
-                                  ng-click="sharedScope.automation.setSelectedAutomationId();">
+                                  ng-click="automation.setSelectedAutomationId(id);sharedScope.submenu.openSubmenu('deleteAutomation')">
                             </span>
                             <a href="automation.html?id={{id}}" class="panel panel_layout_fix" style="margin-right:50px; margin-top: 0px;line-height: 46px; padding: 0px; text-decoration:none">
                                 {{a.name}}
                             </a>
                         </div>
-                        <div class="checkbox_container" style="min-width:140px;width:200px;max-width:40%; float:left" ng-click="automation.toggleActive(id)">
+                        <div class="checkbox_container automationoverview_activecheckbox" ng-click="automation.toggleActive(id)">
                             <div class="checkbox_box">
                                 <img src="./css/images/checkbox-true.png" style="float: left" ng-show="a.active">
                             </div>
@@ -165,25 +165,56 @@
                                 Active
                             </div>
                         </div>
+
+                        <div ng-repeat="trigger in a.triggers" class="mobile_hide">
+
+                            <div ng-switch="trigger.type">
+                                <div ng-switch-when="light">
+                                    <img src="./css/images/icons/light-icon.svg" class="light_group_img" style="margin:5px; width:40px; height:40px">
+                                </div>
+                                <div ng-switch-when="motion">
+                                    <img src="./css/images/icons/motion-icon.svg" class="light_group_img" style="margin:5px; width:40px; height:40px">
+                                </div>
+                                <div ng-switch-when="speech">
+                                    <img src="./css/images/icons/speech-icon.svg" class="light_group_img" style="margin:5px; width:40px; height:40px">
+                                </div>
+                                <div ng-switch-when="schedule">
+                                    <img src="css/images/icons/time-icon.svg" class="light_group_img" style="margin:5px; width:40px; height:40px">
+                                </div>
+                                <div ng-switch-when="periodical">
+                                    <img src="./css/images/icons/periodical-icon.svg" class="light_group_img" style="margin:5px; width:40px; height:40px">
+                                </div>
+                                <div ng-switch-when="rfid">
+                                    <img src="./css/images/icons/rfid-icon.svg" class="light_group_img" style="margin:5px; width:40px; height:40px">
+                                </div>
+                                <div ng-switch-when="device">
+                                    <img src="./css/images/icons/device-icon.svg" class="light_group_img" style="margin:5px; width:40px; height:40px">
+                                </div>
+                                <div ng-switch-when="custom">
+                                    <img src="./css/images/icons/custom-icon.svg" class="light_group_img" style="margin:5px; width:40px; height:40px">
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
             </div>
 
 
-
-
-            <!------------------------ SUBMENUES ------------------->
+            <!------------------------ SUBMENUES: delete/create Automation -------------------------------------------->
             <div class="subcontent_d">
                 <!-- delete automation -->
-                <div ng-if="sharedScope.submenu.visible.deleteGroup">
+                <div ng-if="sharedScope.submenu.visible.deleteAutomation">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
                         light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
-                        <h2 class="listing_box_title">Do you want to remove the group "{{sharedScope.state.groups[groups.selectedGroupId].name}}"?</h2>
+                        <h2 class="listing_box_title">Do you want to remove the automation
+                            "{{sharedScope.state.automation[automation.selectedAutomationId].name}}"?
+                        </h2>
                         <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
-                                ng-click="groups.remove(groups.selectedGroupId)">YES</button>
+                                ng-click="automation.remove(automation.selectedAutomationId)">YES</button>
                         <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
                                 ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
                     </div>
@@ -191,26 +222,60 @@
                     <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
                     <div class="overlap_content mobile_show">
                         <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
-                            <a href="lightandgroup.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                            <a href="automationoverview.html"><img src="css/images/icons/icon-arrow-down.png"></a>
                         </div>
-                        <div style="text-align: center; color: #f9efed">
-                            Do you want to remove the group "{{sharedScope.state.groups[groups.selectedGroupId].name}}"?
+                        <div style="text-align: center; color: #f9efed">Do you want to remove the automation
+                            "{{sharedScope.state.automation[automation.selectedAutomationId].name}}"?
                         </div>
                         <div style="padding:15px; text-align: center">
                             <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner button ui-btn-inline"
-                                    ng-click="groups.remove(groups.selectedGroupId)">YES</button>
+                                    ng-click="automation.remove(automation.selectedAutomationId)">YES</button>
                             <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner button ui-btn-inline"
                                     ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
                         </div>
                     </div>
                 </div>
 
+                <!-- create automation -->
+                <div ng-if="sharedScope.submenu.visible.createAutomation">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide" style="overflow:hidden">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title">Create Automation</h2>
+                        <form ng-submit="automation.create(automation.forms.create)" style="padding: 8px;">
+                            <div style="line-height: 50px; font-weight: bold; width:50%; float: left">
+                                Please insert the name...
+                            </div>
+                            <div style="width:45%; float:right">
+                                <input type="text" ng-model="automation.forms.create.name" required />
+                            </div>
 
-
-
-
-
-
+                            <div style="text-align: center; margin: auto; width:100%; float: right; margin-bottom:15px">
+                                <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner transparent_bg button"
+                                        ng-disabled="!automation.forms.create.name.length" style="max-width: 250px; text-align: center; margin:auto">done</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
+                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                            <a href="automationoverview.html"><img src="css/images/icons/icon-arrow-down.png"></a>
+                        </div>
+                        <div style="padding:20px; text-align: center; margin:auto">
+                            <form ng-submit="automation.create(automation.forms.create)">
+                                <div style="text-align: center; color: #f9efed">
+                                    Please insert the name...
+                                </div>
+                                <input type="text" ng-model="automation.forms.create.name" required />
+                                <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner button"
+                                        ng-disabled="!automation.forms.create.name.length" style="text-align: center;
+                                        margin:auto; margin-top:15px;">done</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
