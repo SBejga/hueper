@@ -85,18 +85,18 @@ angular.module('hueApp.controllers').
                 $scope.automation.resetSelectedProperty();
             },
 
-            removeTrigger: function(trigger){
-                $scope.state.automation[$scope.automation.selectedAutomationId].triggers.splice($scope.state.automation[$scope.automation.selectedAutomationId].triggers.indexOf(trigger), 1);
+            removeTrigger: function(){
+                $scope.state.automation[$scope.automation.selectedAutomationId].triggers.splice($scope.automation.selectedPropertyIndex, 1);
                 socket.emit('automation.update', $scope.state.automation[$scope.automation.selectedAutomationId]);
                 $scope.automation.resetSelectedProperty();
             },
-            removeCondition: function(condition){
-                $scope.state.automation[$scope.automation.selectedAutomationId].conditions.splice($scope.state.automation[$scope.automation.selectedAutomationId].conditions.indexOf(condition), 1);
+            removeCondition: function(){
+                $scope.state.automation[$scope.automation.selectedAutomationId].conditions.splice($scope.automation.selectedPropertyIndex, 1);
                 socket.emit('automation.update', $scope.state.automation[$scope.automation.selectedAutomationId]);
                 $scope.automation.resetSelectedProperty();
             },
-            removeAction: function(action){
-                $scope.state.automation[$scope.automation.selectedAutomationId].actions.splice($scope.state.automation[$scope.automation.selectedAutomationId].actions.indexOf(action), 1);
+            removeAction: function(){
+                $scope.state.automation[$scope.automation.selectedAutomationId].actions.splice($scope.automation.selectedPropertyIndex, 1);
                 socket.emit('automation.update', $scope.state.automation[$scope.automation.selectedAutomationId]);
                 $scope.automation.resetSelectedProperty();
             },
@@ -166,6 +166,13 @@ angular.module('hueApp.controllers').
 
             setSelectedAutomationId: function(id){
                 $scope.automation.selectedAutomationId = id;
+            },
+
+            initializeProperty: function(submenu, index, type, value){
+                $scope.sharedScope.submenu.openSubmenu(submenu);
+                $scope.automation.setSelectedAutomationId($scope.helpers.urlId);
+                $scope.automation.setSelectedPropertyIndex(index);
+                $scope.automation.setSelectedProperty({'type': type, 'value' : value});
             }
         };
 
