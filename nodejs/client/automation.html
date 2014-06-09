@@ -758,6 +758,14 @@
                                     </div>
                                 </div>
 
+
+
+
+
+
+
+
+
                                 <div ng-switch-when="state">
                                     <select ng-model="automation.selectedProperty.value.type">
                                         <option>light</option>
@@ -785,30 +793,31 @@
 
 
 
+
                                     <div ng-if="automation.selectedProperty.value.type != 'scene'">
-                                        <div hueper-checkbox="automation.selectedProperty.value.state.on">On</div>
+                                        <div hueper-checkbox="automation.selectedProperty.value.state.on" style="margin-top:5px">On</div>
 
-                                        <span ng-repeat="(val, name) in {'bri': 'Helligkeit (0-254)', 'hue': 'Farbe (0-65535)', 'sat': 'Sättigung (0-254)', 'ct': 'Weiß-Farbtemperatur (153-497)'}">
-                                            {{name}} <code>[{{val}}]</code> <input type="number" ng-model="automation.selectedProperty.value.state[val]" /><br />
-                                        </span>
                                         <div hueper-slider model="automation.selectedProperty.value.state.bri" min="0" max="254"
-                                             step="5" change="automation.selectedProperty.value.state(helpers.urlId, { bri: value })" class="slider-brightness"></div>
+                                             step="5" change="automation.selectedProperty.value.state(helpers.urlId, { bri: value })"
+                                             class="slider-brightness" style="margin-top:5px"></div>
                                         <div hueper-colorpicker state="automation.selectedProperty.value.state"
-                                             change="lights.state(helpers.urlId, state)"></div>
+                                             change="lights.state(helpers.urlId, state)"  clean="true" style="margin-top:5px"></div>
                                         <div hueper-checkbox="automation.selectedProperty.value.state.effect" trueval="colorloop"
-                                             falseval="none" change="lights.state(helpers.urlId, {effect : value})"> Activate Colorloop</div>
+                                             falseval="none" change="lights.state(helpers.urlId, {effect : value})" style="margin-top:5px"> Activate Colorloop</div>
 
-                                        effect
-                                        <select ng-model="automation.selectedProperty.value.state.effect">
-                                            <option>none</option>
-                                            <option>colorloop</option>
-                                        </select>
                                     </div>
                                     <br />
 
                                     <div hueper-checkbox="automation.selectedProperty.value.invert">invert</div>
 
                                 </div>
+
+
+
+
+
+
+
 
                                 <div ng-switch-when="party">
                                     <select ng-model="automation.selectedProperty.value.id" ng-options="id as p.name for (id , p) in state.party">
