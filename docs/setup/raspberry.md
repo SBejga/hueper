@@ -120,17 +120,14 @@ Danach ist ein Neustart nötig, um die neue Firmware zu aktivieren.
 
 ### USB-Soundkarte einrichten
 
-Die Datei *home/pi/.asoundrc* mit folgendem Inhalt anlegen:
+In der Datei */etc/modprobe.d/alsa-base.conf* die Zeile
 
-    pcm.!default {
-        type hw
-        card 1
-    }
+    options snd-usb-audio index=-2
 
-    ctl.!default {
-        type hw
-        card 1
-    }
+ändern in
+
+    options snd-usb-audio index=0
+
 
 Die Aufnahme-Lautstärke kann über das Programm `alsamixer` geändert werden. Um die Einstellungen dauerhaft zu speichern, folgenden Befehl eingeben:
 

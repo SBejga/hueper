@@ -80,12 +80,12 @@ Installation:
 
 ### Deploying on a Raspberry Pi
 
-Hardware needed: External USB sound card with microphone
+Hardware needed: External USB sound card with microphone (in */etc/modprobe.d/alsa-base.conf* set `options snd-usb-audio index=0`)
 
 -   Flash your Raspberry Pi with Raspbian
 -   Connect it to the internet, make sure all packages are up to date
--   Copy the files in the *raspberry* folder to */home/pi*
--   Make the *setup.sh* executable and execute it (as root)
+-   Copy  *raspberry/setup.sh* to */home/pi*
+-   Make it executable and execute it (as root)
 -   wait :)
 -   reboot
 
