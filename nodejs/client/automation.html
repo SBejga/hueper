@@ -126,12 +126,11 @@
             </a>
         </div>
 
-        <!---------------------------------------- NOTIFICATIONS Desktop ------------------------------------------>
-        <div class="notification" ng-if="sharedScope.submenu.visible.notification"
-             ng-click="sharedScope.submenu.closeSubmenu()">
+        <!---------------------------------------- NOTIFICATIONS ------------------------------------------------------>
+        <a href="rfid.html" class="notification" ng-if="sharedScope.submenu.visible.newRfid">
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-            Notification Template
-        </div>
+            New RFID-Tag available.
+        </a>
 
         <div class="content_right_subcontainer" style="text-align: center; margin: auto; overflow:hidden">
 

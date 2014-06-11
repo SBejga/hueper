@@ -144,6 +144,7 @@
                 </a>
             </div>
         </div>
+
         <!----------------------------------------  NOTIFICATIONS ----------------------------------------------------->
         <div class="notification" ng-show="sharedScope.user.forms.password.error === true">
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
@@ -161,6 +162,10 @@
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
             If there are new lights, they will be added automatically.
         </div>
+        <a href="rfid.html" class="notification" ng-if="sharedScope.submenu.visible.newRfid">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            New RFID-Tag available.
+        </a>
 
 
         <div class="content_right_subcontainer ">

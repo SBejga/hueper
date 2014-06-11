@@ -402,7 +402,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
 
 
-
+    /*
     $scope.$watch('state.connect', function(){
         if($scope.state.connect.hue === undefined){
             return;
@@ -416,7 +416,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             $rootScope.helpers.redirect("index.html");
         }
     }, true);
-
+    */
 
     $scope.$watch('state.rfidUnknown', function(){
         $scope.submenu.openSubmenu('newRfid');

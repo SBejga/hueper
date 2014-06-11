@@ -13,6 +13,12 @@
     font-weight:bold;
 }
 
+a:link {
+    text-decoration:none;
+}
+
+
+
 .wrapper {
     position: relative;
     width:1000px;

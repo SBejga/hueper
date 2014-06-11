@@ -64,6 +64,12 @@
 
 <!-- CONTENT -->
     <div data-role="content" class="content_container" ng-controller="IndexCtrl">
+        <!---------------------------------------- NOTIFICATIONS ------------------------------------------------------>
+        <a href="rfid.html" class="notification" ng-if="sharedScope.submenu.visible.newRfid">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            New RFID-Tag available.
+        </a>
+
         <div class="index_wrapper">
                 <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button">
                     <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
@@ -107,7 +113,12 @@
                     </div>
                 </a>
         </div>
+
+
+
     </div>
+
+
 
 </div>
 </body>
