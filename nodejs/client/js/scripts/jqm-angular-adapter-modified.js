@@ -2043,7 +2043,7 @@ angular.module("jqmAdapter", ["ng", "ngRoute"]);
             };
         });
     })($, angular);
-    (function ($, angular) {
+   (function ($, angular) {
         // This is a copy of parts of angular's ngOptions directive to detect changes in the values
         // of ngOptions (emits the $childrenChanged event on the scope).
         // This is needed as ngOptions does not provide a way to listen to changes.
@@ -2130,12 +2130,12 @@ angular.module("jqmAdapter", ["ng", "ngRoute"]);
                         valueInterpolateFn = $interpolate(tElement.attr('value'), true);
                     }
                     return function (scope, iElement, iAttrs) {
-                        scope.$watch(textInterpolateFn, function () {
+                        /*scope.$watch(textInterpolateFn, function () {
                             iElement.trigger("$childrenChanged");
                         });
                         scope.$watch(valueInterpolateFn, function () {
                             iElement.trigger("$childrenChanged");
-                        });
+                        });*/
                     };
                 }
             };

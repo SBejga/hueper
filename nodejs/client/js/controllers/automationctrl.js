@@ -11,7 +11,11 @@ angular.module('hueApp.controllers').
 
             selectedProperty:{
                 type:'',
-                value:[]
+                value:undefined
+            },
+
+            selectedPropertyIsArray:{
+                array:[]
             },
 
             // placeholder for form data
@@ -44,7 +48,10 @@ angular.module('hueApp.controllers').
                 socket.emit('automation.update', $scope.state.automation[$scope.automation.selectedAutomationId]);
                 $scope.automation.resetSelectedProperty();
             },
-            createCondition: function(condition){
+            createCondition: function(condition, conditionArray){
+                if(condition.type === 'weekdays'){
+                    condition.value = conditionArray.array;
+                }
                 $scope.state.automation[$scope.automation.selectedAutomationId].conditions.push(condition);
                 socket.emit('automation.update', $scope.state.automation[$scope.automation.selectedAutomationId]);
                 $scope.automation.resetSelectedProperty();
@@ -67,6 +74,9 @@ angular.module('hueApp.controllers').
                 $scope.automation.resetSelectedProperty();
             },
             updateCondition: function(){
+                if($scope.automation.selectedProperty.type === 'weekdays'){
+                    $scope.automation.selectedProperty.value = $scope.automation.selectedPropertyIsArray.array;
+                }
                 $scope.state.automation[$scope.automation.selectedAutomationId].conditions[$scope.automation.selectedPropertyIndex] = $scope.automation.selectedProperty;
                 socket.emit('automation.update', $scope.state.automation[$scope.automation.selectedAutomationId]);
                 $scope.automation.resetSelectedProperty();
@@ -106,10 +116,7 @@ angular.module('hueApp.controllers').
                 t.value = undefined;
             },
             resetConditionValue: function(t) {
-                if(t.type === 'weekdays') {
-                    t.value = [];
-                }
-                else if(t.type === 'state') {
+                if(t.type === 'state') {
                     t.value = {
                         state: {}
                     };
@@ -160,7 +167,10 @@ angular.module('hueApp.controllers').
             resetSelectedProperty: function(){
                 $scope.automation.selectedProperty = {
                     type:'',
-                    value:[]
+                    value: undefined
+                };
+                $scope.automation.selectedPropertyIsArray = {
+                    array: []
                 };
             },
 

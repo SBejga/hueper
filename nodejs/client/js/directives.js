@@ -1149,7 +1149,6 @@ directive('hueperCheckbox', function(){
 
                         if(scope.list === undefined){
 
-
                             if(scope.hueperCheckbox === trueVal){
                                 scope.hueperCheckbox = falseVal;
                             }
