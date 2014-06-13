@@ -184,13 +184,15 @@
                     <h2 class="listing_box_title">Lights</h2>
                     <div class="light_group" ng-repeat="lightId in state.groups[helpers.urlId].lights">
                         <div class="light_wrapper_69width" style="float:left" ng-click="sharedScope.submenu.openSubmenu('changeLightColor');lights.setSelectedLightId(lightId)">
-                            <div class="light_color_69width" hueper-color="sharedScope.state.lights[lightId].state"></div>
+                            <div class="light_color_69width" hueper-color="sharedScope.state.lights[lightId].state" ng-if="sharedScope.state.lights[lightId].state.reachable"></div>
                             <div class="light_template">
                                 <img src="./css/images/transparent_light_69width.png">
                             </div>
+                            <div class="light_color_69width" ng-if="!sharedScope.state.lights[lightId].state.reachable" style="margin-top: 7px">Offline</div>
                         </div>
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                            ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(helpers.urlId, lightId, '')"></span>
+                            ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(helpers.urlId, lightId, '')"
+                            ng-if="sharedScope.state.lights[lightId].state.reachable"></span>
                         <a href="light.html?id={{lightId}}"  style="text-decoration: none">
                             {{sharedScope.state.lights[lightId].name}}</a>
                     </div>
@@ -235,7 +237,7 @@
                 </div>
 
                 <!-- change lightcolor -->
-                <div ng-if="sharedScope.submenu.visible.changeLightColor">
+                <div ng-if="sharedScope.submenu.visible.changeLightColor && sharedScope.state.lights[lights.selectedLightId].state.reachable">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide ">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline

@@ -150,10 +150,12 @@
                          style="text-align:center;">
                         <a href="light.html?id={{id}}"  style="text-decoration: none">
                             <div class="light_wrapper_69width">
-                                <div class="light_color_69width" hueper-color="sharedScope.state.lights[id].state"></div>
+
+                                <div class="light_color_69width" hueper-color="sharedScope.state.lights[id].state" ng-if="sharedScope.state.lights[id].state.reachable"></div>
                                 <div class="light_template">
                                     <img src="./css/images/transparent_light_69width.png">
                                 </div>
+                                <div class="light_color_69width" ng-if="!sharedScope.state.lights[id].state.reachable" style="margin-top: 25px">Offline</div>
                             </div>
                             <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">{{light.name}}</div>
                         </a>
@@ -268,7 +270,7 @@
                             </div>
                             <div style="padding:5px; width:45%; float:right; padding-right:0px">
                                 <div style="padding-bottom:10px" ng-repeat="(id, light) in sharedScope.state.lights">
-                                    <div hueper-checkbox="id" list="groups.forms.create.lights"> {{light.name}}</div>
+                                    <div hueper-checkbox="id" list="groups.forms.create.lights" ng-if="sharedScope.state.lights[id].state.reachable"> {{light.name}}</div>
                                 </div>
                             </div>
                             <div style="text-align: center; margin: auto; width:100%; float: right; margin-bottom:15px">

@@ -473,7 +473,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
             groupId = groupId.toString();
 
             angular.forEach($scope.state.lights, function(value, key){
-                if($scope.state.groups[groupId].lights.indexOf(key) === -1 ){
+               if(($scope.state.groups[groupId].lights.indexOf(key) === -1) && $scope.state.lights[key].state.reachable){
                     lightsOfGroupInverse.push(key)
                 }
             });

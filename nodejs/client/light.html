@@ -163,24 +163,25 @@
             <div class="subcontent_b">
                 <!-- color -->
                 <div class="light_wrapper">
-                    <div class="light_color" hueper-color="sharedScope.state.lights[helpers.urlId].state"></div>
+                    <div class="light_color" hueper-color="sharedScope.state.lights[helpers.urlId].state" ng-if="sharedScope.state.lights[helpers.urlId].state.reachable"></div>
                     <div class="light_template">
                         <img src="./css/images/transparent_light.png" ng-click="sharedScope.submenu.openSubmenu('changeLightColor')">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-notext ui-btn-inline"
-                            style="position: absolute; top: 170px; left: 60px" ng-click="lights.turnLightOnOff(helpers.urlId)"></span>
+                            style="position: absolute; top: 170px; left: 60px" ng-click="lights.turnLightOnOff(helpers.urlId)" ng-if="sharedScope.state.lights[helpers.urlId].state.reachable"></span>
                     </div>
+                    <div class="light_color_69width" ng-if="!sharedScope.state.lights[helpers.urlId].state.reachable"
+                         style="margin-top: 165px; margin-left: 50px; font-weight: bold">Offline</div>
                 </div>
                 <!-- favorites -->
-                <div style="text-align: center; width:100%; margin:auto">
+                <div style="text-align: center; width:100%; margin:auto" ng-if="sharedScope.state.lights[helpers.urlId].state.reachable">
                     <div class="favorites_wrapper" ng-repeat="(id, fav) in sharedScope.state.favorites"
                          ng-click="lights.changeLightColorToFavorite(id, helpers.urlId, 'light')">
                         <div class="light_favorites_star_color" hueper-color="fav.state"></div>
                         <div class="light_favorites"><img src="css/images/icons/icon-star-frame-red.png"></div>
                     </div>
                 </div>
-                <!-- buttons: save color, add group -->
                 <button class="ui-btn ui-icon-star ui-btn-icon-left btn-round-corner transparent_bg button"
-                    ng-click="lights.checkNumberOfFavorites(helpers.urlId)" style="text-align: center; margin:auto">
+                    ng-click="lights.checkNumberOfFavorites(helpers.urlId)" style="text-align: center; margin:auto" ng-if="sharedScope.state.lights[helpers.urlId].state.reachable">
                     save color
                 </button>
             </div>
@@ -190,11 +191,13 @@
                 <!-- groups -->
                 <div class="transparent_bg listing_box">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('addGroupToLight')"></span>
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('addGroupToLight')"
+                          ng-if="sharedScope.state.lights[helpers.urlId].state.reachable"></span>
                     <h2 class="listing_box_title">Groups</h2>
                     <div class="light_group" ng-repeat="groupId in lights.getGroups(helpers.urlId)">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
-                            light_group_a" ng-click="groups.openDeleteMenuGroup(groupId, helpers.urlId, '')"></span>
+                            light_group_a" ng-click="groups.openDeleteMenuGroup(groupId, helpers.urlId, '')"
+                            ng-if="sharedScope.state.lights[helpers.urlId].state.reachable"></span>
                         <a href="group.html?id={{groupId}}" style="text-decoration: none; padding:8px" class="panel panel_layout_fix">
                             <img src="./css/images/transparent_group_small.png" class="light_group_img">
                             {{sharedScope.state.groups[groupId].name}}
@@ -206,7 +209,7 @@
             <!------------------- SUBMENUES: change color, choose favorite to replace, add group, remove group -------->
             <div class="subcontent_d">
                 <!-- change color-->
-                <div ng-if="sharedScope.submenu.visible.changeLightColor">
+                <div ng-if="sharedScope.submenu.visible.changeLightColor && sharedScope.state.lights[helpers.urlId].state.reachable">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide ">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline

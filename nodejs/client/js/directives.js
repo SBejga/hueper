@@ -599,7 +599,7 @@ directive('hueperColorpickerSeparate', function() {
     return {
         template: '<div class="colorpicker">\
                 <div class="colorpicker-handle-container">\
-                    <div class="colorpicker-handle" ng-repeat="(id, l) in lights" hueper-touch hueper-colorpicker-separate-handle="l.state" change="change({id: id, state: state})">{{id}}</div>\
+                    <div class="colorpicker-handle" ng-repeat="(id, l) in lights" hueper-touch hueper-colorpicker-separate-handle="l.state" change="change({id: id, state: state})" ng-if="lights[id].state.reachable">{{id}}</div>\
                 </div>\
             </div>',
 
