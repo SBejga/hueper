@@ -131,6 +131,13 @@
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
             New RFID-Tag available.
         </a>
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationValueIncomplete"
+             ng-click="sharedScope.submenu.closeSubmenu()">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            Please enter all informations.
+        </div>
+
+
 
         <div class="content_right_subcontainer" style="text-align: center; margin: auto; overflow:hidden">
 
@@ -183,14 +190,11 @@
                     <div class="automation_triggerconditionsactions" style="margin-top: 0px">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
                             light_group_a listing_box_icon" ng-click="automation.setSelectedAutomationId(helpers.urlId);
-                            automation.resetSelectedProperty();sharedScope.submenu.openSubmenu(['trigger', 'createTrigger'])"></span>
+                            automation.resetSelectedProperty('trigger');sharedScope.submenu.openSubmenu(['trigger', 'createTrigger'])"></span>
                         <h2 class="listing_box_title">Trigger</h2>
 
                         <div ng-repeat="trigger in state.automation[helpers.urlId].triggers"
                              ng-click="automation.initializeProperty(['trigger', 'editTrigger'], $index, trigger.type.toString(), trigger.value)">
-                            <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline automation_tca_delete"
-                                  ng-click="automation.initializeProperty('delete', $index, trigger.type.toString(), trigger.value)"></span>
-
                             <div ng-switch="trigger.type">
                                 <div ng-switch-when="light" class="automation_tca_list">
                                     <img src="./css/images/icons/light-icon.svg" class="light_group_img icon_40px">
@@ -248,14 +252,11 @@
                     <div class="automation_triggerconditionsactions">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
                             light_group_a listing_box_icon" ng-click="automation.setSelectedAutomationId(helpers.urlId);
-                            automation.resetSelectedProperty();sharedScope.submenu.openSubmenu(['condition', 'createCondition'])"></span>
+                            automation.resetSelectedProperty('condition');sharedScope.submenu.openSubmenu(['condition', 'createCondition'])"></span>
                         <h2 class="listing_box_title">Conditions</h2>
 
                         <div ng-repeat="condition in state.automation[helpers.urlId].conditions"
                              ng-click="automation.initializeProperty(['condition', 'editCondition'], $index, condition.type.toString(), condition.value)">
-                            <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline automation_tca_delete"
-                                  ng-click="automation.initializeProperty('delete', $index, condition.type.toString(), condition.value)"></span>
-
                             <div ng-switch="condition.type">
                                 <div ng-switch-when="light" class="automation_tca_list">
                                     <img src="./css/images/icons/light-icon.svg" class="light_group_img icon_40px">
@@ -346,13 +347,11 @@
                     <div class="automation_triggerconditionsactions">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
                             light_group_a listing_box_icon" ng-click="automation.setSelectedAutomationId(helpers.urlId);
-                            automation.resetSelectedProperty();sharedScope.submenu.openSubmenu(['action', 'createAction'])"></span>
+                            automation.resetSelectedProperty('action');sharedScope.submenu.openSubmenu(['action', 'createAction'])"></span>
                         <h2 class="listing_box_title">Actions</h2>
+
                         <div ng-repeat="action in state.automation[helpers.urlId].actions"
                              ng-click="automation.initializeProperty(['action', 'editAction'], $index, action.type.toString(), action.value)">
-                            <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline automation_tca_delete"
-                                ng-click="automation.initializeProperty('delete', $index, action.type.toString(), action.value)"></span>
-
                             <div ng-switch="action.type">
                                 <div ng-switch-when="light" class="automation_tca_list">
                                     <img src="./css/images/icons/light-icon.svg" class="light_group_img icon_40px">
@@ -449,26 +448,36 @@
                         <div class="automation_text">Type</div>
                         <div class="automation_field">
                             <select ng-model="automation.selectedProperty.type" ng-change="automation.resetTriggerValue(automation.selectedProperty)">
-                                <option>light</option>
-                                <option>motion</option>
-                                <option>speech</option>
-                                <option>schedule</option>
-                                <option>periodical</option>
-                                <option>rfid</option>
-                                <option>device</option>
-                                <option>custom</option>
+                                <option value="light">Light</option>
+                                <option value="motion">Motion</option>
+                                <option value="speech">Speech</option>
+                                <option value="schedule">Alarm</option>
+                                <option value="periodical">Periodical</option>
+                                <option value="rfid">RFID</option>
+                                <option value="device">Network Device</option>
+                                <option value="custom">Custom</option>
                             </select>
                         </div>
 
                         <div style="width:100%; text-align: center; margin:auto; overflow:hidden">
                             <div ng-switch="automation.selectedProperty.type">
                                 <div ng-switch-when="light">
-                                    <div class="automation_text" style="margin-top: 70px">Threshold</div>
+                                    <div class="automation_text" style="margin-top: 77px">Threshold</div>
                                     <div class="automation_field">
-                                        <select ng-model="automation.selectedProperty.value.relation">
-                                            <option>&lt;</option>
-                                            <option>&gt;</option>
-                                        </select>
+                                        <div style="float: left">
+                                            <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '>'" style="width:45%;">
+                                                <input type="radio" value=">" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                <div style="font-weight: bold; font-size: 28px"> > </div>
+                                            </div>
+                                        </div>
+                                        <div style="float: right">
+                                            <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '<'" style="width:45%">
+                                                <input type="radio" value="<" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                <div style="font-weight: bold; font-size: 28px"> < </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="automation_field">
                                         <input type="number" ng-model="automation.selectedProperty.value.threshold" placeholder="Threshold (0-100)" />
                                     </div>
                                 </div>
@@ -500,17 +509,25 @@
                                     </div>
                                 </div>
                                 <div ng-switch-when="device">
-                                    <div class="automation_text" style="margin-top: 20px">Device
-                                        <div style="margin-top:45px">Login / Logout</div>
+                                    <div class="automation_text" style="margin-top: 77px">
+                                        Device
+                                    </div>
+                                    <div class="automation_field">
+                                        <div style="float: left">
+                                            <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.action = 'login'" style="width:45%;">
+                                                <input type="radio" value="login" ng-model="automation.selectedProperty.value.action" style="margin-top: 8px">
+                                                <div style="font-weight: bold; font-size: 16px"> Login </div>
+                                            </div>
+                                        </div>
+                                        <div style="float: right">
+                                            <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.action = 'logout'" style="width:45%">
+                                                <input type="radio" value="logout" ng-model="automation.selectedProperty.value.action" style="margin-top: 8px">
+                                                <div style="font-weight: bold; font-size: 16px"> Logout </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="automation_field">
                                         <select ng-model="automation.selectedProperty.value.address" ng-options="device.address as device.name for (id , device) in state.devices"></select>
-                                    </div>
-                                    <div class="automation_field">
-                                        <select ng-model="automation.selectedProperty.value.action">
-                                            <option>login</option>
-                                            <option>logout</option>
-                                        </select>
                                     </div>
                                 </div>
                                 <div ng-switch-when="custom">
@@ -524,14 +541,12 @@
 
                         <div style="width:100%">
                             <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
-                                    ng-click="automation.createTrigger(automation.selectedProperty);sharedScope.submenu.closeSubmenu()"
+                                    ng-click="automation.createTrigger(automation.selectedProperty)"
                                     ng-if="sharedScope.submenu.visible.createTrigger">Save</button>
                             <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
-                                    ng-click="automation.updateTrigger();sharedScope.submenu.closeSubmenu()"
-                                    ng-if="sharedScope.submenu.visible.editTrigger">Save</button>
+                                    ng-click="automation.updateTrigger()" ng-if="sharedScope.submenu.visible.editTrigger">Save</button>
                             <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
-                                    ng-click="automation.removeTrigger();sharedScope.submenu.closeSubmenu()"
-                                    ng-if="sharedScope.submenu.visible.editTrigger">Delete</button>
+                                    ng-click="automation.removeTrigger()" ng-if="sharedScope.submenu.visible.editTrigger">Delete</button>
                         </div>
                     </div>
 
@@ -548,26 +563,36 @@
                             <div class="automation_text">Type</div>
                             <div class="automation_field">
                                 <select ng-model="automation.selectedProperty.type" ng-change="automation.resetTriggerValue(automation.selectedProperty)">
-                                    <option>light</option>
-                                    <option>motion</option>
-                                    <option>speech</option>
-                                    <option>schedule</option>
-                                    <option>periodical</option>
-                                    <option>rfid</option>
-                                    <option>device</option>
-                                    <option>custom</option>
+                                    <option value="light">Light</option>
+                                    <option value="motion">Motion</option>
+                                    <option value="speech">Speech</option>
+                                    <option value="schedule">Alarm</option>
+                                    <option value="periodical">Periodical</option>
+                                    <option value="rfid">RFID</option>
+                                    <option value="device">Network Device</option>
+                                    <option value="custom">Custom</option>
                                 </select>
                             </div>
 
                             <div style="width:100%; text-align: center; margin:auto; overflow:hidden">
                                 <div ng-switch="automation.selectedProperty.type">
                                     <div ng-switch-when="light">
-                                        <div class="automation_text" style="margin-top: 70px">Threshold</div>
+                                        <div class="automation_text" style="margin-top: 77px">Threshold</div>
                                         <div class="automation_field">
-                                            <select ng-model="automation.selectedProperty.value.relation">
-                                                <option>&lt;</option>
-                                                <option>&gt;</option>
-                                            </select>
+                                            <div style="float: left">
+                                                <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '>'" style="width:45%;">
+                                                    <input type="radio" value=">" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                    <div style="font-weight: bold; font-size: 28px"> > </div>
+                                                </div>
+                                            </div>
+                                            <div style="float: right">
+                                                <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '<'" style="width:45%">
+                                                    <input type="radio" value="<" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                    <div style="font-weight: bold; font-size: 28px"> < </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="automation_field">
                                             <input type="number" ng-model="automation.selectedProperty.value.threshold" placeholder="Threshold (0-100)" />
                                         </div>
                                     </div>
@@ -599,17 +624,25 @@
                                         </div>
                                     </div>
                                     <div ng-switch-when="device">
-                                        <div class="automation_text" style="margin-top: 20px">Device
-                                            <div style="margin-top:45px">Login / Logout</div>
+                                        <div class="automation_text" style="margin-top: 77px">
+                                            Device
+                                        </div>
+                                        <div class="automation_field">
+                                            <div style="float: left">
+                                                <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.action = 'login'" style="width:45%;">
+                                                    <input type="radio" value="login" ng-model="automation.selectedProperty.value.action" style="margin-top: 8px">
+                                                    <div style="font-weight: bold; font-size: 16px"> Login </div>
+                                                </div>
+                                            </div>
+                                            <div style="float: right">
+                                                <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.action = 'logout'" style="width:45%">
+                                                    <input type="radio" value="logout" ng-model="automation.selectedProperty.value.action" style="margin-top: 8px">
+                                                    <div style="font-weight: bold; font-size: 16px"> Logout </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="automation_field">
                                             <select ng-model="automation.selectedProperty.value.address" ng-options="device.address as device.name for (id , device) in state.devices"></select>
-                                        </div>
-                                        <div class="automation_field">
-                                            <select ng-model="automation.selectedProperty.value.action">
-                                                <option>login</option>
-                                                <option>logout</option>
-                                            </select>
                                         </div>
                                     </div>
                                     <div ng-switch-when="custom">
@@ -623,14 +656,12 @@
 
                             <div style="width:100%">
                                 <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
-                                        ng-click="automation.createTrigger(automation.selectedProperty);sharedScope.submenu.closeSubmenu()"
+                                        ng-click="automation.createTrigger(automation.selectedProperty)"
                                         ng-if="sharedScope.submenu.visible.createTrigger">Save</button>
                                 <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
-                                        ng-click="automation.updateTrigger();sharedScope.submenu.closeSubmenu()"
-                                        ng-if="sharedScope.submenu.visible.editTrigger">Save</button>
+                                        ng-click="automation.updateTrigger()" ng-if="sharedScope.submenu.visible.editTrigger">Save</button>
                                 <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
-                                        ng-click="automation.removeTrigger();sharedScope.submenu.closeSubmenu()"
-                                        ng-if="sharedScope.submenu.visible.editTrigger">Delete</button>
+                                        ng-click="automation.removeTrigger()" ng-if="sharedScope.submenu.visible.editTrigger">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -649,49 +680,82 @@
                         <div class="automation_text">Type</div>
                         <div class="automation_field">
                             <select ng-model="automation.selectedProperty.type" ng-change="automation.resetConditionValue(automation.selectedProperty)">
-                                <option>light</option>
-                                <option>motion</option>
-                                <option>time</option>
-                                <option>weekdays</option>
-                                <option>connections</option>
-                                <option>rfid</option>
-                                <option>device</option>
-                                <option>state</option>
-                                <option>party</option>
+                                <option value="light">Light</option>
+                                <option value="motion">Motion</option>
+                                <option value="time">Space of Time</option>
+                                <option value="weekdays">Weekdays</option>
+                                <option value="connections">Connections</option>
+                                <option value="rfid">RFID</option>
+                                <option value="device">Network Device</option>
+                                <option value="state">Color State</option>
+                                <option value="party">Party Mode</option>
                             </select>
                         </div>
 
                         <div style="width:100%; text-align: center; margin:auto; overflow:hidden">
                             <div ng-switch="automation.selectedProperty.type">
                                 <div ng-switch-when="light">
-                                    <div class="automation_text" style="margin-top: 66px">Threshold</div>
+                                    <div class="automation_text" style="margin-top: 77px">Threshold</div>
                                     <div class="automation_field">
-                                        <select ng-model="automation.selectedProperty.value.relation">
-                                            <option>&lt;</option>
-                                            <option>&gt;</option>
-                                        </select>
+                                        <div style="float: left">
+                                            <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '>'" style="width:45%;">
+                                                <input type="radio" value=">" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                <div style="font-weight: bold; font-size: 28px"> > </div>
+                                            </div>
+                                        </div>
+                                        <div style="float: right">
+                                            <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '<'" style="width:45%">
+                                                <input type="radio" value="<" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                <div style="font-weight: bold; font-size: 28px"> < </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="automation_field">
                                         <input type="number" ng-model="automation.selectedProperty.value.threshold" placeholder="Threshold (0-100)" />
                                     </div>
+
+
+
                                 </div>
                                 <div ng-switch-when="motion">
-                                    <div class="automation_text" style="margin-top: 66px">Seconds</div>
+                                    <div class="automation_text" style="margin-top: 77px">Seconds</div>
                                     <div class="automation_field">
-                                        <select ng-model="automation.selectedProperty.value.relation">
-                                            <option>&lt;</option>
-                                            <option>&gt;</option>
-                                        </select>
+                                        <div style="float: left">
+                                            <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '>'" style="width:45%;">
+                                                <input type="radio" value=">" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                <div style="font-weight: bold; font-size: 28px"> > </div>
+                                            </div>
+                                        </div>
+                                        <div style="float: right">
+                                            <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '<'" style="width:45%">
+                                                <input type="radio" value="<" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                <div style="font-weight: bold; font-size: 28px"> < </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="automation_field">
                                         <input type="number" ng-model="automation.selectedProperty.value.time" placeholder="Seconds" />
                                     </div>
                                 </div>
                                 <div ng-switch-when="time">
-                                    <div class="automation_text" style="margin-top: 66px">Hour
+                                    <div class="automation_text" style="margin-top: 77px">Hour
                                         <div style="margin-top:27px">Minute</div>
                                     </div>
                                     <div class="automation_field">
-                                        <select ng-model="automation.selectedProperty.value.relation">
-                                            <option>&lt;</option>
-                                            <option>&gt;</option>
-                                        </select>
+                                        <div style="float: left">
+                                            <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '>'" style="width:45%;">
+                                                <input type="radio" value=">" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                <div style="font-weight: bold; font-size: 28px"> > </div>
+                                            </div>
+                                        </div>
+                                        <div style="float: right">
+                                            <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '<'" style="width:45%">
+                                                <input type="radio" value="<" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                <div style="font-weight: bold; font-size: 28px"> < </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="automation_field">
                                         <input type="number" ng-model="automation.selectedProperty.value.hour" placeholder="Hour" />
                                         <input type="number" ng-model="automation.selectedProperty.value.minute" placeholder="Minute" />
                                     </div>
@@ -706,14 +770,26 @@
                                 </div>
                                 <div ng-switch-when="rfid">
                                     <div class="automation_text">RFID
-                                        <div style="margin-top:80px">Seconds</div>
+                                        <div style="margin-top:100px">Seconds</div>
                                     </div>
                                     <div class="automation_field">
                                         <select ng-model="automation.selectedProperty.value.id" ng-options="tag.tag as tag.name for (id , tag) in state.rfid"></select>
-                                        <select ng-model="automation.selectedProperty.value.relation">
-                                            <option>&lt;</option>
-                                            <option>&gt;</option>
-                                        </select>
+                                    </div>
+                                    <div class="automation_field">
+                                        <div style="float: left">
+                                            <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '>'" style="width:45%;">
+                                                <input type="radio" value=">" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                <div style="font-weight: bold; font-size: 28px"> > </div>
+                                            </div>
+                                        </div>
+                                        <div style="float: right">
+                                            <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '<'" style="width:45%">
+                                                <input type="radio" value="<" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                <div style="font-weight: bold; font-size: 28px"> < </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="automation_field">
                                         <input type="number" ng-model="automation.selectedProperty.value.time" placeholder="Seconds" />
                                     </div>
                                 </div>
@@ -723,21 +799,35 @@
                                         <select ng-model="automation.selectedProperty.value.address" ng-options="device.address as device.name for (id , device) in state.devices"></select>
                                     </div>
                                     <div class="automation_field" style="width:100%; margin-top: 15px">
-                                        <div hueper-checkbox="automation.selectedProperty.value.active">active</div>
+                                        <div hueper-checkbox="automation.selectedProperty.value.active">Active</div>
+                                        <div hueper-checkbox="sharedScope.submenu.visible.deviceAlternative" style="margin-top: 10px">Alternative</div>
+                                    </div>
+                                    <div ng-if="sharedScope.submenu.visible.deviceAlternative">
 
-                                    </div>
-                                    <div class="automation_field" style="width:100%;font-weight: bold;margin-top: 40px; margin-bottom: 15px; font-size: 20px">
-                                        Alternative
-                                    </div>
-                                    <div class="automation_text" style="margin-top: 73px">Minutes</div>
-                                    <div class="automation_field">
-                                        <select ng-model="automation.selectedProperty.value.relation">
-                                            <option>&lt;</option>
-                                            <option>&gt;</option>
-                                        </select>
-                                        <input type="number" ng-model="automation.selectedProperty.value.time" placeholder="Minutes" />
+                                        <div class="automation_text" style="margin-top: 15px; font-size: 20px;">
+                                            Alternative
+                                            <div style="font-size: 16px; margin-top: 25px">Minutes since<br />last Usage</div>
+                                        </div>
+                                        <div class="automation_field">
+                                            <div style="float: left">
+                                                <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '>'" style="width:45%;">
+                                                    <input type="radio" value=">" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                    <div style="font-weight: bold; font-size: 28px"> > </div>
+                                                </div>
+                                            </div>
+                                            <div style="float: right">
+                                                <div class="button transparent_bg radio_button" ng-click="automation.selectedProperty.value.relation = '<'" style="width:45%">
+                                                    <input type="radio" value="<" ng-model="automation.selectedProperty.value.relation" style="margin-top: 8px">
+                                                    <div style="font-weight: bold; font-size: 28px"> < </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="automation_field">
+                                            <input type="number" ng-model="automation.selectedProperty.value.time" placeholder="Minutes" />
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div ng-switch-when="state">
                                     <select ng-model="automation.selectedProperty.value.type">
                                         <option>light</option>
@@ -761,7 +851,7 @@
                                                     ng-options="id as s.name for (id , s) in state.scenes"></select>
                                         </div>
                                     </div>
-                                    <div ng-if="automation.selectedProperty.value.type != 'scene'">
+                                    <div ng-if="(automation.selectedProperty.value.type != 'scene') && (automation.selectedProperty.value.type != undefined) ">
                                         <div hueper-checkbox="automation.selectedProperty.value.state.on" style="margin-top:5px">On</div>
 
                                         <div hueper-slider model="automation.selectedProperty.value.state.bri" min="0" max="254"
@@ -1160,6 +1250,8 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
 </div>
