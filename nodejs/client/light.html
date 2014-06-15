@@ -143,13 +143,14 @@
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
             All groups are included.
         </div>
-        <a href="rfid.html" class="notification" ng-if="sharedScope.submenu.visible.newRfid">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-            New RFID-Tag available.
-        </a>
+    <a href="rfid.html" class="notification" ng-if="sharedScope.rfid.unknownRfid">
+        <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+        New RFID-Tag available.
+    </a>
 
 
-        <div class="content_right_subcontainer ">
+
+    <div class="content_right_subcontainer ">
             <!---------------------------------------- NAME ----------------------------------------------------------->
             <div class="subcontent_a">
                 <div class="lightgroup_name_edit" ng-if="state.lights[helpers.urlId].name.length">
@@ -191,14 +192,14 @@
                 <!-- groups -->
                 <div class="transparent_bg listing_box">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('addGroupToLight')"
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('addGroupToLight')" style="margin-right: 15px"
                           ng-if="sharedScope.state.lights[helpers.urlId].state.reachable"></span>
                     <h2 class="listing_box_title">Groups</h2>
                     <div class="light_group" ng-repeat="groupId in lights.getGroups(helpers.urlId)">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
                             light_group_a" ng-click="groups.openDeleteMenuGroup(groupId, helpers.urlId, '')"
                             ng-if="sharedScope.state.lights[helpers.urlId].state.reachable"></span>
-                        <a href="group.html?id={{groupId}}" style="text-decoration: none; padding:8px" class="panel panel_layout_fix">
+                        <a href="group.html?id={{groupId}}" style=" padding:8px" class="panel panel_layout_fix">
                             <img src="./css/images/transparent_group_small.png" class="light_group_img">
                             {{sharedScope.state.groups[groupId].name}}
                         </a>

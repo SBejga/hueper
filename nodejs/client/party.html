@@ -130,7 +130,7 @@
         </div>
 
         <!---------------------------------------- NOTIFICATIONS -------------------------------------------------->
-        <a href="rfid.html" class="notification" ng-if="sharedScope.submenu.visible.newRfid">
+        <a href="rfid.html" class="notification" ng-if="sharedScope.rfid.unknownRfid">
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
             New RFID-Tag available.
         </a>
@@ -139,42 +139,241 @@
 
         <div class="content_right_subcontainer ">
 
-            <div class="subcontent_b">
-                <div ng-repeat="(id, p) in state.party">
-
-                    <!-- title panel -->
-
-                    <div class="panel" ng-click="party.start(id)" ng-class="{ active: state.appConfig.partyMode === id }">
-
-                        <div class="control" ng-click="party.openDeleteMenu(id);sharedScope.helpers.cancelEvent($event)">
-                            <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline"></span>
-                        </div>
-
-                        <div class="control" ng-click="party.openEditMenu(p);sharedScope.helpers.cancelEvent($event)">
-                            <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-gear ui-btn-icon-notext ui-btn-inline"></span>
-                        </div>
-
-                        <div class="text">{{p.name}}</div>
+            <div class="subcontent_a">
+                <div ng-if="state.appConfig.partyMode" class="transparent_bg listing_box" style="max-width:100%; margin-bottom: 10px">
+                    <div style="float:right">
+                        <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                ng-click="party.stop()" style="width:150px;">Stop</button>
                     </div>
-
+                    <h2 class="listing_box_title">{{sharedScope.state.party[sharedScope.state.appConfig.partyMode].name}} is running</h2>
                 </div>
+            </div>
 
-                <p>
-                    <span class="btn-round-corner transparent_bg button ui-btn ui-icon-plus ui-btn-icon-left" ng-click="party.openCreateMenu()">Add Party Mode</span>
-                </p>
-
+            <div class="subcontent_b">
+                <div class="transparent_bg listing_box">
+                    <div class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="party.openCreateMenu()" style="margin-right: 20px">
+                    </div>
+                    <h2 class="listing_box_title">Party</h2>
+                    <div class="light_group" ng-repeat="(id, p) in state.party" style="background-color: rgba(236, 236, 236, 0.2) !important;
+                        border-radius:5px;margin:5px">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
+                            ui-btn-inline light_group_a" ng-click="party.openDeleteMenu(id);sharedScope.helpers.cancelEvent($event)">
+                        </span>
+                        <img src="./css/images/icons/start-party-icon.svg" class="light_group_img" style="margin-top: 10px; width:50px;height:50px"
+                             ng-click="party.start(id)">
+                        <div ng-click="party.openEditMenu(p);sharedScope.helpers.cancelEvent($event)" style="margin-right:50px;">
+                            {{p.name}}
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="subcontent_c">
-                <div ng-if="state.appConfig.partyMode" class="party-running">
-                    <div style="float:right">
-                        <span class="btn-round-corner ui-btn ui-btn-inline ui-mini" ng-click="party.stop()">Stop</span>
+                <!-- SUBMENU ----------------------------------------- CREATE/EDIT PARTY ------------------------------>
+                <div ng-if="sharedScope.submenu.visible.party" id="party">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide listing_box" style="margin-top: 0px">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title" ng-if="sharedScope.submenu.visible.createParty">Create Party</h2>
+                        <h2 class="listing_box_title" ng-if="sharedScope.submenu.visible.editParty">Edit Party</h2>
+
+                        <input type="text" ng-model="party.forms.edit.name" placeholder="Name">
+                        <div class="party-container">
+                            <div class="party-form-headline">Trigger</div>
+                            <div style="overflow: hidden">
+                                <div class="automation_text" style="margin-top: 79px; font-size: 16px; padding-left:10px" ng-if="party.forms.edit.trigger === 'sound'">Max. BPM</div>
+                                <div class="automation_field">
+                                    <select ng-model="party.forms.edit.trigger">
+                                        <option value="sound">Sound</option>
+                                        <option value="time">Time</option>
+                                    </select>
+                                    <p ng-if="party.forms.edit.trigger === 'sound'" style="line-height: 1.4em;">
+                                        <input type="number" ng-model="party.forms.edit.soundSettings.maxBpm">
+                                    </p>
+                                </div>
+                            </div>
+                            <div ng-if="party.forms.edit.trigger === 'time'" style="width:100%; margin:10px">
+                                <div style="font-size: 16px; font-weight: bold;text-align: center;margin: auto; margin-top:10px; margin-bottom: 5px">
+                                    Time between {{party.forms.edit.timeSettings.min / 10 }}sec. and {{party.forms.edit.timeSettings.max / 10 }}sec.
+                                </div>
+                                <span hueper-range-slider model-min="party.forms.edit.timeSettings.min" model-max="party.forms.edit.timeSettings.max" min="3" max="600" step="1"></span>
+                            </div>
+                        </div>
+
+                        <div class="party-container">
+                            <div class="party-form-headline">Lights</div>
+                            <div class="checkbox-container" ng-repeat="(id, l) in state.lights">
+                                <div hueper-checkbox="id" list="party.forms.edit.lights" style="margin-top:10px"> {{l.name}}</div>
+                            </div>
+
+                            <div ng-if="party.forms.edit.lights.length > 1" style="width:100%; margin:10px">
+                                <div style="font-size: 16px; font-weight: bold;text-align: center;margin: auto; margin-top:15px;margin-bottom: 5px">
+                                    Affected lights per step<br />
+
+                                    min. {{party.forms.edit.lightsPerStep.min}} and max.{{party.forms.edit.lightsPerStep.max}}
+                                </div>
+                                <span hueper-range-slider model-min="party.forms.edit.lightsPerStep.min" model-max="party.forms.edit.lightsPerStep.max" min="1" max="{{helpers.objectLength(state.lights) || 1}}" step="1"></span>
+                            </div>
+
+                            <div style="width:100%; margin:10px">
+                                <div style="font-size: 16px; font-weight: bold;text-align: center;margin: auto; margin-top:15px;margin-bottom: 5px">
+                                    Fade Time is between {{party.forms.edit.fadeTime.min / 10 }}sec. and {{party.forms.edit.fadeTime.max / 10 }}sec.
+                                </div>
+                                <span hueper-range-slider model-min="party.forms.edit.fadeTime.min" model-max="party.forms.edit.fadeTime.max" min="0" max="600" step="1"></span>
+                            </div>
+                        </div>
+
+                        <div class="party-container">
+                            <div class="party-form-headline">States</div>
+
+                            <div class="panel subpanel" ng-repeat="s in  party.forms.edit.states">
+                                <div>
+                                    <div class="slider-left-value">
+                                        <span class="icon large icon-sun"></span>
+                                    </div>
+                                    <div class="slider-right-value">
+                                        <span class="control" ng-click="party.removeState(party.forms.edit, $index)">
+                                            <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline"></span>
+                                        </span>
+                                    </div>
+                                    <span hueper-range-slider model-min="s.bri.min" model-max="s.bri.max" min="0" max="254" step="1"></span>
+                                </div>
+                                <div class="party-colorpicker-container">
+                                    <div hueper-colorpicker-range="s"></div>
+                                </div>
+                            </div>
+
+                            <div style="text-align: center;margin: auto">
+                                <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                        ng-click="party.addState(party.forms.edit)" style="width:150px;">Add State</button>
+                            </div>
+                        </div>
+                        <div class="party-container" ng-if="party.forms.edit.lights.length > 1 ||  party.forms.edit.states.length > 1">
+                            <div class="checkbox-container">
+                                <div hueper-checkbox="party.forms.edit.randomLightOrder" style="margin-top:10px"> Random Light Order</div>
+                                <div hueper-checkbox="party.forms.edit.randomStateOrder" style="margin-top:10px"> Random State Order</div>
+                                <div hueper-checkbox="party.forms.edit.sameState" style="margin-top:10px"> Same State for all Lights per Step</div>
+                            </div>
+                        </div>
+                        <div style="padding:20px; text-align: center">
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner button
+                                ui-btn-inline" ng-click="party.save(party.forms.edit)">Save</button>
+                            <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner button
+                                ui-btn-inline" ng-click="sharedScope.submenu.closeSubmenu()">Cancel</button>
+                        </div>
                     </div>
-                    <p>
-                        Running: <b>{{state.party[state.appConfig.partyMode].name}}</b> &nbsp;
-                    </p>
+
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
+                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                            <img src="css/images/icons/icon-arrow-down.png" />
+                        </div>
+
+
+                        <div class="listing_box_title_overlay" ng-if="sharedScope.submenu.visible.createParty">Create Party</div>
+                        <div class="listing_box_title_overlay" ng-if="sharedScope.submenu.visible.editParty">Edit Party</div>
+
+                        <div style="padding:20px; text-align: center; margin:auto">
+
+                            <input type="text" ng-model="party.forms.edit.name" placeholder="Name">
+                            <div class="party-container">
+                                <div class="party-form-headline">Trigger</div>
+                                <div style="overflow: hidden">
+                                    <div class="automation_text" style="margin-top: 79px; font-size: 16px; padding-left:10px"
+                                         ng-if="party.forms.edit.trigger === 'sound'">Max. BPM</div>
+
+                                    <div class="automation_field">
+                                        <select ng-model="party.forms.edit.trigger">
+                                            <option value="sound">Sound</option>
+                                            <option value="time">Time</option>
+                                        </select>
+                                        <p ng-if="party.forms.edit.trigger === 'sound'" style="line-height: 1.4em;">
+                                            <input type="number" ng-model="party.forms.edit.soundSettings.maxBpm">
+                                        </p>
+                                    </div>
+                                </div>
+                                <div ng-if="party.forms.edit.trigger === 'time'" style="width:100%; margin:10px">
+                                    <div style="font-size: 16px; font-weight: bold;text-align: center;margin: auto; margin-top:10px; margin-bottom: 5px" class="mobile_text">
+                                        Time between {{party.forms.edit.timeSettings.min / 10 }}sec. and {{party.forms.edit.timeSettings.max / 10 }}sec.
+                                    </div>
+                                    <span hueper-range-slider model-min="party.forms.edit.timeSettings.min" model-max="party.forms.edit.timeSettings.max" min="3" max="600" step="1"></span>
+                                </div>
+                            </div>
+
+                            <div class="party-container">
+                                <div class="party-form-headline">Lights</div>
+                                <div class="checkbox-container" ng-repeat="(id, l) in state.lights">
+                                    <div hueper-checkbox="id" list="party.forms.edit.lights" style="margin-top:10px"> {{l.name}}</div>
+                                </div>
+
+                                <div ng-if="party.forms.edit.lights.length > 1" style="width:100%; margin:10px">
+                                    <div style="font-size: 16px; font-weight: bold;text-align: center;margin: auto; margin-top:15px;margin-bottom: 5px" class="mobile_text">
+                                        Affected lights per step<br />
+                                        min. {{party.forms.edit.lightsPerStep.min}} and max.{{party.forms.edit.lightsPerStep.max}}
+                                    </div>
+                                    <span hueper-range-slider model-min="party.forms.edit.lightsPerStep.min" model-max="party.forms.edit.lightsPerStep.max" min="1" max="{{helpers.objectLength(state.lights) || 1}}" step="1"></span>
+                                </div>
+
+                                <div style="width:100%; margin:10px">
+                                    <div style="font-size: 16px; font-weight: bold;text-align: center;margin: auto; margin-top:15px;margin-bottom: 5px" class="mobile_text">
+                                        Fade Time is between {{party.forms.edit.fadeTime.min / 10 }}sec. and {{party.forms.edit.fadeTime.max / 10 }}sec.
+                                    </div>
+                                    <span hueper-range-slider model-min="party.forms.edit.fadeTime.min" model-max="party.forms.edit.fadeTime.max" min="0" max="600" step="1"></span>
+                                </div>
+                            </div>
+
+                            <div class="party-container">
+                                <div class="party-form-headline">States</div>
+
+                                <div class="panel subpanel" ng-repeat="s in  party.forms.edit.states">
+                                    <div>
+                                        <div class="slider-left-value">
+                                            <span class="icon large icon-sun"></span>
+                                        </div>
+                                        <div class="slider-right-value">
+                                        <span class="control" ng-click="party.removeState(party.forms.edit, $index)">
+                                            <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline"></span>
+                                        </span>
+                                        </div>
+                                        <span hueper-range-slider model-min="s.bri.min" model-max="s.bri.max" min="0" max="254" step="1"></span>
+                                    </div>
+                                    <div class="party-colorpicker-container">
+                                        <div hueper-colorpicker-range="s"></div>
+                                    </div>
+                                </div>
+
+                                <div style="text-align: center;margin: auto">
+                                    <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                            ng-click="party.addState(party.forms.edit)" style="width:150px;">Add State</button>
+                                </div>
+                            </div>
+                            <div class="party-container" ng-if="party.forms.edit.lights.length > 1 ||  party.forms.edit.states.length > 1">
+                                <div class="checkbox-container">
+                                    <div hueper-checkbox="party.forms.edit.randomLightOrder" style="margin-top:10px"> Random Light Order</div>
+                                    <div hueper-checkbox="party.forms.edit.randomStateOrder" style="margin-top:10px"> Random State Order</div>
+                                    <div hueper-checkbox="party.forms.edit.sameState" style="margin-top:10px"> Same State for all Lights per Step</div>
+                                </div>
+                            </div>
+                            <div style="padding:20px; text-align: center">
+                                <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner button
+                                ui-btn-inline" ng-click="party.save(party.forms.edit)">Save</button>
+                                <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner button
+                                ui-btn-inline" ng-click="sharedScope.submenu.closeSubmenu()">Cancel</button>
+                            </div>
+
+
+
+
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
+
 
             <div class="subcontent_d">
                 <!-- SUBMENU ----------------------------------------- DELETE PARTY ----------------------------------->
@@ -209,260 +408,8 @@
                     </div>
                 </div>
 
-
-                <!-- SUBMENU ----------------------------------------- CREATE/EDIT PARTY ------------------------------>
-                <div ng-if="sharedScope.submenu.visible.editParty" id="editParty">
-                    <!-- TODO desktop/tablet view -->
-                    <div class="lightgroup-all-container transparent_bg mobile_hide ">
-                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
-
-                        <h2 class="listing_box_title">Edit Party Mode</h2>
-
-                        <p><input type="text" ng-model="party.forms.edit.name" placeholder="Name" /></p>
-
-                        <div class="party-form-headline">Trigger</div>
-
-                        <p>
-                            <select ng-model="party.forms.edit.trigger">
-                                <option value="sound">Sound</option>
-                                <option value="time">Time</option>
-                            </select>
-                        </p>
-
-                        <p ng-if="party.forms.edit.trigger === 'sound'">
-                            Max. BPM: &nbsp;
-                            <input type="number" ng-model="party.forms.edit.soundSettings.maxBpm" />
-                        </p>
-
-                        <div ng-if="party.forms.edit.trigger === 'time'">
-                            <div class="slider-left-value">
-                                {{party.forms.edit.timeSettings.min / 10 }}s
-                            </div>
-
-                            <div class="slider-right-value">
-                                {{party.forms.edit.timeSettings.max / 10 }}s
-                            </div>
-
-                            <span hueper-range-slider model-min="party.forms.edit.timeSettings.min" model-max="party.forms.edit.timeSettings.max" min="3" max="600" step="1"></span>
-                        </div>
-
-                        <div class="party-form-headline">Lights</div>
-
-                        <div class="checkbox-container" ng-repeat="(id, l) in state.lights">
-                            <input type="checkbox" name="checkbox" ng-checked="helpers.listChecked(party.forms.edit.lights, id, true)"
-                                   ng-click="helpers.toggleList(party.forms.edit.lights, id, true)"> {{l.name}}
-                        </div>
-
-                        <div ng-if="party.forms.edit.lights.length > 1">
-                            <p>
-                                Affected lights per step
-                            </p>
-                            <div>
-                                <div class="slider-left-value">
-                                    {{party.forms.edit.lightsPerStep.min}}
-                                </div>
-
-                                <div class="slider-right-value">
-                                    {{party.forms.edit.lightsPerStep.max}}
-                                </div>
-
-                                <span hueper-range-slider model-min="party.forms.edit.lightsPerStep.min" model-max="party.forms.edit.lightsPerStep.max" min="1" max="{{helpers.objectLength(state.lights) || 1}}" step="1"></span>
-                            </div>
-                        </div>
-
-                        <p>Fade time</p>
-                        <div>
-                            <div class="slider-left-value">
-                                {{party.forms.edit.fadeTime.min / 10 }}s
-                            </div>
-
-                            <div class="slider-right-value">
-                                {{party.forms.edit.fadeTime.max / 10 }}s
-                            </div>
-
-                            <span hueper-range-slider model-min="party.forms.edit.fadeTime.min" model-max="party.forms.edit.fadeTime.max" min="0" max="600" step="1"></span>
-                        </div>
-
-
-                        <div class="party-form-headline">States</div>
-
-                        <div class="panel subpanel" ng-repeat="s in  party.forms.edit.states">
-                            <div>
-                                <div class="slider-left-value">
-                                    <span class="icon large icon-sun"></span>
-                                </div>
-
-                                <div class="slider-right-value">
-                                                <span class="control" ng-click="party.removeState(party.forms.edit, $index)">
-                                                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline"></span>
-                                                </span>
-                                </div>
-
-                                <span hueper-range-slider model-min="s.bri.min" model-max="s.bri.max" min="0" max="254" step="1"></span>
-                            </div>
-
-                            <div class="party-colorpicker-container">
-                                <div hueper-colorpicker-range="s"></div>
-                            </div>
-                        </div>
-
-                        <div style="text-align: right; margin-bottom: 1em">
-                            <span class="btn-round-corner ui-btn ui-btn-inline ui-mini ui-icon-plus ui-btn-icon-left" ng-click="party.addState(party.forms.edit)">Add State</span>
-                        </div>
-
-
-                        <div ng-if="party.forms.edit.lights.length > 1 ||  party.forms.edit.states.length > 1">
-                            <div class="checkbox-container" ng-show="party.forms.edit.lights.length > 1">
-                                <input type="checkbox" name="checkbox" ng-model="party.forms.edit.randomLightOrder"> Random light order
-                            </div>
-
-                            <div class="checkbox-container" ng-show="party.forms.edit.states.length > 1">
-                                <input type="checkbox" name="checkbox" ng-model="party.forms.edit.randomStateOrder"> Random state order
-                            </div>
-
-                            <div class="checkbox-container" ng-show="party.forms.edit.lights.length > 1">
-                                <input type="checkbox" name="checkbox" ng-model="party.forms.edit.sameState"> Same state for all lights per step
-                            </div>
-                        </div>
-
-
-                        <div style="text-align: center">
-                            <span class="btn-round-corner ui-btn ui-btn-inline ui-mini ui-icon-delete ui-btn-icon-left" ng-click="sharedScope.submenu.closeSubmenu()">CANCEL</span>
-                            <span class="btn-round-corner ui-btn ui-btn-inline ui-mini ui-icon-check ui-btn-icon-left" ng-click="party.save(party.forms.edit)">SAVE</span>
-                        </div>
-                    </div>
-
-
-
-
-
-
-
-                    <!-- mobile view -->
-                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
-                    <div class="overlap_content mobile_show">
-                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
-                            <img src="css/images/icons/icon-arrow-down.png" />
-                        </div>
-                        <div class="overlap_background">
-
-                            <p><input type="text" ng-model="party.forms.edit.name" placeholder="Name" /></p>
-
-                            <div class="party-form-headline">Trigger</div>
-
-                            <p>
-                                <select ng-model="party.forms.edit.trigger">
-                                    <option value="sound">Sound</option>
-                                    <option value="time">Time</option>
-                                </select>
-                            </p>
-
-                            <p ng-if="party.forms.edit.trigger === 'sound'">
-                                Max. BPM: &nbsp;
-                                <input type="number" ng-model="party.forms.edit.soundSettings.maxBpm" />
-                            </p>
-
-                            <div ng-if="party.forms.edit.trigger === 'time'">
-                                <div class="slider-left-value">
-                                     {{party.forms.edit.timeSettings.min / 10 }}s
-                                </div>
-
-                                <div class="slider-right-value">
-                                     {{party.forms.edit.timeSettings.max / 10 }}s
-                                </div>
-
-                                <span hueper-range-slider model-min="party.forms.edit.timeSettings.min" model-max="party.forms.edit.timeSettings.max" min="3" max="600" step="1"></span>
-                            </div>
-
-                            <div class="party-form-headline">Lights</div>
-
-                            <div class="checkbox-container" ng-repeat="(id, l) in state.lights">
-                                <input type="checkbox" name="checkbox" ng-checked="helpers.listChecked(party.forms.edit.lights, id, true)"
-                                       ng-click="helpers.toggleList(party.forms.edit.lights, id, true)"> {{l.name}}
-                            </div>
-
-                            <div ng-if="party.forms.edit.lights.length > 1">
-                                <p>
-                                    Affected lights per step
-                                </p>
-                                <div>
-                                    <div class="slider-left-value">
-                                         {{party.forms.edit.lightsPerStep.min}}
-                                    </div>
-
-                                    <div class="slider-right-value">
-                                         {{party.forms.edit.lightsPerStep.max}}
-                                    </div>
-
-                                    <span hueper-range-slider model-min="party.forms.edit.lightsPerStep.min" model-max="party.forms.edit.lightsPerStep.max" min="1" max="{{helpers.objectLength(state.lights) || 1}}" step="1"></span>
-                                </div>
-                            </div>
-
-                            <p>Fade time</p>
-                            <div>
-                                <div class="slider-left-value">
-                                     {{party.forms.edit.fadeTime.min / 10 }}s
-                                </div>
-
-                                <div class="slider-right-value">
-                                     {{party.forms.edit.fadeTime.max / 10 }}s
-                                </div>
-
-                                <span hueper-range-slider model-min="party.forms.edit.fadeTime.min" model-max="party.forms.edit.fadeTime.max" min="0" max="600" step="1"></span>
-                            </div>
-
-
-                            <div class="party-form-headline">States</div>
-
-                            <div class="panel subpanel" ng-repeat="s in  party.forms.edit.states">
-                                <div>
-                                    <div class="slider-left-value">
-                                        <span class="icon large icon-sun"></span>
-                                    </div>
-
-                                    <div class="slider-right-value">
-                                            <span class="control" ng-click="party.removeState(party.forms.edit, $index)">
-                                                <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline"></span>
-                                            </span>
-                                    </div>
-
-                                    <span hueper-range-slider model-min="s.bri.min" model-max="s.bri.max" min="0" max="254" step="1"></span>
-                                </div>
-
-                                <div class="party-colorpicker-container">
-                                    <div hueper-colorpicker-range="s"></div>
-                                </div>
-                            </div>
-
-                            <div style="text-align: right; margin-bottom: 1em">
-                                <span class="btn-round-corner ui-btn ui-btn-inline ui-mini ui-icon-plus ui-btn-icon-left" ng-click="party.addState(party.forms.edit)">Add State</span>
-                            </div>
-
-
-                            <div ng-if="party.forms.edit.lights.length > 1 ||  party.forms.edit.states.length > 1">
-                                <div class="checkbox-container" ng-show="party.forms.edit.lights.length > 1">
-                                    <input type="checkbox" name="checkbox" ng-model="party.forms.edit.randomLightOrder"> Random light order
-                                </div>
-
-                                <div class="checkbox-container" ng-show="party.forms.edit.states.length > 1">
-                                    <input type="checkbox" name="checkbox" ng-model="party.forms.edit.randomStateOrder"> Random state order
-                                </div>
-
-                                <div class="checkbox-container" ng-show="party.forms.edit.lights.length > 1">
-                                    <input type="checkbox" name="checkbox" ng-model="party.forms.edit.sameState"> Same state for all lights per step
-                                </div>
-                            </div>
-
-
-                            <div style="text-align: center">
-                                <span class="btn-round-corner ui-btn ui-btn-inline ui-mini ui-icon-delete ui-btn-icon-left" ng-click="sharedScope.submenu.closeSubmenu()">CANCEL</span>
-                                <span class="btn-round-corner ui-btn ui-btn-inline ui-mini ui-icon-check ui-btn-icon-left" ng-click="party.save(party.forms.edit)">SAVE</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
+
         </div>
     </div>
 </div>

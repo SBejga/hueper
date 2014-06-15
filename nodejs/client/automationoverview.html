@@ -90,8 +90,6 @@
     </div>
 
 
-
-
     <!-- CONTENT -->
     <div data-role="content" ng-controller="AutomationCtrl" class="content_container">
         <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
@@ -129,10 +127,11 @@
         </div>
 
         <!---------------------------------------- NOTIFICATIONS ------------------------------------------------------>
-        <a href="rfid.html" class="notification" ng-if="sharedScope.submenu.visible.newRfid">
+        <a href="rfid.html" class="notification" ng-if="sharedScope.rfid.unknownRfid">
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
             New RFID-Tag available.
         </a>
+
 
 
 
@@ -141,7 +140,7 @@
             <div class="subcontent_a">
                 <div class="transparent_bg listing_box" style="max-width:100%;">
                     <div class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('createAutomation')">
+                        light_group_a listing_box_icon position_plus_icon" ng-click="sharedScope.submenu.openSubmenu('createAutomation')">
                     </div>
                     <h2 class="listing_box_title">Automation</h2>
                     <div class="light_group" ng-repeat="(id,a) in sharedScope.state.automation"
@@ -152,7 +151,7 @@
                                 ui-btn-inline light_group_a" style="margin-top: 9px; float:right"
                                   ng-click="automation.setSelectedAutomationId(id);sharedScope.submenu.openSubmenu('deleteAutomation')">
                             </span>
-                            <a href="automation.html?id={{id}}" class="panel panel_layout_fix" style="margin-right:50px; margin-top: 0px;line-height: 46px; padding: 0px; text-decoration:none">
+                            <a href="automation.html?id={{id}}" class="panel panel_layout_fix" style="margin-right:50px; margin-top: 0px;line-height: 46px; padding: 0px;">
                                 {{a.name}}
                             </a>
                         </div>

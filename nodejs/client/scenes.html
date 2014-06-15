@@ -136,9 +136,11 @@
         <div class="notification" ng-if="sharedScope.submenu.visible.notificationNoLightToAdd" ng-click="sharedScope.submenu.closeSubmenu()">
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">All lights included.
         </div>
-        <a href="rfid.html" class="notification" ng-if="sharedScope.submenu.visible.newRfid">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">New RFID-Tag available.
+        <a href="rfid.html" class="notification" ng-if="sharedScope.rfid.unknownRfid">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            New RFID-Tag available.
         </a>
+
 
 
 
@@ -149,7 +151,7 @@
             <div class="subcontent_b">
                 <div class="transparent_bg listing_box" style="max-width:100%;">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('createNewScene')">
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('createNewScene')" style="margin-right: 15px">
                     </span>
                     <h2 class="listing_box_title">Scenes</h2>
                     <div class="light_group" ng-repeat="(id, scene) in sharedScope.state.scenes">
@@ -166,7 +168,7 @@
                              class="mobile_hide" style="margin-right:50px;">
                             {{scene.name}}
                         </div>
-                        <a href="scenemobile.html?id={{id}}" class="mobile_show" style="margin-right:50px;text-decoration: none">
+                        <a href="scenemobile.html?id={{id}}" class="mobile_show" style="margin-right:50px;">
                             {{scene.name}}
                         </a>
                     </div>
@@ -184,7 +186,7 @@
 
                 <div class="transparent_bg listing_box">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu(['addLightToScene','openScene'])"></span>
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu(['addLightToScene','openScene'])" style="margin-right: 15px"></span>
                     <h2 class="listing_box_title">Lights</h2>
                     <div class="light_group" ng-repeat="(id, light) in state.scenes[scenes.selectedSceneId].lights">
                         <div class="light_wrapper_69width" style="float:left" ng-click="sharedScope.submenu.openSubmenu(['changeSceneColor', 'openScene']);
@@ -202,7 +204,7 @@
 
 
 
-            <!-- SUBMENU ----------------------------------------- CREATE NEW SCENE ----------------------------------->
+            <!-- SUBMENU ----------------------------------------- ADD SCENE ----------------------------------->
             <div class="subcontent_c">
                 <div ng-if="sharedScope.submenu.visible.createNewScene" id="createNewScene">
                     <!-- desktop/tablet view -->
@@ -393,7 +395,7 @@
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide ">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('openScene')"></span>
                         <h2 class="listing_box_title"> Choose your color ...</h2>
                         <div style="padding:20px">
                             <div hueper-slider model="sharedScope.state.scenes[scenes.selectedSceneId].lights[scenes.selectedArrayId].state.bri" min="0" max="254" step="5"

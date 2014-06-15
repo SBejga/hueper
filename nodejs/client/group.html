@@ -137,10 +137,11 @@
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
             Light removed.
         </div>
-        <a href="rfid.html" class="notification" ng-if="sharedScope.submenu.visible.newRfid">
+        <a href="rfid.html" class="notification" ng-if="sharedScope.rfid.unknownRfid">
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
             New RFID-Tag available.
         </a>
+
 
 
         <div class="content_right_subcontainer ">
@@ -180,7 +181,7 @@
             <div class="subcontent_c">
                 <div class="transparent_bg listing_box">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('addLightToGroup')"></span>
+                        light_group_a listing_box_icon " ng-click="sharedScope.submenu.openSubmenu('addLightToGroup')" style="margin-right: 15px"></span>
                     <h2 class="listing_box_title">Lights</h2>
                     <div class="light_group" ng-repeat="lightId in state.groups[helpers.urlId].lights">
                         <div class="light_wrapper_69width" style="float:left" ng-click="sharedScope.submenu.openSubmenu('changeLightColor');lights.setSelectedLightId(lightId)">
@@ -193,7 +194,7 @@
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
                             ui-btn-inline light_group_a" ng-click="groups.openDeleteMenuGroup(helpers.urlId, lightId, '')"
                             ng-if="sharedScope.state.lights[lightId].state.reachable"></span>
-                        <a href="light.html?id={{lightId}}"  style="text-decoration: none">
+                        <a href="light.html?id={{lightId}}">
                             {{sharedScope.state.lights[lightId].name}}</a>
                     </div>
                 </div>

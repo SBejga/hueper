@@ -12,61 +12,59 @@ controller('PartyCtrl', ['$scope', 'stateManager', 'socket', function($scope, st
         selectedPartyId: false,
 
         openCreateMenu: function() {
+                // apply template for new party mode
+                $scope.party.forms.edit = {
+                    name: '',
+                    trigger: 'sound',
 
-            // apply template for new party mode
-
-            $scope.party.forms.edit = {
-                name: '',
-                trigger: 'sound',
-
-                soundSettings: {
-                    maxBpm: 120
-                },
-
-                timeSettings: {
-                    min: 10,
-                    max: 20
-                },
-
-                lights: [],
-
-                fadeTime: {
-                    min: 4,
-                    max: 4
-                },
-
-                states: [{
-                    bri: {
-                        min: 0,
-                        max: 254
+                    soundSettings: {
+                        maxBpm: 120
                     },
-                    hue: {
-                        min: 0,
-                        max: 65535
+
+                    timeSettings: {
+                        min: 10,
+                        max: 20
                     },
-                    sat: {
-                        min: 0,
-                        max: 254
-                    }
-                }],
 
-                lightsPerStep: {
-                    min: 1,
-                    max: $scope.sharedScope.helpers.objectLength($scope.state.lights) || 1
-                },
+                    lights: [],
 
-                randomLightOrder: false,
-                randomStateOrder: false,
-                sameState: false
-            };
+                    fadeTime: {
+                        min: 4,
+                        max: 4
+                    },
 
-            $scope.sharedScope.submenu.openSubmenu('editParty');
+                    states: [{
+                        bri: {
+                            min: 0,
+                            max: 254
+                        },
+                        hue: {
+                            min: 0,
+                            max: 65535
+                        },
+                        sat: {
+                            min: 0,
+                            max: 254
+                        }
+                    }],
+
+                    lightsPerStep: {
+                        min: 1,
+                        max: $scope.sharedScope.helpers.objectLength($scope.state.lights) || 1
+                    },
+
+                    randomLightOrder: false,
+                    randomStateOrder: false,
+                    sameState: false
+                };
+                $scope.sharedScope.submenu.openSubmenu(['party', 'createParty']);
+
         },
 
         openEditMenu: function(party) {
             $scope.party.forms.edit = angular.copy(party);
             $scope.party.selectedPartyId = party['_id'];
-            $scope.sharedScope.submenu.openSubmenu('editParty');
+            $scope.sharedScope.submenu.openSubmenu(['party','editParty']);
         },
 
         /**
@@ -74,7 +72,6 @@ controller('PartyCtrl', ['$scope', 'stateManager', 'socket', function($scope, st
          * @param party
          */
         save: function(party) {
-
             // existing party - edit
             if(party['_id']) {
                 $scope.state.party[party['_id']] = angular.copy(party);
@@ -86,6 +83,7 @@ controller('PartyCtrl', ['$scope', 'stateManager', 'socket', function($scope, st
             }
 
             $scope.sharedScope.submenu.closeSubmenu();
+
         },
 
         openDeleteMenu: function(id) {
@@ -141,6 +139,8 @@ controller('PartyCtrl', ['$scope', 'stateManager', 'socket', function($scope, st
 
             $scope.state.appConfig.partyMode = false;
         }
+
+
 
     };
 

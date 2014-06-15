@@ -162,10 +162,11 @@
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
             If there are new lights, they will be added automatically.
         </div>
-        <a href="rfid.html" class="notification" ng-if="sharedScope.submenu.visible.newRfid">
+        <a href="rfid.html" class="notification" ng-if="sharedScope.rfid.unknownRfid">
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
             New RFID-Tag available.
         </a>
+
 
 
         <div class="content_right_subcontainer ">
@@ -213,7 +214,8 @@
                         repeat:
                         <input type="password" ng-model="sharedScope.user.forms.password.newPassword2" />
                         <div style="margin-top: 30px">
-                            <input type="submit" value="change" />
+                            <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner button"
+                                    style="text-align: center; margin:auto; margin-top:15px;">Change</button>
                         </div>
                     </form>
                 </div>
@@ -231,10 +233,11 @@
                     </div>
 
                     <h2 class="listing_box_title">Fading Time</h2>
-                    <div style="padding: 10px; font-weight: bold; text-align: center">
+                    <div style="padding: 20px; font-weight: bold; text-align: center">
                         <div hueper-slider model="sharedScope.state.appConfig.transition" min="0" max="100" class="slider-fading"></div>
                         <div style="float:right; width:40%; padding-right: 10px;">
-                            <button ng-click="sharedScope.config.change(sharedScope.state.appConfig);">save</button>
+                            <button class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner button"  ng-click="sharedScope.config.change(sharedScope.state.appConfig);"
+                                    style="text-align: center; margin:auto; margin-top:15px;">Save</button>
                         </div>
                         <div style="width:60%; line-height:35px;padding-top:10px; padding-left: 10px; text-align: center">
                             {{sharedScope.state.appConfig.transition/10}} seconds

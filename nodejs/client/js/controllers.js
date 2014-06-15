@@ -84,6 +84,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
     $scope.rfid = {
         selectedRfidId:0,
+        unknownRfid: false,
 
         forms: {
             create:{
@@ -392,18 +393,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
         closeSubmenu: function(){
             $scope.submenu.visible = {};
-        },
-
-        closeSingleSubmenu: function(subname){
-            console.log("closeSingleSub", $scope.submenu.visible);
-            if(angular.isArray($scope.submenu.visible)){
-                $scope.submenu.visible.splice($scope.submenu.visible.indexOf(subname) ,1);
-            }else{
-                $scope.submenu.visible = {};
-            }
         }
-
-
     };
 
 
@@ -438,11 +428,17 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
 
     $scope.$watch('state.rfidUnknown', function(){
-        $scope.submenu.openSubmenu('newRfid');
+        if($scope.rfid.unknownRfid > 0){
+            $scope.rfid.unknownRfid = true;
+        }
         setTimeout(function(){
-            $scope.submenu.closeSingleSubmenu('newRfid');
+            $scope.rfid.unknownRfid = false;
         }, 5000);
     }, true);
+
+
+    $.mobile.defaultPageTransition = 'none';
+
 
 
 }]).

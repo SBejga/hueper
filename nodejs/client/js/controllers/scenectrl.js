@@ -21,6 +21,9 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
         },
 
         create: function(scene) {
+            console.log($scope.scenes.forms.create);
+            console.log(scene);
+
             socket.emit('scene.create', scene);
             $scope.scenes.forms.create.name = '';
             $scope.scenes.forms.create.lights = [];

@@ -17,6 +17,20 @@ a:link {
     text-decoration:none;
 }
 
+a:visited {
+    color:#800000 !important;
+}
+a:hover {
+    color:#c63f3f;
+}
+a:active{
+    color:#800000;
+}
+
+button:visited{
+
+
+}
 
 
 .wrapper {
@@ -165,7 +179,7 @@ a:link {
     text-align: center;
     margin-top:10px;
     margin-bottom:10px;
-    min-width:110px;
+    min-width:100px;
 }
 
 
@@ -402,6 +416,13 @@ button:active{
     margin-top: 3px;
 }
 
+
+
+.position_plus_icon{
+    margin-right: 20px;
+}
+
+
 .light_group_a{
     float: right;
     margin-top: 20px;
@@ -556,9 +577,19 @@ button:active{
 }
 
 .party-form-headline {
-    background-color:rgba(255,255,255,0.25);
-    margin:1em -12px;
-    padding:8px 12px;
+    font-weight:bold;
+    font-size:20px;
+    padding:10px;
+
+}
+
+.party-container{
+    background-color: rgba(236, 236, 236, 0.2) !important;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding:5px;
+    overflow: hidden;
 }
 
 .checkbox-container {
@@ -644,6 +675,29 @@ button:active{
     overflow:hidden
 }
 
+.automation_state_background{
+    background-color: rgba(236, 236, 236, 0.2) !important;
+    padding:5px;
+    border-radius: 5px
+}
+
+.relation_mobile_right{
+     float:right;
+        width:45%
+ }
+.relation_mobile_left{
+    float:left;
+    width:45%
+}
+.relation_tablet_right{
+    float:right;
+    width:45%
+}
+.relation_tablet_left{
+    float:left;
+    width:45%
+}
+
 
 .icon {
     display:inline-block;
@@ -725,6 +779,19 @@ button:active{
     }
 
 }
+@media screen and (max-width:840px) {
+    .relation_tablet_right{
+        float:left;
+        width:100%
+    }
+    .relation_tablet_left{
+        float:left;
+        width:100%
+    }
+
+}
+
+
 
 
 /* Smartphone */
@@ -788,10 +855,46 @@ button:active{
         float:left;
         margin-top:20px;
         margin-bottom:20px;
-        font-weight: bold;
         overflow:hidden;
         color: #f9efed;
         font-weight: normal;
+    }
+
+    .listing_box_title_overlay{
+        text-align: center;
+        color: #f9efed;
+        font-weight: normal;
+    }
+
+    .party-container{
+        background-color:rgba(236,236,236,0.1) !important;
+    }
+    .party-form-headline{
+        padding:0px;
+        color: #f9efed;
+        font-weight: normal;
+    }
+
+    .mobile_text{
+        color: #f9efed;
+        font-weight: normal;
+        text-shadow: none;
+    }
+
+
+
+}
+
+
+@media screen and (max-width:440px) {
+    .relation_mobile_right{
+        float:left;
+        width:100%
+    }
+
+    .relation_mobile_left{
+        float:left;
+        width:100%
     }
 
 

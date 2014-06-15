@@ -135,9 +135,11 @@
         <div class="notification" ng-if="sharedScope.submenu.visible.notificationNoLightToAdd" ng-click="sharedScope.submenu.closeSubmenu()">
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">All lights included.
         </div>
-        <a href="rfid.html" class="notification" ng-if="sharedScope.submenu.visible.newRfid">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">New RFID-Tag available.
+        <a href="rfid.html" class="notification" ng-if="sharedScope.rfid.unknownRfid">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            New RFID-Tag available.
         </a>
+
 
 
         <div class="content_right_subcontainer" style="text-align: center; margin: auto; overflow:hidden">
@@ -154,7 +156,7 @@
             <div class="subcontent_b">
                 <div class="transparent_bg listing_box">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('addLightToScene')">
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('addLightToScene')" style="margin-right: 15px">
                     </span>
                     <h2 class="listing_box_title">Lights</h2>
                     <div class="light_group" ng-repeat="(id, light) in state.scenes[helpers.urlId].lights">
