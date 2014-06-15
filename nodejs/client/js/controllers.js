@@ -363,7 +363,6 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             }
         }
 
-
     };
 
 

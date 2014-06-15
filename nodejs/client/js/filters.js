@@ -91,5 +91,6 @@ filter('filterObj', function() {
         });
 
         return result;
-   };
+   }
 });
+

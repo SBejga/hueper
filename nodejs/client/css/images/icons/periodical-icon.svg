@@ -14,7 +14,7 @@
    id="svg3351"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   sodipodi:docname="schedule-icon.svg">
+   sodipodi:docname="periodical-icon.svg">
   <defs
      id="defs3353" />
   <sodipodi:namedview
@@ -25,7 +25,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="497.25348"
+     inkscape:cx="223.68205"
      inkscape:cy="605.57399"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -51,7 +51,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -68,14 +68,14 @@
        sodipodi:cy="24.5"
        sodipodi:rx="13.5"
        sodipodi:ry="13.5"
-       d="m 35,24.5 a 13.5,13.5 0 1 1 -27,0 13.5,13.5 0 1 1 27,0 z"
+       d="M 35,24.5 C 35,31.955844 28.955844,38 21.5,38 14.044156,38 8,31.955844 8,24.5 8,17.044156 14.044156,11 21.5,11 28.955844,11 35,17.044156 35,24.5 z"
        transform="matrix(37.037037,0,0,37.037037,-296.29629,-355.04523)"
        inkscape:export-filename="C:\Users\Hanne Nobis\Dropbox\icons\icon-automation-32.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
        id="path4128"
-       d="m 500,192.36218 c -193.29966,0 -350,156.70035 -350,350.00003 0,193.29966 156.70034,350 350,350 193.29968,0 350,-156.70034 350,-350 C 850,349.06253 693.29968,192.36218 500,192.36218 z m 0,80 c 176.04076,0 270,93.95924 270,270 0,176.04074 -93.95924,270 -270,270 -176.04074,0 -270,-93.95926 -270,-270 0,-176.04076 93.95926,-270 270,-270 z"
+       d="m 500,192.36218 c -193.29966,0 -360,146.70032 -360,340 0,193.29966 166.70034,360.00003 360,360.00003 193.29968,0 360,-166.70037 360,-360.00003 0,-193.29968 -166.70032,-340 -360,-340 z m 0,120 c 100,0 240,-60 240,220 0,220 -140,240 -240,240 -180,0 -240,-120 -240,-240 0,-100 60,-220 240,-220 z"
        style="fill:#ffffff;fill-opacity:1;stroke:none"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ssssssssss" />
@@ -83,14 +83,22 @@
        style="fill:#a00000;fill-opacity:1;fill-rule:evenodd;stroke:none"
        id="rect4361"
        width="240.00092"
-       height="149.99997"
+       height="259.99997"
        x="640"
-       y="342.36218" />
+       y="232.36218" />
+    <rect
+       y="152.36221"
+       x="539.99908"
+       height="259.99997"
+       width="240.00092"
+       id="rect3757"
+       style="fill:#a00000;fill-opacity:1;fill-rule:evenodd;stroke:none" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:none"
-       d="M 740,332.36218 670,344.02885 658.33333,367.36218 810,449.02885 798.33333,285.69552 775,274.02885 z"
-       id="path4363"
+       d="M 680,200 480,60 l 0,280 z"
+       id="path2987"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccc" />
+       transform="translate(0,52.36218)"
+       sodipodi:nodetypes="cccc" />
   </g>
 </svg>
