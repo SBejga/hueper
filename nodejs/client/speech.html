@@ -203,7 +203,7 @@
         <div class="subcontent_b">
             <div class="transparent_bg listing_box">
                 <h2 class="listing_box_title">Switch Status</h2>
-                <div hueper-checkbox="sharedScope.state.appConfig.speechRecognition"
+                <div hueper-checkbox="sharedScope.state.appConfig.speechRecognition" style="margin-left:10px;margin-right: 10px"
                      change="sharedScope.config.change({speechRecognition : value})">Speech Recognition</div>
 
                 <h2 class="listing_box_title">Choose Interpreter</h2>
@@ -217,6 +217,14 @@
                         <input type="radio" value="google" ng-model="sharedScope.state.appConfig.speechRecognitionEngine"
                                ng-change="sharedScope.config.change(sharedScope.state.appConfig)" style="margin-top: 10px">
                         <div style="padding-left:50px;">Google</div>
+                    </div>
+                    <div ng-if="sharedScope.state.appConfig.speechRecognitionEngine === 'google'" style="padding-top: 10px;padding-left:5px; text-align: left">
+                        <form ng-submit="sharedScope.config.change(state.appConfig)">
+                            Please enter your Configuration-Key:
+                            <input type="text" ng-model="sharedScope.state.appConfig.speechGoogleKey" />
+                            <button type="submit" class="ui-btn ui-btn-icon-left btn-round-corner transparent_bg button"
+                                    style="max-width: 250px; text-align: center; margin:auto">Save</button>
+                        </form>
                     </div>
                 </div>
             </div>
