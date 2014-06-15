@@ -364,7 +364,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             if((submenu != 'newRfid') && (submenu != undefined)){
                 if(window.innerWidth > 550){
                     setTimeout(function(){
-                        var vertical = document.all[submenu].offsetTop;
+                        var vertical = document.getElementById(submenu).offsetTop;
                         window.scrollTo(0,vertical);
                     }, 300);
                 }
@@ -428,10 +428,10 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
 
     $scope.$watch('state.rfidUnknown', function(){
-        if($scope.rfid.unknownRfid > 0){
+        if($scope.state.rfidUnknown.length){
             $scope.rfid.unknownRfid = true;
         }
-        setTimeout(function(){
+        $timeout(function(){
             $scope.rfid.unknownRfid = false;
         }, 5000);
     }, true);

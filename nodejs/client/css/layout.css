@@ -70,7 +70,7 @@ button:visited{
 }
 
 .content_left_subcontainer{
-    max-width:250px;
+    width:250px;
     margin: auto;
     text-align:left;
     margin-left: 0px;
