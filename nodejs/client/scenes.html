@@ -175,7 +175,7 @@
 
             <!-- SUBMENU ----------------------------------------- OPEN SCENE ----------------------------------------->
             <!-- just DESKTOP TABLET -->
-            <div class="subcontent_c"  style="max-width: 400px" ng-if="sharedScope.submenu.visible.openScene">
+            <div class="subcontent_c"  style="max-width: 400px" ng-if="sharedScope.submenu.visible.openScene" id="openScene">
                 <div class="lightgroup_name_edit" ng-if="state.scenes[scenes.selectedSceneId].name.length">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline"
                           ng-click="scenes.update(state.scenes[scenes.selectedSceneId])"></span>
@@ -204,7 +204,7 @@
 
             <!-- SUBMENU ----------------------------------------- CREATE NEW SCENE ----------------------------------->
             <div class="subcontent_c">
-                <div ng-if="sharedScope.submenu.visible.createNewScene">
+                <div ng-if="sharedScope.submenu.visible.createNewScene" id="createNewScene">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide" style="overflow: hidden; margin-top: 0px">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
@@ -260,7 +260,7 @@
             <div class="subcontent_d">
 
                 <!-- SUBMENU ----------------------------------------- DELETE SCENE ----------------------------------->
-                <div ng-if="sharedScope.submenu.visible.deleteScene">
+                <div ng-if="sharedScope.submenu.visible.deleteScene" id="deleteScene">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
@@ -291,7 +291,7 @@
                 </div>
 
                 <!-- SUBMENU ----------------------------------------- DELETE LIGHT FROM SCENE ------------------------>
-                <div ng-if="sharedScope.submenu.visible.deleteLightFromScene">
+                <div ng-if="sharedScope.submenu.visible.deleteLightFromScene" id="deleteLightFromScene">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
@@ -322,7 +322,7 @@
                 </div>
 
                 <!-- SUBMENU ----------------------------------------- DELETE LAST LIGHT FROM SCENE ------------------->
-                <div ng-if="sharedScope.submenu.visible.deleteLastLightFromScene">
+                <div ng-if="sharedScope.submenu.visible.deleteLastLightFromScene" id="deleteLastLightFromScene">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide ">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
@@ -353,7 +353,7 @@
                 </div>
 
                 <!-- SUBMENU ----------------------------------------- ADD LIGHT TO SCENE ----------------------------->
-                <div ng-if="sharedScope.submenu.visible.addLightToScene">
+                <div ng-if="sharedScope.submenu.visible.addLightToScene" id="addLightToScene">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
@@ -389,7 +389,7 @@
                 </div>
 
                 <!-- SUBMENU ----------------------------------------- CHANGE SCENECOLOR ------------------------------>
-                <div ng-if="sharedScope.submenu.visible.changeSceneColor">
+                <div ng-if="sharedScope.submenu.visible.changeSceneColor" id="changeSceneColor">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide ">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline

@@ -202,7 +202,7 @@
             <!------------------- SUBMENUES: change group/light color, remove light, add lights ----------------------->
             <div class="subcontent_d">
                 <!-- change groupcolor -->
-                <div ng-if="sharedScope.submenu.visible.changeGroupColor">
+                <div ng-if="sharedScope.submenu.visible.changeGroupColor" id="changeGroupColor">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide ">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
@@ -237,7 +237,7 @@
                 </div>
 
                 <!-- change lightcolor -->
-                <div ng-if="sharedScope.submenu.visible.changeLightColor && sharedScope.state.lights[lights.selectedLightId].state.reachable">
+                <div ng-if="sharedScope.submenu.visible.changeLightColor && sharedScope.state.lights[lights.selectedLightId].state.reachable" id="changeLightColor">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide ">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
@@ -271,8 +271,9 @@
                     </div>
                 </div>
 
+
                 <!-- delete light from group -->
-                <div ng-if="sharedScope.submenu.visible.deleteLightFromGroup">
+                <div ng-if="sharedScope.submenu.visible.deleteLightFromGroup" id="deleteLightFromGroup">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
@@ -301,7 +302,7 @@
                 </div>
 
                 <!-- delete last light from group -->
-                <div ng-if="sharedScope.submenu.visible.deleteLastLightFromGroup">
+                <div ng-if="sharedScope.submenu.visible.deleteLastLightFromGroup" id="deleteLastLightFromGroup">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide ">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
@@ -331,7 +332,7 @@
                 </div>
 
                 <!-- add light/lights -->
-                <div ng-if="sharedScope.submenu.visible.addLightToGroup">
+                <div ng-if="sharedScope.submenu.visible.addLightToGroup" id="addLightToGroup">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide ">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline

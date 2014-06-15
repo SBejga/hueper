@@ -123,7 +123,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
         setSelectedRfidId: function(id){
             $scope.rfid.selectedRfidId = id;
-        },
+        }
     };
 
 
@@ -357,9 +357,15 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             }
         },
 
-        scrollToSubmenu: function(){
-            if(window.innerWidth > 550){
-                window.scrollTo(0,500);
+        scrollToSubmenu: function(submenu){
+            console.log(submenu);
+            if((submenu != 'newRfid') && (submenu != undefined)){
+                if(window.innerWidth > 550){
+                    setTimeout(function(){
+                        var vertical = document.all[submenu].offsetTop;
+                        window.scrollTo(0,vertical);
+                    }, 300);
+                }
             }
         }
 
@@ -370,20 +376,33 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
     //Submenu functions
     $scope.submenu = {
         visible:{},
-        openSubmenu: function(menuname, verticalPosition){
+        openSubmenu: function(menuname){
             $scope.submenu.visible = {};
             if(angular.isArray(menuname)){
+                $scope.helpers.scrollToSubmenu(menuname[0]);
                 angular.forEach(menuname, function(value){
                     $scope.submenu.visible[value] = true;
                 });
             }else{
                 $scope.submenu.visible[menuname] = true;
+                $scope.helpers.scrollToSubmenu(menuname);
             }
         },
 
         closeSubmenu: function(){
             $scope.submenu.visible = {};
+        },
+
+        closeSingleSubmenu: function(subname){
+            console.log("closeSingleSub", $scope.submenu.visible);
+            if(angular.isArray($scope.submenu.visible)){
+                $scope.submenu.visible.splice($scope.submenu.visible.indexOf(subname) ,1);
+            }else{
+                $scope.submenu.visible = {};
+            }
         }
+
+
     };
 
 
@@ -419,6 +438,10 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
     $scope.$watch('state.rfidUnknown', function(){
         $scope.submenu.openSubmenu('newRfid');
+        setTimeout(function(){
+            $scope.submenu.closeSingleSubmenu('newRfid');
+        }, 100);
+
     }, true);
 
 

@@ -41,7 +41,6 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
 
         setSelectedSceneId: function(sceneId){
             $scope.scenes.selectedSceneId = sceneId;
-            console.log($scope.scenes.selectedSceneId);
         },
         setSelectedArrayId: function(sceneId){
             $scope.scenes.selectedArrayId = sceneId;
@@ -74,10 +73,10 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
             else{
                 $scope.scenes.setSelectedLightId(lightId);
                 if($scope.state.scenes[$scope.scenes.selectedSceneId].lights.length === 1){
-                    $scope.sharedScope.submenu.openSubmenu(['openScene','deleteLastLightFromScene']);
+                    $scope.sharedScope.submenu.openSubmenu(['deleteLastLightFromScene', 'openScene']);
                 }
                 else{
-                    $scope.sharedScope.submenu.openSubmenu(['openScene', 'deleteLightFromScene']);
+                    $scope.sharedScope.submenu.openSubmenu(['deleteLightFromScene','openScene']);
                 }
             }
 

@@ -52,7 +52,7 @@ angular.module('hueApp.controllers').
                    $scope.sharedScope.submenu.closeSubmenu();
                }
                else{
-                   $scope.sharedScope.submenu.openSubmenu(['notificationValueIncomplete', 'trigger', 'createTrigger']);
+                   $scope.sharedScope.submenu.openSubmenu(['trigger', 'createTrigger', 'notificationValueIncomplete']);
                }
             },
             createCondition: function(condition, conditionArray){
@@ -65,7 +65,7 @@ angular.module('hueApp.controllers').
                     $scope.automation.resetSelectedProperty();
                     $scope.sharedScope.submenu.closeSubmenu();
                 }else{
-                    $scope.sharedScope.submenu.openSubmenu(['notificationValueIncomplete', 'condition', 'createCondition']);
+                    $scope.sharedScope.submenu.openSubmenu(['condition', 'createCondition', 'notificationValueIncomplete']);
                 }
             },
             createAction: function(action){
@@ -76,7 +76,7 @@ angular.module('hueApp.controllers').
                     $scope.sharedScope.submenu.closeSubmenu();
                 }
                 else{
-                    $scope.sharedScope.submenu.openSubmenu(['notificationValueIncomplete', 'action', 'createAction']);
+                    $scope.sharedScope.submenu.openSubmenu(['action', 'createAction', 'notificationValueIncomplete']);
                 }
             },
 
@@ -94,7 +94,7 @@ angular.module('hueApp.controllers').
                     $scope.sharedScope.submenu.closeSubmenu();
                 }
                 else{
-                    $scope.sharedScope.submenu.openSubmenu(['notificationValueIncomplete', 'trigger', 'editTrigger']);
+                    $scope.sharedScope.submenu.openSubmenu(['trigger', 'editTrigger', 'notificationValueIncomplete']);
                 }
             },
             updateCondition: function(){
@@ -107,7 +107,7 @@ angular.module('hueApp.controllers').
                     $scope.automation.resetSelectedProperty();
                     $scope.sharedScope.submenu.closeSubmenu();
                 }else{
-                    $scope.sharedScope.submenu.openSubmenu(['notificationValueIncomplete', 'condition', 'editCondition']);
+                    $scope.sharedScope.submenu.openSubmenu(['condition', 'editCondition', 'notificationValueIncomplete']);
                 }
             },
             updateAction: function(){
@@ -118,7 +118,7 @@ angular.module('hueApp.controllers').
                     $scope.sharedScope.submenu.closeSubmenu();
                 }
                 else{
-                    $scope.sharedScope.submenu.openSubmenu(['notificationValueIncomplete', 'action', 'editAction']);
+                    $scope.sharedScope.submenu.openSubmenu(['action', 'editAction', 'notificationValueIncomplete']);
                 }
             },
 

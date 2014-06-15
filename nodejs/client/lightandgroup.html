@@ -141,7 +141,7 @@
             <div class="subcontent_b">
                 <div class="transparent_bg listing_box">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-edit ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="lights.adjustAll.toggle();sharedScope.submenu.closeSubmenu(); sharedScope.helpers.scrollToSubmenu();"></span>
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('adjustAllLights');"></span>
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-notext
                         ui-btn-inline light_group_a listing_box_icon" ng-click="lights.turnAllLightsOnOff()"></span>
                     <h2 class="listing_box_title">Lights</h2>
@@ -185,11 +185,11 @@
             <!------------------------ SUBMENUES: adjust all lights, delete group, create new group ------------------->
             <div class="subcontent_d">
                 <!-- adjust all lights (just for desktop/tablet view) -->
-                <div ng-if="lights.adjustAll.display">
+                <div ng-if="sharedScope.submenu.visible.adjustAllLights" id="adjustAllLights">
 
                     <div class="lightgroup-all-container transparent_bg mobile_hide" style="border-radius:5px; margin-top:15px">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
-                            light_group_a listing_box_icon" ng-click="lights.adjustAll.toggle()"></span>
+                            light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
                         <h2 class="listing_box_title">Adjust All Lights</h2>
                         <div class="slider-brightness" hueper-slider model="lights.adjustAll.dummyState.bri" min="0" max="254"
                              step="5" change="lights.stateAll({ bri: value })"></div>
@@ -221,7 +221,7 @@
 
 
                 <!-- delete group -->
-                <div ng-if="sharedScope.submenu.visible.deleteGroup">
+                <div ng-if="sharedScope.submenu.visible.deleteGroup" id="deleteGroup">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
@@ -252,7 +252,7 @@
 
 
                 <!-- create new group add Lights-->
-                <div ng-if="sharedScope.submenu.visible.createNewGroup">
+                <div ng-if="sharedScope.submenu.visible.createNewGroup" id="createNewGroup">
                     <!-- desktop/tablet view -->
                     <div class="lightgroup-all-container transparent_bg mobile_hide" style="overflow: hidden">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
