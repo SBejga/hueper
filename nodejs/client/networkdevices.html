@@ -193,7 +193,7 @@
                     <h2 class="listing_box_title">Network Devices</h2>
                     <div class="light_group" ng-repeat="(id, device) in sharedScope.state.devices">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                                    ui-btn-inline light_group_a" ng-click="sharedScope.devices.remove(id)"></span>
+                                    ui-btn-inline light_group_a" ng-click="sharedScope.devices.setSelectedDeviceId(id);sharedScope.submenu.openSubmenu('removeDevice')"></span>
                         <div ng-click="sharedScope.devices.setSelectedDeviceId(id);sharedScope.submenu.openSubmenu('editDevice')">
                             {{device.name}}
                         </div>
@@ -204,7 +204,7 @@
 
 
 
-            <!------------------------ SUBMENUES: add/edit Device ---------------------------------------------------------------------->
+            <!------------------------ SUBMENUES: add/edit/remove Device ---------------------------------------------------------------------->
             <div class="subcontent_c" >
                 <!-- add Device -->
                 <div  ng-if="sharedScope.submenu.visible.addDevice" id="addDevice">
@@ -288,6 +288,37 @@
                     </div>
                 </div>
 
+            </div>
+
+            <div class="subcontent_d">
+                <!-- remove Device -->
+                <div ng-if="sharedScope.submenu.visible.removeDevice" id="removeDevice">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title">Do you want to remove the device "{{sharedScope.state.devices[sharedScope.devices.selectedDeviceId].name}}"?</h2>
+                        <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                ng-click="sharedScope.devices.remove(sharedScope.device.selectedDeviceId); sharedScope.submenu.closeSubmenu()">YES</button>
+                        <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                    </div>
+
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
+                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                            <img src="css/images/icons/icon-arrow-down.png">
+                        </div>
+                        <div style="text-align: center; color: #f9efed">Do you want to remove the device "{{sharedScope.state.devices[sharedScope.devices.selectedDeviceId].name}}"?</div>
+                        <div style="padding:20px; text-align: center">
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline button"
+                                    ng-click="sharedScope.devices.remove(sharedScope.device.selectedDeviceId); sharedScope.submenu.closeSubmenu()">YES</button>
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline button"
+                                    ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>

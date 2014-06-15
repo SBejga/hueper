@@ -115,6 +115,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         reset: function() {
             socket.emit('rfid.reset');
             $scope.state.rfidUnknown = [];
+            $scope.submenu.closeSingleSubmenu('newRfid');
         },
 
         setFormTag: function(tag){
@@ -440,8 +441,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         $scope.submenu.openSubmenu('newRfid');
         setTimeout(function(){
             $scope.submenu.closeSingleSubmenu('newRfid');
-        }, 100);
-
+        }, 5000);
     }, true);
 
 

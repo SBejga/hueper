@@ -145,11 +145,7 @@
             </div>
         </div>
 
-        <!---------------------------------------- NOTIFICATIONS ------------------------------------------------------>
-        <a href="rfid.html" class="notification" ng-if="sharedScope.submenu.visible.newRfid">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
-            New RFID-Tag available.
-        </a>
+
 
 
         <div class="content_right_subcontainer ">
@@ -180,28 +176,14 @@
                 </div>
             </div>
 
-            <!-- soll nur angezeigt werden, wenn weder bekannte noch unbekannte tags gefunden wurden
-            <div class="subcontent_a">
-                <div class="transparent_bg listing_box" style="text-align: center; margin:auto">
-                    <h2 class="listing_box_title" style="text-align: center;margin:auto">There are no RFID-Tags</h2>
-                </div>
-            </div>
-            -->
-
-
-
             <!-- Known RFID-->
             <div class="subcontent_b">
                 <div class="transparent_bg listing_box">
-
-                    <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.rfid.testfkt()"></span>
-
                     <h2 class="listing_box_title">Known RFID</h2>
 
                     <div class="light_group" ng-repeat="(id, tag) in sharedScope.state.rfid">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
-                            ui-btn-inline light_group_a" ng-click="sharedScope.rfid.remove(id)"></span>
+                            ui-btn-inline light_group_a" ng-click="sharedScope.rfid.setSelectedRfidId(id);sharedScope.submenu.openSubmenu('removeRfid')"></span>
                         <div ng-click="sharedScope.rfid.setSelectedRfidId(id);sharedScope.submenu.openSubmenu('editRfid')">
                             {{tag.name}}
                         </div>
@@ -214,10 +196,8 @@
             <div class="subcontent_c" ng-show="sharedScope.state.rfidUnknown.length > 0">
                 <div class="transparent_bg listing_box">
                     <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
-                        light_group_a listing_box_icon" ng-click="sharedScope.rfid.reset()"></span>
-
+                        light_group_a listing_box_icon" ng-click="sharedScope.rfid.reset(); sharedScope.submenu.closeSingleSubmenu('newRfid')"></span>
                     <h2 class="listing_box_title">Unknown RFID</h2>
-
                     <div class="light_group" ng-repeat="id in sharedScope.state.rfidUnknown">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline
                             light_group_a" ng-click="sharedScope.rfid.setFormTag(id);sharedScope.submenu.openSubmenu('createRfid')">
@@ -267,7 +247,6 @@
                     </div>
                 </div>
 
-
                 <!-- edit RFID -->
                 <div ng-if="sharedScope.submenu.visible.editRfid" id="editRfid">
                     <!-- desktop/tablet view -->
@@ -305,6 +284,37 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- remove RFID -->
+                <div ng-if="sharedScope.submenu.visible.removeRfid" id="removeRfid">
+                    <!-- desktop/tablet view -->
+                    <div class="lightgroup-all-container transparent_bg mobile_hide">
+                        <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline
+                        light_group_a listing_box_icon" ng-click="sharedScope.submenu.closeSubmenu()"></span>
+                        <h2 class="listing_box_title">Do you want to remove the RFID "{{sharedScope.state.rfid[sharedScope.rfid.selectedRfidId].name}}"?</h2>
+                        <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                ng-click="sharedScope.rfid.remove(sharedScope.rfid.selectedRfidId); sharedScope.submenu.closeSubmenu()">YES</button>
+                        <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                                ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                    </div>
+
+                    <!-- mobile view -->
+                    <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
+                    <div class="overlap_content mobile_show">
+                        <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
+                            <img src="css/images/icons/icon-arrow-down.png">
+                        </div>
+                        <div style="text-align: center; color: #f9efed">Do you want to remove the RFID "{{sharedScope.state.rfid[sharedScope.rfid.selectedRfidId].name}}"?</div>
+                        <div style="padding:20px; text-align: center">
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline button"
+                                    ng-click="sharedScope.rfid.remove(sharedScope.rfid.selectedRfidId); sharedScope.submenu.closeSubmenu()">YES</button>
+                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline button"
+                                    ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
+                        </div>
+                    </div>
+                </div>
+
+
 
             </div>
         </div>
