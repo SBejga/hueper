@@ -134,6 +134,11 @@
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
             New RFID-Tag available.
         </a>
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationValueIncomplete"
+             ng-click="sharedScope.submenu.closeSubmenu()">
+            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            Wrong data input. <br /> Please try again.
+        </div>
 
 
 

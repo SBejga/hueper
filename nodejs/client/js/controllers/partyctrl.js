@@ -72,17 +72,26 @@ controller('PartyCtrl', ['$scope', 'stateManager', 'socket', function($scope, st
          * @param party
          */
         save: function(party) {
-            // existing party - edit
-            if(party['_id']) {
-                $scope.state.party[party['_id']] = angular.copy(party);
-                socket.emit('party.update', party);
-            }
-            // non-existent party - create
-            else {
-                socket.emit('party.create', party);
-            }
 
-            $scope.sharedScope.submenu.closeSubmenu();
+            if(($scope.party.forms.edit.name) && ($scope.party.forms.edit.states != undefined) && ($scope.party.forms.edit.states.length > 0)&&
+                ($scope.party.forms.edit.lights != undefined) && ($scope.party.forms.edit.lights.length > 0)){
+
+                // existing party - edit
+                if(party['_id']) {
+                    $scope.state.party[party['_id']] = angular.copy(party);
+                    socket.emit('party.update', party);
+                }
+                // non-existent party - create
+                else {
+                    socket.emit('party.create', party);
+                }
+
+                $scope.sharedScope.submenu.closeSubmenu();
+
+            }
+            else{
+                $scope.sharedScope.submenu.openSubmenu(notificationValueIncomplete);
+            }
 
         },
 
