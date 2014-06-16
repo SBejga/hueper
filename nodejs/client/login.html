@@ -73,7 +73,7 @@
                     <span ng-show="sharedScope.state.user.loginWaiting">Check password...</span>
                 <!-- NOTIFICATION password incorrect -->
                     <div class="notification" ng-show="sharedScope.state.user.loginError">
-                        <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+                        <div class="warning_icon icon_32px icon_left"></div>
                         This password is incorrect, please enter the right password.
                     </div>
                     <input type="password" ng-model="sharedScope.user.password"/>

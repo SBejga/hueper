@@ -198,7 +198,15 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
             }
         },
 
+        removeLightFromForm: function(scene, lightId) {
+            var i;
 
+            for(i in scene.lights) {
+                if(scene.lights.hasOwnProperty(i) && scene.lights[i].light == lightId) {
+                    scene.lights.splice(i, 1);
+                }
+            }
+        },
 
         /**
          * Filter global state.lights object to the lights not contained in the parameter scene.lights array

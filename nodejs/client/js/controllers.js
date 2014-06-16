@@ -364,8 +364,12 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             if((submenu != 'newRfid') && (submenu != undefined)){
                 if(window.innerWidth > 550){
                     $timeout(function(){
-                        var vertical = document.getElementById(submenu).offsetTop;
-                        window.scrollTo(0,vertical);
+                        var element = document.getElementById(submenu),
+                            vertical;
+
+                        if(element && (vertical = element.offsetTop) !== undefined) {
+                            window.scrollTo(0,vertical);
+                        }
                     }, 300);
                 }
             }

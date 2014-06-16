@@ -184,25 +184,25 @@
                              ng-click="automation.initializeProperty(['trigger', 'editTrigger'], $index, trigger.type.toString(), trigger.value)">
                             <div ng-switch="trigger.type">
                                 <div ng-switch-when="light" class="automation_tca_list">
-                                    <div class="light_icon icon_40px"></div>
+                                    <div class="light_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">
                                         Threshold&nbsp;&nbsp;&nbsp;  {{trigger.value.relation}}&nbsp;&nbsp;{{trigger.value.threshold}}
                                     </div>
                                 </div>
                                 <div ng-switch-when="motion" class="automation_tca_list">
-                                    <div class="motion_icon icon_40px"></div>
+                                    <div class="motion_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">
                                         Motion Sensibility
                                     </div>
                                 </div>
                                 <div ng-switch-when="speech" class="automation_tca_list">
-                                    <img src="./css/images/icons/speech-icon.svg" class="light_group_img icon_40px">
+                                    <div class="speech_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">
                                         Speech Command&nbsp;&nbsp;&nbsp;"{{trigger.value}}"
                                     </div>
                                 </div>
                                 <div ng-switch-when="schedule" class="automation_tca_list">
-                                    <img src="css/images/icons/clock-icon.svg" class="light_group_img icon_40px">
+                                    <div class="clock_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">
                                         Alarm &nbsp;&nbsp;&nbsp;
                                         <div ng-if="trigger.value.hour < 10" style="display: inline-block; margin:0px">0</div>{{trigger.value.hour}}:<div ng-if="trigger.value.minute < 10" style="display: inline-block; margin:0px">0</div>{{trigger.value.minute}}
@@ -210,20 +210,20 @@
                                     </div>
                                 </div>
                                 <div ng-switch-when="periodical" class="automation_tca_list">
-                                    <img src="./css/images/icons/periodical-icon.svg" class="light_group_img icon_40px">
+                                    <div class="periodical_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">
                                         Every&nbsp;&nbsp;{{trigger.value}}&nbsp;&nbsp;Minutes
                                     </div>
                                 </div>
                                 <div ng-switch-when="rfid" class="automation_tca_list">
-                                    <img src="./css/images/icons/rfid-icon.svg" class="light_group_img icon_40px">
+                                    <div class="rfid_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0);"
                                          ng-repeat="rfid in sharedScope.state.rfid" ng-if="trigger.value === rfid.tag">
                                         RFID&nbsp;&nbsp;&nbsp;{{rfid.name}}
                                     </div>
                                 </div>
                                 <div ng-switch-when="device" class="automation_tca_list">
-                                    <img src="./css/images/icons/device-icon.svg" class="light_group_img icon_40px">
+                                    <div class="device_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0);"
                                          ng-repeat="device in sharedScope.state.devices" ng-if="trigger.value.address === device.address">
                                         <div style="display: inline-block" ng-if="trigger.value.action === 'login'">Login</div>
@@ -232,7 +232,7 @@
                                     </div>
                                 </div>
                                 <div ng-switch-when="custom" class="automation_tca_list">
-                                    <img src="./css/images/icons/custom-icon.svg" class="light_group_img icon_40px">
+                                    <div class="custom_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">
                                         Personal Command&nbsp;&nbsp;&nbsp;"{{trigger.value}}"
                                     </div>
@@ -252,19 +252,19 @@
                              ng-click="automation.initializeProperty(['condition', 'editCondition'], $index, condition.type.toString(), condition.value)">
                             <div ng-switch="condition.type">
                                 <div ng-switch-when="light" class="automation_tca_list">
-                                    <img src="./css/images/icons/light-icon.svg" class="light_group_img icon_40px">
+                                    <div class="light_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix">
                                         Threshold&nbsp;&nbsp;&nbsp;  {{condition.value.relation}}&nbsp;&nbsp;{{condition.value.threshold}}
                                     </div>
                                 </div>
                                 <div ng-switch-when="motion" class="automation_tca_list">
-                                    <img src="./css/images/icons/motion-icon.svg" class="light_group_img icon_40px">
+                                    <div class="motion_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix">
                                         Motion for&nbsp;&nbsp;&nbsp;  {{condition.value.relation}}&nbsp;&nbsp;{{condition.value.time}} sec.
                                     </div>
                                 </div>
                                 <div ng-switch-when="time" class="automation_tca_list">
-                                    <img src="css/images/icons/clock-icon.svg" class="light_group_img icon_40px">
+                                    <div class="clock_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">
                                         <div style="display: inline-block" ng-if="condition.value.relation === '<'">Before</div>
                                         <div style="display: inline-block" ng-if="condition.value.relation === '>'">After</div>
@@ -274,7 +274,7 @@
                                     </div>
                                 </div>
                                 <div ng-switch-when="weekdays" class="automation_tca_list">
-                                    <img src="./css/images/icons/schedule-icon.svg" class="light_group_img icon_40px">
+                                    <div class="schedule_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix">
                                         <div ng-if="condition.value.indexOf(0) > -1" style="display: inline-block">Su&nbsp;</div>
                                         <div ng-if="condition.value.indexOf(1) > -1" style="display: inline-block">Mo&nbsp;</div>
@@ -287,7 +287,7 @@
 
                                 </div>
                                 <div ng-switch-when="connections" class="automation_tca_list">
-                                    <img src="./css/images/icons/connections-icon.svg" class="light_group_img icon_40px">
+                                    <div class="connections_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix">
                                         Connection
                                         <div ng-if="condition.value === true" style="display: inline-block">available.</div>
@@ -295,14 +295,14 @@
                                     </div>
                                 </div>
                                 <div ng-switch-when="rfid" class="automation_tca_list">
-                                    <img src="./css/images/icons/rfid-icon.svg" class="light_group_img icon_40px">
+                                    <div class="rfid_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0);"
                                          ng-repeat="rfid in sharedScope.state.rfid" ng-if="condition.value.id === rfid.tag">
                                         RFID&nbsp;&nbsp;&nbsp;&nbsp;{{rfid.name}}&nbsp;&nbsp;{{condition.value.relation}}&nbsp;&nbsp;{{condition.value.time}}&nbsp;sec.
                                     </div>
                                 </div>
                                 <div ng-switch-when="device" class="automation_tca_list">
-                                    <img src="./css/images/icons/device-icon.svg" class="light_group_img icon_40px">
+                                    <div class="device_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0);"
                                          ng-repeat="device in sharedScope.state.devices" ng-if="condition.value.address === device.address">
                                         {{device.name}}:&nbsp;&nbsp;&nbsp;
@@ -313,7 +313,7 @@
                                 </div>
                                 <div ng-switch-when="state" class="automation_tca_list">
                                     <div ng-if="condition.value.type === 'light'">
-                                        <img src="./css/images/icons/transparent-light-icon.svg" class="light_group_img icon_40px"
+                                        <img src="./css/images/icons/transparent-light-icon-40.png" class="light_group_img icon_40px"
                                              hueper-color="condition.value.state" style="border-radius: 40px; padding:0px">
                                         <div style="display: inline-block; margin-top: 10px">{{sharedScope.state.lights[condition.value.id].name}}
                                             <div ng-if="(condition.value.invert === true)" style="display: inline-block">&nbsp;&nbsp;[Inverted]</div>
@@ -332,21 +332,21 @@
                                         </div>
                                     </div>
                                     <div ng-if="condition.value.type === 'group'">
-                                        <img src="./css/images/icons/transparent-group-icon.svg" class="light_group_img icon_40px"
+                                        <img src="./css/images/icons/transparent-group-icon-40.png" class="light_group_img icon_40px"
                                              hueper-color="condition.value.state" style="border-radius: 40px; padding:0px">
                                         <div style="display: inline-block; margin-top: 10px">{{sharedScope.state.groups[condition.value.id].name}}
                                             <div ng-if="(condition.value.invert === true)" style="display: inline-block">&nbsp;&nbsp;[Inverted]</div>
                                         </div>
                                     </div>
                                     <div ng-if="condition.value.type === 'scene'">
-                                        <img src="./css/images/icons/scene-icon.svg" class="light_group_img icon_40px">
+                                        <div class="scene_icon icon_40px icon_left"></div>
                                         <div style="display: inline-block; margin-top: 10px">{{sharedScope.state.scenes[condition.value.id].name}}
                                             <div ng-if="(condition.value.invert === true)" style="display: inline-block">&nbsp;&nbsp;[Inverted]</div>
                                         </div>
                                     </div>
                                 </div>
                                 <div ng-switch-when="party" class="automation_tca_list">
-                                    <img src="./css/images/icons/party-icon.svg" class="light_group_img icon_40px">
+                                    <div class="party_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix">
                                         "{{sharedScope.state.party[condition.value.id].name}}"&nbsp;&nbsp;&nbsp;
                                         <div ng-if="(condition.value.invert === true)" style="display: inline-block">
@@ -370,7 +370,7 @@
                              ng-click="automation.initializeProperty(['action', 'editAction'], $index, action.type.toString(), action.value)">
                             <div ng-switch="action.type">
                                 <div ng-switch-when="light" class="automation_tca_list">
-                                    <img src="./css/images/icons/transparent-light-icon.svg" class="light_group_img icon_40px"
+                                    <img src="./css/images/icons/transparent-light-icon-40.png" class="light_group_img icon_40px"
                                          hueper-color="action.value.state" style="border-radius: 40px; padding:0px">
                                     <div style="display: inline-block; margin-top: 10px">{{sharedScope.state.lights[action.value.id].name}}
                                         <div ng-if="action.delay > 0" style="display: inline-block">
@@ -386,14 +386,14 @@
                                     </div>
                                 </div>
                                 <div ng-switch-when="group" class="automation_tca_list">
-                                    <img src="./css/images/icons/transparent-group-icon.svg" class="light_group_img icon_40px"
+                                    <img src="./css/images/icons/transparent-group-icon-40.png" class="light_group_img icon_40px"
                                          hueper-color="action.value.state" style="border-radius: 40px; padding:0px">
                                     <div style="display: inline-block; margin-top: 10px">{{sharedScope.state.groups[action.value.id].name}}
                                         <div ng-if="action.delay > 0" style="display: inline-block">&nbsp;&nbsp;Delay of&nbsp;{{action.delay}} sec.</div>
                                     </div>
                                 </div>
                                 <div ng-switch-when="scene" class="automation_tca_list">
-                                    <img src="css/images/icons/scene-icon.svg" class="light_group_img icon_40px">
+                                    <div class="scene_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix">
                                         {{sharedScope.state.scenes[action.value.id].name}}
                                         <div ng-if="action.delay > 0" style="display: inline-block">
@@ -402,7 +402,7 @@
                                     </div>
                                 </div>
                                 <div ng-switch-when="party" class="automation_tca_list">
-                                    <img src="./css/images/icons/party-icon.svg" class="light_group_img icon_40px">
+                                    <div class="party_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix">
                                         {{sharedScope.state.party[action.value].name}}
                                         <div ng-if="action.delay > 0" style="display: inline-block">
@@ -411,7 +411,7 @@
                                     </div>
                                 </div>
                                 <div ng-switch-when="automation" class="automation_tca_list">
-                                    <img src="./css/images/icons/automation-icon.svg" class="light_group_img icon_40px">
+                                    <div class="automation_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix">
                                         {{sharedScope.state.automation[action.value.id].name}}
                                         <div ng-if="action.value.active === true" style="display: inline-block">
@@ -423,6 +423,7 @@
                                     </div>
                                 </div>
                                 <div ng-switch-when="custom" class="automation_tca_list">
+                                    <div class="custom_icon icon_40px icon_left"></div>
                                     <img src="./css/images/icons/custom-icon.svg" class="light_group_img icon_40px">
                                     <div class="panel panel_layout_fix">
                                         Command&nbsp;&nbsp;&nbsp;"{{action.value}}"
@@ -432,7 +433,7 @@
                                     </div>
                                 </div>
                                 <div ng-switch-when="cancelDelay" class="automation_tca_list">
-                                    <img src="./css/images/icons/canceldelay-icon.svg" class="light_group_img icon_40px">
+                                    <div class="cancelDelay_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix">
                                         No Delays.
                                     </div>
@@ -902,7 +903,7 @@
                     <div class="overlap mobile_show" ng-click="sharedScope.submenu.closeSubmenu()"></div>
                     <div class="overlap_content mobile_show">
                         <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
-                            <div class="arrow_down_icon icon_32px icon_left" ></div>
+                            <img src="css/images/icons/icon-arrow-down.png">
                         </div>
                         <div class="listing_box_title_overlay" ng-if="sharedScope.submenu.visible.createCondition">Create Condition</div>
                         <div class="listing_box_title_overlay" ng-if="sharedScope.submenu.visible.editCondition">Edit Condition</div>

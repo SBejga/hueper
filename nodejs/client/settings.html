@@ -53,39 +53,28 @@
 <body>
 
 <div data-role="page" ngm-shared-controller="sharedScope:MainCtrl"  class="background_stars" data-theme="b">
-<!-- HEADER -->
+    <!-- HEADER -->
     <div data-role="header" class="header">
         <div class="header_container tablet_hide">
-            <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
-                 ng-show="sharedScope.state.user.loginRequired">
+            <div class="logout_icon icon_left icon_40px" ng-show="sharedScope.state.user.loginRequired" ng-click="sharedScope.user.logout()"></div>
             <h1 class="ui-title">Smart Lights</h1>
         </div>
-        <!---------------------------------------- MOBILE MENU -------------------------------------------------------->
+        <!---------------------------------------- MOBILE MAINMENU ---------------------------------------------------->
         <div class="tablet_show mobile_menu_wrapper">
             <a href="lightandgroup.html" class="smallmenu_wrapper">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-light-40.png">
-                </div>
+                <div class="light_icon icon_40px" style="margin:0px"></div>
             </a>
             <a href="scenes.html" class="smallmenu_wrapper">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-scene-40.png">
-                </div>
+                <div class="scene_icon icon_40px" style="margin:0px"></div>
             </a>
             <a href="automationoverview.html" class="smallmenu_wrapper">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-automation-40.png">
-                </div>
+                <div class="automation_icon icon_40px" style="margin:0px"></div>
             </a>
             <a href="party.html" class="smallmenu_wrapper">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-party-40.png">
-                </div>
+                <div class="party_icon icon_40px" style="margin:0px"></div>
             </a>
             <a href="settings.html" class="smallmenu_wrapper">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-settings-dark-40.png">
-                </div>
+                <div class="settings_dark_icon icon_40px" style="margin:0px"></div>
             </a>
         </div>
     </div>
@@ -95,84 +84,82 @@
     <div data-role="content" ng-controller="SettingsCtrl" class="content_container">
         <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
         <div class="content_left_subcontainer tablet_hide">
-            <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" style="margin-top: 0px">
-                <img src="./css/images/icons/icon-light-32.png" class="light_group_img no_padding" style="margin-top:8px">
+            <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button" style="margin-top: 0px">
+                <div class="light_icon icon_40px icon_left"></div>
                 <div class="main_menu_text panel">
                     Lights & Groups
                 </div>
             </a>
-            <a href="scenes.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
-                <img src="./css/images/icons/icon-scene-32.png" class="light_group_img no_padding" style="margin-top:8px">
+            <a href="scenes.html" class="ui-btn main_menu_transparent_bg button">
+                <div class="scene_icon icon_40px icon_left"></div>
                 <div class="main_menu_text panel">
                     Scenes
                 </div>
             </a>
-            <a href="automationoverview.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
-                <img src="./css/images/icons/icon-automation-32.png" class="light_group_img no_padding" style="margin-top:8px">
+            <a href="automationoverview.html" class="ui-btn main_menu_transparent_bg button">
+                <div class="automation_icon icon_40px icon_left"></div>
                 <div class="main_menu_text panel">
                     Automation
                 </div>
             </a>
-            <a href="party.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
-                <img src="./css/images/icons/icon-party-32.png" class="light_group_img no_padding" style="margin-top:8px">
+            <a href="party.html" class="ui-btn main_menu_transparent_bg button">
+                <div class="party_icon icon_40px icon_left"></div>
                 <div class="main_menu_text panel">
                     Party
                 </div>
             </a>
-            <a href="account.html" class="ui-btn main_menu_transparent_bg button main_menu_settings checked_menubox">
-                <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
-                <div class="main_menu_text panel">
-                    Settings
-                </div>
+            <a href="account.html" class="ui-btn main_menu_transparent_bg button checked_menubox ">
+                <div class="settings_icon icon_40px icon_left" style="padding: 0px"></div>
+                <div class="main_menu_text panel">Settings</div>
             </a>
             <!-- Settings Menu -->
             <div style="padding-left: 20px;">
-                <a href="account.html" class="ui-btn main_menu_transparent_bg button main_menu_settings">
-                    <img src="./css/images/icons/icon-account-32.png" class="light_group_img no_padding">
+                <a href="account.html" class="ui-btn main_menu_transparent_bg button main_menu_settings checked_menubox">
+                    <div class="custom_icon icon_32px icon_left"></div>
                     <div class="main_menu_settings_text panel">Account</div>
                 </a>
                 <a href="speech.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
-                    <img src="./css/images/icons/icon-speech-32.png" class="light_group_img no_padding">
+                    <div class="speech_icon icon_32px icon_left"></div>
                     <div class="main_menu_settings_text panel">Speech</div>
                 </a>
                 <a href="rfid.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
-                    <img src="./css/images/icons/icon-rfid-32.png" class="light_group_img no_padding">
+                    <div class="rfid_icon icon_32px icon_left"></div>
                     <div class="main_menu_settings_text panel">RFID</div>
                 </a>
                 <a href="networkdevices.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
-                    <img src="./css/images/icons/icon-iphone-32.png" class="light_group_img no_padding">
+                    <div class="device_icon icon_32px icon_left"></div>
                     <div class="main_menu_settings_text panel">Network Devices</div>
                 </a>
             </div>
         </div>
         <!---------------------------------------- NOTIFICATIONS ------------------------------------------------------>
         <a href="rfid.html" class="notification" ng-if="sharedScope.rfid.unknownRfid">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            <div class="warning_icon icon_32px icon_left"></div>
             New RFID-Tag available.
         </a>
 
 
         <div class="index_wrapper tablet_show">
             <a href="account.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-account-40.png" class="light_group_img no_padding">
+                <div class="warning_icon icon_32px icon_left"></div>
                 <div class="main_menu_text panel">
                     Account
                 </div>
             </a>
             <a href="speech.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-speech-40.png" class="light_group_img no_padding">
+                <div class="warning_icon icon_32px icon_left"></div>
                 <div class="main_menu_text panel">
                     Speech
                 </div>
             </a>
             <a href="rfid.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-rfid-40.png" class="light_group_img no_padding">
+                <div class="warning_icon icon_32px icon_left"></div>
                 <div class="main_menu_text panel">
                     RFID
                 </div>
             </a>
             <a href="networkdevices.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-iphone-40.png" class="light_group_img no_padding">
+                <div class="warning_icon icon_32px icon_left"></div>
                 <div class="main_menu_text panel">
                     Network Devices
                 </div>

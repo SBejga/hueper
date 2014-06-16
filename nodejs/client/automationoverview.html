@@ -55,36 +55,25 @@
     <!-- HEADER -->
     <div data-role="header" class="header">
         <div class="header_container tablet_hide">
-            <img src="./css/images/icons/icon-menu-logout.png" class="header_left_icon" ng-click="sharedScope.user.logout()"
-                 ng-show="sharedScope.state.user.loginRequired">
+            <div class="logout_icon icon_left icon_40px" ng-show="sharedScope.state.user.loginRequired" ng-click="sharedScope.user.logout()"></div>
             <h1 class="ui-title">Smart Lights</h1>
         </div>
-        <!---------------------------------------- MOBILE MENU -------------------------------------------------------->
+        <!---------------------------------------- MOBILE MAINMENU ---------------------------------------------------->
         <div class="tablet_show mobile_menu_wrapper">
             <a href="lightandgroup.html" class="smallmenu_wrapper">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-light-40.png">
-                </div>
+                <div class="light_icon icon_40px" style="margin:0px"></div>
             </a>
             <a href="scenes.html" class="smallmenu_wrapper">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-scene-40.png">
-                </div>
+                <div class="scene_icon icon_40px" style="margin:0px"></div>
             </a>
             <a href="automationoverview.html" class="smallmenu_wrapper">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-automation-dark-40.png">
-                </div>
+                <div class="automation_dark_icon icon_40px" style="margin:0px"></div>
             </a>
             <a href="party.html" class="smallmenu_wrapper">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-party-40.png">
-                </div>
+                <div class="party_icon icon_40px" style="margin:0px"></div>
             </a>
             <a href="settings.html" class="smallmenu_wrapper">
-                <div class="smallmenu_icon">
-                    <img src="./css/images/icons/icon-settings-40.png">
-                </div>
+                <div class="settings_icon icon_40px" style="margin:0px"></div>
             </a>
         </div>
     </div>
@@ -94,41 +83,40 @@
     <div data-role="content" ng-controller="AutomationCtrl" class="content_container">
         <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
         <div class="content_left_subcontainer tablet_hide">
+
             <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button" style="margin-top: 0px">
-                <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
+                <div class="light_icon icon_40px icon_left"></div>
                 <div class="main_menu_text panel">
                     Lights & Groups
                 </div>
             </a>
             <a href="scenes.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-scene-40.png" class="light_group_img no_padding">
+                <div class="scene_icon icon_40px icon_left"></div>
                 <div class="main_menu_text panel">
                     Scenes
                 </div>
             </a>
             <a href="automationoverview.html" class="ui-btn main_menu_transparent_bg button checked_menubox">
-                <img src="./css/images/icons/icon-automation-40.png" class="light_group_img no_padding">
+                <div class="automation_icon icon_40px icon_left"></div>
                 <div class="main_menu_text panel">
                     Automation
                 </div>
             </a>
             <a href="party.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-party-40.png" class="light_group_img no_padding">
+                <div class="party_icon icon_40px icon_left"></div>
                 <div class="main_menu_text panel">
                     Party
                 </div>
             </a>
             <a href="account.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
-                <div class="main_menu_text panel">
-                    Settings
-                </div>
+                <div class="settings_icon icon_40px icon_left" style="padding: 0px"></div>
+                <div class="main_menu_text panel">Settings</div>
             </a>
         </div>
 
         <!---------------------------------------- NOTIFICATIONS ------------------------------------------------------>
         <a href="rfid.html" class="notification" ng-if="sharedScope.rfid.unknownRfid">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            <div class="warning_icon icon_32px icon_left"></div>
             New RFID-Tag available.
         </a>
 
