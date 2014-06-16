@@ -55,6 +55,7 @@ controller('SceneCtrl', ['$scope', '$location', 'socket', 'stateManager', functi
             $scope.scenes.activatedSceneId = sceneId;
         },
 
+
         activeScene: function(sceneId){
           if(sceneId === $scope.scenes.activatedSceneId){
               return true;

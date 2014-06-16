@@ -60,7 +60,7 @@
             <h1 class="ui-title">Smart Lights</h1>
         </div>
         <!---------------------------------------- MOBILE MAINMENU ---------------------------------------------------->
-        <div class="tablet_show mobile_menu_wrapper">
+        <div class="tablet_show mobile_menu_wrapper header_container">
             <a href="lightandgroup.html" class="smallmenu_wrapper">
                 <div class="light_icon icon_40px" style="margin:0px"></div>
             </a>
@@ -137,6 +137,8 @@
 
         <div class="content_right_subcontainer" style="text-align: center; margin: auto; overflow:hidden">
 
+
+
             <!---------------------------------------------------- SCENE LIST ----------------------------------------->
             <!-- DESKTOP TABLET -->
             <div class="subcontent_b">
@@ -145,6 +147,7 @@
                         light_group_a listing_box_icon" ng-click="sharedScope.submenu.openSubmenu('createNewScene')" style="margin-right: 15px">
                     </span>
                     <h2 class="listing_box_title">Scenes</h2>
+                    <h2 class="listing_box_title listing_box_subtitle" ng-if="!helpers.objectLength(sharedScope.state.scenes)">No scenes available.</h2>
                     <div class="light_group" ng-repeat="(id, scene) in sharedScope.state.scenes">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
                             ui-btn-inline light_group_a" ng-click="scenes.openDeleteMenuScene(id, '', 'sceneoverview')">

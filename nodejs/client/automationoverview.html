@@ -59,7 +59,7 @@
             <h1 class="ui-title">Smart Lights</h1>
         </div>
         <!---------------------------------------- MOBILE MAINMENU ---------------------------------------------------->
-        <div class="tablet_show mobile_menu_wrapper">
+        <div class="tablet_show mobile_menu_wrapper header_container">
             <a href="lightandgroup.html" class="smallmenu_wrapper">
                 <div class="light_icon icon_40px" style="margin:0px"></div>
             </a>
@@ -131,6 +131,7 @@
                         light_group_a listing_box_icon position_plus_icon" ng-click="sharedScope.submenu.openSubmenu('createAutomation')">
                     </div>
                     <h2 class="listing_box_title">Automation</h2>
+                    <h2 class="listing_box_title listing_box_subtitle" ng-if="!helpers.objectLength(sharedScope.state.automation)">No automations available.</h2>
                     <div class="light_group" ng-repeat="(id,a) in sharedScope.state.automation"
                          style="background-color: rgba(236, 236, 236, 0.2) !important; border-radius:5px;margin:5px">
 

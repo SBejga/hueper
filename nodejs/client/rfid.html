@@ -59,7 +59,7 @@
         <h1 class="ui-title">Smart Lights</h1>
     </div>
     <!---------------------------------------- MOBILE MAINMENU ---------------------------------------------------->
-    <div class="tablet_show mobile_menu_wrapper">
+    <div class="tablet_show mobile_menu_wrapper header_container">
         <a href="lightandgroup.html" class="smallmenu_wrapper">
             <div class="light_icon icon_40px" style="margin:0px"></div>
         </a>
@@ -140,8 +140,7 @@
             <!-- Settings Mobile Menu-->
             <div class="subcontent_a tablet_show" style="padding-top: 0px">
                 <!-- SMALL SETTINGS MENU -->
-                <div class="mobile_menu_wrapper">
-                    <div class="mobile_menu_wrapper">
+                    <div class="mobile_menu_wrapper mobile_submenu">
                         <a href="account.html" class="smallmenu_wrapper">
                             <div class="custom_icon icon_40px "></div>
                         </a>
@@ -154,7 +153,6 @@
                         <a href="networkdevices.html" class="smallmenu_wrapper">
                             <div class="device_icon icon_40px "></div>
                         </a>
-                    </div>
                 </div>
             </div>
 
@@ -283,7 +281,7 @@
                         <h2 class="listing_box_title">Do you want to remove the RFID "{{sharedScope.state.rfid[sharedScope.rfid.selectedRfidId].name}}"?</h2>
                         <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
                                 ng-click="sharedScope.rfid.remove(sharedScope.rfid.selectedRfidId); sharedScope.submenu.closeSubmenu()">YES</button>
-                        <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                        <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
                                 ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
                     </div>
 
@@ -293,11 +291,12 @@
                         <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
                             <img src="css/images/icons/icon-arrow-down.png">
                         </div>
-                        <div style="text-align: center; color: #f9efed">Do you want to remove the RFID "{{sharedScope.state.rfid[sharedScope.rfid.selectedRfidId].name}}"?</div>
+
                         <div style="padding:20px; text-align: center">
+                            <div style="text-align: center; color: #f9efed">Do you want to remove the RFID "{{sharedScope.state.rfid[sharedScope.rfid.selectedRfidId].name}}"?</div>
                             <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline button"
                                     ng-click="sharedScope.rfid.remove(sharedScope.rfid.selectedRfidId); sharedScope.submenu.closeSubmenu()">YES</button>
-                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline button"
+                            <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline button"
                                     ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
                         </div>
                     </div>

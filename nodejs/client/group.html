@@ -60,7 +60,7 @@
             <h1 class="ui-title">Smart Lights</h1>
         </div>
         <!---------------------------------------- MOBILE MAINMENU ---------------------------------------------------->
-        <div class="tablet_show mobile_menu_wrapper">
+        <div class="tablet_show mobile_menu_wrapper header_container">
             <a href="lightandgroup.html" class="smallmenu_wrapper">
                 <div class="light_dark_icon icon_40px" style="margin:0px"></div>
             </a>
@@ -269,7 +269,7 @@
                         <h2 class="listing_box_title">Do you want to remove the light "{{sharedScope.state.lights[groups.selectedLightId].name}}"?</h2>
                         <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
                             ng-click="groups.removeLight('groupmenu','deleteLightFromGroup')">YES</button>
-                        <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                        <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
                             ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
                     </div>
 
@@ -279,11 +279,12 @@
                         <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
                             <a href="light.html"><img src="css/images/icons/icon-arrow-down.png"></a>
                         </div>
-                        <div style="text-align: center; color: #f9efed">Do you want to remove the light "{{sharedScope.state.lights[groups.selectedLightId].name}}"?</div>
+
                         <div style="padding:20px; text-align: center">
+                            <div style="text-align: center; color: #f9efed">Do you want to remove the light "{{sharedScope.state.lights[groups.selectedLightId].name}}"?</div>
                             <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline button"
                                     ng-click="groups.removeLight('groupmenu','deleteLightFromGroup')">YES</button>
-                            <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline button"
+                            <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline button"
                                     ng-click="sharedScope.submenu.closeSubmenu()">NO</button>
                         </div>
                     </div>
@@ -298,7 +299,7 @@
                         <h2 class="listing_box_title">This group will be deleted completely.</h2>
                         <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
                                 ng-click="groups.removeLight('groupmenu','deleteLastLightFromGroup')">delete group</button>
-                        <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
+                        <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner ui-btn-inline transparent_bg button"
                                 ng-click="sharedScope.submenu.closeSubmenu()">keep group</button>
                     </div>
 
@@ -356,4 +357,4 @@
     </div><!--END OF CONTENT-->
 </div>
 </body>
-</html>   
+</html>

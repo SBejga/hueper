@@ -173,6 +173,9 @@ angular.module('hueApp.controllers').
                     case 'time':
                         t.value = {'relation': '>'};
                         break;
+                    case 'device':
+                        t.value = { 'active': true};
+                        break;
                     case 'rfid':
                         t.value = {'relation': '>'};
                         break;
@@ -281,10 +284,16 @@ angular.module('hueApp.controllers').
             },
 
             initializeProperty: function(submenu, index, type, value){
+                if((type === 'device') && (submenu[0] === 'condition')){
+                    submenu.push('deviceAlternative');
+                }
+
                 $scope.sharedScope.submenu.openSubmenu(submenu);
                 $scope.automation.setSelectedAutomationId($scope.helpers.urlId);
                 $scope.automation.setSelectedPropertyIndex(index);
                 $scope.automation.setSelectedProperty({'type': type, 'value' : value});
+
+
                 if(type === 'weekdays'){
                     $scope.automation.setSelectedPropertyIsArray({'array': value});
                 }
@@ -331,7 +340,7 @@ angular.module('hueApp.controllers').
                         break;
 
                     case 'scene':
-                        if((p.value != undefined) && (p.value.id != undefined) && (p.value.transition != undefined)){
+                        if((p.value != undefined) && (p.value.id != undefined)){
                             return true;
                         }else{
                             return false;
@@ -466,7 +475,6 @@ angular.module('hueApp.controllers').
                                     return false;
                                 }
                             }else{
-                                console.log("5");
                                 return false;
                             }
                         }

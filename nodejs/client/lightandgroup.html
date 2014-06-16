@@ -59,7 +59,7 @@
             <h1 class="ui-title">Smart Lights</h1>
         </div>
         <!---------------------------------------- MOBILE MAINMENU ---------------------------------------------------->
-        <div class="tablet_show mobile_menu_wrapper">
+        <div class="tablet_show mobile_menu_wrapper header_container">
             <a href="lightandgroup.html" class="smallmenu_wrapper">
                 <div class="light_dark_icon icon_40px" style="margin:0px"></div>
             </a>
@@ -239,10 +239,11 @@
                         <div class="overlap_arrow_down" ng-click="sharedScope.submenu.closeSubmenu()">
                             <a href="lightandgroup.html"><img src="css/images/icons/icon-arrow-down.png"></a>
                         </div>
-                        <div style="text-align: center; color: #f9efed">
-                            Do you want to remove the group "{{sharedScope.state.groups[groups.selectedGroupId].name}}"?
-                        </div>
+
                         <div style="padding:15px; text-align: center">
+                            <div style="text-align: center; color: #f9efed">
+                                Do you want to remove the group "{{sharedScope.state.groups[groups.selectedGroupId].name}}"?
+                            </div>
                             <button class="ui-btn ui-icon-check ui-btn-icon-left btn-round-corner button ui-btn-inline"
                                     ng-click="groups.remove(groups.selectedGroupId)">YES</button>
                             <button class="ui-btn ui-icon-delete ui-btn-icon-left btn-round-corner button ui-btn-inline"

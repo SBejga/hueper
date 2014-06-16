@@ -60,7 +60,7 @@
             <h1 class="ui-title">Smart Lights</h1>
         </div>
         <!---------------------------------------- MOBILE MAINMENU ---------------------------------------------------->
-        <div class="tablet_show mobile_menu_wrapper">
+        <div class="tablet_show mobile_menu_wrapper header_container">
             <a href="lightandgroup.html" class="smallmenu_wrapper">
                 <div class="light_dark_icon icon_40px" style="margin:0px"></div>
             </a>
@@ -115,17 +115,17 @@
         </div>
 
         <!---------------------------------------- NOTIFICATIONS ------------------------------------------------------>
-        <div class="notification tablet_hide" ng-if="sharedScope.submenu.visible.notificationGroupRemoved"
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationGroupRemoved"
              ng-click="sharedScope.submenu.closeSubmenu()">
             <div class="warning_icon icon_32px icon_left"></div>
             Light removed from group.
         </div>
-        <div class="notification tablet_hide" ng-if="sharedScope.submenu.visible.notificationGroupDeleted"
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationGroupDeleted"
              ng-click="sharedScope.submenu.closeSubmenu()">
             <div class="warning_icon icon_32px icon_left"></div>
             Group deleted.
         </div>
-        <div class="notification tablet_hide" ng-if="sharedScope.submenu.visible.notificationNoGroupToAdd"
+        <div class="notification" ng-if="sharedScope.submenu.visible.notificationNoGroupToAdd"
              ng-click="sharedScope.submenu.closeSubmenu()">
             <div class="warning_icon icon_32px icon_left"></div>
             All groups are included.
@@ -386,4 +386,4 @@
     </div><!--END OF CONTENT-->
 </div>
 </body>
-</html>                                                                                   
+</html>

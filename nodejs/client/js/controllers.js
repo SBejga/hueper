@@ -360,7 +360,6 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         },
 
         scrollToSubmenu: function(submenu){
-            console.log(submenu);
             if((submenu != 'newRfid') && (submenu != undefined)){
                 if(window.innerWidth > 550){
                     $timeout(function(){
