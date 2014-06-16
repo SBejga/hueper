@@ -2,7 +2,7 @@
 <html lang="de" ng-app="hueApp">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>SmartLights</title>
 
     <!-- CSS -->
@@ -64,6 +64,10 @@
 
     <!-- CONTENT -->
     <div data-role="content" class="content_container">
+        <div class="bridgeconnection_box" ng-if="!sharedScope.state.socket">
+            <h2 class="listing_box_title" style="text-align: center">The connection to the server is lost. </h2>
+            Please refresh the website.
+        </div>
         <div class="bridgeconnection_box" ng-if="!sharedScope.state.connect.hue">
             <h2 class="listing_box_title" style="text-align: center">Can't find Bridge.</h2>
             Please make sure that your bridge is connected to your network.

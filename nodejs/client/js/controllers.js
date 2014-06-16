@@ -363,7 +363,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             console.log(submenu);
             if((submenu != 'newRfid') && (submenu != undefined)){
                 if(window.innerWidth > 550){
-                    setTimeout(function(){
+                    $timeout(function(){
                         var vertical = document.getElementById(submenu).offsetTop;
                         window.scrollTo(0,vertical);
                     }, 300);
@@ -411,13 +411,13 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
 
 
 
-
+/*
     $scope.$watch('state.connect', function(){
         if($scope.state.connect.hue === undefined){
             return;
         }
         var i = $location.absUrl().toString().indexOf("connection");
-        var connectstate = (!$scope.state.connect.hue || !$scope.state.connect.hueRegistered || !$scope.state.connect.mongodb );
+        var connectstate = (!$scope.state.connect.hue || !$scope.state.connect.hueRegistered || !$scope.state.connect.mongodb || !$scope.state.socket );
         if((i < 0) && connectstate){
             $rootScope.helpers.redirect("connection.html");
         }
@@ -425,7 +425,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             $rootScope.helpers.redirect("index.html");
         }
     }, true);
-
+*/
 
     $scope.$watch('state.rfidUnknown', function(){
         if($scope.state.rfidUnknown.length){

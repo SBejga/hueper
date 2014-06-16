@@ -2,7 +2,7 @@
 <html lang="de" ng-app="hueApp">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>SmartLights</title>
 
     <!-- CSS -->
@@ -131,7 +131,6 @@
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
             New RFID-Tag available.
         </a>
-
         <div class="notification" ng-if="sharedScope.submenu.visible.notificationValueIncomplete"
              ng-click="sharedScope.submenu.closeSubmenu()">
             <img src="css/images/icons/icon-warning.png" class="header_left_icon">
@@ -198,13 +197,13 @@
                              ng-click="automation.initializeProperty(['trigger', 'editTrigger'], $index, trigger.type.toString(), trigger.value)">
                             <div ng-switch="trigger.type">
                                 <div ng-switch-when="light" class="automation_tca_list">
-                                    <img src="./css/images/icons/light-icon.svg" class="light_group_img icon_40px">
+                                    <div class="light_icon icon_40px"></div>
                                     <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">
                                         Threshold&nbsp;&nbsp;&nbsp;  {{trigger.value.relation}}&nbsp;&nbsp;{{trigger.value.threshold}}
                                     </div>
                                 </div>
                                 <div ng-switch-when="motion" class="automation_tca_list">
-                                    <img src="./css/images/icons/motion-icon.svg" class="light_group_img icon_40px">
+                                    <div class="motion_icon icon_40px"></div>
                                     <div class="panel panel_layout_fix" style="background-color: rgba(236, 236, 236, 0)">
                                         Motion Sensibility
                                     </div>
@@ -387,31 +386,31 @@
                                     <img src="./css/images/icons/transparent-light-icon.svg" class="light_group_img icon_40px"
                                          hueper-color="action.value.state" style="border-radius: 40px; padding:0px">
                                     <div style="display: inline-block; margin-top: 10px">{{sharedScope.state.lights[action.value.id].name}}
-                                        <div ng-if="action.value.delay > 0" style="display: inline-block">
-                                            &nbsp;&nbsp;Delay of&nbsp;{{action.value.delay}} sec.
+                                        <div ng-if="action.delay > 0" style="display: inline-block">
+                                            &nbsp;&nbsp;Delay of&nbsp;{{action.delay}} sec.
                                         </div>
                                     </div>
                                 </div>
                                 <div ng-switch-when="all" class="automation_tca_list">
                                     <div class="automation_state_icon" hueper-color="action.value.state"></div>
                                     <div style="display: inline-block; margin-top: 10px">All Lights
-                                        <div ng-if="action.value.delay > 0" style="display: inline-block">
-                                            &nbsp;&nbsp;Delay of&nbsp;{{action.value.delay}} sec.</div>
+                                        <div ng-if="action.delay > 0" style="display: inline-block">
+                                            &nbsp;&nbsp;Delay of&nbsp;{{action.delay}} sec.</div>
                                     </div>
                                 </div>
                                 <div ng-switch-when="group" class="automation_tca_list">
                                     <img src="./css/images/icons/transparent-group-icon.svg" class="light_group_img icon_40px"
                                          hueper-color="action.value.state" style="border-radius: 40px; padding:0px">
                                     <div style="display: inline-block; margin-top: 10px">{{sharedScope.state.groups[action.value.id].name}}
-                                        <div ng-if="action.value.delay > 0" style="display: inline-block">&nbsp;&nbsp;Delay of&nbsp;{{action.value.delay}} sec.</div>
+                                        <div ng-if="action.delay > 0" style="display: inline-block">&nbsp;&nbsp;Delay of&nbsp;{{action.delay}} sec.</div>
                                     </div>
                                 </div>
                                 <div ng-switch-when="scene" class="automation_tca_list">
                                     <img src="css/images/icons/scene-icon.svg" class="light_group_img icon_40px">
                                     <div class="panel panel_layout_fix">
                                         {{sharedScope.state.scenes[action.value.id].name}}
-                                        <div ng-if="action.value.delay > 0" style="display: inline-block">
-                                            &nbsp;&nbsp;&nbsp;Delay of&nbsp;{{action.value.delay}} sec.
+                                        <div ng-if="action.delay > 0" style="display: inline-block">
+                                            &nbsp;&nbsp;&nbsp;Delay of&nbsp;{{action.delay}} sec.
                                         </div>
                                     </div>
                                 </div>
@@ -419,8 +418,8 @@
                                     <img src="./css/images/icons/party-icon.svg" class="light_group_img icon_40px">
                                     <div class="panel panel_layout_fix">
                                         {{sharedScope.state.party[action.value].name}}
-                                        <div ng-if="action.value.delay > 0" style="display: inline-block">
-                                            &nbsp;&nbsp;&nbsp;Delay of&nbsp;{{action.value.delay}} sec.
+                                        <div ng-if="action.delay > 0" style="display: inline-block">
+                                            &nbsp;&nbsp;&nbsp;Delay of&nbsp;{{action.delay}} sec.
                                         </div>
                                     </div>
                                 </div>
@@ -431,8 +430,8 @@
                                         <div ng-if="action.value.active === true" style="display: inline-block">
                                             &nbsp;is&nbsp;&nbsp;Active
                                         </div>
-                                        <div ng-if="action.value.delay > 0" style="display: inline-block">
-                                            &nbsp;&nbsp;&nbsp;Delay of&nbsp;{{action.value.delay}} sec.
+                                        <div ng-if="action.delay > 0" style="display: inline-block">
+                                            &nbsp;&nbsp;&nbsp;Delay of&nbsp;{{action.delay}} sec.
                                         </div>
                                     </div>
                                 </div>
@@ -440,8 +439,8 @@
                                     <img src="./css/images/icons/custom-icon.svg" class="light_group_img icon_40px">
                                     <div class="panel panel_layout_fix">
                                         Command&nbsp;&nbsp;&nbsp;"{{action.value}}"
-                                        <div ng-if="action.value.delay > 0" style="display: inline-block">
-                                            &nbsp;&nbsp;&nbsp;Delay of&nbsp;{{action.value.delay}} sec.
+                                        <div ng-if="action.delay > 0" style="display: inline-block">
+                                            &nbsp;&nbsp;&nbsp;Delay of&nbsp;{{action.delay}} sec.
                                         </div>
                                     </div>
                                 </div>
@@ -1202,10 +1201,10 @@
 
                         <br />
 
-                        <div style="width:100%; overflow: hidden" ng-if="!(automation.selectedProperty.type === 'cancelDelay')&&!(automation.selectedProperty.type === 'party')&&!(automation.selectedProperty.type === 'custom')">
+                        <div style="width:100%; overflow: hidden" ng-if="!(automation.selectedProperty.type === 'cancelDelay')">
                             <div class="automation_text" style="margin-top: 20px">Delay in sec.</div>
                             <div class="automation_field">
-                                <input type="number" ng-model="automation.selectedProperty.value.delay" placeholder="Seconds"/>
+                                <input type="number" ng-model="automation.selectedProperty.delay" placeholder="Seconds"/>
                             </div>
                         </div>
 
@@ -1294,7 +1293,7 @@
                             <div style="width:100%; overflow: hidden" ng-if="!(automation.selectedProperty.type === 'cancelDelay')">
                                 <div class="automation_text" style="margin-top: 20px">Delay in sec.</div>
                                 <div class="automation_field">
-                                    <input type="number" ng-model="automation.selectedProperty.value.delay" placeholder="Seconds"/>
+                                    <input type="number" ng-model="automation.selectedProperty.delay" placeholder="Seconds"/>
                                 </div>
                             </div>
 
