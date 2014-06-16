@@ -417,7 +417,7 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
             return;
         }
         var i = $location.absUrl().toString().indexOf("connection");
-        var connectstate = (!$scope.state.connect.hue || !$scope.state.connect.hueRegistered || !$scope.state.connect.mongodb );
+        var connectstate = (!$scope.state.connect.hue || !$scope.state.connect.hueRegistered || !$scope.state.connect.mongodb);
         if((i < 0) && connectstate){
             $rootScope.helpers.redirect("connection.html");
         }

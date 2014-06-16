@@ -70,7 +70,7 @@ button:visited{
 }
 
 .content_left_subcontainer{
-    max-width:250px;
+    width:250px;
     margin: auto;
     text-align:left;
     margin-left: 0px;
@@ -200,13 +200,9 @@ button:active{
     max-width:100%
 }
 
-.background_red{
-    background: linear-gradient(120deg, #bc3b24, #ce1d18, #f8c33c) !important;
-}
 
 .background_stars{
     background-color:#141414;
-    background-image:url(images/himmel.png); /* fallback */
     background:url(images/bg.svg), #141414;
     background-size:cover;
     background-repeat:no-repeat;
@@ -945,8 +941,8 @@ button:active{
 
 .slider-brightness .slider-track{
     background-color: transparent;
+    background: -webkit-linear-gradient(bottom right, #ffffff, #000000);
     background: linear-gradient(90deg, #000000, #ffffff);
-
 }
 
 

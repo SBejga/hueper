@@ -240,7 +240,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
          * @param lightId
          */
         turnLightOnOff: function(lightId){
-            if($scope.state.lights[lightId].state.on === true){
+            if(($scope.state.lights[lightId].state.reachable === true) && ($scope.state.lights[lightId].state.on === true)){
                 $scope.lights.state(lightId, {on: false});
             }else{
                 $scope.lights.state(lightId, {on: true});
@@ -253,7 +253,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         turnAllLightsOnOff: function(){
             var statusOfLights = false;
             angular.forEach($scope.state.lights, function(light){
-                if(light.state.on === true){
+                if((light.state.reachable === true) && (light.state.on === true)){
                     statusOfLights = true;
                 }
             });
@@ -456,7 +456,7 @@ controller('LightAndGroupCtrl', ['$scope', 'socket', '$location', 'stateManager'
         turnGroupOnOff: function(groupId){
             var statusOfGroup = false;
             angular.forEach($scope.state.groups[groupId].lights, function(lightId){
-                if($scope.state.lights[lightId].state.on === true){
+                if(($scope.state.lights[lightId].state.reachable === true) && ($scope.state.lights[lightId].state.on === true)){
                     statusOfGroup = true;
                 }
             });
