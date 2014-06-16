@@ -702,11 +702,6 @@ button:active{
     background-size:18px 18px;
 }
 
-.icon_40px{
-    margin:5px;
-    width:40px;
-    height:40px
-}
 
 .icon.large {
     width:32px;
@@ -1116,3 +1111,32 @@ button:active{
     margin-top: 4px;
     margin-left: 2px;
 }
+
+
+
+
+
+/* ICON-WIDTH */
+
+.icon_40px{
+    float:left;
+    width: 40px;
+    height:40px;
+    margin:5px;
+    background-size:40px 40px;
+}
+
+/* ICONS */
+
+.light_icon{
+    background-image: url(./images/icons/light-icon.png);
+    background-image: url(./images/icons/light-icon.svg), none;
+}
+
+
+/* automation */
+.motion_icon{
+    background-image: url(./images/icons/motion-icon.png);
+    background-image: url(./images/icons/motion-icon.svg), none;
+}
+
