@@ -147,6 +147,7 @@
                         light_group_a listing_box_icon" ng-click="party.openCreateMenu()" style="margin-right: 20px">
                     </div>
                     <h2 class="listing_box_title">Party</h2>
+                    <h2 class="listing_box_title listing_box_subtitle" ng-if="!helpers.objectLength(sharedScope.state.party)">No party available.</h2>
                     <div class="light_group" ng-repeat="(id, p) in state.party" style="background-color: rgba(236, 236, 236, 0.2) !important;
                         border-radius:5px;margin:5px">
                         <span class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext
