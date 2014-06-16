@@ -84,51 +84,49 @@
         <!---------------------------------------- DESKTOP MENU ------------------------------------------------------->
         <div class="content_left_subcontainer tablet_hide">
             <a href="lightandgroup.html" class="ui-btn main_menu_transparent_bg button" style="margin-top: 0px">
-                <img src="./css/images/icons/icon-light-40.png" class="light_group_img no_padding">
+                <div class="light_icon icon_40px icon_left"></div>
                 <div class="main_menu_text panel">
                     Lights & Groups
                 </div>
             </a>
             <a href="scenes.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-scene-40.png" class="light_group_img no_padding">
+                <div class="scene_icon icon_40px icon_left"></div>
                 <div class="main_menu_text panel">
                     Scenes
                 </div>
             </a>
             <a href="automationoverview.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-automation-40.png" class="light_group_img no_padding">
+                <div class="automation_icon icon_40px icon_left"></div>
                 <div class="main_menu_text panel">
                     Automation
                 </div>
             </a>
             <a href="party.html" class="ui-btn main_menu_transparent_bg button">
-                <img src="./css/images/icons/icon-party-40.png" class="light_group_img no_padding">
+                <div class="party_icon icon_40px icon_left"></div>
                 <div class="main_menu_text panel">
                     Party
                 </div>
             </a>
             <a href="account.html" class="ui-btn main_menu_transparent_bg button checked_menubox ">
-                <img src="./css/images/icons/icon-settings-40.png" class="light_group_img no_padding">
-                <div class="main_menu_text panel">
-                    Settings
-                </div>
+                <div class="settings_icon icon_40px icon_left" style="padding: 0px"></div>
+                <div class="main_menu_text panel">Settings</div>
             </a>
             <!-- Settings Menu -->
             <div style="padding-left: 20px;">
                 <a href="account.html" class="ui-btn main_menu_transparent_bg button main_menu_settings checked_menubox">
-                    <img src="./css/images/icons/icon-account-32.png" class="light_group_img no_padding">
+                    <div class="custom_icon icon_32px icon_left"></div>
                     <div class="main_menu_settings_text panel">Account</div>
                 </a>
                 <a href="speech.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
-                    <img src="./css/images/icons/icon-speech-32.png" class="light_group_img no_padding">
+                    <div class="speech_icon icon_32px icon_left"></div>
                     <div class="main_menu_settings_text panel">Speech</div>
                 </a>
                 <a href="rfid.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
-                    <img src="./css/images/icons/icon-rfid-32.png" class="light_group_img no_padding">
+                    <div class="rfid_icon icon_32px icon_left"></div>
                     <div class="main_menu_settings_text panel">RFID</div>
                 </a>
                 <a href="networkdevices.html" class="ui-btn main_menu_transparent_bg button main_menu_settings" >
-                    <img src="./css/images/icons/icon-iphone-32.png" class="light_group_img no_padding">
+                    <div class="device_icon icon_32px icon_left"></div>
                     <div class="main_menu_settings_text panel">Network Devices</div>
                 </a>
             </div>
@@ -136,23 +134,23 @@
 
         <!----------------------------------------  NOTIFICATIONS ----------------------------------------------------->
         <div class="notification" ng-show="sharedScope.user.forms.password.error === true">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            <div class="warning_icon icon_32px icon_left"></div>
             Old password is wrong.
         </div>
         <div class="notification" ng-show="sharedScope.user.forms.password.error === 'match'">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            <div class="warning_icon icon_32px icon_left"></div>
             The new passwords don't match.
         </div>
         <div class="notification" ng-show="sharedScope.user.forms.password.success">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            <div class="warning_icon icon_32px icon_left"></div>
             Password has been changed.
         </div>
         <div class="notification" ng-if="sharedScope.submenu.visible.searchLights">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            <div class="warning_icon icon_32px icon_left"></div>
             If there are new lights, they will be added automatically.
         </div>
         <a href="rfid.html" class="notification" ng-if="sharedScope.rfid.unknownRfid">
-            <img src="css/images/icons/icon-warning.png" class="header_left_icon">
+            <div class="warning_icon icon_32px icon_left"></div>
             New RFID-Tag available.
         </a>
 
@@ -164,24 +162,16 @@
                 <!-- SMALL SETTINGS MENU -->
                 <div class="mobile_menu_wrapper">
                     <a href="account.html" class="smallmenu_wrapper">
-                        <div class="smallmenu_icon">
-                            <img src="./css/images/icons/icon-account-dark-40.png">
-                        </div>
+                        <div class="custom_dark_icon icon_40px "></div>
                     </a>
                     <a href="speech.html" class="smallmenu_wrapper">
-                        <div class="smallmenu_icon">
-                            <img src="./css/images/icons/icon-speech-40.png">
-                        </div>
+                        <div class="speech_icon icon_40px "></div>
                     </a>
                     <a href="rfid.html" class="smallmenu_wrapper">
-                        <div class="smallmenu_icon">
-                            <img src="./css/images/icons/icon-rfid-40.png">
-                        </div>
+                        <div class="rfid_icon icon_40px "></div>
                     </a>
                     <a href="networkdevices.html" class="smallmenu_wrapper">
-                        <div class="smallmenu_icon">
-                            <img src="./css/images/icons/icon-iphone-40.png">
-                        </div>
+                        <div class="device_icon icon_40px "></div>
                     </a>
                 </div>
             </div>
@@ -189,11 +179,10 @@
             <!-- Change Password-->
             <div class="subcontent_b">
                 <div class="transparent_bg listing_box">
-                    <img src="./css/images/icons/icon-menu-logout.png" style="float:right" ng-click="sharedScope.user.logout()"
-                         ng-show="sharedScope.state.user.loginRequired"></span>
+                    <div class="logout_icon icon_40px icon_right" ng-click="sharedScope.user.logout()"
+                         ng-show="sharedScope.state.user.loginRequired"></div>
                     <h2 class="listing_box_title">Change Password</h2>
                     <form ng-submit="sharedScope.config.changePassword()" style="padding: 10px; font-weight: bold">
-
                         <div ng-show="sharedScope.state.user.loginRequired">
                             old password:
                             <input type="password" ng-model="sharedScope.user.forms.password.oldPassword"/>
@@ -203,7 +192,7 @@
                         repeat:
                         <input type="password" ng-model="sharedScope.user.forms.password.newPassword2" />
                         <div style="margin-top: 30px">
-                            <button type="submit" class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner button"
+                            <button type="submit" class="ui-btn ui-icon-edit ui-btn-icon-left btn-round-corner button"
                                     style="text-align: center; margin:auto; margin-top:15px;">Change</button>
                         </div>
                     </form>
@@ -225,7 +214,7 @@
                     <div style="padding: 20px; font-weight: bold; text-align: center">
                         <div hueper-slider model="sharedScope.state.appConfig.transition" min="0" max="100" class="slider-fading"></div>
                         <div style="float:right; width:40%; padding-right: 10px;">
-                            <button class="ui-btn ui-icon-plus ui-btn-icon-left btn-round-corner button"  ng-click="sharedScope.config.change(sharedScope.state.appConfig);"
+                            <button class="ui-btn ui-btn-icon-left btn-round-corner button"  ng-click="sharedScope.config.change(sharedScope.state.appConfig);"
                                     style="text-align: center; margin:auto; margin-top:15px;">Save</button>
                         </div>
                         <div style="width:60%; line-height:35px;padding-top:10px; padding-left: 10px; text-align: center">
