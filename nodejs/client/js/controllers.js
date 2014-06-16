@@ -418,7 +418,6 @@ controller('MainCtrl', ['$scope', '$rootScope', '$location', 'socket', '$timeout
         }
         var i = $location.absUrl().toString().indexOf("connection");
         var connectstate = (!$scope.state.connect.hue || !$scope.state.connect.hueRegistered || !$scope.state.connect.mongodb || !$scope.state.socket.connected );
-        alert($scope.state.socket.connected);
         if((i < 0) && connectstate){
             $rootScope.helpers.redirect("connection.html");
         }
