@@ -1,8 +1,6 @@
 hueper
 ======
 
-**!!! WORK IN PROGRESS !!!**
-
 This software is part of a study project done by [fairylands](https://github.com/fairylands) and [kryops](https://github.com/kryops) at DHBW Stuttgart in 2013/14.
 
 It provides a Node.JS + MongoDB backend and a real-time cross-platform mobile web frontend for extended control and automation of the Philips Hue lights, intended for usage on a Raspberry Pi together with an Arduino. Its features include:
@@ -88,6 +86,12 @@ Hardware needed: External USB sound card with microphone (in */etc/modprobe.d/al
 -   Make it executable and execute it (as root)
 -   wait :)
 -   reboot
+
+
+## Known Issues
+
+-   After restarting the service on the Raspberry Pi the Julius speech recognition doesn't work any more
+-   Android Browser sometimes fails to establish a Socket.IO connection. This may possibly be solved by upgrading to Socket.IO 1.0
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/SBejga/hueper/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
