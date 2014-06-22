@@ -289,9 +289,8 @@
                                 <div ng-switch-when="connections" class="automation_tca_list">
                                     <div class="connections_icon icon_40px icon_left"></div>
                                     <div class="panel panel_layout_fix">
-                                        Connection
-                                        <div ng-if="condition.value === true" style="display: inline-block">available.</div>
-                                        <div ng-if="condition.value === false" style="display: inline-block">not available.</div>
+                                        <div ng-if="condition.value === true" style="display: inline-block">Users connected.</div>
+                                        <div ng-if="condition.value === false" style="display: inline-block">No users connected.</div>
                                     </div>
                                 </div>
                                 <div ng-switch-when="rfid" class="automation_tca_list">
@@ -778,7 +777,7 @@
                                     </span>
                                 </div>
                                 <div ng-switch-when="connections">
-                                    <div hueper-checkbox="automation.selectedProperty.value">No user connected.</div>
+                                    <div hueper-checkbox="automation.selectedProperty.value">Users connected</div>
                                 </div>
                                 <div ng-switch-when="rfid">
                                     <div class="automation_text">RFID
@@ -995,7 +994,7 @@
                                     </span>
                                     </div>
                                     <div ng-switch-when="connections">
-                                        <div hueper-checkbox="automation.selectedProperty.value">Connections Available</div>
+                                        <div hueper-checkbox="automation.selectedProperty.value">Users connected</div>
                                     </div>
                                     <div ng-switch-when="rfid">
                                         <div class="automation_text">RFID
